@@ -150,10 +150,14 @@ Disponibilizamos nossa infraestrutura completa como um template personalizável,
 2. **Configure sua Versão**
    ```bash
    # Instale as dependências
-   npm install
-
+   npm install --registry https://registry.npmmirror.com
+   
    # Configure o ambiente
    cp .env.example .env
+
+   # Add dependencies
+   yarn add lucide-react --registry https://registry.npmmirror.com
+
    ```
 
 3. **Personalize e Lance**
