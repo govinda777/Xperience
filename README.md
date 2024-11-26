@@ -7,6 +7,8 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Discord](https://img.shields.io/badge/Discord-Join%20Us-blue)](https://discord.gg/xperience)
 [![Documentation](https://img.shields.io/badge/docs-view%20docs-green)](https://docs.xperience.dao)
+[![Figma Site](public/business_model_canvas.jpeg)](https://www.figma.com/proto/rreMluYljxGrLOU8Zbbkv8/Xperience---handoff?page-id=94%3A331&node-id=2271-9744&node-type=frame&viewport=-14319%2C-15975%2C0.27&t=7xqRHxPo1CsISzv9-1&scaling=scale-down-width&content-scaling=fixed&starting-point-node-id=2271%3A9744)
+[![Figma Bussiness Canvas](public/bunner.jpeg)](https://www.figma.com/board/X9f1GSq2qGlbHBUgaq58sp/Xperience---Design?node-id=0-1&t=L9x5n45sshhtOD0W-1)
 
 > Uma consultoria empresarial descomplicada que utiliza DAO e estratégia do Oceano Azul para tornar a concorrência irrelevante, disponível também como template para criar sua própria versão.
 
