@@ -1,0 +1,110 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Run unit tests with coverage
+        run: yarn jest --coverage
+
+      - name: Display coverage report
+        run: cat coverage/lcov-report/index.html
+
+      - name: Enforce coverage threshold
+        run: |
+          coverage=$(awk '/All files/ {print int($3)}' coverage/lcov-report/index.html)
+          echo "Current coverage is $coverage%"
+          if [ "$coverage" -lt 80 ]; then
+            echo "Test coverage is below 80%! Build failed." && exit 1
+          fi
+
+      - name: Lint code
+        run: yarn run lint || echo "Lint warnings detected, but build will continue."
+
+      - name: Build project
+        run: yarn run build
+        env:
+          CI: false
+
+      # Adicionando testes E2E com Cypress
+      - name: Start application for Cypress tests
+        run: yarn dev &
+
+      - name: Wait for application to be ready
+        run: npx wait-on http://localhost:5173
+
+      - name: Run Cypress e2e tests
+        run: yarn cypress run
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Cache Trivy DB
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/trivy/db
+          key: ${{ runner.os }}-trivy-db
+          restore-keys: |
+            ${{ runner.os }}-trivy-db
+
+      - name: Install prerequisites for Trivy
+        run: sudo apt-get update
+
+      - name: Add Trivy repository
+        run: |
+          sudo apt-get install -y wget gnupg lsb-release
+          wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
+          echo "deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -cs) main" | sudo tee -a /etc/apt/sources.list.d/trivy.list
+          sudo apt-get update
+
+      - name: Install Trivy
+        run: sudo apt-get install -y trivy
+
+      - name: Run Trivy to scan filesystem with retries
+        run: |
+          for i in {1..5}; do
+            trivy fs --exit-code 1 --severity HIGH,CRITICAL --no-progress --format json -o trivy-report.json . && break || sleep 30
+          done
+
+      - name: Upload Trivy Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: trivy-report
+          path: trivy-report.json
+
+      - name: Display Trivy Report
+        run: cat trivy-report.json | jq '.'
+
+      - name: Deploy 🚀
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        uses: JamesIves/github-pages-deploy-action@4.1.4
+        with:
+          branch: gh-pages
+          folder: dist
+
+permissions:
+  contents: write
