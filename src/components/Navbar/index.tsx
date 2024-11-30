@@ -5,7 +5,7 @@ const Navbar: React.FC = () => {
   return (
     <Header>
       <Logo>
-      <img src="assets/logo.svg" alt="Xperience" />
+      <img src="public/logo.svg" alt="Xperience" />
       </Logo>
       <Nav>
         <a href="#">Soluções</a>
