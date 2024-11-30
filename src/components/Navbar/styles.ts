@@ -1,5 +1,31 @@
 import styled from "styled-components";
 
+const BREAKPOINT = "1024px";
+const TRANSITION = "all 0.2s ease";
+const BORDER_RADIUS = "100px";
+
+// Common button styles
+const ButtonBase = styled.a`
+  padding: 0.6875rem 1.625rem;
+  border: 1.5px solid #000;
+  border-radius: ${BORDER_RADIUS};
+  font-weight: 500;
+  font-size: 0.9375rem;
+  transition: ${TRANSITION};
+  white-space: nowrap;
+  letter-spacing: 0.2px;
+  text-decoration: none;
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  @media (max-width: ${BREAKPOINT}) {
+    width: 100%;
+    text-align: center;
+  }
+`;
+
 export const Header = styled.header`
   background-color: white;
   display: flex;
@@ -12,13 +38,13 @@ export const Header = styled.header`
   left: 0;
   z-index: 1000;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
-  transition: box-shadow 0.3s ease;
+  transition: ${TRANSITION};
 
   &:hover {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
   }
 
-  @media (max-width: 1024px) {
+  @media (max-width: ${BREAKPOINT}) {
     padding: 1rem;
     flex-wrap: wrap;
     gap: 0.75rem;
@@ -34,14 +60,14 @@ export const Logo = styled.div`
   img {
     height: 32px;
     width: auto;
-    transition: transform 0.2s ease;
+    transition: ${TRANSITION};
+    
+    &:hover {
+      transform: scale(1.02);
+    }
   }
 
-  &:hover img {
-    transform: scale(1.02);
-  }
-
-  @media (max-width: 1024px) {
+  @media (max-width: ${BREAKPOINT}) {
     width: 100%;
     justify-content: center;
   }
@@ -59,7 +85,7 @@ export const Nav = styled.nav`
     text-decoration: none;
     font-size: 0.9375rem;
     font-weight: 400;
-    transition: all 0.2s ease;
+    transition: ${TRANSITION};
     white-space: nowrap;
     position: relative;
     letter-spacing: 0.2px;
@@ -78,14 +104,11 @@ export const Nav = styled.nav`
 
     &:hover {
       color: #000;
-      
-      &:after {
-        width: 100%;
-      }
+      &:after { width: 100%; }
     }
   }
 
-  @media (max-width: 1024px) {
+  @media (max-width: ${BREAKPOINT}) {
     width: 100%;
     margin: 0.75rem 0;
     flex-wrap: wrap;
@@ -99,59 +122,32 @@ export const ButtonsContainer = styled.div`
   align-items: center;
   flex-shrink: 0;
 
-  @media (max-width: 1024px) {
+  @media (max-width: ${BREAKPOINT}) {
     width: 100%;
     justify-content: center;
   }
 `;
 
-export const LoginButton = styled.a`
-  padding: 0.6875rem 1.625rem;
-  border: 1.5px solid #000;
-  border-radius: 100px;
+export const LoginButton = styled(ButtonBase)`
   color: #000;
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 0.9375rem;
-  transition: all 0.2s ease;
-  white-space: nowrap;
   background-color: transparent;
-  letter-spacing: 0.2px;
 
   &:hover {
     background-color: rgba(0, 0, 0, 0.04);
     transform: translateY(-1px);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   }
-
-  &:active {
-    transform: translateY(0);
-  }
 `;
 
-export const SignUpButton = styled.a`
-  padding: 0.6875rem 1.625rem;
+export const SignUpButton = styled(ButtonBase)`
   background-color: #000;
-  border: 1.5px solid #000;
-  border-radius: 100px;
   color: white;
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 0.9375rem;
-  transition: all 0.2s ease;
-  white-space: nowrap;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  letter-spacing: 0.2px;
 
   &:hover {
     background-color: #1a1a1a;
     border-color: #1a1a1a;
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  }
-
-  &:active {
-    transform: translateY(0);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   }
 `;
