@@ -1243,6 +1243,25 @@ Error generating stack: `+ot.message+`
     transform: translateY(-2px);
     transition: transform 0.2s;
   }
+`,BREAKPOINT="1024px",TRANSITION="all 0.2s ease",BORDER_RADIUS="100px",ButtonBase=dt.a`
+  padding: 0.6875rem 1.625rem;
+  border: 1.5px solid #000;
+  border-radius: ${BORDER_RADIUS};
+  font-weight: 500;
+  font-size: 0.9375rem;
+  transition: ${TRANSITION};
+  white-space: nowrap;
+  letter-spacing: 0.2px;
+  text-decoration: none;
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  @media (max-width: ${BREAKPOINT}) {
+    width: 100%;
+    text-align: center;
+  }
 `,Header=dt.header`
   background-color: white;
   display: flex;
@@ -1255,13 +1274,13 @@ Error generating stack: `+ot.message+`
   left: 0;
   z-index: 1000;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
-  transition: box-shadow 0.3s ease;
+  transition: ${TRANSITION};
 
   &:hover {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
   }
 
-  @media (max-width: 1024px) {
+  @media (max-width: ${BREAKPOINT}) {
     padding: 1rem;
     flex-wrap: wrap;
     gap: 0.75rem;
@@ -1275,14 +1294,14 @@ Error generating stack: `+ot.message+`
   img {
     height: 32px;
     width: auto;
-    transition: transform 0.2s ease;
+    transition: ${TRANSITION};
+    
+    &:hover {
+      transform: scale(1.02);
+    }
   }
 
-  &:hover img {
-    transform: scale(1.02);
-  }
-
-  @media (max-width: 1024px) {
+  @media (max-width: ${BREAKPOINT}) {
     width: 100%;
     justify-content: center;
   }
@@ -1298,7 +1317,7 @@ Error generating stack: `+ot.message+`
     text-decoration: none;
     font-size: 0.9375rem;
     font-weight: 400;
-    transition: all 0.2s ease;
+    transition: ${TRANSITION};
     white-space: nowrap;
     position: relative;
     letter-spacing: 0.2px;
@@ -1317,14 +1336,11 @@ Error generating stack: `+ot.message+`
 
     &:hover {
       color: #000;
-      
-      &:after {
-        width: 100%;
-      }
+      &:after { width: 100%; }
     }
   }
 
-  @media (max-width: 1024px) {
+  @media (max-width: ${BREAKPOINT}) {
     width: 100%;
     margin: 0.75rem 0;
     flex-wrap: wrap;
@@ -1336,55 +1352,28 @@ Error generating stack: `+ot.message+`
   align-items: center;
   flex-shrink: 0;
 
-  @media (max-width: 1024px) {
+  @media (max-width: ${BREAKPOINT}) {
     width: 100%;
     justify-content: center;
   }
-`,LoginButton=dt.a`
-  padding: 0.6875rem 1.625rem;
-  border: 1.5px solid #000;
-  border-radius: 100px;
+`,LoginButton=dt(ButtonBase)`
   color: #000;
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 0.9375rem;
-  transition: all 0.2s ease;
-  white-space: nowrap;
   background-color: transparent;
-  letter-spacing: 0.2px;
 
   &:hover {
     background-color: rgba(0, 0, 0, 0.04);
     transform: translateY(-1px);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   }
-
-  &:active {
-    transform: translateY(0);
-  }
-`,SignUpButton=dt.a`
-  padding: 0.6875rem 1.625rem;
+`,SignUpButton=dt(ButtonBase)`
   background-color: #000;
-  border: 1.5px solid #000;
-  border-radius: 100px;
   color: white;
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 0.9375rem;
-  transition: all 0.2s ease;
-  white-space: nowrap;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  letter-spacing: 0.2px;
 
   &:hover {
     background-color: #1a1a1a;
     border-color: #1a1a1a;
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  }
-
-  &:active {
-    transform: translateY(0);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   }
 `,Navbar=()=>jsxRuntimeExports.jsxs(Header,{children:[jsxRuntimeExports.jsx(Logo,{children:jsxRuntimeExports.jsx("img",{src:"assets/logo.svg",alt:"Xperience"})}),jsxRuntimeExports.jsxs(Nav,{children:[jsxRuntimeExports.jsx("a",{href:"#",children:"Soluções"}),jsxRuntimeExports.jsx("a",{href:"#",children:"Quem somos"}),jsxRuntimeExports.jsx("a",{href:"#",children:"Contato"}),jsxRuntimeExports.jsx("a",{href:"#",children:"Comunidade"}),jsxRuntimeExports.jsx("a",{href:"#",children:"Blog"}),jsxRuntimeExports.jsx("a",{href:"#",children:"Planos"})]}),jsxRuntimeExports.jsxs(ButtonsContainer,{children:[jsxRuntimeExports.jsx(LoginButton,{href:"#",children:"Login"}),jsxRuntimeExports.jsx(SignUpButton,{href:"#",children:"Primeiro acesso"})]})]}),Home=()=>jsxRuntimeExports.jsx(StyledApp,{children:jsxRuntimeExports.jsxs(Container,{children:[jsxRuntimeExports.jsx(Navbar,{}),jsxRuntimeExports.jsxs(HeroSection,{children:[jsxRuntimeExports.jsxs(HeroContent,{children:[jsxRuntimeExports.jsxs("h1",{children:["Explore nossa",jsxRuntimeExports.jsx("br",{}),'"IA do empreendedor"',jsxRuntimeExports.jsx("br",{}),"e avalie o seu negócio"]}),jsxRuntimeExports.jsxs("p",{children:["Descubra como valorizar sua empresa e encantar seus clientes de forma rápida e",jsxRuntimeExports.jsx("strong",{children:" GRATUITA"}),"."]}),jsxRuntimeExports.jsxs(DiscoverButton,{children:["Descubra ",jsxRuntimeExports.jsx("span",{children:"✨"})]})]}),jsxRuntimeExports.jsx("div",{children:jsxRuntimeExports.jsx("img",{src:"/empreendedora.png",alt:"Empreendedor",style:{maxWidth:"100%"}})})]}),jsxRuntimeExports.jsxs(ServicesSection,{children:[jsxRuntimeExports.jsx("h2",{children:"Nossos Serviços"}),jsxRuntimeExports.jsx("p",{children:"Oferecemos soluções completas para impulsionar seu negócio"}),jsxRuntimeExports.jsxs(ServiceGrid,{children:[jsxRuntimeExports.jsxs(ServiceCard,{children:[jsxRuntimeExports.jsx("h3",{children:"Consultoria de Inovação"}),jsxRuntimeExports.jsx("p",{children:"Auxílio na criação e implementação de estratégias que evitam a competição direta."})]}),jsxRuntimeExports.jsxs(ServiceCard,{children:[jsxRuntimeExports.jsx("h3",{children:"Desenvolvimento de Experiências"}),jsxRuntimeExports.jsx("p",{children:"Apoio na concepção e desenvolvimento de experiências únicas para os clientes."})]}),jsxRuntimeExports.jsxs(ServiceCard,{children:[jsxRuntimeExports.jsx("h3",{children:"Análise de Viabilidade"}),jsxRuntimeExports.jsx("p",{children:"Avaliações detalhadas sobre a viabilidade econômica de novos projetos."})]})]})]})]})});function App(){return jsxRuntimeExports.jsx(Home,{})}const manifestUrl="https://raw.githubusercontent.com/ton-community/tutorials/main/03-client/test/public/tonconnect-manifest.json",queryClient=new QueryClient({defaultOptions:{queries:{refetchOnWindowFocus:!1}}});client.createRoot(document.getElementById("root")).render(jsxRuntimeExports.jsx(TonConnectUIProvider$1,{manifestUrl,children:jsxRuntimeExports.jsx(QueryClientProvider,{client:queryClient,children:jsxRuntimeExports.jsx(App,{})})}));
