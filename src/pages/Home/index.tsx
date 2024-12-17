@@ -35,7 +35,10 @@ const Home: React.FC = () => {
             </DiscoverButton>
           </HeroContent>
           <div>
-            <img src="/empreendedora.png" alt="Empreendedor" style={{ maxWidth: '100%' }} />
+            <img src="/assets/home/hero.png" alt="Empreendedor" style={{ maxWidth: '100%' }} />
+          </div>
+          <div>
+            <img src="/assets/home/hero-vector.png" alt="Empreendedor" style={{ maxWidth: '100%' }} />
           </div>
         </HeroSection>
 
