@@ -1,4 +1,3 @@
-// src/pages/Home/index.tsx
 import React from 'react';
 import {
   StyledApp,
@@ -9,6 +8,8 @@ import {
   ServiceGrid,
   ServiceCard,
   DiscoverButton,
+  HeroImageWrapper,
+  HeroVectorWrapper,
 } from './styles';
 import Navbar from '../../components/Navbar';
 
@@ -34,12 +35,12 @@ const Home: React.FC = () => {
               Descubra <span>✨</span>
             </DiscoverButton>
           </HeroContent>
-          <div>
-            <img src="/assets/home/hero.png" alt="Empreendedor" style={{ maxWidth: '100%' }} />
-          </div>
-          <div>
-            <img src="/assets/home/hero-vector.png" alt="Empreendedor" style={{ maxWidth: '100%' }} />
-          </div>
+          <HeroImageWrapper>
+            <img src="/public/home/hero.png" alt="Empreendedor" />
+            <HeroVectorWrapper>
+              <img src="/public/home/hero-vector.png" alt="Decoração" />
+            </HeroVectorWrapper>
+          </HeroImageWrapper>
         </HeroSection>
 
         <ServicesSection>

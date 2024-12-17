@@ -1,4 +1,3 @@
-// src/pages/Home/styles.ts
 import styled from "styled-components";
 
 export const StyledApp = styled.div`
@@ -50,6 +49,8 @@ export const HeroSection = styled.div`
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
   align-items: center;
+  position: relative;
+  overflow: hidden;
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
@@ -78,12 +79,64 @@ export const HeroContent = styled.div`
     h1 {
       font-size: 2.5rem;
     }
+
+    p {
+      margin: 0 auto 2rem auto;
+    }
+  }
+`;
+
+export const HeroImageWrapper = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    width: 100%;
+    height: auto;
+    max-width: 500px;
+    object-fit: contain;
+    position: relative;
+    z-index: 2;
+  }
+
+  @media (max-width: 768px) {
+    margin-top: 2rem;
+    
+    img {
+      max-width: 80%;
+    }
+  }
+`;
+
+export const HeroVectorWrapper = styled.div`
+  position: absolute;
+  bottom: -20%;
+  right: -10%;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+
+  img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  @media (max-width: 768px) {
+    bottom: -10%;
+    right: -5%;
   }
 `;
 
 export const ServicesSection = styled.section`
   padding: 4rem 0;
   background: #fff;
+  border-radius: 2rem 2rem 0 0;
+  margin-top: 4rem;
   
   h2 {
     font-size: 2.5rem;
@@ -122,6 +175,7 @@ export const ServiceCard = styled.div`
     font-size: 1rem;
     color: #666;
     text-align: left;
+    margin-bottom: 0;
   }
 `;
 
@@ -140,5 +194,9 @@ export const DiscoverButton = styled.button`
   &:hover {
     transform: translateY(-2px);
     transition: transform 0.2s;
+  }
+
+  @media (max-width: 768px) {
+    margin: 0 auto;
   }
 `;
