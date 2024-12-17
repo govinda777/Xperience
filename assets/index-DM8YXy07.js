@@ -1162,6 +1162,8 @@ Error generating stack: `+ot.message+`
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
   align-items: center;
+  position: relative;
+  overflow: hidden;
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
@@ -1188,10 +1190,58 @@ Error generating stack: `+ot.message+`
     h1 {
       font-size: 2.5rem;
     }
+
+    p {
+      margin: 0 auto 2rem auto;
+    }
+  }
+`,HeroImageWrapper=dt.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    width: 100%;
+    height: auto;
+    max-width: 500px;
+    object-fit: contain;
+    position: relative;
+    z-index: 2;
+  }
+
+  @media (max-width: 768px) {
+    margin-top: 2rem;
+    
+    img {
+      max-width: 80%;
+    }
+  }
+`,HeroVectorWrapper=dt.div`
+  position: absolute;
+  bottom: -20%;
+  right: -10%;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+
+  img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  @media (max-width: 768px) {
+    bottom: -10%;
+    right: -5%;
   }
 `,ServicesSection=dt.section`
   padding: 4rem 0;
   background: #fff;
+  border-radius: 2rem 2rem 0 0;
+  margin-top: 4rem;
   
   h2 {
     font-size: 2.5rem;
@@ -1226,6 +1276,7 @@ Error generating stack: `+ot.message+`
     font-size: 1rem;
     color: #666;
     text-align: left;
+    margin-bottom: 0;
   }
 `,DiscoverButton=dt.button`
   background: #000;
@@ -1242,6 +1293,10 @@ Error generating stack: `+ot.message+`
   &:hover {
     transform: translateY(-2px);
     transition: transform 0.2s;
+  }
+
+  @media (max-width: 768px) {
+    margin: 0 auto;
   }
 `,BREAKPOINT="1024px",TRANSITION="all 0.2s ease",BORDER_RADIUS="100px",ButtonBase=dt.a`
   padding: 0.6875rem 1.625rem;
@@ -1376,4 +1431,4 @@ Error generating stack: `+ot.message+`
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
-`,Navbar=()=>jsxRuntimeExports.jsxs(Header,{children:[jsxRuntimeExports.jsx(Logo,{children:jsxRuntimeExports.jsx("img",{src:"public/logo.svg",alt:"Xperience"})}),jsxRuntimeExports.jsxs(Nav,{children:[jsxRuntimeExports.jsx("a",{href:"#",children:"Soluções"}),jsxRuntimeExports.jsx("a",{href:"#",children:"Quem somos"}),jsxRuntimeExports.jsx("a",{href:"#",children:"Contato"}),jsxRuntimeExports.jsx("a",{href:"#",children:"Comunidade"}),jsxRuntimeExports.jsx("a",{href:"#",children:"Blog"}),jsxRuntimeExports.jsx("a",{href:"#",children:"Planos"})]}),jsxRuntimeExports.jsxs(ButtonsContainer,{children:[jsxRuntimeExports.jsx(LoginButton,{href:"#",children:"Login"}),jsxRuntimeExports.jsx(SignUpButton,{href:"#",children:"Primeiro acesso"})]})]}),Home=()=>jsxRuntimeExports.jsx(StyledApp,{children:jsxRuntimeExports.jsxs(Container,{children:[jsxRuntimeExports.jsx(Navbar,{}),jsxRuntimeExports.jsxs(HeroSection,{children:[jsxRuntimeExports.jsxs(HeroContent,{children:[jsxRuntimeExports.jsxs("h1",{children:["Explore nossa",jsxRuntimeExports.jsx("br",{}),'"IA do empreendedor"',jsxRuntimeExports.jsx("br",{}),"e avalie o seu negócio"]}),jsxRuntimeExports.jsxs("p",{children:["Descubra como valorizar sua empresa e encantar seus clientes de forma rápida e",jsxRuntimeExports.jsx("strong",{children:" GRATUITA"}),"."]}),jsxRuntimeExports.jsxs(DiscoverButton,{children:["Descubra ",jsxRuntimeExports.jsx("span",{children:"✨"})]})]}),jsxRuntimeExports.jsx("div",{children:jsxRuntimeExports.jsx("img",{src:"/assets/home/hero.png",alt:"Empreendedor",style:{maxWidth:"100%"}})}),jsxRuntimeExports.jsx("div",{children:jsxRuntimeExports.jsx("img",{src:"/assets/home/hero-vector.png",alt:"Empreendedor",style:{maxWidth:"100%"}})})]}),jsxRuntimeExports.jsxs(ServicesSection,{children:[jsxRuntimeExports.jsx("h2",{children:"Nossos Serviços"}),jsxRuntimeExports.jsx("p",{children:"Oferecemos soluções completas para impulsionar seu negócio"}),jsxRuntimeExports.jsxs(ServiceGrid,{children:[jsxRuntimeExports.jsxs(ServiceCard,{children:[jsxRuntimeExports.jsx("h3",{children:"Consultoria de Inovação"}),jsxRuntimeExports.jsx("p",{children:"Auxílio na criação e implementação de estratégias que evitam a competição direta."})]}),jsxRuntimeExports.jsxs(ServiceCard,{children:[jsxRuntimeExports.jsx("h3",{children:"Desenvolvimento de Experiências"}),jsxRuntimeExports.jsx("p",{children:"Apoio na concepção e desenvolvimento de experiências únicas para os clientes."})]}),jsxRuntimeExports.jsxs(ServiceCard,{children:[jsxRuntimeExports.jsx("h3",{children:"Análise de Viabilidade"}),jsxRuntimeExports.jsx("p",{children:"Avaliações detalhadas sobre a viabilidade econômica de novos projetos."})]})]})]})]})});function App(){return jsxRuntimeExports.jsx(Home,{})}const manifestUrl="https://raw.githubusercontent.com/ton-community/tutorials/main/03-client/test/public/tonconnect-manifest.json",queryClient=new QueryClient({defaultOptions:{queries:{refetchOnWindowFocus:!1}}});client.createRoot(document.getElementById("root")).render(jsxRuntimeExports.jsx(TonConnectUIProvider$1,{manifestUrl,children:jsxRuntimeExports.jsx(QueryClientProvider,{client:queryClient,children:jsxRuntimeExports.jsx(App,{})})}));
+`,Navbar=()=>jsxRuntimeExports.jsxs(Header,{children:[jsxRuntimeExports.jsx(Logo,{children:jsxRuntimeExports.jsx("img",{src:"public/logo.svg",alt:"Xperience"})}),jsxRuntimeExports.jsxs(Nav,{children:[jsxRuntimeExports.jsx("a",{href:"#",children:"Soluções"}),jsxRuntimeExports.jsx("a",{href:"#",children:"Quem somos"}),jsxRuntimeExports.jsx("a",{href:"#",children:"Contato"}),jsxRuntimeExports.jsx("a",{href:"#",children:"Comunidade"}),jsxRuntimeExports.jsx("a",{href:"#",children:"Blog"}),jsxRuntimeExports.jsx("a",{href:"#",children:"Planos"})]}),jsxRuntimeExports.jsxs(ButtonsContainer,{children:[jsxRuntimeExports.jsx(LoginButton,{href:"#",children:"Login"}),jsxRuntimeExports.jsx(SignUpButton,{href:"#",children:"Primeiro acesso"})]})]}),Home=()=>jsxRuntimeExports.jsx(StyledApp,{children:jsxRuntimeExports.jsxs(Container,{children:[jsxRuntimeExports.jsx(Navbar,{}),jsxRuntimeExports.jsxs(HeroSection,{children:[jsxRuntimeExports.jsxs(HeroContent,{children:[jsxRuntimeExports.jsxs("h1",{children:["Explore nossa",jsxRuntimeExports.jsx("br",{}),'"IA do empreendedor"',jsxRuntimeExports.jsx("br",{}),"e avalie o seu negócio"]}),jsxRuntimeExports.jsxs("p",{children:["Descubra como valorizar sua empresa e encantar seus clientes de forma rápida e",jsxRuntimeExports.jsx("strong",{children:" GRATUITA"}),"."]}),jsxRuntimeExports.jsxs(DiscoverButton,{children:["Descubra ",jsxRuntimeExports.jsx("span",{children:"✨"})]})]}),jsxRuntimeExports.jsxs(HeroImageWrapper,{children:[jsxRuntimeExports.jsx("img",{src:"/public/home/hero.png",alt:"Empreendedor"}),jsxRuntimeExports.jsx(HeroVectorWrapper,{children:jsxRuntimeExports.jsx("img",{src:"/public/home/hero-vector.png",alt:"Decoração"})})]})]}),jsxRuntimeExports.jsxs(ServicesSection,{children:[jsxRuntimeExports.jsx("h2",{children:"Nossos Serviços"}),jsxRuntimeExports.jsx("p",{children:"Oferecemos soluções completas para impulsionar seu negócio"}),jsxRuntimeExports.jsxs(ServiceGrid,{children:[jsxRuntimeExports.jsxs(ServiceCard,{children:[jsxRuntimeExports.jsx("h3",{children:"Consultoria de Inovação"}),jsxRuntimeExports.jsx("p",{children:"Auxílio na criação e implementação de estratégias que evitam a competição direta."})]}),jsxRuntimeExports.jsxs(ServiceCard,{children:[jsxRuntimeExports.jsx("h3",{children:"Desenvolvimento de Experiências"}),jsxRuntimeExports.jsx("p",{children:"Apoio na concepção e desenvolvimento de experiências únicas para os clientes."})]}),jsxRuntimeExports.jsxs(ServiceCard,{children:[jsxRuntimeExports.jsx("h3",{children:"Análise de Viabilidade"}),jsxRuntimeExports.jsx("p",{children:"Avaliações detalhadas sobre a viabilidade econômica de novos projetos."})]})]})]})]})});function App(){return jsxRuntimeExports.jsx(Home,{})}const manifestUrl="https://raw.githubusercontent.com/ton-community/tutorials/main/03-client/test/public/tonconnect-manifest.json",queryClient=new QueryClient({defaultOptions:{queries:{refetchOnWindowFocus:!1}}});client.createRoot(document.getElementById("root")).render(jsxRuntimeExports.jsx(TonConnectUIProvider$1,{manifestUrl,children:jsxRuntimeExports.jsx(QueryClientProvider,{client:queryClient,children:jsxRuntimeExports.jsx(App,{})})}));
