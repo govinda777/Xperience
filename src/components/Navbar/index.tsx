@@ -27,9 +27,10 @@ const Navbar = () => {
             <a 
               key={item} 
               href="#" 
-              className="text-sm text-gray-900 hover:text-gray-600 whitespace-nowrap"
+              className="relative text-sm text-gray-900 hover:text-gray-900 whitespace-nowrap transition-colors duration-300 group"
             >
               {item}
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full"></span>
             </a>
           ))}
         </nav>
@@ -38,14 +39,14 @@ const Navbar = () => {
         <div className="hidden md:flex items-center gap-4">
           <a 
             href="#" 
-            className="flex items-center gap-2 px-6 py-2 rounded-full border border-black hover:bg-white/10"
+            className="flex items-center gap-2 px-6 py-2 rounded-full border border-black transition-all duration-300 hover:bg-white/10 hover:shadow-md"
           >
             <User className="h-5 w-5" />
             Login
           </a>
           <a 
             href="#" 
-            className="px-6 py-2 bg-black text-white rounded-full hover:bg-gray-900"
+            className="px-6 py-2 bg-black text-white rounded-full transition-all duration-300 hover:bg-gray-900 hover:shadow-md hover:-translate-y-0.5"
           >
             Primeiro acesso
           </a>
@@ -53,7 +54,7 @@ const Navbar = () => {
 
         {/* Mobile Menu Button */}
         <button 
-          className="md:hidden"
+          className="md:hidden transition-transform duration-300 hover:scale-110"
           onClick={() => setIsOpen(!isOpen)}
         >
           {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -69,24 +70,25 @@ const Navbar = () => {
                 <a 
                   key={item} 
                   href="#" 
-                  className="text-lg text-gray-900 hover:text-gray-600"
+                  className="relative text-lg text-gray-900 hover:text-gray-900 transition-colors duration-300 group w-fit"
                   onClick={() => setIsOpen(false)}
                 >
                   {item}
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full"></span>
                 </a>
               ))}
             </nav>
             <div className="flex flex-col space-y-4 pt-4">
               <a 
                 href="#" 
-                className="flex items-center justify-center gap-2 px-6 py-3 rounded-full border border-black hover:bg-white/10"
+                className="flex items-center justify-center gap-2 px-6 py-3 rounded-full border border-black transition-all duration-300 hover:bg-white/10 hover:shadow-md"
               >
                 <User className="h-5 w-5" />
                 Login
               </a>
               <a 
                 href="#" 
-                className="flex items-center justify-center px-6 py-3 bg-black text-white rounded-full hover:bg-gray-900"
+                className="flex items-center justify-center px-6 py-3 bg-black text-white rounded-full transition-all duration-300 hover:bg-gray-900 hover:shadow-md hover:-translate-y-0.5"
               >
                 Primeiro acesso
               </a>
