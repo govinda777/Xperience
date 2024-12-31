@@ -4,9 +4,6 @@ import {
   Container,
   HeroSection,
   HeroContent,
-  ServicesSection,
-  ServiceGrid,
-  ServiceCard,
   DiscoverButton,
   HeroImageWrapper,
 } from './styles';
@@ -22,7 +19,7 @@ const Home: React.FC = () => {
             <h1>
               Explore nossa
               <br />
-              "IA do empreendedor"
+              <span className="highlight">"IA do empreendedor"</span>
               <br />
               e avalie o seu negócio
             </h1>
@@ -35,31 +32,10 @@ const Home: React.FC = () => {
             </DiscoverButton>
           </HeroContent>
           <HeroImageWrapper>
-            <img src="/public/home/hero.png" alt="Empreendedor" />
+            <img src="/home/hero.png" alt="Empreendedor" />
           </HeroImageWrapper>
         </HeroSection>
 
-        <ServicesSection>
-          <h2>Nossos Serviços</h2>
-          <p>Oferecemos soluções completas para impulsionar seu negócio</p>
-          
-          <ServiceGrid>
-            <ServiceCard>
-              <h3>Consultoria de Inovação</h3>
-              <p>Auxílio na criação e implementação de estratégias que evitam a competição direta.</p>
-            </ServiceCard>
-            
-            <ServiceCard>
-              <h3>Desenvolvimento de Experiências</h3>
-              <p>Apoio na concepção e desenvolvimento de experiências únicas para os clientes.</p>
-            </ServiceCard>
-            
-            <ServiceCard>
-              <h3>Análise de Viabilidade</h3>
-              <p>Avaliações detalhadas sobre a viabilidade econômica de novos projetos.</p>
-            </ServiceCard>
-          </ServiceGrid>
-        </ServicesSection>
       </Container>
     </StyledApp>
   );

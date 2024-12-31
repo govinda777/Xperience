@@ -44,10 +44,10 @@ export const JoinButton = styled.button`
 `;
 
 export const HeroSection = styled.div`
-  padding: 4rem 0;
+  padding: 6rem 0;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 2rem;
+  gap: 4rem;
   align-items: center;
   position: relative;
   overflow: hidden;
@@ -55,33 +55,63 @@ export const HeroSection = styled.div`
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
     text-align: center;
-    padding: 2rem 0;
+    padding: 3rem 0;
   }
 `;
 
 export const HeroContent = styled.div`
   h1 {
-    font-size: 3.5rem;
+    font-size: 4rem;
     color: #000;
-    margin-bottom: 1.5rem;
-    line-height: 1.2;
-    font-weight: bold;
+    margin-bottom: 2rem;
+    line-height: 0.95;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+
+    br {
+      display: block;
+      margin-bottom: 0.75rem;
+      content: "";
+    }
+
+    .highlight {
+      display: inline-block;
+      font-family: 'Times New Roman', serif;
+      font-style: italic;
+      font-weight: 500;
+      font-size: 3.5rem;
+      margin: 0.5rem 0;
+      letter-spacing: -0.01em;
+      line-height: 1.1;
+    }
   }
 
   p {
-    font-size: 1.25rem;
+    font-size: 1.35rem;
     color: #000;
-    margin-bottom: 2rem;
-    max-width: 600px;
+    margin-bottom: 3.5rem;
+    max-width: 580px;
+    line-height: 1.5;
+    letter-spacing: -0.01em;
+
+    strong {
+      font-weight: 800;
+      letter-spacing: 0;
+    }
   }
 
   @media (max-width: 768px) {
     h1 {
-      font-size: 2.5rem;
+      font-size: 3.5rem;
+
+      .highlight {
+        font-size: 3rem;
+      }
     }
 
     p {
-      margin: 0 auto 2rem auto;
+      margin: 0 auto 2.5rem auto;
+      font-size: 1.2rem;
     }
   }
 `;
@@ -91,72 +121,29 @@ export const HeroImageWrapper = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-end;
+  align-items: flex-end;
 
   img {
     width: 100%;
     height: auto;
-    max-width: 500px;
+    max-width: 450px;
     object-fit: contain;
     position: relative;
     z-index: 2;
+    margin-bottom: -2rem;
+    margin-right: -2rem;
   }
 
   @media (max-width: 768px) {
     margin-top: 2rem;
+    justify-content: center;
+    align-items: center;
     
     img {
       max-width: 80%;
+      margin: 0;
     }
-  }
-`;
-
-
-export const ServicesSection = styled.section`
-  padding: 4rem 0;
-  background: #fff;
-  border-radius: 2rem 2rem 0 0;
-  margin-top: 4rem;
-  
-  h2 {
-    font-size: 2.5rem;
-    color: #000;
-    margin-bottom: 1rem;
-    text-align: center;
-  }
-  
-  p {
-    text-align: center;
-    font-size: 1.25rem;
-    color: #666;
-    margin-bottom: 3rem;
-  }
-`;
-
-export const ServiceGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  padding: 2rem 0;
-`;
-
-export const ServiceCard = styled.div`
-  background: #f8f8f8;
-  padding: 2rem;
-  border-radius: 1rem;
-  
-  h3 {
-    font-size: 1.5rem;
-    color: #000;
-    margin-bottom: 1rem;
-  }
-  
-  p {
-    font-size: 1rem;
-    color: #666;
-    text-align: left;
-    margin-bottom: 0;
   }
 `;
 
@@ -164,20 +151,30 @@ export const DiscoverButton = styled.button`
   background: #000;
   color: white;
   border: none;
-  border-radius: 25px;
-  padding: 1rem 2rem;
-  font-size: 1.1rem;
+  border-radius: 35px;
+  padding: 1.25rem 3rem;
+  font-size: 1.25rem;
+  font-weight: 600;
   cursor: pointer;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.75rem;
+  transition: all 0.2s ease-in-out;
+  letter-spacing: -0.01em;
   
+  span {
+    font-size: 1.4rem;
+    margin-top: -2px;
+  }
+
   &:hover {
     transform: translateY(-2px);
-    transition: transform 0.2s;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
   }
 
   @media (max-width: 768px) {
     margin: 0 auto;
+    padding: 1rem 2.5rem;
+    font-size: 1.15rem;
   }
 `;
