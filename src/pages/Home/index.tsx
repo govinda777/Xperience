@@ -9,7 +9,6 @@ import {
   ServiceCard,
   DiscoverButton,
   HeroImageWrapper,
-  HeroVectorWrapper,
 } from './styles';
 import Navbar from '../../components/Navbar';
 
@@ -37,9 +36,6 @@ const Home: React.FC = () => {
           </HeroContent>
           <HeroImageWrapper>
             <img src="/public/home/hero.png" alt="Empreendedor" />
-            <HeroVectorWrapper>
-              <img src="/public/home/hero-vector.png" alt="Decoração" />
-            </HeroVectorWrapper>
           </HeroImageWrapper>
         </HeroSection>
 

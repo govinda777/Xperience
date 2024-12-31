@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const StyledApp = styled.div`
-  background: #FF9F5A;
+  background: #FD9526;
   min-height: 100vh;
   width: 100%;
 `;
@@ -112,25 +112,6 @@ export const HeroImageWrapper = styled.div`
   }
 `;
 
-export const HeroVectorWrapper = styled.div`
-  position: absolute;
-  bottom: -20%;
-  right: -10%;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-
-  img {
-    width: 100%;
-    height: auto;
-    object-fit: contain;
-  }
-
-  @media (max-width: 768px) {
-    bottom: -10%;
-    right: -5%;
-  }
-`;
 
 export const ServicesSection = styled.section`
   padding: 4rem 0;
