@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Menu, X, User } from 'lucide-react';
 
+const logo = new URL('/public/logo.svg', import.meta.url).href;
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -18,7 +20,11 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center">
-          <img src="public/logo.svg" alt="Xperience" className="h-8" />
+          <img
+            src={logo}
+            alt="Xperience" 
+            className="w-[100px] h-auto"
+          />
         </div>
 
         {/* Desktop Navigation */}
