@@ -1,6 +1,7 @@
 import React from 'react';
 
 const Home = () => {
+  const heroImage = new URL('/public/home/hero.png', import.meta.url).href;
   return (
     <div className="w-full">
       <div className="max-w-none px-4 md:pr-0 md:pl-[calc((100%-74rem)/2)] grid grid-cols-1 md:grid-cols-2 gap-8 py-24 md:py-16 items-center relative overflow-hidden">
@@ -29,15 +30,15 @@ const Home = () => {
 
         <div className="absolute right-0 bottom-0 hidden md:block">
           <img 
-            src="/home/hero.png" 
+            src={heroImage}
             alt="Empreendedor" 
             className="w-[500px] h-auto"
           />
         </div>
         <div className="block md:hidden relative flex justify-end items-end">
           <img 
-            src="/home/hero.png" 
-            alt="Empreendedor" 
+            src={heroImage}
+            alt="Empreendedor"
             className="w-full max-w-[500px] h-auto"
           />
         </div>

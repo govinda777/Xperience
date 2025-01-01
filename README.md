@@ -157,7 +157,7 @@ Disponibilizamos nossa infraestrutura completa como um template personalizável,
 
    # Add dependencies
    yarn add lucide-react --registry https://registry.npmmirror.com
-
+yarn add -D @testing-library/react@latest @testing-library/jest-dom@latest vitest --registry https://registry.npmmirror.com
    ```
 
 3. **Personalize e Lance**

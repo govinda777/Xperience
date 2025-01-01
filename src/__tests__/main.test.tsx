@@ -1,39 +1,62 @@
-import ReactDOM from "react-dom/client";
+// src/__tests__/main.test.tsx
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import { QueryClient } from '@tanstack/react-query';
+import App from '../App';
 
-// Mock do ReactDOM como default export
-jest.mock("react-dom/client", () => ({
-  __esModule: true,
-  default: {
-    createRoot: jest.fn(() => ({
-      render: jest.fn(),
-    })),
-  },
+// Mock das dependências
+jest.mock('@tanstack/react-query', () => ({
+  QueryClient: jest.fn().mockImplementation(() => ({
+    defaultOptions: { queries: { refetchOnWindowFocus: false } },
+  })),
+  QueryClientProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>,
 }));
 
-describe("Main.tsx", () => {
-  let rootDiv: HTMLDivElement;
+jest.mock('@tonconnect/ui-react', () => ({
+  TonConnectUIProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>,
+}));
 
+jest.mock('react-dom/client', () => ({
+  createRoot: jest.fn(() => ({
+    render: jest.fn(),
+  })),
+}));
+
+jest.mock('../App', () => ({
+  __esModule: true,
+  default: () => null,
+}));
+
+describe('Main entry point', () => {
   beforeEach(() => {
-    // Simula o elemento root no DOM
-    rootDiv = document.createElement("div");
-    rootDiv.id = "root";
-    document.body.appendChild(rootDiv);
+    // Reset mocks
+    jest.clearAllMocks();
+    
+    // Setup DOM
+    const root = document.createElement('div');
+    root.id = 'root';
+    document.body.appendChild(root);
   });
 
   afterEach(() => {
-    // Limpa o DOM após o teste
-    document.body.removeChild(rootDiv);
-    jest.clearAllMocks();
+    // Cleanup
+    document.body.innerHTML = '';
   });
 
-  test("renders the app using ReactDOM.createRoot", () => {
-    // Usa jest.isolateModules para garantir que o mock seja aplicado corretamente
-    jest.isolateModules(() => {
-      // Importa o arquivo main.tsx após o mock estar configurado
-      require("../main");
-    });
+  it('should render app using createRoot', () => {
+    // Carrega o main
+    require('../main');
 
-    // Verifica se ReactDOM.createRoot foi chamado com o elemento correto
-    expect(ReactDOM.createRoot).toHaveBeenCalledWith(rootDiv);
+    // Verifica se createRoot foi chamado
+    expect(createRoot).toHaveBeenCalledWith(
+      document.getElementById('root')
+    );
+
+    // Verifica se render foi chamado
+    const mockRoot = (createRoot as jest.Mock).mock.results[0].value;
+    expect(mockRoot.render).toHaveBeenCalled();
+
+    // Verifica se QueryClient foi instanciado
+    expect(QueryClient).toHaveBeenCalled();
   });
 });
