@@ -4,7 +4,6 @@ const Home = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 w-full">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-16 py-24 md:py-16 items-center relative overflow-hidden">
-        {/* Hero Content */}
         <div className="flex flex-col">
           <h1 className="text-white text-6xl font-normal leading-tight mb-4">
             Explore nossa
@@ -28,7 +27,6 @@ const Home = () => {
           </button>
         </div>
 
-        {/* Hero Image */}
         <div className="relative flex justify-end">
           
           <img 

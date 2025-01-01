@@ -1,5 +1,17 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;800;900&display=swap');
+
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@layer base {
+  html {
+    font-family: 'Nunito', sans-serif;
+  }
+  
+  body {
+    font-family: 'Nunito', sans-serif;
+  }
+}
 
 /* Custom styles can be added below */
