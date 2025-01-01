@@ -1,49 +1,32 @@
+// pages/Home/index.tsx
 import React from 'react';
+import Hero from '../../components/Hero';
+import Solutions from './Solutions';
 
-const Home = () => {
+const Home: React.FC = () => {
   const heroImage = new URL('/public/home/hero.png', import.meta.url).href;
+  const solutionsImage = new URL('/public/home/solutions.png', import.meta.url).href;
+
   return (
-    <div className="w-full">
-      <div className="max-w-none px-4 md:pr-0 md:pl-[calc((100%-74rem)/2)] grid grid-cols-1 md:grid-cols-2 gap-8 py-24 md:py-16 items-center relative overflow-hidden">
-        <div className="flex flex-col max-w-2xl ml-auto">
-          <h1 className="text-white text-6xl font-normal leading-tight mb-4">
-            Explore nossa
-            <br />
-            <span className="text-white text-[50px] font-bold block my-2">
-              "IA do empreendedor"
-            </span>
-            <span className="text-white text-7xl">
-              e avalie o seu negócio
-            </span>
-          </h1>
-          
-          <p className="text-white text-2xl mb-12 max-w-2xl">
-            Descubra como valorizar sua empresa e encantar seus clientes de forma rápida e
-            <span className="font-bold"> GRATUITA</span>.
-          </p>
-
-          <button className="bg-black text-white text-2xl font-medium rounded-full px-12 py-4 w-fit flex items-center gap-2 hover:shadow-lg transition-all">
-            Descubra
-            <span className="inline-block ml-1">✨</span>
-          </button>
-        </div>
-
-        <div className="absolute right-0 bottom-0 hidden md:block">
-          <img 
-            src={heroImage}
-            alt="Empreendedor" 
-            className="w-[500px] h-auto"
-          />
-        </div>
-        <div className="block md:hidden relative flex justify-end items-end">
-          <img 
-            src={heroImage}
-            alt="Empreendedor"
-            className="w-full max-w-[500px] h-auto"
-          />
-        </div>
-      </div>
-    </div>
+    <>
+      <Hero 
+        title="Explore nossa"
+        highlightedText='"IA do empreendedor"'
+        subtitle="e avalie o seu negócio"
+        description="Descubra como valorizar sua empresa e encantar seus clientes de forma rápida e"
+        emphasizedText=" GRATUITA"
+        buttonText="Descubra"
+        imageSrc={heroImage}
+        imageAlt="Empreendedor"
+      />
+      <Solutions
+        title="Impulsione seu"
+        subtitle="negócio com soluções práticas e inovadoras"
+        description="Na Xperience Consultoria Empresarial, oferecemos soluções práticas e imediatas para pequenos e empreendedores, combinando a experiência humana com a inovação da Inteligência Artificial. Somos especialistas em ajudar pequenos empreendedores a otimizar seus negócios de forma simples, eficiente e de impacto imediato."
+        linkText="Conheça todas as soluções"
+        solutionsImageSrc={solutionsImage}
+      />
+    </>
   );
 };
 
