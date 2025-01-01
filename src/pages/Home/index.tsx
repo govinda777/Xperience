@@ -2,9 +2,9 @@ import React from 'react';
 
 const Home = () => {
   return (
-    <div className="max-w-7xl mx-auto px-4 w-full">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-16 py-24 md:py-16 items-center relative overflow-hidden">
-        <div className="flex flex-col">
+    <div className="w-full">
+      <div className="max-w-none px-4 md:pr-0 md:pl-[calc((100%-74rem)/2)] grid grid-cols-1 md:grid-cols-2 gap-8 py-24 md:py-16 items-center relative overflow-hidden">
+        <div className="flex flex-col max-w-2xl ml-auto">
           <h1 className="text-white text-6xl font-normal leading-tight mb-4">
             Explore nossa
             <br />
@@ -27,12 +27,18 @@ const Home = () => {
           </button>
         </div>
 
-        <div className="relative flex justify-end">
-          
+        <div className="absolute right-0 bottom-0 hidden md:block">
           <img 
             src="/home/hero.png" 
             alt="Empreendedor" 
-            className="relative z-10 w-full max-w-[500px] h-auto"
+            className="w-[500px] h-auto"
+          />
+        </div>
+        <div className="block md:hidden relative flex justify-end items-end">
+          <img 
+            src="/home/hero.png" 
+            alt="Empreendedor" 
+            className="w-full max-w-[500px] h-auto"
           />
         </div>
       </div>
