@@ -8,6 +8,7 @@ import CommunitySection from './CommunitySection';
 import { Contact } from 'lucide-react';
 import ContactForm from './ContactForm';
 import PageTitle from '../../components/PageTitle';
+import TestimonialSection from './TestimonialSection';
 
 const Home: React.FC = () => {
   const heroImage = new URL('/public/home/hero.png', import.meta.url).href;
@@ -50,6 +51,7 @@ const Home: React.FC = () => {
         highlightedWord="clientes"
       />
       <ContactForm />
+      <TestimonialSection />
     </>
   );
 };
