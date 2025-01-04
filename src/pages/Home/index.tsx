@@ -1,6 +1,6 @@
 // pages/Home/index.tsx
 import React from 'react';
-import Hero from '../../components/Hero';
+import Hero from './Hero';
 import Solutions from './Solutions';
 import IaDoEmpreendedor from './IaDoEmpreendedor';
 import WhyXperience from './WhyXperience';
