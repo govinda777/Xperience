@@ -4,8 +4,8 @@ const Hero: React.FC = () => {
   const heroImage = new URL('/public/solutions/hero.png', import.meta.url).href;
   
   return (
-    <div className="w-full min-h-screen">
-      <div className="max-w-7xl mx-auto px-4 md:px-8 pt-32 pb-16 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+    <div className="w-full h-screen flex items-center justify-center">
+      <div className="max-w-7xl mx-auto px-4 md:px-8 grid grid-cols-1 md:grid-cols-2 gap-12 items-center h-full">
         {/* Text Content */}
         <div className="space-y-8">
           <div className="space-y-4">
@@ -26,7 +26,7 @@ const Hero: React.FC = () => {
         </div>
 
         {/* Image */}
-        <div className="relative h-full flex justify-center">
+        <div className="relative h-full flex items-center justify-center">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#F07D35] rounded-full opacity-30 blur-3xl" />
           <img
             src={heroImage}
