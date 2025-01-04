@@ -1,4 +1,3 @@
-// Home/Solutions.tsx
 import React from 'react';
 
 interface SolutionsProps {
@@ -19,10 +18,10 @@ const Solutions: React.FC<SolutionsProps> = ({
   solutionsImageAlt = "Equipe trabalhando",
 }) => {
   return (
-    <div className="w-full bg-white relative overflow-hidden">
-      <div className="max-w-none grid grid-cols-1 md:grid-cols-2 gap-12 items-center relative">
+    <div className="w-full min-h-screen bg-white relative">
+      <div className="w-full h-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center relative">
         {/* Imagem */}
-        <div className="relative h-full">
+        <div className="relative h-screen">
           <div className="absolute inset-0">
             <img 
               src={solutionsImageSrc} 
@@ -33,7 +32,7 @@ const Solutions: React.FC<SolutionsProps> = ({
         </div>
 
         {/* Conteúdo */}
-        <div className="flex flex-col max-w-2xl py-24 px-4 md:pr-[calc((100%-74rem)/2)]">
+        <div className="flex flex-col max-w-2xl py-24 px-4">
           <h2 className="text-gray-900 text-5xl font-bold mb-8">
             {title}
             <br />

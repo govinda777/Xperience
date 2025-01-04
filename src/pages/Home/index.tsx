@@ -4,6 +4,7 @@ import Hero from '../../components/Hero';
 import Solutions from './Solutions';
 import IaDoEmpreendedor from './IaDoEmpreendedor';
 import WhyXperience from './WhyXperience';
+import CommunitySection from './CommunitySection';
 
 const Home: React.FC = () => {
   const heroImage = new URL('/public/home/hero.png', import.meta.url).href;
@@ -39,6 +40,7 @@ const Home: React.FC = () => {
         buttonText="Explore a IA"
       />
       <WhyXperience />
+      <CommunitySection />
     </>
   );
 };
