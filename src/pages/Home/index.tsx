@@ -5,6 +5,9 @@ import Solutions from './Solutions';
 import IaDoEmpreendedor from './IaDoEmpreendedor';
 import WhyXperience from './WhyXperience';
 import CommunitySection from './CommunitySection';
+import { Contact } from 'lucide-react';
+import ContactForm from './ContactForm';
+import PageTitle from '../../components/PageTitle';
 
 const Home: React.FC = () => {
   const heroImage = new URL('/public/home/hero.png', import.meta.url).href;
@@ -13,7 +16,7 @@ const Home: React.FC = () => {
 
   return (
     <>
-      <Hero 
+      <Hero
         title="Explore nossa"
         highlightedText='"IA do empreendedor"'
         subtitle="e avalie o seu negócio"
@@ -41,6 +44,12 @@ const Home: React.FC = () => {
       />
       <WhyXperience />
       <CommunitySection />
+
+      <PageTitle
+        title="Venha construir experiências inesquecíveis para os seus clientes"
+        highlightedWord="clientes"
+      />
+      <ContactForm />
     </>
   );
 };
