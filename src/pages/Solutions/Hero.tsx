@@ -10,18 +10,22 @@ const Hero: React.FC = () => {
         <div className="space-y-8">
           <div className="space-y-4">
             <h1 className="text-5xl md:text-6xl font-bold text-white">
-              Soluções que
               <span className="block mt-4 text-4xl md:text-5xl font-normal">
-                transformam seu negócio
+                Soluções Inovadoras para o
+              </span>
+              <span className="block text-5xl md:text-6xl text-white">
+                Crescimento do Seu Negócio
               </span>
             </h1>
             <p className="text-xl md:text-2xl text-white/90 max-w-xl">
-              Descubra como nossa expertise em inovação e tecnologia pode impulsionar o crescimento da sua empresa.
+              Na Xperience, utilizamos nossa expertise e a inovação da{' '}
+              <span className="font-semibold">IA do Empreendedor</span>
+              {' '}para identificar e aplicar as melhores estratégias para pequenos empreendedores.
             </p>
           </div>
           
           <button className="bg-black text-white text-lg md:text-xl px-8 py-4 rounded-full hover:bg-gray-900 transition-colors duration-300 hover:shadow-lg">
-            Conheça nossas soluções
+            Agendar mentoria
           </button>
         </div>
 
