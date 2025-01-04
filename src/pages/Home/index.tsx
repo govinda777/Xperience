@@ -5,10 +5,9 @@ import Solutions from './Solutions';
 import IaDoEmpreendedor from './IaDoEmpreendedor';
 import WhyXperience from './WhyXperience';
 import CommunitySection from './CommunitySection';
-import { Contact } from 'lucide-react';
-import ContactForm from './ContactForm';
 import PageTitle from '../../components/PageTitle';
 import TestimonialSection from './TestimonialSection';
+import ContactForm from '../../components/ContactForm';
 
 const Home: React.FC = () => {
   const heroImage = new URL('/public/home/hero.png', import.meta.url).href;
