@@ -19,7 +19,15 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '20'
+
+      - name: Check Node.js version
+        run: |
+          node --version
+          if [[ "$(node --version)" != "v20."* ]]; then
+            echo "Node.js version must be 20.x.x"
+            exit 1
+          fi
 
       - name: Install dependencies
         run: yarn install
