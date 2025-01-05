@@ -4,6 +4,7 @@ import Hero from './Hero';
 import IntroSection from '../../components/IntroSection';
 import BannerIntro from '../../components/BannerIntro';
 import IaDoEmpreendedorBanner from './IaDoEmpreendedorBanner';
+import IAReports from './IAReports';
 
 const Solutions: React.FC = () => {
   
@@ -32,6 +33,7 @@ const Solutions: React.FC = () => {
         highlightText="TUDO DE FORMA GRATUITA!"
         buttonText="Explore a IA"
       />
+      <IAReports />
     </div>
   );
 };
