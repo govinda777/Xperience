@@ -3,6 +3,7 @@ import React from 'react';
 import Hero from './Hero';
 import IntroSection from '../../components/IntroSection';
 import BannerIntro from '../../components/BannerIntro';
+import IaDoEmpreendedorBanner from './IaDoEmpreendedorBanner';
 
 const Solutions: React.FC = () => {
   
@@ -23,6 +24,13 @@ const Solutions: React.FC = () => {
         title="Soluções"
         highlightedText="personalizadas"
         textColor="#FFFFFF"
+      />
+      <IaDoEmpreendedorBanner
+        title="IA do Empreendedor"
+        subtitle="chatbot Xperience"
+        description="Utilizamos nossa expertise e a inovação da IA do Empreendedor para identificar e aplicar as melhores estratégias para pequenos empreendedores."
+        highlightText="TUDO DE FORMA GRATUITA!"
+        buttonText="Explore a IA"
       />
     </div>
   );

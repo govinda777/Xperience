@@ -12,7 +12,6 @@ import ContactForm from '../../components/ContactForm';
 const Home: React.FC = () => {
   const heroImage = new URL('/public/home/hero.png', import.meta.url).href;
   const solutionsImage = new URL('/public/home/solutions.png', import.meta.url).href;
-  const iaLogo = new URL('/public/home/logo-ia-do-empreendedor.png', import.meta.url).href;
 
   return (
     <>
@@ -34,7 +33,6 @@ const Home: React.FC = () => {
         solutionsImageSrc={solutionsImage}
       />
       <IaDoEmpreendedor
-        logoSrc={iaLogo}
         title="IA do Empreendedor"
         subtitle="chatbot Xperience"
         description="Nossa nova ferramenta, IA do Empreendedor, permite que você faça uma avaliação rápida e personalizada do seu comércio e descubra oportunidades de melhoria em minutos."
@@ -44,7 +42,6 @@ const Home: React.FC = () => {
       />
       <WhyXperience />
       <CommunitySection />
-
       <PageTitle
         title="Venha construir experiências inesquecíveis para os seus clientes"
         highlightedWord="clientes"

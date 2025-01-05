@@ -2,7 +2,6 @@
 import React from 'react';
 
 interface IaDoEmpreendedorProps {
-  logoSrc: string;
   title: string;
   subtitle: string;
   description: string;
@@ -13,7 +12,6 @@ interface IaDoEmpreendedorProps {
 }
 
 const IaDoEmpreendedor: React.FC<IaDoEmpreendedorProps> = ({
-  logoSrc,
   title,
   subtitle,
   description,
@@ -22,6 +20,9 @@ const IaDoEmpreendedor: React.FC<IaDoEmpreendedorProps> = ({
   buttonText,
   logoAlt = "IA do Empreendedor Logo",
 }) => {
+
+  const logoSrc = new URL('/public/logo-ia-do-empreendedor.png', import.meta.url).href;
+
   return (
     <div className="w-full bg-black min-h-screen relative overflow-hidden">
       <div className="absolute top-0 left-0 w-64 h-64 rounded-full bg-[#3D2A20] -translate-x-1/4 -translate-y-1/4" />
