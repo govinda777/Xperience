@@ -4,7 +4,7 @@ import Hero from './Hero';
 
 const Solutions: React.FC = () => {
   return (
-    <div className="bg-[#E85D04]">
+    <div className="bg-[#F34A0D]">
       <Hero />
     </div>
   );
