@@ -2,6 +2,7 @@
 import React from 'react';
 import Hero from './Hero';
 import IntroSection from '../../components/IntroSection';
+import BannerIntro from '../../components/BannerIntro';
 
 const Solutions: React.FC = () => {
   
@@ -16,7 +17,12 @@ const Solutions: React.FC = () => {
         title="Consultoria empresarial sob medida para pequenos empreendedores"
         description="A Xperience oferece serviços inovadores, projetados para atender as principais necessidades de pequenos negócios, desde organização de processos até estratégias de expansão."
         highlightedText="trazer resultados rápidos e eficientes, com soluções práticas e acessíveis!!!"
-        className='bg-[#FFFF]'
+      />
+      <BannerIntro 
+        imageSrc={new URL('/public/solutions/consulting-intro.png', import.meta.url).href}
+        title="Soluções"
+        highlightedText="personalizadas"
+        textColor="#FFFFFF"
       />
     </div>
   );
