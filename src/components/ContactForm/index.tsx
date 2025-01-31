@@ -39,11 +39,11 @@ const ContactForm: React.FC = () => {
 
   const img = new URL('/public/home/contact-form.png', import.meta.url).href;
   return (
-    <div className="w-full h-screen bg-[#F8F8F8] relative overflow-hidden">
-      <div className="max-w-none px-4 md:pr-0 md:pl-[calc((100%-74rem)/2)] h-full flex items-center">
+    <div className="w-full h-auto md:h-screen bg-[#F8F8F8] relative overflow-hidden">
+      <div className="max-w-none px-4 md:pr-0 md:pl-[calc((100%-74rem)/2)] h-full flex items-center md:flex-row flex-col">
         {/* Form Section */}
         <div className="max-w-xl relative z-10">
-          <h2 className="text-2xl font-medium mb-2">Vamos nos conhecer?!</h2>
+          <h2 className="text-2xl font-medium mb-2 py-7 md:py-0">Vamos nos conhecer?!</h2>
           <p className="text-gray-600 mb-6 text-sm">
             Preencha as informações e nossos especialistas irão entrar em contato
           </p>
@@ -162,12 +162,12 @@ const ContactForm: React.FC = () => {
 
         {/* Image Section - Mobile */}
         <div className="block md:hidden relative w-full mt-8">
-          <div className="relative flex justify-end">
+          <div className="relative flex justify-end -right-4">
             <div className="absolute right-0 top-0 w-64 h-64 rounded-full bg-orange-500" />
             <img
               src={img}
               alt="Pessoa sorrindo"
-              className="relative z-10 w-full max-w-[300px]"
+              className="relative z-10 w-full max-w-[300px] -rigth-8"
             />
           </div>
         </div>
