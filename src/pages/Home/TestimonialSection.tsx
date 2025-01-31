@@ -56,28 +56,29 @@ const TestimonialSection: React.FC = () => {
       {/* Background Decorations */}
       <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#FFF5F1] rounded-full translate-x-1/3 -translate-y-1/3" />
       <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#FFFBE5] rounded-full -translate-x-1/3 translate-y-1/3" />
-      
-      <div className="max-w-[1200px] mx-auto px-8 py-24 relative flex">
-        <div className="w-full grid grid-cols-2 gap-16 items-center">
+      <div className="max-w-[1200px] mx-auto px-8 py-24 relative flex flex-col">
+        <h2 className="text-5xl md:hidden font-bold  tracking-tight uppercase">
+            Depoimentos
+        </h2>
+        <div className="w-full md:grid md:grid-cols-2 gap-16 items-center">
           {/* Image Column */}
-          <div className="relative">
-            <div className="w-[450px] h-[450px] rounded-[48px] overflow-hidden">
+            <div className="md:rounded-[48px] rounded-[38px] overflow-hidden py-6">
               <img
                 src={testimonials[currentIndex].image}
                 alt={testimonials[currentIndex].name}
                 className="w-full h-full object-cover"
               />
             </div>
-          </div>
+
 
           {/* Content Column */}
           <div className="flex flex-col">
-            <h2 className="text-[48px] font-bold mb-16 tracking-tight uppercase">
+            <h2 className="hidden md:block md:text-[48px] font-bold mb-16 tracking-tight uppercase">
               Depoimentos
             </h2>
 
             <div className="mb-12">
-              <blockquote className="text-[32px] leading-tight mb-8">
+              <blockquote className="text-2xl md:text-[32px] leading-tight mb-8">
                 <span className="text-[#E85D04] inline-block mr-2">"</span>
                 {testimonials[currentIndex].quote}
                 <span className="text-[#E85D04] inline-block ml-2">"</span>
@@ -115,7 +116,7 @@ const TestimonialSection: React.FC = () => {
                            hover:border-[#E85D04] transition-colors"
                   aria-label="Depoimento anterior"
                 >
-                  <ChevronLeft className="w-6 h-6" />
+                  <ChevronLeft className="md:w-6 w-5 h-5 md:h-6" />
                 </button>
                 <button
                   onClick={handleNext}
@@ -123,7 +124,7 @@ const TestimonialSection: React.FC = () => {
                            hover:border-[#E85D04] transition-colors"
                   aria-label="Próximo depoimento"
                 >
-                  <ChevronRight className="w-6 h-6" />
+                  <ChevronRight className="md:w-6 w-5 h-5 md:h-6" />
                 </button>
               </div>
             </div>

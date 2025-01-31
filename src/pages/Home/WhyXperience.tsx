@@ -79,7 +79,7 @@ const WhyXperience: React.FC = () => {
   ];
 
   return (
-    <section className="bg-white h-screen flex items-center">
+    <section className="bg-white py-16 md:py-32 flex items-center">
       <div className="max-w-[1200px] mx-auto px-6">
         <div className="text-center mb-12">
           <h2 className="text-[40px] font-bold mb-4">

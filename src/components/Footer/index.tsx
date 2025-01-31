@@ -26,8 +26,8 @@ const Footer = () => {
           </div>
 
           {/* Social Links and Newsletter */}
-          <div className="flex justify-between items-start py-8">
-            <div className="flex gap-6">
+          <div className="flex-col-reverse mx-auto md:mx-0 flex md:flex-row justify-between items-center py-8">
+            <div className="flex gap-6 md:pt-0 pt-8">
               <a href="#" className="hover:opacity-80 transition-opacity">
                 <div className="bg-white rounded-full p-2">
                   <Facebook className="h-6 w-6 text-[#2B2B2B]" />
@@ -47,13 +47,13 @@ const Footer = () => {
 
             <div>
               <h3 className="text-xl mb-4">Receba promoções e novidades</h3>
-              <div className="flex gap-4">
+              <div className="flex gap-4 flex-col md:flex-row">
                 <input 
                   type="email" 
                   placeholder="E-mail" 
-                  className="px-4 py-2 rounded-full bg-white text-black w-64"
+                  className="px-4 py-2 rounded-full w-full bg-white text-black"
                 />
-                <button className="bg-[#E85D04] text-white px-8 py-2 rounded-full hover:bg-opacity-90 transition-colors flex items-center gap-2">
+                <button className="bg-[#E85D04] text-white px-8 mx-auto  py-2 rounded-full hover:bg-opacity-90 transition-colors flex items-center gap-2">
                   Enviar <span>✓</span>
                 </button>
               </div>
@@ -62,7 +62,7 @@ const Footer = () => {
 
           {/* Footer Links */}
           <div className="flex justify-center items-center pb-8">
-            <nav className="flex gap-4 items-center">
+            <nav className="flex gap-4 items-center md:text-base text-sm">
               <a href="#" className="text-white/80 hover:text-[#E85D04] transition-colors">
                 Condições gerais
               </a>
