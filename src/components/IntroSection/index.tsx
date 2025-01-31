@@ -20,10 +20,10 @@ const IntroSection: React.FC<IntroSectionProps> = ({
   className = ""
 }) => {
   return (
-    <section className={`w-full h-screen overflow-hidden flex flex-col ${className}`}>
+    <section className={`w-full md:h-screen overflow-hidden flex flex-col ${className}`}>
       {/* Top Section (Imagem) */}
       <div className="flex-1 bg-gradient-to-b from-[#F34A0D] to-[#FFF1E7] flex items-center justify-center">
-        <div className="max-w-7xl w-full px-4">
+        <div className="w-full px-4">
           <div className="w-full h-[200px] md:h-[300px] rounded-3xl overflow-hidden">
             <img
               src={imageSrc}
@@ -37,8 +37,8 @@ const IntroSection: React.FC<IntroSectionProps> = ({
       {/* Bottom Section (Texto) */}
       <div className="flex-1 bg-[#FFF1E7] relative overflow-hidden flex items-center">
         <div className="max-w-7xl w-full px-4 py-6 md:py-8">
-          <div className="max-w-4xl mx-auto relative z-10 text-left px-4 md:px-6 lg:px-8">
-            <h1 className="text-4xl md:text-[3rem] font-extrabold text-gray-900 mb-6 leading-tight">
+          <div className="max-w-4xl mx-auto relative z-10 text-center md:text-left px-4 md:px-6 lg:px-8">
+            <h1 className="text-3xl md:text-[3rem] font-extrabold text-gray-900 mb-6 leading-tight">
               {title}
             </h1>
 

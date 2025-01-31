@@ -19,7 +19,7 @@ const IaDoEmpreendedorBanner: React.FC<IaDoEmpreendedorBannerProps> = ({
   const logoSrc = new URL('/public/logo-ia-do-empreendedor.png', import.meta.url).href;
 
   return (
-    <div className="relative bg-[#F8B195] w-full min-h-screen flex items-center justify-center p-4 md:p-8 overflow-hidden">
+    <div className="relative bg-[#F8B195] w-full md:min-h-screen flex items-center justify-center px-4 py-10 md:px-8 md:py-8 overflow-hidden">
 
       {/* Bolinhas de fundo */}
       <div
@@ -43,7 +43,7 @@ const IaDoEmpreendedorBanner: React.FC<IaDoEmpreendedorBannerProps> = ({
           <img
             src={logoSrc}
             alt="Ícone IA do Empreendedor"
-            className="w-64 md:w-72 h-auto object-contain mb-4"
+            className="w-52 md:w-72 h-auto object-contain mb-4"
           />
           <h2 className="text-4xl md:text-5xl font-bold text-gray-800 leading-tight">
             {title}
@@ -54,7 +54,7 @@ const IaDoEmpreendedorBanner: React.FC<IaDoEmpreendedorBannerProps> = ({
         </div>
 
         {/* Coluna Direita: Descrição, Destaque e Botão (alinhados à esquerda) */}
-        <div className="flex flex-col text-left mx-auto md:mx-0">
+        <div className="flex flex-col text-center md:text-left mx-auto md:mx-0">
           <p className="text-base md:text-lg text-gray-800 mb-4 max-w-xl leading-relaxed">
             {description}
           </p>
