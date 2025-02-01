@@ -84,7 +84,7 @@ eliminando elementos que sobrecarregam custos e focando no que realmente **encan
 
 ---
 
-## 8. Conclusão
+## 6. Conclusão
 
 O modelo de mentoria baseado no **Blue Ocean Strategy** tem como principal diferencial a busca por inovação e a criação de um espaço de mercado próprio, 
 onde a concorrência perde relevância. Com uma estrutura modular, foco no desenvolvimento prático e acompanhamento contínuo, o programa está desenhado para transformar ideias promissoras em negócios sólidos e escaláveis. 
