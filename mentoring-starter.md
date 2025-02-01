@@ -7,8 +7,8 @@ utilizando os conceitos do Blue Ocean Strategy para evidenciar um posicionamento
 
 ## 2. Estrutura do Programa de Mentoria
 
-O programa é dividido em **módulos** que acompanham a evolução do projeto, desde a concepção da ideia até e estudo de mercado. 
-Cada módulo contempla atividades práticas, acompanhamento personalizado e aplicação dos princípios do Oceano Azul.
+O programa é dividido em **módulos** que acompanham a evolução do projeto, contemplando a concepção da ideia e o estudo de mercado. 
+Cada módulo possui atividades práticas, acompanhamento personalizado e aplicação dos princípios do Oceano Azul.
 
 ### Módulo 1: Pré-Mentoria & Avaliação Inicial
 - **Objetivo:** Conhecer o perfil do empreendedor, analisar o setor de atuação e identificar oportunidades e desafios.
@@ -35,7 +35,7 @@ eliminando elementos que sobrecarregam custos e focando no que realmente **encan
 ### Módulo 4: Gerenciamento e Feedback da mentoria
 - **Objetivo:** Gerenciar e acompanhar as atividade da mentoria, visando a gestão visual.
 - **Atividades:**
-  - Reuniões de acompanhamento e uso de metodologias ágeis (Scrum, Kanban).
+  - Reuniões de acompanhamento e uso de metodologias ágeis (Kanban).
   - Feedback contínuo e indice de satisfação da mentoria.
 
 ### Módulo 5: Networking e Escala
@@ -52,7 +52,7 @@ eliminando elementos que sobrecarregam custos e focando no que realmente **encan
 - **Orientação Estratégica:** Auxiliar na criação de estratégias inovadoras, com foco no Blueocean.
 - **Compartilhamento de Experiências:** Trazer insights práticos e alertas para evitar erros comuns.
 - **Acompanhamento Contínuo:** Monitorar o progresso dos mentorados e garantir o cumprimento das etapas do programa.
-- **Feedback Contínuo:** Garantir que nossa mentoria esteja dentro ou além das expectativas do cliente
+- **Feedback Contínuo:** Garantir que nossa mentoria esteja dentro ou além das expectativas do cliente.
 
 ### 3.2. Responsabilidades dos Mentorados
 - **Engajamento Ativo:** Participar das sessões preparados para absorver e aplicar os aprendizados.
