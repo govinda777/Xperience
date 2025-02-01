@@ -27,15 +27,15 @@ const Hero: React.FC<HeroProps> = ({
 }) => {
   return (
     <div className="w-full">
-      <div className="max-w-none px-4 md:pr-0 md:pl-[calc((100%-74rem)/2)] grid grid-cols-1 md:grid-cols-2 gap-8 py-24 md:py-16 items-center relative overflow-hidden">
+      <div className="max-w-none px-4 md:pr-0 md:pl-[calc((100%-74rem)/2)] grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-8 py-24 md:py-16 pb-0 items-center relative overflow-hidden">
         <div className="flex flex-col max-w-2xl ml-auto">
-          <h1 className="text-white text-6xl font-normal leading-tight mb-4">
+          <h1 className="text-white md:text-6xl text-5xl font-normal leading-tight mb-4">
             {title}
             <br />
-            <span className="text-white text-[50px] font-bold block my-2">
+            <span className="text-white text-3xl md:text-[50px] font-bold block my-2">
               {highlightedText}
             </span>
-            <span className="text-white text-7xl">
+            <span className="text-white md:text-7xl text-4xl">
               {subtitle}
             </span>
           </h1>
@@ -58,7 +58,7 @@ const Hero: React.FC<HeroProps> = ({
             className="w-[500px] h-auto"
           />
         </div>
-        <div className="block md:hidden relative flex justify-end items-end">
+        <div className="block md:hidden relative flex justify-end items-end left-4">
           <img 
             src={imageSrc}
             alt={imageAlt}

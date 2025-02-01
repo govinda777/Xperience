@@ -4,7 +4,7 @@ const FooterCredits = () => {
   return (
     <div className="bg-black py-8">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
-        <div className="text-sm text-white/80 space-y-2">
+        <div className="text-xs md:text-sm text-white/80 space-y-2">
           <p>© 2024 Xperience Consultoria Empresarial – Todos os direitos reservados.</p>
           <p>
             Design por{' '}

@@ -24,19 +24,19 @@ const IaDoEmpreendedor: React.FC<IaDoEmpreendedorProps> = ({
   const logoSrc = new URL('/public/logo-ia-do-empreendedor.png', import.meta.url).href;
 
   return (
-    <div className="w-full bg-black min-h-screen relative overflow-hidden">
+    <div className="w-full bg-black relative overflow-hidden">
       <div className="absolute top-0 left-0 w-64 h-64 rounded-full bg-[#3D2A20] -translate-x-1/4 -translate-y-1/4" />
       <div className="absolute bottom-0 left-0 w-96 h-96 rounded-full bg-[#2A2F1E] translate-x-1/4 translate-y-1/4" />
       <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full bg-[#3D2A20] translate-x-1/4 translate-y-1/4" />
 
       <div className="relative max-w-6xl mx-auto px-4 py-24 flex flex-col items-center text-center">
-        <div className="flex items-center justify-center gap-6 mb-4">
+        <div className="md:flex-row flex-col flex items-center justify-center gap-6 mb-4">
           <img 
             src={logoSrc} 
             alt={logoAlt}
             className="w-20 h-20 object-contain"
           />
-          <h2 className="text-white text-6xl font-normal">
+          <h2 className="text-white md:text-6xl text-5xl font-normal">
             {title}
           </h2>
         </div>
@@ -45,7 +45,7 @@ const IaDoEmpreendedor: React.FC<IaDoEmpreendedorProps> = ({
           {subtitle}
         </p>
 
-        <p className="text-white text-2xl max-w-4xl mx-auto mb-12 leading-relaxed">
+        <p className="text-white text-lg md:text-2xl max-w-4xl mx-auto mb-12 leading-relaxed">
           {description}
         </p>
 

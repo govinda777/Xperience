@@ -19,10 +19,10 @@ const Solutions: React.FC<SolutionsProps> = ({
 }) => {
   return (
     <div className="w-full min-h-screen bg-white relative">
-      <div className="w-full h-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center relative">
+      <div className="w-full h-full grid grid-cols-1 md:grid-cols-2 gap-1 md:gap-12 items-center relative">
         {/* Imagem */}
-        <div className="relative h-screen">
-          <div className="absolute inset-0">
+        <div className="relative">
+          <div className="">
             <img 
               src={solutionsImageSrc} 
               alt={solutionsImageAlt}
@@ -32,20 +32,20 @@ const Solutions: React.FC<SolutionsProps> = ({
         </div>
 
         {/* Conteúdo */}
-        <div className="flex flex-col max-w-2xl py-24 px-4">
-          <h2 className="text-gray-900 text-5xl font-bold mb-8">
+        <div className="flex flex-col max-w-2xl py-12 md:py-24 px-4">
+          <h2 className="text-gray-900 md:text-5xl text-4xl md:text-left text-center font-bold mb-8">
             {title}
             <br />
             <span className="block mt-2">{subtitle}</span>
           </h2>
           
-          <p className="text-gray-600 text-xl mb-8">
+          <p className="text-gray-600 text-lg md:text-xl md:text-left text-center mb-8">
             {description}
           </p>
 
           <a 
             href="/solucoes" 
-            className="text-orange-500 text-xl font-semibold flex items-center hover:text-orange-600 transition-colors"
+            className="text-orange-500 text-lg md:text-xl font-semibold mx-auto md:mx-0 flex items-center hover:text-orange-600 transition-colors"
           >
             {linkText}
             <svg 
