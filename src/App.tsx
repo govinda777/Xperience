@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import "./App.css";
 import Home from './pages/Home';
 import Solutions from './pages/Solutions';
+import Plans from './pages/Plans';
 import DefaultLayout from './layouts/DefaultLayout';
 import "@twa-dev/sdk";
 
@@ -14,6 +15,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/solutions" element={<Solutions />} />
+          <Route path="/plans" element={<Plans />} />
         </Routes>
       </DefaultLayout>
     </BrowserRouter>
