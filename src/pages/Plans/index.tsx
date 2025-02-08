@@ -2,6 +2,7 @@ import React from "react";
 import Surprised from "../../../assets/svg/surprised.svg";
 import Rabisco from "../../../assets/svg/rabisco.svg";
 import TypePlans from "../../components/plans/TypePlans";
+import PlansSection from "../../components/plans/PlansSection";
 
 const Plans: React.FC = () => {
   return (
@@ -11,7 +12,7 @@ const Plans: React.FC = () => {
         <h1 className="font-bold text-5xl">
           Escolha o plano certo e veja seu negócio crescer
         </h1>
-        <h2 className="text-xl">
+        <h2 className="text-lg w-[360px] md:w-auto md:text-xl md:mt-0 mt-12 mx-auto">
           Além da nossa ferramenta <span className="font-bold">gratuita</span>,
           oferecemos consultoria personalizada para levar o seu negócio ao
           próximo nível.
@@ -56,15 +57,14 @@ const Plans: React.FC = () => {
             Conheça
             <h1 className="flex-col gap-2 flex">
               nossos planos
-              <img
-                src={Rabisco}
-                alt="Rabisco"
-                className="md:w-[80%] w-[60%]"
-              />
+              <img src={Rabisco} alt="Rabisco" className="md:w-[80%] w-[60%]" />
             </h1>
           </h1>
         </div>
       </div>
+
+      {/* Planos */}
+      <PlansSection/>
     </main>
   );
 };

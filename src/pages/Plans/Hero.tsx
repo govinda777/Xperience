@@ -29,7 +29,7 @@ const Hero: React.FC<HeroProps> = ({
       <div className="max-w-none px-4 md:pr-0 md:pl-[calc((100%-74rem)/2)] grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-8 py-24 md:py-16 pb-0 items-center relative overflow-hidden">
         <div className="flex flex-col max-w-2xl ml-auto">
           <h1 className="text-white md:text-6xl text-5xl font-normal leading-tight mb-4">
-            {title}
+            {title}aaaaaaaaaa
             <br />
             <span className="text-white text-3xl md:text-[50px] font-bold block my-2">
               {highlightedText}
