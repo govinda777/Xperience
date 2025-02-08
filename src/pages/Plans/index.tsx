@@ -3,6 +3,7 @@ import Surprised from "../../../assets/svg/surprised.svg";
 import Rabisco from "../../../assets/svg/rabisco.svg";
 import TypePlans from "../../components/plans/TypePlans";
 import PlansSection from "../../components/plans/PlansSection";
+import Idea from "../../../assets/svg/idea.svg";
 
 const Plans: React.FC = () => {
   return (
@@ -57,14 +58,27 @@ const Plans: React.FC = () => {
             Conheça
             <h1 className="flex-col gap-2 flex">
               nossos planos
-              <img src={Rabisco} alt="Rabisco" className="md:w-[80%] w-[60%]" />
+              <img src={Rabisco} alt="Rabisco" className="md:w-[85%] w-[60%]" />
             </h1>
           </h1>
         </div>
       </div>
 
+      <div className="flex justify-center items-center py-6">
+        <div className="inline-block">
+          <div className="flex items-center justify-center rounded-full bg-[#F34A0D] py-4 px-10 gap-4">
+            <img
+              src={Idea}
+              alt="Lâmpada Idea"
+              className="md:w-12 md:h-12 w-12 h-12"
+            />
+            <h1 className="font-bold text-2xl md:text-3xl text-white">Essencial</h1>
+          </div>
+        </div>
+      </div>
+
       {/* Planos */}
-      <PlansSection/>
+      <PlansSection />
     </main>
   );
 };

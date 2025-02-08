@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Crown from "../../../assets/svg/crown.svg";
 import Scribble from "../../../assets/svg/rabisco2.svg";
 import Plus from "../../../assets/svg/plus.svg";
+import Idea from "../../../assets/svg/idea.svg";
 
 interface PlansCardsProps {
   title: string;
@@ -12,6 +13,7 @@ interface PlansCardsProps {
   price: number;
   time: string;
   topics: string[];
+  percentage?: number;
   link: string;
 }
 
@@ -20,6 +22,7 @@ const TypePlans: React.FC<PlansCardsProps> = ({
   isFree,
   isRecomendad,
   price,
+  percentage,
   time,
   topics,
   link,
@@ -34,9 +37,13 @@ const TypePlans: React.FC<PlansCardsProps> = ({
       ? 30
       : 50;
 
+  /* Lógica para descontos */
+  const discountAmount = percentage ? (price * percentage) / 100 : 0;
+  const priceDiscount = price - discountAmount;
+
   return (
     <div
-      className={`relative md:gap-10 gap-8 justify-center flex flex-col py-8 px-6 rounded-[30px] bg-white max-w-sm md:max-w-xl border-4 ${
+      className={`h-full relative md:gap-10 gap-8 justify-center flex flex-col py-8 px-6 rounded-[30px] bg-white max-w-xs md:max-w-xl border-4 ${
         isRecomendad ? "border-[#CC3600]" : "border-[#F2F2F2]"
       }`}
     >
@@ -58,24 +65,45 @@ const TypePlans: React.FC<PlansCardsProps> = ({
       <h1 className="text-2xl font-bold text-[#F34A0D]">{title}</h1>
 
       {/* Precificação */}
-      {isFree ? (
-        <h1 className="text-4xl md:text-5xl font-bold text-[#060606] mb-4 uppercase">
-          Free
-        </h1>
-      ) : (
-        <div className="mb-4 flex flex-row gap-2 items-end">
-          <h1 className="text-4xl md:text-5xl font-bold text-[#060606]">
-            R$ {price.toFixed(2)}
+      <div className="">
+        {isFree ? (
+          <h1 className="text-4xl md:text-5xl font-bold text-[#060606] mb-4 uppercase">
+            Free
           </h1>
-          <h2 className="font-light text-sm md:text-lg text-[#B9BEC1]">
-            / {time}
-          </h2>
-        </div>
-      )}
+        ) : (
+          <>
+            {/* Desconto */}
+            {percentage != 0 && (
+              <div className="items-center flex flex-row gap-2 mb-4">
+                <h1 className="text-[#1a1a1a] text-base md:text-lg font-light">
+                  De R$
+                  <span className="line-through decoration-[#CC3600]">
+                    {" "}
+                    {price.toFixed(2)}
+                  </span>{" "}
+                  por
+                </h1>
+                <p className="p-2 bg-[#008205] text-white font-extrabold rounded-full text-xs md:text-sm">
+                  - R$ {discountAmount.toFixed(2)} no total
+                </p>
+              </div>
+            )}
+
+            <div className="mb-4 flex flex-row gap-2 items-end ">
+              <h1 className="text-4xl md:text-5xl font-bold text-[#060606]">
+                R$ {percentage ? priceDiscount.toFixed(2) : price.toFixed(2)}
+              </h1>
+              <h2 className="font-light text-sm md:text-lg text-[#B9BEC1]">
+                / {time}
+              </h2>
+            </div>
+          </>
+        )}
+      </div>
 
       {/* Tópico Principal */}
-      <div className="flex flex-row gap-2 items-center jus">
-        <img src={Check} alt="Check" className="md:w-5 md:h-5" />
+      <div className="flex flex-row gap-2 items-center">
+        <img src={Check} alt="Check" className="md:w-5 md:h-5 mt-0.5" />
         <p className="text-[#1A1A1A]">
           <span className="font-bold">{queries} consultas</span> por mês da IA
           do Empreendedor
@@ -101,18 +129,19 @@ const TypePlans: React.FC<PlansCardsProps> = ({
           </div>
         )}
         {topics.map((topic, index) => (
-          <div className="flex flex-row gap-2 items-start justify-start w-64">
+          <div
+            key={index}
+            className="flex flex-row gap-2 items-start justify-start w-64"
+          >
             <img src={Check} alt="Check" className="md:w-5 md:h-5" />
-            <p className="text-[#1A1A1A]" key={index}>
-              {topic}
-            </p>
+            <p className="text-[#1A1A1A]">{topic}</p>
           </div>
         ))}
       </ul>
-      <div className="mx-auto">
+      <div className="mt-auto mx-auto">
         <Link
           to={link}
-          className={`py-4 px-9 text-sm text-white  ${
+          className={`py-4 px-9 text-sm text-white ${
             isRecomendad ? "bg-[#F34A0D]" : "bg-[#060606]"
           } rounded-full flex items-center justify-center hover:bg-opacity-85`}
         >
