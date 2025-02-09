@@ -1,9 +1,12 @@
 import React from "react";
 import Surprised from "../../../assets/svg/surprised.svg";
 import Rabisco from "../../../assets/svg/rabisco.svg";
-import TypePlans from "../../components/plans/TypePlans";
-import PlansSection from "../../components/plans/PlansSection";
+import TypePlans from "../../components/Plans/TypePlans";
+import PlansSectionEssential from "../../components/Plans/PlansSectionEssential";
 import Idea from "../../../assets/svg/idea.svg";
+import Warranty from "../../../assets/svg/warranty.svg";
+import ContactForm from "../../components/ContactForm";
+import PlansSectionExpert from "../../components/Plans/PlansSectionExpert";
 
 const Plans: React.FC = () => {
   return (
@@ -72,13 +75,41 @@ const Plans: React.FC = () => {
               alt="Lâmpada Idea"
               className="md:w-12 md:h-12 w-12 h-12"
             />
-            <h1 className="font-bold text-2xl md:text-3xl text-white">Essencial</h1>
+            <h1 className="font-bold text-2xl md:text-3xl text-white">
+              Essencial
+            </h1>
           </div>
         </div>
       </div>
 
-      {/* Planos */}
-      <PlansSection />
+      {/* Planos Essencial*/}
+      <PlansSectionEssential />
+
+      <div className="flex flex-col justify-center items-center gap-5 py-7 text-center">
+        <div className="flex justify-center items-center">
+          <div className="inline-block">
+            <div className="flex items-center justify-center rounded-full bg-[#F34A0D] py-4 px-10 gap-4">
+              <img
+                src={Warranty}
+                alt="Medalha"
+                className="md:w-12 md:h-12 w-12 h-12"
+              />
+              <h1 className="font-bold text-2xl md:text-3xl text-white">
+                Expert
+              </h1>
+            </div>
+          </div>
+        </div>
+        <h1 className="text-[#1a1a1a] text-2xl">
+          Pacotes com valores fixo com{" "}
+          <span className="uppercase font-bold">serviços especiais.</span>
+        </h1>
+      </div>
+
+      {/* Planos Expert*/}
+      <PlansSectionExpert />
+
+      <ContactForm />
     </main>
   );
 };

@@ -1,7 +1,7 @@
 import React from "react";
-import Idea from "../../../assets/svg/idea.svg";
-import Warranty from "../../../assets/svg/warranty.svg";
-import ArrowDown from "../../../assets/svg/arrowDown.svg";
+import Idea from "../../../../assets/svg/idea.svg";
+import Warranty from "../../../../assets/svg/warranty.svg";
+import ArrowDown from "../../../../assets/svg/arrowDown.svg";
 
 interface TypePlansProps {
   title: string;
