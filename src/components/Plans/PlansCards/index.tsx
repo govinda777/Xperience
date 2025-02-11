@@ -57,7 +57,7 @@ const PlansCards: React.FC<PlansCardsProps> = ({
     <>
       {category === "Essential" ? (
         <div
-          className={`h-full relative md:gap-10 gap-8 justify-center flex flex-col py-8 px-6 rounded-[30px] bg-white max-w-xs md:max-w-xl border-4 ${
+          className={`h-full  relative md:gap-10 gap-8 justify-center flex flex-col py-8 px-6 rounded-[30px] bg-white max-w-xs md:max-w-xl border-4 ${
             isRecomendad ? "border-[#CC3600]" : "border-[#F2F2F2]"
           }`}
         >
