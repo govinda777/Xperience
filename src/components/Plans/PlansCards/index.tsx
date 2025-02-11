@@ -72,7 +72,7 @@ const PlansCards: React.FC<PlansCardsProps> = ({
 
           {/* Coroa */}
           {isRecomendad && (
-            <div className="absolute md:-top-24 md:-right-16 -top-20 -right-10 transform ">
+            <div className="absolute md:-top-24 md:-right-16 -top-20 -right-10 transform">
               <img
                 src={Crown}
                 alt="Coroa"

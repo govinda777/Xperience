@@ -4,16 +4,30 @@ import Rabisco from "../../../assets/svg/rabisco.svg";
 import TypePlans from "../../components/Plans/TypePlans";
 import PlansSectionEssential from "../../components/Plans/PlansSectionEssential";
 import Idea from "../../../assets/svg/idea.svg";
+import Bols1 from "../../../assets/svg/bols1.svg";
+import Bols2 from "../../../assets/svg/bols2.svg";
 import Warranty from "../../../assets/svg/warranty.svg";
 import ContactForm from "../../components/ContactForm";
 import PlansSectionExpert from "../../components/Plans/PlansSectionExpert";
+import EnjoyTools from "./EnjoyTools";
+import Emoji from "../../../assets/svg/emoji.svg";
 
 const Plans: React.FC = () => {
   return (
     <main className="relative bg-gradient-to-r from-[#FADD6B] to-[#FACC15]">
+      <img
+        src={Bols1}
+        alt="bolas 1"
+        className="flex absolute left-0 top-2 md:top-8 md:w-auto w-14"
+      />
+      <img
+        src={Bols2}
+        alt="bolas 2"
+        className="md:block absolute right-0 top-0 md:top-1 md:w-auto w-14 hidden"
+      />
       {/* Cabeçalho */}
-      <header className="text-center pt-28 pb-12 relative z-10">
-        <h1 className="font-bold text-5xl">
+      <header className="text-center pt-10 md:pt-28 pb-12 relative z-10">
+        <h1 className="font-bold text-4xl md:w-auto w-72 mx-auto md:text-5xl">
           Escolha o plano certo e veja seu negócio crescer
         </h1>
         <h2 className="text-lg w-[360px] md:w-auto md:text-xl md:mt-0 mt-12 mx-auto">
@@ -24,7 +38,7 @@ const Plans: React.FC = () => {
       </header>
 
       {/* Seção dos planos */}
-      <section className="relative justify-center items-center flex flex-col py-16 px-4 gap-6 bg-[#FBE151] z-10">
+      <section className=" justify-center items-center flex flex-col py-16 px-4 gap-6 bg-[#FBE151]">
         <h1 className="font-bold text-[#F34A0D] text-center text-4xl">
           São dois tipos de planos
         </h1>
@@ -46,8 +60,49 @@ const Plans: React.FC = () => {
         </div>
       </section>
 
-      {/* Título com traço */}
-      <div className="py-10 flex justify-center items-center w-1/2 mx-auto relative">
+      {/* Título com traço Mobile */}
+      <div className="pt-2  pb-10 flex flex-col justify-center items-center mx-auto relative md:hidden gap-6">
+        <img
+          src={Bols2}
+          alt="bolas 2"
+          className="md:block absolute right-0 -top-16 w-14"
+        />
+
+        <img
+          src={Emoji}
+          alt="emoji"
+          className="w-24 flex absolute left-4 top-3"
+        />
+        <div className="relative mt-32">
+          {/* Ícone "Surprised" Posicionado */}
+          <img
+            src={Surprised}
+            alt="Ícone Surpreso"
+            className="w-10 md:w-12 absolute -top-4 -left-7 md:-left-8"
+          />
+
+          {/* Texto + Rabisco */}
+          <h1 className="text-5xl md:text-7xl flex flex-col md:flex-row font-bold relative gap-3 text-center">
+            Conheça
+          </h1>
+        </div>
+        <h1 className="flex-col gap-2 flex text-5xl md:text-7xl font-bold text-center">
+          nossos planos
+          <img
+            src={Rabisco}
+            alt="Rabisco"
+            className="md:w-[100%] w-[85%] mx-auto"
+          />
+        </h1>
+      </div>
+
+      {/* Título com traço Desktop */}
+      <div className="pt-24 pb-8 hidden justify-center items-center w-1/2 mx-auto md:flex relative">
+        <img
+          src={Emoji}
+          alt="emoji"
+          className="md:w-56 md:h-56 flex md:absolute md:top-48 -left-64 md:-left-64"
+        />
         <div className="relative">
           {/* Ícone "Surprised" Posicionado */}
           <img
@@ -57,11 +112,11 @@ const Plans: React.FC = () => {
           />
 
           {/* Texto + Rabisco */}
-          <h1 className="text-5xl flex flex-col md:flex-row font-bold relative gap-3">
+          <h1 className="text-7xl flex flex-col md:flex-row font-bold relative gap-3">
             Conheça
             <h1 className="flex-col gap-2 flex">
               nossos planos
-              <img src={Rabisco} alt="Rabisco" className="md:w-[85%] w-[60%]" />
+              <img src={Rabisco} alt="Rabisco" className="w-[100%]" />
             </h1>
           </h1>
         </div>
@@ -109,6 +164,10 @@ const Plans: React.FC = () => {
       {/* Planos Expert*/}
       <PlansSectionExpert />
 
+      {/* IA do Empreendedor */}
+      <EnjoyTools link="#" />
+
+      {/* Formulário Contato*/}
       <ContactForm />
     </main>
   );

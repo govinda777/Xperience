@@ -2,13 +2,18 @@ import React from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface PaginationDotsProps {
-  total: number;               // Total de bolinhas
-  activeIndex: number;         // Índice da bolinha ativa
-  onPrev: () => void;          // Função para rolar para a esquerda
-  onNext: () => void;          // Função para rolar para a direita
+  total: number; // Total de bolinhas
+  activeIndex: number; // Índice da bolinha ativa
+  onPrev: () => void; // Função para rolar para a esquerda
+  onNext: () => void; // Função para rolar para a direita
 }
 
-const PaginationDots: React.FC<PaginationDotsProps> = ({ total, activeIndex, onPrev, onNext }) => {
+const PaginationDots: React.FC<PaginationDotsProps> = ({
+  total,
+  activeIndex,
+  onPrev,
+  onNext,
+}) => {
   return (
     <div className="pt-5 pb-20 flex flex-col items-center gap-4 md:hidden">
       {/* Bolinhas de Paginação */}
@@ -17,7 +22,7 @@ const PaginationDots: React.FC<PaginationDotsProps> = ({ total, activeIndex, onP
           <div
             key={index}
             className={`w-4 h-4 rounded-full transition-all duration-300 ${
-              activeIndex === index ? "bg-[#F34A0D] w-14" : "bg-[#E3E3E3]"
+              activeIndex === index ? "bg-[#F34A0D] w-16" : "bg-[#E3E3E3]"
             }`}
           />
         ))}
