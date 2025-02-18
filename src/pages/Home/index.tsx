@@ -46,7 +46,7 @@ const Home: React.FC = () => {
         title="Venha construir experiências inesquecíveis para os seus clientes"
         highlightedWord="clientes"
       />
-      <ContactForm />
+      <ContactForm isPageContact={false} />
       <TestimonialSection />
     </>
   );

@@ -12,7 +12,7 @@ interface ContactFormState {
 }
 
 interface ContactFormProps {
-  isPageContact?: boolean;
+  isPageContact: boolean;
 }
 
 const ContactForm: React.FC<ContactFormProps> = ({ isPageContact }) => {
@@ -45,15 +45,17 @@ const ContactForm: React.FC<ContactFormProps> = ({ isPageContact }) => {
   const img = new URL("/public/home/contact-form.png", import.meta.url).href;
   return (
     <div className="w-full h-auto md:h-screen bg-[#F9F6F1] relative overflow-hidden">
-      <div className="block md:hidden p-6">
-        <div className="relative">
-          <img
-            src={Peoples}
-            alt="Pessoas sorrindo"
-            className="relative z-10 h-auto"
-          />
+      {isPageContact && (
+        <div className="block md:hidden p-6">
+          <div className="relative">
+            <img
+              src={Peoples}
+              alt="Pessoas sorrindo"
+              className="relative z-10 h-auto"
+            />
+          </div>
         </div>
-      </div>
+      )}
       <div className="max-w-none px-4 md:pr-0 md:pl-[calc((100%-74rem)/2)] h-full flex items-center md:flex-row flex-col">
         {/* Form Section */}
         <div className="max-w-md relative z-10">
