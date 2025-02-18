@@ -1,6 +1,6 @@
 import React from "react";
-import Peoples from "../../../public/HeroQuemSomos.png";
-import CirclePeoples from "../../../public/CiclePeoples.png";
+import Peoples from "../../../assets/HeroQuemSomos.png";
+import CirclePeoples from "../../../assets/CiclePeoples.png";
 
 const About: React.FC = () => {
   return (

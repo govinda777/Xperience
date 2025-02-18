@@ -1,11 +1,11 @@
 import React from "react";
 import { ArrowUp } from "lucide-react";
 import FooterCredits from "../FooterCredits";
-import LogoWhite from "../../../public/logoWhite.svg";
-import Right from "../../../public/right.svg";
-import Facebook from "../../../public/social/facebook.svg";
-import Instagram from "../../../public/social/instagram.svg";
-import Linkedin from "../../../public/social/linkedin.svg";
+import LogoWhite from "../../../assets/logoWhite.svg";
+import Right from "../../../assets/svg/right.svg";
+import Facebook from "../../../assets/svg/social/facebook.svg";
+import Instagram from "../../../assets/svg/social/instagram.svg";
+import Linkedin from "../../../assets/svg/social/linkedin.svg";
 
 const Footer = () => {
   const scrollToTop = () => {

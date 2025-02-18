@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Peoples from "../../../public/peoples.png";
+import Peoples from "../../../assets/peoples.png";
 
 interface ContactFormState {
   name: string;
