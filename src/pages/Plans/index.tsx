@@ -140,7 +140,7 @@ const Plans: React.FC = () => {
       {/* Planos Essencial*/}
       <PlansSectionEssential />
 
-      <div className="flex flex-col justify-center items-center gap-5 py-7 text-center">
+      <div className="flex flex-col justify-center items-center gap-5  text-center">
         <div className="flex justify-center items-center">
           <div className="inline-block">
             <div className="flex items-center justify-center rounded-full bg-[#F34A0D] py-4 px-10 gap-4">
