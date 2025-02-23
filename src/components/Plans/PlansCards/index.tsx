@@ -57,7 +57,7 @@ const PlansCards: React.FC<PlansCardsProps> = ({
     <>
       {category === "Essential" ? (
         <div
-          className={`h-full  relative md:gap-10 gap-8 justify-center flex flex-col py-8 px-6 rounded-[30px] bg-white max-w-xs md:max-w-xl border-4 ${
+          className={`h-full  relative md:gap-10 gap-3 justify-center flex flex-col py-8 px-6 rounded-[30px] bg-white max-w-xs md:max-w-xl border-4 ${
             isRecomendad ? "border-[#CC3600]" : "border-[#F2F2F2]"
           }`}
         >
@@ -134,7 +134,7 @@ const PlansCards: React.FC<PlansCardsProps> = ({
           </div>
 
           {/* Tópicos */}
-          <ul className="flex flex-col gap-4 mt-9">
+          <ul className="flex flex-col gap-2 md:gap-4 mt-9">
             {isFree ? (
               <h3 className="text-[#060606]">Benefícios</h3>
             ) : (
@@ -176,7 +176,7 @@ const PlansCards: React.FC<PlansCardsProps> = ({
         </div>
       ) : (
         <div
-          className={`h-full relative md:gap-10 gap-8 justify-center flex flex-col py-8 px-6 rounded-[30px] bg-white max-w-xs md:max-w-xl border-4 ${
+          className={`h-full relative md:gap-10 gap-3 justify-center flex flex-col py-8 px-6 rounded-[30px] bg-white max-w-xs md:max-w-xl border-4 ${
             isRecomendad ? "border-[#CC3600]" : "border-[#F2F2F2]"
           }`}
         >
@@ -236,7 +236,7 @@ const PlansCards: React.FC<PlansCardsProps> = ({
           </div>
 
           {/* Tópicos */}
-          <ul className="flex flex-col gap-4 mt-9">
+          <ul className="flex flex-col gap-4 mt-3 md:mt-9">
             <div className="flex flex-col">
               <h2 className="text-[#060606]">
                 <span className="font-bold">TUDO</span> do plano

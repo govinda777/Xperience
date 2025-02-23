@@ -61,7 +61,7 @@ const Plans: React.FC = () => {
       </section>
 
       {/* Título com traço Mobile */}
-      <div className="pt-2  pb-10 flex flex-col justify-center items-center mx-auto relative md:hidden gap-6">
+      <div className="pt-2 pb-10 flex flex-col justify-center items-center mx-auto relative md:hidden gap-6">
         <img
           src={Bols2}
           alt="bolas 2"
@@ -97,7 +97,7 @@ const Plans: React.FC = () => {
       </div>
 
       {/* Título com traço Desktop */}
-      <div className="pt-24 pb-8 hidden justify-center items-center w-1/2 mx-auto md:flex relative">
+      <div className="pt-24 pb-8 hidden justify-center items-center md:w-1/2 mx-auto md:flex relative">
         <img
           src={Emoji}
           alt="emoji"
@@ -112,7 +112,7 @@ const Plans: React.FC = () => {
           />
 
           {/* Texto + Rabisco */}
-          <h1 className="text-7xl flex flex-col md:flex-row font-bold relative gap-3">
+          <h1 className="text-7xl flex flex-col sm:flex-row md:flex-row font-bold relative gap-3">
             Conheça
             <h1 className="flex-col gap-2 flex">
               nossos planos
@@ -140,7 +140,7 @@ const Plans: React.FC = () => {
       {/* Planos Essencial*/}
       <PlansSectionEssential />
 
-      <div className="flex flex-col justify-center items-center gap-5 py-7 text-center">
+      <div className="flex flex-col justify-center items-center gap-5  text-center">
         <div className="flex justify-center items-center">
           <div className="inline-block">
             <div className="flex items-center justify-center rounded-full bg-[#F34A0D] py-4 px-10 gap-4">
@@ -168,7 +168,7 @@ const Plans: React.FC = () => {
       <EnjoyTools link="#" />
 
       {/* Formulário Contato*/}
-      <ContactForm />
+      <ContactForm isPageContact={false} />
     </main>
   );
 };

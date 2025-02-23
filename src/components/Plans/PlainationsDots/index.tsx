@@ -15,7 +15,7 @@ const PaginationDots: React.FC<PaginationDotsProps> = ({
   onNext,
 }) => {
   return (
-    <div className="pt-5 pb-20 flex flex-col items-center gap-4 md:hidden">
+    <div className="pt-5 pb-12 flex flex-col items-center gap-4 md:hidden">
       {/* Bolinhas de Paginação */}
       <div className="flex justify-center items-center gap-2">
         {Array.from({ length: total }).map((_, index) => (
