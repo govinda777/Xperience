@@ -2,7 +2,7 @@ import React from "react";
 import Check from "../../../../assets/svg/check.svg";
 import { Link } from "react-router-dom";
 import Crown from "../../../../assets/svg/crown.svg";
-import Scribble from "../../../../assets/svg/rabisco2.svg";
+import Scribble from "../../../../assets/svg/rabisco3.svg";
 import Plus from "../../../../assets/svg/plus.svg";
 
 interface PlansCardsProps {

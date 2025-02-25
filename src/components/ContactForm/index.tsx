@@ -59,13 +59,15 @@ const ContactForm: React.FC<ContactFormProps> = ({ isPageContact }) => {
       <div className="max-w-none px-4 md:pr-0 md:pl-[calc((100%-74rem)/2)] h-full flex items-center md:flex-row flex-col">
         {/* Form Section */}
         <div className="max-w-md relative z-10">
-          <h2 className="text-3xl font-bold mb-2 py-7 md:py-0">
-            Vamos nos conhecer?!
-          </h2>
-          <p className="text-gray-600 mb-6 text-base w-[370px]">
-            Preencha as informações e nossos especialistas irão entrar em
-            contato com você
-          </p>
+          <div className="flex flex-col gap-0 md:gap-4">
+            <h2 className="text-3xl font-bold mb-2 py-7 md:py-0">
+              Vamos nos conhecer?!
+            </h2>
+            <p className="text-gray-600 mb-6 text-base w-[370px]">
+              Preencha as informações e nossos especialistas irão entrar em
+              contato com você
+            </p>
+          </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <input

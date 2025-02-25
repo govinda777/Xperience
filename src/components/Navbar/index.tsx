@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, User } from "lucide-react";
 
@@ -6,7 +6,21 @@ const logo = new URL("/public/logo.svg", import.meta.url).href;
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 100) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const navItems = [
     { name: "Soluções", path: "/solutions" },
@@ -18,7 +32,13 @@ const Navbar = () => {
   ];
 
   return (
-    <header className="w-full bg-white px-4 md:px-6 py-6">
+    <header
+      className={`w-full px-4 md:px-6 py-6 bg-white transition-all duration-300 ${
+        isScrolled
+          ? "fixed top-0 left-0 w-full z-50 bg-white/60"
+          : "relative"
+      }`}
+    >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center">
@@ -53,7 +73,7 @@ const Navbar = () => {
         <div className="hidden md:flex items-center gap-4">
           <Link
             to="/login"
-            className="flex items-center gap-2 px-6 py-2 rounded-2xl border-2 border-black transition-all duration-300 hover:bg-white/10 hover:shadow-md"
+            className="flex items-center gap-2 px-6 py-2 rounded-2xl border-2 border-black bg-white transition-all duration-300 hover:bg-white/10 hover:shadow-md"
           >
             <User className="h-8 w-8" />
             <p className="font-bold text-lg">Login</p>
@@ -77,7 +97,7 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden fixed inset-0 top-[72px] bg-[#FED7AA] z-50">
+        <div className="md:hidden fixed inset-0 top-[72px] bg-[#FED7AA] z-50 mt-2">
           <div className="flex flex-col p-4 space-y-4">
             <nav className="flex flex-col space-y-4">
               {navItems.map((item) => (

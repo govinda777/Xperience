@@ -3,6 +3,7 @@
 import React from 'react';
 import IAReport from "../../components/IAReport";
 
+
 const IAReports: React.FC = () => {
   return (
     <div className="space-y-24"> 
@@ -23,7 +24,7 @@ const IAReports: React.FC = () => {
           "Para onde ela pode ir."
         ]}
         buttonText="Solicitar mapa"
-        imageSrc="https://via.placeholder.com/500?text=Mapa+do+Seu+Negocio" 
+        imageSrc="solutions1" 
         imageAlt="Foto do Mapa do Seu Negócio"
       />
 
@@ -39,7 +40,7 @@ const IAReports: React.FC = () => {
           "Receba orientações direcionadas para o seu negócio."
         ]}
         buttonText="Solicitar relatório"
-        imageSrc="https://via.placeholder.com/500?text=Relatorio+Xperience" 
+        imageSrc="solutions2" 
         imageAlt="Foto Relatório Xperience"
       />
 
@@ -55,7 +56,7 @@ const IAReports: React.FC = () => {
           "Relatório de gestão de tráfego no Google e Facebook."
         ]}
         buttonText="Solicitar relatório"
-        imageSrc="https://via.placeholder.com/500?text=Relatorio+SEO" 
+        imageSrc="solutions3" 
         imageAlt="Foto Relatório SEO"
       />
     </div>
