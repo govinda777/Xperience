@@ -18,19 +18,23 @@ const Community: React.FC = () => {
           className="w-full"
         />
 
-        <div className="absolute flex flex-col gap-2 md:gap-3 pt-7 md:pt-32">
-          <h1 className="md:text-3xl text-xl text-center">Comunidade</h1>
+        <div className="absolute flex flex-col gap-2 md:gap-3 pt-7 md: xl:pt-32">
+          <h1 className="md:text-2xl xl:text-3xl text-xl text-center">
+            Comunidade
+          </h1>
           <img
             src={Logo}
             alt="Pessoas sorrindo"
-            className="w-32 md:w-[500px]"
+            className="w-32 md:w-[300px] xl:w-[500px]"
           />
-          <button className="bg-[#1a1a1a] rounded-[20px] py-4 md:py-5 hidden md:flex items-center justify-center gap-4">
-            <p className="text-2xl flex flex-col md:flex-row font-bold relative gap-3 text-white">
-              Juntar-se a comunidade
-            </p>
-            <ArrowRight className="h-6 w-6 text-white" />
-          </button>
+          <div className="flex justify-center items-center">
+            <button className="bg-[#1a1a1a] rounded-[20px] px-5 py-4 md:py-4 hidden md:flex items-center justify-center gap-4">
+              <p className="md:text-1xl xl:text-2xl flex flex-col md:flex-row font-bold relative gap-3 text-white">
+                Juntar-se a comunidade
+              </p>
+              <ArrowRight className="xl:h-6 xl:w-6 h-5 text-white" />
+            </button>
+          </div>
         </div>
         <div className="bg-white mx-auto py-3 md:hidden">
           <button className="bg-[#1a1a1a] rounded-[20px] py-4 px-6 flex items-center justify-center gap-4">
