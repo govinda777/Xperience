@@ -18,7 +18,7 @@ const IAReport: React.FC<IAReportProps> = ({
   description = '...',
   bullets = [],
   buttonText = '...',
-  imageSrc = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgZmlsbD0iI2Q4ZDhkOCIvPgo8L3N2Zz4=',
+  imageSrc = '',
   imageAlt = 'Imagem do relatório'
 }) => {
 
@@ -68,7 +68,7 @@ const IAReport: React.FC<IAReportProps> = ({
         {/* Imagem - ordem definida pela prop */}
         <div className={`${imageOrder} md:${imageOrder} flex justify-center md:justify-end`}>
           <img 
-            src={imageSrc}
+            src={`../../../assets/${imageSrc}.png`}
             alt={imageAlt}
             width="500"
             height="500"
