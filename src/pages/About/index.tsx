@@ -17,15 +17,16 @@ const About: React.FC = () => {
         </div>
       </div>
       <section className="relative px-4 md:px-32 pt-10 md:pt-20">
-        <img
-          src={Slice}
-          alt="Pedaço bola"
-          className="w-24 h-24 md:w-40 md:h-40 absolute md:top-0 -top-0 -right-2 rotate-90 md:-right-3"
-        />
-        <h1 className="text-[#F34A0D] font-bold md:text-7xl text-4xl w-auto md:pr-0 pr-7 xl:w-[1280px]">
+      <img
+        src={Slice}
+        alt="Pedaço bola"
+        className="w-24 h-24 md:w-40 md:h-40 absolute top-0 right-0 transform rotate-90"
+      />
+
+        <h1 className="text-[#F34A0D] font-bold md:text-5xl xl:text-7xl sm:text-4xl text-4xl w-auto md:pr-0 pr-7 xl:w-auto">
           Inovação, praticidade e resultados imediatos
         </h1>
-        <div className="gap-8 md:gap-16 pt-10 md:pt-14 flex flex-col text-[#1a1a1a] text-base md:text-3xl">
+        <div className="gap-8 md:gap-10 pt-10 md:pt-14 flex flex-col text-[#1a1a1a] text-base md:text-3xl">
           <p className="">
             A Xperience Consultoria Empresarial nasceu para trazer soluções
             práticas e descomplicadas para pequenos empreendedores.{" "}
@@ -123,8 +124,9 @@ const About: React.FC = () => {
         <img
           src={Couple}
           alt="Casal"
-          className="md:w-auto absolute -right-1 -bottom-1"
+          className="w-auto max-w-full absolute right-0 bottom-0 md:w-auto md:right-0 md:bottom-1"
         />
+
       </div>
     </main>
   );
