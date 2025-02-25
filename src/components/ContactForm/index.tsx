@@ -115,11 +115,11 @@ const ContactForm: React.FC<ContactFormProps> = ({ isPageContact }) => {
                     key={value}
                     type="button"
                     onClick={() => handlePreferenceToggle(value)}
-                    className={`px-4 py-2 rounded-full border-2 transition-colors bg-white font-bold text-[#F34A0D] hover:bg-[#F34A0D] hover:text-white border-[#F34A0D]
+                    className={`px-4 py-2 rounded-full border-2 transition-colors font-bold
                       ${
                         formData.contactPreference.includes(value)
-                          ? "bg-orange-600 border-orange-600 text-white"
-                          : ""
+                          ? "bg-[#F34A0D] border-[#F34A0D] text-white"
+                          : "bg-white text-[#F34A0D] hover:bg-[#F34A0D] hover:text-white border-[#F34A0D]"
                       }`}
                   >
                     {label}

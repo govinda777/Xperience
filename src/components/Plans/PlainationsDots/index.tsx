@@ -32,14 +32,20 @@ const PaginationDots: React.FC<PaginationDotsProps> = ({
       <div className="flex justify-center items-center gap-4">
         <button
           onClick={onPrev}
-          className="bg-[#F34A0D] text-white p-3 rounded-2xl shadow-md"
+          disabled={activeIndex === 0}
+          className={`bg-[#F34A0D] text-white p-3 rounded-2xl shadow-md ${
+            activeIndex === 0 ? "bg-opacity-90 cursor-not-allowed" : ""
+          }`}
         >
           <ChevronLeft size={30} />
         </button>
 
         <button
           onClick={onNext}
-          className="bg-[#F34A0D] text-white p-3 rounded-2xl shadow-md"
+          disabled={activeIndex === total - 1}
+          className={`bg-[#F34A0D] text-white p-3 rounded-2xl shadow-md ${
+            activeIndex === total - 1 ? "bg-opacity-90 cursor-not-allowed" : ""
+          }`}
         >
           <ChevronRight size={30} />
         </button>

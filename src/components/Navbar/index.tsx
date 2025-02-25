@@ -35,7 +35,7 @@ const Navbar = () => {
     <header
       className={`w-full px-4 md:px-6 py-6 bg-white transition-all duration-300 ${
         isScrolled
-          ? "fixed top-0 left-0 w-full z-50 bg-white/60"
+          ? `fixed top-0 left-0 w-full z-50  ${isOpen ? "bg-white" : "bg-white/60"}`
           : "relative"
       }`}
     >
