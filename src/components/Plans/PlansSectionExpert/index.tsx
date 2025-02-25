@@ -11,7 +11,7 @@ const plans = [
     topics: [
       "Mentorias especializadas - 2h por semana",
       "1 Sessão de mentoria master de 4h de visão 360 do negócio",
-      "1 Sessão master de 4h para Treinamento de equipe"
+      "1 Sessão master de 4h para Treinamento de equipe",
     ],
     link: "#",
   },
@@ -36,7 +36,7 @@ const plans = [
     topics: [
       "Mentorias especializadas - 2h por semana",
       "1 Sessão de mentoria master de 4h de visão 360 do negócio",
-      "1 Sessão master de 4h para Treinamento de equipe"
+      "1 Sessão master de 4h para Treinamento de equipe",
     ],
     link: "#",
   },
@@ -67,11 +67,11 @@ const PlansSectionExpert = () => {
 
   return (
     <section className="flex flex-col justify-center items-center w-full relative">
-   
       {/* Planos Expert*/}
       <div
         ref={scrollRef}
-        className="flex overflow-x-auto scrollbar-hide gap-10 pb-6 pt-20 md:px-28 px-8 md:w-auto w-full scroll-smooth"
+        className="flex gap-10 pb-6 pt-20 md:px-0 px-8 md:w-full w-full scroll-smooth scrollbar-hide
+             overflow-x-auto md:overflow-visible md:justify-center justify-start items-stretch"
       >
         {plans.map((plan, index) => (
           <div key={index} className="shrink-0 min-w-[280px] md:min-w-[320px]">

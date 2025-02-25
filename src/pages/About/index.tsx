@@ -20,7 +20,7 @@ const About: React.FC = () => {
       <img
         src={Slice}
         alt="Pedaço bola"
-        className="w-24 h-24 md:w-40 md:h-40 absolute top-0 right-0 transform rotate-90"
+        className="w-24 h-24 md:w-40 md:h-40 md:block hidden absolute top-0 right-0 transform rotate-90"
       />
 
         <h1 className="text-[#F34A0D] font-bold md:text-5xl xl:text-7xl sm:text-4xl text-4xl w-auto md:pr-0 pr-7 xl:w-auto">

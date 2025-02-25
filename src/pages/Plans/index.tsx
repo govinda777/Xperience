@@ -112,12 +112,12 @@ const Plans: React.FC = () => {
           />
 
           {/* Texto + Rabisco */}
-          <h1 className="text-7xl flex flex-col sm:flex-row md:flex-row font-bold relative gap-3">
+          <h1 className="xl:text-6xl md:text-5xl text-5xl flex flex-col sm:flex-row md:flex-row font-bold relative gap-3">
             Conheça
-            <h1 className="flex-col gap-2 flex">
-              nossos planos
-              <img src={Rabisco} alt="Rabisco" className="w-[100%]" />
-            </h1>
+            <div className="flex flex-col gap-1">
+              <h1 className="flex-col flex">nossos planos</h1>
+              <img src={Rabisco} alt="Rabisco" className="xl:w-[100%] md:w-[85%] w-[85%]" />
+            </div>
           </h1>
         </div>
       </div>
