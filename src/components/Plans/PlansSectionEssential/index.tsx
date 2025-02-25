@@ -47,9 +47,9 @@ const PlansSectionEssential = () => {
   const percentage = 20;
 
   const scrollLeft = () =>
-    scrollRef.current?.scrollBy({ left: -350, behavior: "smooth" });
+    scrollRef.current?.scrollBy({ left: -370, behavior: "smooth" });
   const scrollRight = () =>
-    scrollRef.current?.scrollBy({ left: 350, behavior: "smooth" });
+    scrollRef.current?.scrollBy({ left: 370, behavior: "smooth" });
 
   const handleScroll = () => {
     if (scrollRef.current) {
