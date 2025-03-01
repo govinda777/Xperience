@@ -1,44 +1,42 @@
 // /pages/Solutions/IAReport.tsx
 
-import React from 'react';
+import React from "react";
 
 interface IAReportProps {
   imageLeft?: boolean;
-  title?: string;          // Agora são opcionais
-  description?: string;    // e substituídos por "..." se estiverem vazios
+  title?: string; // Agora são opcionais
+  description?: string; // e substituídos por "..." se estiverem vazios
   bullets?: string[];
   buttonText?: string;
-  imageSrc?: string;       // Agora é opcional, caso não seja enviado, usa placeholder
+  imageSrc?: string; // Agora é opcional, caso não seja enviado, usa placeholder
   imageAlt?: string;
 }
 
 const IAReport: React.FC<IAReportProps> = ({
   imageLeft = false,
-  title = '...',
-  description = '...',
+  title = "...",
+  description = "...",
   bullets = [],
-  buttonText = '...',
-  imageSrc = '',
-  imageAlt = 'Imagem do relatório'
+  buttonText = "...",
+  imageSrc = "",
+  imageAlt = "Imagem do relatório",
 }) => {
-
   // Define a ordem dos elementos com base em imageLeft
-  const imageOrder = imageLeft ? 'order-1' : 'order-2';
-  const textOrder = imageLeft ? 'order-2' : 'order-1';
+  const imageOrder = imageLeft ? "order-1" : "order-2";
+  const textOrder = imageLeft ? "order-2" : "order-1";
 
   return (
     <section className="w-full bg-white h-[90vh] flex items-center">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 px-4 items-center">
-
         {/* Seção textual - ordem definida pela prop */}
-        <div className={`${textOrder} md:${textOrder} flex flex-col justify-center`}>
+        <div
+          className={`${textOrder} md:${textOrder} flex flex-col justify-center`}
+        >
           <h2 className="text-4xl font-bold text-gray-900 mb-4">
-            {title || '...'}
+            {title || "..."}
           </h2>
 
-          <p className="text-lg text-gray-700 mb-6">
-            {description || '...'}
-          </p>
+          <p className="text-lg text-gray-700 mb-6">{description || "..."}</p>
 
           <ul className="list-none space-y-3 mb-8">
             {bullets && bullets.length > 0 ? (
@@ -61,14 +59,16 @@ const IAReport: React.FC<IAReportProps> = ({
             className="w-fit bg-orange-500 text-white text-lg font-semibold px-4 py-2
                        rounded-full hover:bg-orange-600 transition-colors"
           >
-            {buttonText || '...'}
+            {buttonText || "..."}
           </button>
         </div>
 
         {/* Imagem - ordem definida pela prop */}
-        <div className={`${imageOrder} md:${imageOrder} flex justify-center md:justify-end`}>
-          <img 
-            src={`../../../assets/${imageSrc}.png`}
+        <div
+          className={`${imageOrder} md:${imageOrder} flex justify-center md:justify-end`}
+        >
+          <img
+            src={`/assets/${imageSrc}.png`}
             alt={imageAlt}
             width="500"
             height="500"

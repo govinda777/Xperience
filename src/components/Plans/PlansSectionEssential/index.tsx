@@ -101,7 +101,7 @@ const PlansSectionEssential = () => {
       <div
         ref={scrollRef}
         className="flex overflow-x-auto scrollbar-hide gap-10 pb-8 pt-20 md:px-28 px-8 md:w-auto w-full scroll-smooth
-                md:overflow-visible md:justify-center justify-start items-stretch"
+                md:overflow- md:justify-center justify-start items-stretch"
       >
         {plans.map((plan, index) => (
           <div key={index} className="shrink-0 min-w-[280px] md:min-w-[320px]">

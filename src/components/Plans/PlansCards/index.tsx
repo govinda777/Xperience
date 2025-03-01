@@ -72,11 +72,11 @@ const PlansCards: React.FC<PlansCardsProps> = ({
 
           {/* Coroa */}
           {isRecomendad && (
-            <div className="absolute md:-top-24 md:-right-16 -top-20 -right-10 transform">
+            <div className="absolute md:-top-20 md:-right-16 -top-20 -right-10 transform">
               <img
                 src={Crown}
                 alt="Coroa"
-                className="md:w-28 md:h-28 w-20 h-20"
+                className="md:w-24 md:h-24 xl:w-24 xl:h-24 w-20 h-20"
               />
             </div>
           )}
@@ -191,11 +191,11 @@ const PlansCards: React.FC<PlansCardsProps> = ({
 
           {/* Coroa */}
           {isRecomendad && (
-            <div className="absolute md:-top-24 md:-right-16 -top-20 -right-10 transform ">
+            <div className="absolute md:-top-20 md:-right-16 -top-20 -right-10 transform ">
               <img
                 src={Crown}
                 alt="Coroa"
-                className="md:w-28 md:h-28 w-20 h-20"
+                className="md:w-24 md:h-24 xl:w-24 xl:h-24 w-20 h-20"
               />
             </div>
           )}
@@ -211,7 +211,7 @@ const PlansCards: React.FC<PlansCardsProps> = ({
               Equivalente a
             </h3>
             <div className="mb-4 flex flex-row gap-2 items-end">
-              <h1 className="text-4xl md:text-5xl font-bold text-[#060606]">
+              <h1 className="text-4xl md:text-4xl xl:text-5xl font-bold text-[#060606]">
                 R$ {percentage ? priceDiscount.toFixed(2) : price.toFixed(2)}
               </h1>
               <h2 className="font-light text-sm md:text-lg text-[#B9BEC1]">
