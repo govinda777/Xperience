@@ -44,7 +44,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isPageContact }) => {
 
   const img = new URL("/public/home/contact-form.png", import.meta.url).href;
   return (
-    <div className="w-full h-auto md:h-screen bg-[#F9F6F1] relative overflow-hidden">
+    <div className="pt-10 bg-[#F9F6F1] relative overflow-hidden">
       {isPageContact && (
         <div className="block md:hidden p-6">
           <div className="relative">
@@ -56,9 +56,9 @@ const ContactForm: React.FC<ContactFormProps> = ({ isPageContact }) => {
           </div>
         </div>
       )}
-      <div className="max-w-none px-4 md:pr-0 md:pl-[calc((100%-74rem)/2)] h-full flex items-center md:flex-row flex-col">
+      <div className="md:pl-[calc((100%-74rem)/2)] flex items-center md:flex-row flex-col">
         {/* Form Section */}
-        <div className="max-w-md relative z-10">
+        <div className="max-w-md relative z-10 xl:px-0 md:px-9 px-12">
           <div className="flex flex-col gap-0 md:gap-4">
             <h2 className="text-3xl font-bold mb-2 py-7 md:py-0">
               Vamos nos conhecer?!
@@ -176,7 +176,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isPageContact }) => {
               />
               <span>Concordo em receber informações</span>
             </label>
-            <div className="pb-5">
+            <div className="pb-10">
               <button
                 type="submit"
                 className="w-full bg-black text-white rounded-2xl py-4  font-bold hover:bg-opacity-90 transition-colors"
@@ -203,7 +203,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isPageContact }) => {
             {/* Image Section - Desktop */}
             <div className="absolute right-0 bottom-0 hidden md:block">
               <div className="relative">
-                <div className="absolute right-0 top-0 w-[600px] h-[600px] rounded-full bg-orange-500 translate-x-1/4 translate-y-1/4" />
+                {/* <div className="absolute right-0 top-0 w-[600px] h-[600px] rounded-full bg-orange-500 translate-x-1/4 translate-y-1/4" /> */}
                 <img
                   src={img}
                   alt="Pessoa sorrindo"

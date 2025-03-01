@@ -71,7 +71,7 @@ const PlansSectionExpert = () => {
       <div
         ref={scrollRef}
         className="flex gap-10 pb-6 pt-20 md:px-0 px-8 md:w-full w-full scroll-smooth scrollbar-hide
-             overflow-x-auto md:overflow-visible md:justify-center justify-start items-stretch"
+             overflow-x-auto md:overflow-hidden md:justify-center justify-start items-stretch"
       >
         {plans.map((plan, index) => (
           <div key={index} className="shrink-0 min-w-[280px] md:min-w-[320px]">
