@@ -3,6 +3,9 @@
 import React from 'react';
 import IAReport from "../../components/IAReport";
 
+const solutions1 = new URL('/public/solutions/solutions1.png', import.meta.url).href;
+const solutions2 = new URL('/public/solutions/solutions2.png', import.meta.url).href;
+const solutions3 = new URL('/public/solutions/solutions3.png', import.meta.url).href;
 
 const IAReports: React.FC = () => {
   return (
@@ -24,7 +27,7 @@ const IAReports: React.FC = () => {
           "Para onde ela pode ir."
         ]}
         buttonText="Solicitar mapa"
-        imageSrc="solutions1" 
+        imageSrc={solutions1} 
         imageAlt="Foto do Mapa do Seu Negócio"
       />
 
@@ -40,7 +43,7 @@ const IAReports: React.FC = () => {
           "Receba orientações direcionadas para o seu negócio."
         ]}
         buttonText="Solicitar relatório"
-        imageSrc="solutions2" 
+        imageSrc={solutions2} 
         imageAlt="Foto Relatório Xperience"
       />
 
@@ -56,7 +59,7 @@ const IAReports: React.FC = () => {
           "Relatório de gestão de tráfego no Google e Facebook."
         ]}
         buttonText="Solicitar relatório"
-        imageSrc="solutions3" 
+        imageSrc={solutions3}
         imageAlt="Foto Relatório SEO"
       />
     </div>

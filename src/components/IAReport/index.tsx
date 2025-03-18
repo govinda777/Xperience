@@ -68,7 +68,7 @@ const IAReport: React.FC<IAReportProps> = ({
           className={`${imageOrder} md:${imageOrder} flex justify-center md:justify-end`}
         >
           <img
-            src={`/assets/${imageSrc}.png`}
+            src={imageSrc || "https://via.placeholder.com/500"}
             alt={imageAlt}
             width="500"
             height="500"
