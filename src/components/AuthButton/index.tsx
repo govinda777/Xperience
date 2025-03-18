@@ -17,7 +17,9 @@ const AuthButton = () => {
           </button>
         </>
       ) : (
-        <button onClick={() => loginWithRedirect()}>Login</button>
+        <button onClick={() => loginWithRedirect({
+          appState: { returnTo: "/dashboard" }
+        })}>Login</button>
       )}
     </div>
   );
