@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Menu, X, User } from "lucide-react";
 import { useAuth0 } from "@auth0/auth0-react";
 import AuthButton from "../AuthButton";
@@ -10,6 +10,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const { isAuthenticated, user } = useAuth0(); // Obtém status de login e informações do usuário
 
   useEffect(() => {
@@ -72,7 +73,10 @@ const Navbar = () => {
         <div className="hidden md:flex items-center gap-4">
           {isAuthenticated ? (
             <div className="flex items-center gap-4">
-              <User className="h-8 w-8 text-gray-700" />
+              <User 
+                className="h-8 w-8 text-gray-700 cursor-pointer" 
+                onClick={() => navigate('/dashboard')}
+              />
               
               <AuthButton />
             </div>
@@ -120,7 +124,13 @@ const Navbar = () => {
             <div className="flex flex-col space-y-4 pt-4">
               {isAuthenticated ? (
                 <div className="flex flex-col items-center">
-                  <User className="h-6 w-6 text-gray-700" />
+                  <User 
+                    className="h-6 w-6 text-gray-700 cursor-pointer" 
+                    onClick={() => {
+                      navigate('/dashboard');
+                      setIsOpen(false);
+                    }}
+                  />
                   <p className="text-lg">{user?.name}</p>
                   <AuthButton />
                 </div>
