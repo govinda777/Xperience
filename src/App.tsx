@@ -1,4 +1,3 @@
-// src/App.tsx
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import "./App.css";
@@ -8,7 +7,9 @@ import Plans from './pages/Plans';
 import Contact from './pages/Contact';
 import About from './pages/About';
 import Community from './pages/Community';
+import Dashboard from './pages/Dashboard';
 import DefaultLayout from './layouts/DefaultLayout';
+import ProtectedRoute from './components/ProtectedRoute';
 import "@twa-dev/sdk";
 
 function App() {
@@ -22,6 +23,8 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/about" element={<About />} />
           <Route path="/community" element={<Community />} />
+
+          <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
         </Routes>
       </DefaultLayout>
     </BrowserRouter>

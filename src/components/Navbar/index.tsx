@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, User } from "lucide-react";
+import { useAuth0 } from "@auth0/auth0-react";
+import AuthButton from "../AuthButton";
 
 const logo = new URL("/public/logo.svg", import.meta.url).href;
 
@@ -8,14 +10,11 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
+  const { isAuthenticated, user } = useAuth0(); // Obtém status de login e informações do usuário
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 100) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
+      setIsScrolled(window.scrollY > 100);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -71,19 +70,15 @@ const Navbar = () => {
 
         {/* Desktop Auth Buttons */}
         <div className="hidden md:flex items-center gap-4">
-          <Link
-            to="/login"
-            className="flex items-center gap-2 px-6 py-2 rounded-2xl border-2 border-black bg-white transition-all duration-300 hover:bg-white/10 hover:shadow-md"
-          >
-            <User className="h-8 w-8" />
-            <p className="font-bold text-lg">Login</p>
-          </Link>
-          <Link
-            to="/signup"
-            className="px-6 py-3 bg-black text-white rounded-2xl transition-all duration-300 hover:bg-gray-900 hover:shadow-md hover:-translate-y-0.5"
-          >
-            <p className="font-bold text-lg">Primeiro acesso</p>
-          </Link>
+          {isAuthenticated ? (
+            <div className="flex items-center gap-4">
+              <User className="h-8 w-8 text-gray-700" />
+              
+              <AuthButton />
+            </div>
+          ) : (
+            <AuthButton />
+          )}
         </div>
 
         {/* Mobile Menu Button */}
@@ -120,20 +115,18 @@ const Navbar = () => {
                 </Link>
               ))}
             </nav>
+
+            {/* Mobile Authentication */}
             <div className="flex flex-col space-y-4 pt-4">
-              <Link
-                to="/login"
-                className="flex items-center justify-center gap-2 px-6 py-3 rounded-full border border-black transition-all duration-300 hover:bg-white/10 hover:shadow-md"
-              >
-                <User className="h-5 w-5" />
-                Login
-              </Link>
-              <Link
-                to="/signup"
-                className="flex items-center justify-center px-6 py-3 bg-black text-white rounded-full transition-all duration-300 hover:bg-gray-900 hover:shadow-md hover:-translate-y-0.5"
-              >
-                Primeiro acesso
-              </Link>
+              {isAuthenticated ? (
+                <div className="flex flex-col items-center">
+                  <User className="h-6 w-6 text-gray-700" />
+                  <p className="text-lg">{user?.name}</p>
+                  <AuthButton />
+                </div>
+              ) : (
+                <AuthButton />
+              )}
             </div>
           </div>
         </div>

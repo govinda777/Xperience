@@ -16,6 +16,7 @@
     "test:all": "yarn test && start-server-and-test dev http://localhost:5173 'yarn cypress run'"
   },
   "dependencies": {
+    "@auth0/auth0-react": "^2.3.0",
     "@babel/core": "^7.0.0",
     "@babel/traverse": "7.25.7",
     "@orbs-network/ton-access": "^2.2.2",
@@ -34,7 +35,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-is": "^18.3.1",
-    "react-router-dom": "^7.1.1",
+    "react-router-dom": "^7.3.0",
     "styled-components": "^6.1.13",
     "ton": "^13.9.0",
     "ton-core": "^0.53.0",
