@@ -1,6 +1,7 @@
 import React from "react";
 import Check from "../../../../assets/svg/check.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 import Crown from "../../../../assets/svg/crown.svg";
 import Scribble from "../../../../assets/svg/rabisco3.svg";
 import Plus from "../../../../assets/svg/plus.svg";
@@ -164,14 +165,7 @@ const PlansCards: React.FC<PlansCardsProps> = ({
             ))}
           </ul>
           <div className="mt-auto mx-auto">
-            <Link
-              to={link}
-              className={`py-4 px-9 text-sm text-white ${
-                isRecomendad ? "bg-[#F34A0D]" : "bg-[#060606]"
-              } rounded-full flex items-center justify-center hover:bg-opacity-85`}
-            >
-              <p className="text-sm font-bold">Eu quero este</p>
-            </Link>
+            <PlanButton link={link} isRecomendad={isRecomendad} />
           </div>
         </div>
       ) : (
@@ -263,18 +257,43 @@ const PlansCards: React.FC<PlansCardsProps> = ({
             ))}
           </ul>
           <div className="mt-auto mx-auto">
-            <Link
-              to={link}
-              className={`py-4 px-9 text-sm text-white ${
-                isRecomendad ? "bg-[#F34A0D]" : "bg-[#060606]"
-              } rounded-full flex items-center justify-center hover:bg-opacity-85`}
-            >
-              <p className="text-sm font-bold">Eu quero este</p>
-            </Link>
+            <PlanButton link={link} isRecomendad={isRecomendad} />
           </div>
         </div>
       )}
     </>
+  );
+};
+
+// Component for the plan selection button with authentication check
+const PlanButton: React.FC<{ link: string; isRecomendad: boolean }> = ({ link, isRecomendad }) => {
+  const { isAuthenticated, loginWithRedirect } = useAuth0();
+  const navigate = useNavigate();
+
+  const handlePlanSelection = (e: React.MouseEvent) => {
+    e.preventDefault();
+    
+    if (isAuthenticated) {
+      // If user is logged in, navigate to the plan link
+      navigate(link);
+    } else {
+      // If not logged in, redirect to login with return to plans page
+      loginWithRedirect({
+        appState: { returnTo: "/plans" }
+      });
+    }
+  };
+
+  return (
+    <Link
+      to={link}
+      onClick={handlePlanSelection}
+      className={`py-4 px-9 text-sm text-white ${
+        isRecomendad ? "bg-[#F34A0D]" : "bg-[#060606]"
+      } rounded-full flex items-center justify-center hover:bg-opacity-85`}
+    >
+      <p className="text-sm font-bold">Eu quero este</p>
+    </Link>
   );
 };
 
