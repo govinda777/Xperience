@@ -72,7 +72,7 @@ Este projeto é altamente opinativo, servindo como um ponto de partida para o de
    - Escolha o bot que você criou anteriormente (por exemplo: `@govinda_systems_bot`).
 
 3. **Digite um título para o Web App**:
-   - Exemplo: `Govinda Systems E-comm`.
+   - Exemplo: `Xperience E-comm`.
 
 4. **Forneça uma breve descrição**:
    - Exemplo: `Template inicial de E-commerce utilizando TON blockchain e Telegram Web Apps (TWA)`.
