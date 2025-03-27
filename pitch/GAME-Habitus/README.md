@@ -1,4 +1,4 @@
-# **PITCH – GAMEHABITUS**
+# **PITCH – GAME - HABITUS**
 
 **1. Visão Geral**  
 **Habitus** é um jogo educativo voltado ao desenvolvimento pessoal e à mudança de comportamento. Por meio de tarefas, desafios e mecanismos de recompensa (XP), o jogador evolui seus hábitos e pode trocar sua evolução por benefícios específicos. Cada nível do jogo representa um passo rumo a uma vida mais equilibrada e saudável em diferentes áreas.
