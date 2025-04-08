@@ -5,6 +5,12 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Xperience</title>
+    <script type="text/javascript">
+      // Se o usuário acessar uma rota sem hash, redireciona para /#<rota>
+      if (window.location.pathname !== "/" && window.location.hash === "") {
+        window.location.replace(window.location.origin + "/#" + window.location.pathname);
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

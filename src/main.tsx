@@ -7,7 +7,6 @@ import App from "./App";
 import { auth0Config } from "./auth0-config";
 import "./index.css";
 
-
 const queryClient = new QueryClient({
   defaultOptions: { queries: { refetchOnWindowFocus: false } },
 });

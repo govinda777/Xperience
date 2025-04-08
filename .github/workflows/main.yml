@@ -54,6 +54,9 @@ jobs:
         env:
           CI: false
 
+      - name: Copy index.html to 404.html for GitHub Pages fallback
+        run: cp dist/index.html dist/404.html
+
       # Adicionando testes E2E com Cypress
       - name: Start application for Cypress tests
         run: yarn dev &
