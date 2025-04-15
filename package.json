@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@account-abstraction/contracts": "^0.6.0",
+    "@alchemy/aa-alchemy": "^3.19.0",
     "@alchemy/aa-core": "^0.1.0",
     "@auth0/auth0-react": "^2.3.0",
     "@babel/core": "^7.0.0",
@@ -84,4 +85,3 @@
     "wait-on": "^8.0.1"
   }
 }
-

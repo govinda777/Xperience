@@ -1,3 +1,5 @@
+.env
+
 trivy-report.json
 
 # Logs

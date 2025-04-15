@@ -1,9 +1,9 @@
 # Implementação ERC-4337 com Vinculação de Carteira OAuth
 
 ## Configuração Inicial
-- [ ] Instalar as dependências necessárias para ERC-4337 (ethers.js, userop.js, account-abstraction)
-- [ ] Configurar environment variables para integrações blockchain
-- [ ] Configurar provider para ERC-4337 (Alchemy ou similar)
+- [x] Instalar as dependências necessárias para ERC-4337 (ethers.js, userop.js, account-abstraction)
+- [x] Configurar environment variables para integrações blockchain
+- [x] Configurar provider para ERC-4337 (Alchemy ou similar)
 
 ## Serviços de Integração
 - [ ] Criar serviço de integração com provedor ERC-4337 (`src/services/accountAbstraction.ts`)
