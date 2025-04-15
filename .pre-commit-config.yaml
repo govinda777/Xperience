@@ -14,3 +14,9 @@ repos:
         language: system
         pass_filenames: false
         types: [javascript, jsx, ts, tsx]
+      - id: npm-build
+        name: npm build
+        entry: npm run build
+        language: system
+        pass_filenames: false
+        types: [javascript, jsx, ts, tsx]
