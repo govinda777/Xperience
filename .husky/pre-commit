@@ -1,6 +1,7 @@
 #!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
 
-# Executar testes
+echo "📋 Executando testes..."
 npm run test:all
 
 # Se os testes falharem, impedir o commit
@@ -8,3 +9,14 @@ if [ $? -ne 0 ]; then
   echo "❌ Testes falharam. Por favor corrija os erros antes de commitar."
   exit 1
 fi
+
+echo "🔨 Executando build..."
+npm run build
+
+# Se o build falhar, impedir o commit
+if [ $? -ne 0 ]; then
+  echo "❌ Build falhou. Por favor corrija os erros antes de commitar."
+  exit 1
+fi
+
+echo "✅ Testes e build concluídos com sucesso!"
