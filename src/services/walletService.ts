@@ -87,13 +87,44 @@ export class WalletService {
   async sendTransaction(userWallet: UserWallet, transaction: TransactionRequest): Promise<string> {
     try {
       if (!this.client) {
-        throw new Error('Client not initialized');
+        await this.initClient();
+        if (!this.client) {
+          throw new Error('Client not initialized');
+        }
       }
 
-      // Implement transaction sending with ERC-4337
-      // This is a placeholder for the actual implementation
+      // Recover the signer - in a real implementation, this would use a securely stored private key
+      // For demo purposes only - in production you would use a proper key management system
+      const signer = new ethers.Wallet(userWallet.address).connect(this.provider);
       
-      return 'transaction_hash_placeholder';
+      // Create the SimpleAccount instance
+      const simpleAccount = await Presets.Builder.SimpleAccount.init(
+        signer,
+        RPC_URL,
+        { entryPoint: ENTRYPOINT_ADDRESS, factory: FACTORY_ADDRESS }
+      );
+      
+      // Verify the account address matches
+      const accountAddress = await simpleAccount.getSender();
+      if (accountAddress.toLowerCase() !== userWallet.smartAccountAddress.toLowerCase()) {
+        throw new Error('Account address mismatch');
+      }
+      
+      // Prepare the transaction data
+      const callData = transaction.data || '0x';
+      
+      // Create a UserOperation
+      const userOp = simpleAccount.execute(
+        transaction.to,
+        transaction.value,
+        callData
+      );
+      
+      // Send the UserOperation
+      const result = await this.client.sendUserOperation(userOp);
+      const userOpReceipt = await result.wait();
+      
+      return userOpReceipt?.transactionHash || '';
     } catch (error) {
       console.error('Failed to send transaction:', error);
       throw new Error('Failed to send transaction');

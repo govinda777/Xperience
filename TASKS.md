@@ -6,9 +6,9 @@
 - [x] Configurar provider para ERC-4337 (Alchemy ou similar)
 
 ## Serviços de Integração
-- [ ] Criar serviço de integração com provedor ERC-4337 (`src/services/accountAbstraction.ts`)
-- [ ] Implementar serviço de gestão de carteiras (`src/services/walletService.ts`)
-- [ ] Criar serviço para armazenar vinculação usuário-carteira (`src/services/userWalletService.ts`)
+- [x] Criar serviço de integração com provedor ERC-4337 (`src/services/accountAbstraction.ts`)
+- [x] Implementar serviço de gestão de carteiras (`src/services/walletService.ts`)
+- [x] Criar serviço para armazenar vinculação usuário-carteira (`src/services/userWalletService.ts`)
 
 ## Smart Contracts
 - [ ] Desenvolver Factory Contract para criação de carteiras ERC-4337
