@@ -16,6 +16,8 @@
     "test:all": "yarn test && start-server-and-test dev http://localhost:5173 'yarn cypress run'"
   },
   "dependencies": {
+    "@account-abstraction/contracts": "^0.6.0",
+    "@alchemy/aa-core": "^0.1.0",
     "@auth0/auth0-react": "^2.3.0",
     "@babel/core": "^7.0.0",
     "@babel/traverse": "7.25.7",
@@ -28,6 +30,7 @@
     "axios": "^1.8.2",
     "browserify-sign": "^4.2.3",
     "buffer": "^6.0.3",
+    "ethers": "^5.7.2",
     "glob": "^10.2.7",
     "is-mobile": "^5.0.0",
     "jest-cli": "^29.7.0",
@@ -41,6 +44,7 @@
     "ton-core": "^0.53.0",
     "ton-crypto": "^3.2.0",
     "use-local-storage": "^3.0.0",
+    "userop": "^0.3.4",
     "vite-plugin-node-polyfills": "^0.22.0"
   },
   "devDependencies": {
@@ -80,3 +84,4 @@
     "wait-on": "^8.0.1"
   }
 }
+
