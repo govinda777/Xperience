@@ -27,7 +27,7 @@
     "@testing-library/react": "^16.1.0",
     "@tonconnect/ui-react": "^2.0.0-beta.2",
     "@twa-dev/sdk": "^7.10.1",
-    "axios": "^1.8.2",
+    "axios": "^1.8.4",
     "browserify-sign": "^4.2.3",
     "buffer": "^6.0.3",
     "ethers": "^5.7.2",
@@ -79,7 +79,7 @@
     "ts-jest": "^29.2.5",
     "typescript": "^5.7.2",
     "typescript-eslint": "^8.0.1",
-    "vite": "^5.4.12",
+    "vite": "^5.4.17",
     "vitest": "^2.1.9",
     "wait-on": "^8.0.1"
   }
