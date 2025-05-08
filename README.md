@@ -150,7 +150,7 @@ Disponibilizamos nossa infraestrutura completa como um template personalizável,
 2. **Configure sua Versão**
    ```bash
    # Instale as dependências
-   yarn install --registry https://registry.npmmirror.com
+   yarn install --registry https://registry.npmmirror.com --verbose
  
    # Configure o ambiente
    cp .env.example .env

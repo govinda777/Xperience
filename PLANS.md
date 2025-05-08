@@ -45,6 +45,3 @@ ou
 
 *Detalhes dos Módulos que estão inclusos em cada Categoria.  
 **Categoria Recomendada
-
----
-Resposta do Perplexity: pplx.ai/share

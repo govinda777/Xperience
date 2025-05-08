@@ -8,37 +8,40 @@ const plans = [
     isRecomendad: false,
     time: "mês",
     price: 100.0,
-    topics: [
+    modules: [
       "Mentorias especializadas - 2h por semana",
       "1 Sessão de mentoria master de 4h de visão 360 do negócio",
       "1 Sessão master de 4h para Treinamento de equipe",
     ],
     link: "#",
+    sessions: { total: 0, details: "" },
   },
   {
     title: "Extraordinário Diamante",
     isRecomendad: true,
     time: "mês",
     price: 100.0,
-    topics: [
+    modules: [
       "Mentorias especializadas - 4h a cada 15 dias",
       "1 Sessão de mentoria master de 4h de visão 360 do negócio",
       "1 Sessão master de 2h de Marketing digital",
       "1 Sessão master de 2h de Tecnologia, IA e Automação de processos",
     ],
     link: "#",
+    sessions: { total: 0, details: "" },
   },
   {
     title: "Extraordinário Rubi",
     isRecomendad: false,
     time: "mês",
     price: 200.0,
-    topics: [
+    modules: [
       "Mentorias especializadas - 2h por semana",
       "1 Sessão de mentoria master de 4h de visão 360 do negócio",
       "1 Sessão master de 4h para Treinamento de equipe",
     ],
     link: "#",
+    sessions: { total: 0, details: "" },
   },
 ];
 
@@ -77,9 +80,10 @@ const PlansSectionExpert = () => {
           <div key={index} className="shrink-0 min-w-[280px] md:min-w-[320px]">
             <PlansCards
               {...plan}
-              category="Expert"
-              time={plan.time as "mês" | "ano"}
+              category="PRINCIPAL"
               price={plan.price}
+              duration=""
+              periodicity=""
             />
           </div>
         ))}

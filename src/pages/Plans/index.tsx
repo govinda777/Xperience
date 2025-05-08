@@ -1,18 +1,184 @@
-import React from "react";
+import React, { useState } from "react";
 import Surprised from "../../../assets/svg/surprised.svg";
 import Rabisco from "../../../assets/svg/rabisco.svg";
 import TypePlans from "../../components/Plans/TypePlans";
-import PlansSectionEssential from "../../components/Plans/PlansSectionEssential";
 import Idea from "../../../assets/svg/idea.svg";
 import Bols1 from "../../../assets/svg/bols1.svg";
 import Bols2 from "../../../assets/svg/bols2.svg";
 import Warranty from "../../../assets/svg/warranty.svg";
 import ContactForm from "../../components/ContactForm";
-import PlansSectionExpert from "../../components/Plans/PlansSectionExpert";
 import EnjoyTools from "./EnjoyTools";
 import Emoji from "../../../assets/svg/emoji.svg";
+import PlansTable from "../../components/Plans/PlansTable";
 
 const Plans: React.FC = () => {
+  const [activeTab, setActiveTab] = useState<'MENTORIA' | 'ENCUBADORA'>('MENTORIA');
+
+  const mentoringPlans = [
+    {
+      category: "START" as const,
+      title: "Start",
+      price: 1500,
+      duration: "3 meses",
+      sessions: {
+        total: 4,
+        details: "1 sessão x 2h, 3 sessões x 1h",
+      },
+      periodicity: "1 sessão/mês",
+      modules: ["Módulo 1", "Módulo 2"],
+      isRecomendad: false,
+      link: "/plans/start",
+    },
+    {
+      category: "ESSENCIAL" as const,
+      title: "Essencial",
+      price: 3000,
+      duration: "3 meses",
+      sessions: {
+        total: 6,
+        details: "1 sessão x 2h, 5 sessões x 1h",
+      },
+      periodicity: "1 sessão/15 dias",
+      modules: ["Módulo 1", "Módulo 2", "Módulo 3"],
+      isRecomendad: false,
+      link: "/plans/essencial",
+    },
+    {
+      category: "PRINCIPAL" as const,
+      title: "Principal",
+      price: 6000,
+      duration: "3 meses",
+      sessions: {
+        total: 9,
+        details: "1 sessão x 3h, 8 sessões x 1,5h",
+      },
+      periodicity: "1 sessão/semana",
+      modules: ["Módulo 1", "Módulo 2", "Módulo 3", "Módulo 4", "Módulo 5"],
+      isRecomendad: true,
+      link: "/plans/principal",
+    },
+    {
+      category: "AVANÇADA" as const,
+      title: "Avançada",
+      price: 10000,
+      duration: "6 meses",
+      sessions: {
+        total: 25,
+        details: "1 sessão x 3h, 24 sessões x 1,5h",
+      },
+      periodicity: "1 sessão/15 dias",
+      modules: ["Módulo 1", "Módulo 2", "Módulo 3", "Módulo 4", "Módulo 5"],
+      isRecomendad: false,
+      link: "/plans/avancada",
+    },
+    {
+      category: "PREMIUM" as const,
+      title: "Premium",
+      price: 30000,
+      duration: "12 meses",
+      sessions: {
+        total: 0,
+        details: "a combinar",
+      },
+      periodicity: "a combinar",
+      modules: ["Módulo 1", "Módulo 2", "Módulo 3", "Módulo 4", "Módulo 5", "Módulo 6"],
+      isRecomendad: false,
+      link: "/plans/premium",
+    },
+  ];
+
+  const incubatorPlans = [
+    {
+      category: "START" as const,
+      title: "Start",
+      price: 500,
+      duration: "3 meses",
+      sessions: {
+        total: 4,
+        details: "1 sessão x 2h, 3 sessões x 1h",
+      },
+      periodicity: "1 sessão/mês",
+      modules: ["Build: Site", "Build: Social Media"],
+      isRecomendad: false,
+      link: "/plans/incubator/start",
+    },
+    {
+      category: "ESSENCIAL" as const,
+      title: "Essencial",
+      price: 1000,
+      duration: "3 meses",
+      sessions: {
+        total: 6,
+        details: "1 sessão x 2h, 5 sessões x 1h",
+      },
+      periodicity: "1 sessão/15 dias",
+      modules: ["Build: Site", "Build: Social Media", "Build: Process Map"],
+      isRecomendad: false,
+      link: "/plans/incubator/essencial",
+    },
+    {
+      category: "PRINCIPAL" as const,
+      title: "Principal",
+      price: 2000,
+      duration: "3 meses",
+      sessions: {
+        total: 9,
+        details: "1 sessão x 3h, 8 sessões x 1,5h",
+      },
+      periodicity: "1 sessão/semana",
+      modules: [
+        "Build: Site",
+        "Build: Social Media",
+        "Build: Process Map",
+        "Build: Member channel",
+        "Build: YouTube channel",
+      ],
+      isRecomendad: true,
+      link: "/plans/incubator/principal",
+    },
+    {
+      category: "AVANÇADA" as const,
+      title: "Avançada",
+      price: 4000,
+      duration: "6 meses",
+      sessions: {
+        total: 25,
+        details: "1 sessão x 3h, 24 sessões x 1,5h",
+      },
+      periodicity: "1 sessão/15 dias",
+      modules: [
+        "Build: Site",
+        "Build: Social Media",
+        "Build: Process Map",
+        "Build: Member channel",
+        "Build: YouTube channel",
+      ],
+      isRecomendad: false,
+      link: "/plans/incubator/avancada",
+    },
+    {
+      category: "PREMIUM" as const,
+      title: "Premium",
+      price: 8000,
+      duration: "12 meses",
+      sessions: {
+        total: 0,
+        details: "a combinar",
+      },
+      periodicity: "a combinar",
+      modules: [
+        "Build: Site",
+        "Build: Social Media",
+        "Build: Process Map",
+        "Build: Member channel",
+        "Build: YouTube channel",
+        "Build: Token / NFT",
+      ],
+      isRecomendad: false,
+      link: "/plans/incubator/premium",
+    },
+  ];
+
   return (
     <main className="relative bg-gradient-to-r from-[#FADD6B] to-[#FACC15]">
       <img
@@ -25,6 +191,7 @@ const Plans: React.FC = () => {
         alt="bolas 2"
         className="md:block absolute right-0 top-0 md:top-1 md:w-auto w-14 hidden"
       />
+      
       {/* Cabeçalho */}
       <header className="text-center pt-10 md:pt-28 pb-12 relative z-10">
         <h1 className="font-bold text-4xl md:w-auto w-72 mx-auto md:text-5xl">
@@ -37,137 +204,100 @@ const Plans: React.FC = () => {
         </h2>
       </header>
 
-      {/* Seção dos planos */}
-      <section className=" justify-center items-center flex flex-col py-16 px-4 gap-6 bg-[#FBE151]">
+      {/* Seção dos tipos de planos */}
+      <section className="justify-center items-center flex flex-col py-16 px-4 gap-6 bg-[#FBE151]">
         <h1 className="font-bold text-[#F34A0D] text-center text-4xl">
-          São dois tipos de planos
+          Escolha o programa ideal para você
         </h1>
         <div className="flex flex-col md:flex-row gap-6">
           <TypePlans
-            title="Essencial"
-            paragraphStart="Você poderá contratar um plano para obter"
-            paragraphBold="renovação mensal"
-            paragraphEnd="de seus benefícios"
-            iconName="Warranty"
+            type="MENTORIA"
+            title="Mentoria Individual"
+            description="Consultoria personalizada com nossos especialistas"
+            benefits={[
+              "Mentoria individual",
+              "Acompanhamento personalizado",
+              "Suporte dedicado"
+            ]}
           />
           <TypePlans
-            title="Expert"
-            paragraphStart="Eleve sua empresa para outro nível com"
-            paragraphBold="pacotes de serviços"
-            paragraphEnd="e mentorias especializadas"
-            iconName="Idea"
+            type="ENCUBADORA"
+            title="Encubadora"
+            description="Processo completo de incubação de experiências"
+            benefits={[
+              "Desenvolvimento completo",
+              "Pacotes de serviços",
+              "Suporte premium"
+            ]}
           />
         </div>
       </section>
 
-      {/* Título com traço Mobile */}
-      <div className="pt-2 pb-10 flex flex-col justify-center items-center mx-auto relative md:hidden gap-6">
-        <img
-          src={Bols2}
-          alt="bolas 2"
-          className="md:block absolute right-0 -top-16 w-14"
-        />
-
-        <img
-          src={Emoji}
-          alt="emoji"
-          className="w-24 flex absolute left-4 top-3"
-        />
-        <div className="relative mt-32">
-          {/* Ícone "Surprised" Posicionado */}
-          <img
-            src={Surprised}
-            alt="Ícone Surpreso"
-            className="w-10 md:w-12 absolute -top-4 -left-7 md:-left-8"
-          />
-
-          {/* Texto + Rabisco */}
-          <h1 className="text-5xl md:text-7xl flex flex-col md:flex-row font-bold relative gap-3 text-center">
-            Conheça
-          </h1>
-        </div>
-        <h1 className="flex-col gap-2 flex text-5xl md:text-7xl font-bold text-center">
-          nossos planos
-          <img
-            src={Rabisco}
-            alt="Rabisco"
-            className="md:w-[100%] w-[85%] mx-auto"
-          />
-        </h1>
+      {/* Tabs de navegação */}
+      <div className="flex justify-center gap-4 py-8">
+        <button
+          onClick={() => setActiveTab('MENTORIA')}
+          className={`px-6 py-3 rounded-lg font-semibold ${
+            activeTab === 'MENTORIA'
+              ? 'bg-[#F34A0D] text-white'
+              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+          }`}
+        >
+          Mentoria Individual
+        </button>
+        <button
+          onClick={() => setActiveTab('ENCUBADORA')}
+          className={`px-6 py-3 rounded-lg font-semibold ${
+            activeTab === 'ENCUBADORA'
+              ? 'bg-[#F34A0D] text-white'
+              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+          }`}
+        >
+          Encubadora
+        </button>
       </div>
 
-      {/* Título com traço Desktop */}
-      <div className="pt-24 pb-8 hidden justify-center items-center md:w-1/2 mx-auto md:flex relative">
-        <img
-          src={Emoji}
-          alt="emoji"
-          className="md:w-56 md:h-56 flex md:absolute md:top-48 -left-64 md:-left-64"
-        />
-        <div className="relative">
-          {/* Ícone "Surprised" Posicionado */}
-          <img
-            src={Surprised}
-            alt="Ícone Surpreso"
-            className="w-10 md:w-12 absolute -top-4 -left-7 md:-left-8"
-          />
-
-          {/* Texto + Rabisco */}
-          <h1 className="xl:text-6xl md:text-5xl text-5xl flex flex-col sm:flex-row md:flex-row font-bold relative gap-3">
-            Conheça
-            <div className="flex flex-col gap-1">
-              <h1 className="flex-col flex">nossos planos</h1>
-              <img src={Rabisco} alt="Rabisco" className="xl:w-[100%] md:w-[85%] w-[85%]" />
-            </div>
-          </h1>
-        </div>
-      </div>
-
-      <div className="flex justify-center items-center py-6">
-        <div className="inline-block">
-          <div className="flex items-center justify-center rounded-full bg-[#F34A0D] py-4 px-10 gap-4">
-            <img
-              src={Idea}
-              alt="Lâmpada Idea"
-              className="md:w-12 md:h-12 w-12 h-12"
+      {/* Seção dos planos */}
+      <section className="py-16 px-4">
+        {activeTab === 'MENTORIA' ? (
+          <div>
+            <h2 className="text-3xl font-bold text-center mb-8">
+              Programa Xperience - Mentoria Individual
+            </h2>
+            <PlansTable
+              type="MENTORIA"
+              plans={mentoringPlans}
             />
-            <h1 className="font-bold text-2xl md:text-3xl text-white">
-              Essencial
-            </h1>
           </div>
-        </div>
-      </div>
-
-      {/* Planos Essencial*/}
-      <PlansSectionEssential />
-
-      <div className="flex flex-col justify-center items-center gap-5  text-center">
-        <div className="flex justify-center items-center">
-          <div className="inline-block">
-            <div className="flex items-center justify-center rounded-full bg-[#F34A0D] py-4 px-10 gap-4">
-              <img
-                src={Warranty}
-                alt="Medalha"
-                className="md:w-12 md:h-12 w-12 h-12"
-              />
-              <h1 className="font-bold text-2xl md:text-3xl text-white">
-                Expert
-              </h1>
-            </div>
+        ) : (
+          <div>
+            <h2 className="text-3xl font-bold text-center mb-8">
+              Programa Xperience - Encubadora
+            </h2>
+            <PlansTable
+              type="ENCUBADORA"
+              plans={incubatorPlans}
+            />
           </div>
-        </div>
-        <h1 className="text-[#1a1a1a] text-2xl">
-          Pacotes com valores fixo com{" "}
-          <span className="uppercase font-bold">serviços especiais.</span>
-        </h1>
-      </div>
+        )}
+      </section>
 
-      {/* Planos Expert*/}
-      <PlansSectionExpert />
-
-      {/* IA do Empreendedor */}
+      {/* Seção de ferramentas */}
       <EnjoyTools link="#" />
 
-      {/* Formulário Contato*/}
+      {/* Seção de garantia */}
+      <section className="py-16 px-4 bg-white">
+        <div className="max-w-4xl mx-auto text-center">
+          <img src={Warranty} alt="Garantia" className="mx-auto mb-8" />
+          <h2 className="text-3xl font-bold mb-4">Garantia de Satisfação</h2>
+          <p className="text-lg text-gray-600">
+            Se você não ficar satisfeito com nossos serviços nos primeiros 7 dias,
+            devolvemos seu dinheiro.
+          </p>
+        </div>
+      </section>
+
+      {/* Formulário de contato */}
       <ContactForm isPageContact={false} />
     </main>
   );

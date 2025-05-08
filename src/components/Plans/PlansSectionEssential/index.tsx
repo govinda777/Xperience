@@ -8,35 +8,38 @@ const plans = [
     isFree: true,
     isRecomendad: false,
     price: 0.0,
-    topics: [
+    modules: [
       "Mapa do negócio",
       "Relatório Xperience",
       "Relatório SEO",
       "Mapa de maturidade",
     ],
     link: "#",
+    sessions: { total: 0, details: "" },
   },
   {
     title: "Inovador",
     isFree: false,
     isRecomendad: false,
     price: 100.0,
-    topics: [
+    modules: [
       "Sessão de análise do negócio 2h por mês",
       "Aprimoramento dos relatórios por especialistas",
     ],
     link: "#",
+    sessions: { total: 0, details: "" },
   },
   {
     title: "Notável",
     isFree: false,
     isRecomendad: true,
     price: 200.0,
-    topics: [
+    modules: [
       "Sessão de análise do negócio - 1h por semana",
       "Guia de planejamento e execução das ações",
     ],
     link: "#",
+    sessions: { total: 0, details: "" },
   },
 ];
 
@@ -107,10 +110,9 @@ const PlansSectionEssential = () => {
           <div key={index} className="shrink-0 min-w-[280px] md:min-w-[320px]">
             <PlansCards
               {...plan}
-              category="Essential"
-              time={activePlan === "Mensal" ? "mês" : "ano"}
-              price={plan.price}
-              percentage={activePlan === "Anual" ? percentage : 0}
+              category="ESSENCIAL"
+              duration=""
+              periodicity=""
             />
           </div>
         ))}
