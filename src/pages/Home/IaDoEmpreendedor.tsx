@@ -53,9 +53,14 @@ const IaDoEmpreendedor: React.FC<IaDoEmpreendedorProps> = ({
           {highlightPart1} <span className="font-bold">{highlightPart2}</span>
         </p>
 
-        <button className="bg-[#E85D04] text-white text-xl font-normal px-12 py-4 rounded-full hover:bg-opacity-90 transition-colors">
+        <a 
+          href="https://ai-entrepreneur-connect.replit.app"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="bg-[#E85D04] text-white text-xl font-normal px-12 py-4 rounded-full hover:bg-opacity-90 transition-colors inline-block"
+        >
           {buttonText}
-        </button>
+        </a>
       </div>
     </div>
   );

@@ -38,7 +38,12 @@ const EnjoyTools: React.FC<EnjoyToolsProps> = ({ link }) => {
 
       <div className="justify-center items-center flex mt-3">
         <div className="relative">
-          <button className="bg-[#1a1a1a] rounded-[20px] py-4 md:py-5 px-12 md:px-7">
+          <a
+            href="https://ai-entrepreneur-connect.replit.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-[#1a1a1a] rounded-[20px] py-4 md:py-5 px-12 md:px-7 inline-block"
+          >
             <p className="text-2xl flex flex-col md:flex-row font-bold relative gap-3 text-white">
               Comece a explorar
             </p>
@@ -47,7 +52,7 @@ const EnjoyTools: React.FC<EnjoyToolsProps> = ({ link }) => {
               alt="Ícone Surpreso"
               className="w-20 absolute -top-14 -right-12 md:block hidden transform rotate-90"
             />
-          </button>
+          </a>
         </div>
       </div>
     </section>

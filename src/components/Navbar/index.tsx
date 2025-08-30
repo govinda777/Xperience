@@ -29,6 +29,7 @@ const Navbar = () => {
     { name: "Comunidade", path: "/community" },
     { name: "Blog", path: "/blog" },
     { name: "Planos", path: "/plans" },
+    { name: "IA do Empreendedor", path: "https://ai-entrepreneur-connect.replit.app", external: true },
   ];
 
   return (
@@ -50,22 +51,35 @@ const Navbar = () => {
         {/* Desktop Navigation */}
         <nav className="hidden md:flex gap-8">
           {navItems.map((item) => (
-            <Link
-              key={item.name}
-              to={item.path}
-              className={`relative text-lg text-gray-900 hover:text-gray-900 whitespace-nowrap transition-colors duration-300 group ${
-                location.pathname === item.path ? "font-medium" : ""
-              }`}
-            >
-              {item.name}
-              <span
-                className={`absolute -bottom-1 left-0 h-0.5 bg-black transition-all duration-300 ${
-                  location.pathname === item.path
-                    ? "w-full"
-                    : "w-0 group-hover:w-full"
+            item.external ? (
+              <a
+                key={item.name}
+                href={item.path}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="relative text-lg text-gray-900 hover:text-gray-900 whitespace-nowrap transition-colors duration-300 group"
+              >
+                {item.name}
+                <span className="absolute -bottom-1 left-0 h-0.5 bg-black transition-all duration-300 w-0 group-hover:w-full"></span>
+              </a>
+            ) : (
+              <Link
+                key={item.name}
+                to={item.path}
+                className={`relative text-lg text-gray-900 hover:text-gray-900 whitespace-nowrap transition-colors duration-300 group ${
+                  location.pathname === item.path ? "font-medium" : ""
                 }`}
-              ></span>
-            </Link>
+              >
+                {item.name}
+                <span
+                  className={`absolute -bottom-1 left-0 h-0.5 bg-black transition-all duration-300 ${
+                    location.pathname === item.path
+                      ? "w-full"
+                      : "w-0 group-hover:w-full"
+                  }`}
+                ></span>
+              </Link>
+            )
           ))}
         </nav>
 
@@ -100,23 +114,37 @@ const Navbar = () => {
           <div className="flex flex-col p-4 space-y-4">
             <nav className="flex flex-col space-y-4">
               {navItems.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.path}
-                  className={`relative text-lg text-gray-900 hover:text-gray-900 transition-colors duration-300 group w-fit ${
-                    location.pathname === item.path ? "font-medium" : ""
-                  }`}
-                  onClick={() => setIsOpen(false)}
-                >
-                  {item.name}
-                  <span
-                    className={`absolute -bottom-1 left-0 h-0.5 bg-black transition-all duration-300 ${
-                      location.pathname === item.path
-                        ? "w-full"
-                        : "w-0 group-hover:w-full"
+                item.external ? (
+                  <a
+                    key={item.name}
+                    href={item.path}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="relative text-lg text-gray-900 hover:text-gray-900 transition-colors duration-300 group w-fit"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {item.name}
+                    <span className="absolute -bottom-1 left-0 h-0.5 bg-black transition-all duration-300 w-0 group-hover:w-full"></span>
+                  </a>
+                ) : (
+                  <Link
+                    key={item.name}
+                    to={item.path}
+                    className={`relative text-lg text-gray-900 hover:text-gray-900 transition-colors duration-300 group w-fit ${
+                      location.pathname === item.path ? "font-medium" : ""
                     }`}
-                  ></span>
-                </Link>
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {item.name}
+                    <span
+                      className={`absolute -bottom-1 left-0 h-0.5 bg-black transition-all duration-300 ${
+                        location.pathname === item.path
+                          ? "w-full"
+                          : "w-0 group-hover:w-full"
+                      }`}
+                    ></span>
+                  </Link>
+                )
               ))}
             </nav>
 

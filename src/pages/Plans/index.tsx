@@ -19,6 +19,7 @@ const Plans: React.FC = () => {
       category: "START" as const,
       title: "Start",
       price: 1500,
+      participationPercentage: 0,
       duration: "3 meses",
       sessions: {
         total: 4,
@@ -33,6 +34,7 @@ const Plans: React.FC = () => {
       category: "ESSENCIAL" as const,
       title: "Essencial",
       price: 3000,
+      participationPercentage: 0,
       duration: "3 meses",
       sessions: {
         total: 6,
@@ -47,6 +49,7 @@ const Plans: React.FC = () => {
       category: "PRINCIPAL" as const,
       title: "Principal",
       price: 6000,
+      participationPercentage: 0,
       duration: "3 meses",
       sessions: {
         total: 9,
@@ -61,6 +64,7 @@ const Plans: React.FC = () => {
       category: "AVANÇADA" as const,
       title: "Avançada",
       price: 10000,
+      participationPercentage: 0,
       duration: "6 meses",
       sessions: {
         total: 25,
@@ -75,6 +79,7 @@ const Plans: React.FC = () => {
       category: "PREMIUM" as const,
       title: "Premium",
       price: 30000,
+      participationPercentage: 0,
       duration: "12 meses",
       sessions: {
         total: 0,
@@ -92,6 +97,7 @@ const Plans: React.FC = () => {
       category: "START" as const,
       title: "Start",
       price: 500,
+      participationPercentage: 5,
       duration: "3 meses",
       sessions: {
         total: 4,
@@ -106,6 +112,7 @@ const Plans: React.FC = () => {
       category: "ESSENCIAL" as const,
       title: "Essencial",
       price: 1000,
+      participationPercentage: 7,
       duration: "3 meses",
       sessions: {
         total: 6,
@@ -120,6 +127,7 @@ const Plans: React.FC = () => {
       category: "PRINCIPAL" as const,
       title: "Principal",
       price: 2000,
+      participationPercentage: 10,
       duration: "3 meses",
       sessions: {
         total: 9,
@@ -140,6 +148,7 @@ const Plans: React.FC = () => {
       category: "AVANÇADA" as const,
       title: "Avançada",
       price: 4000,
+      participationPercentage: 15,
       duration: "6 meses",
       sessions: {
         total: 25,
@@ -160,6 +169,7 @@ const Plans: React.FC = () => {
       category: "PREMIUM" as const,
       title: "Premium",
       price: 8000,
+      participationPercentage: 20,
       duration: "12 meses",
       sessions: {
         total: 0,

@@ -75,6 +75,15 @@ const Footer = () => {
           <div className="flex justify-center items-center pb-8">
             <nav className="flex gap-4 items-center md:text-base text-sm">
               <a
+                href="https://ai-entrepreneur-connect.replit.app"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white/80 hover:text-[#E85D04] transition-colors"
+              >
+                IA do Empreendedor
+              </a>
+              <span className="text-white/50">|</span>
+              <a
                 href="#"
                 className="text-white/80 hover:text-[#E85D04] transition-colors"
               >

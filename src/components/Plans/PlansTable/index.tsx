@@ -4,6 +4,7 @@ interface Plan {
   category: string;
   title: string;
   price: number | string;
+  participationPercentage: number;
   duration: string;
   sessions: {
     total: number | string;
@@ -87,7 +88,14 @@ const PlansTable: React.FC<PlansTableProps> = ({ type, plans }) => {
             <tr style={{ background: '#FFFDF8' }}>
               <td className={`sticky left-0 z-10 py-6 px-4 font-bold text-black bg-[#FFF1E7] align-middle shadow-md ${cellBorder}`}>INVESTIMENTO</td>
               {plans.map((plan) => (
-                <td key={plan.title} className={`py-6 px-4 text-[#1A1A1A] align-middle text-center bg-white ${cellBorder}`}>{formatPrice(plan.price)}</td>
+                <td key={plan.title} className={`py-6 px-4 text-[#1A1A1A] align-middle text-center bg-white ${cellBorder}`}>
+                  {formatPrice(plan.price)}
+                  {plan.participationPercentage > 0 && (
+                    <div className="text-sm text-[#F34A0D] mt-1">
+                      + {plan.participationPercentage}% de participação
+                    </div>
+                  )}
+                </td>
               ))}
               {hasNinja && <td className={`py-6 px-4 text-[#1A1A1A] align-middle text-center bg-white ${cellBorder}`}>{ninjaCells.INVESTIMENTO}</td>}
             </tr>

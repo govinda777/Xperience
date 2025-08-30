@@ -63,12 +63,15 @@ const IaDoEmpreendedorBanner: React.FC<IaDoEmpreendedorBannerProps> = ({
             {highlightText}
           </p>
 
-          <button
+          <a
+            href="https://ai-entrepreneur-connect.replit.app"
+            target="_blank"
+            rel="noopener noreferrer"
             className="bg-black text-white px-8 py-3 rounded-full text-lg hover:bg-opacity-90
-                       transition-colors"
+                       transition-colors inline-block"
           >
             {buttonText}
-          </button>
+          </a>
         </div>
 
       </div>
