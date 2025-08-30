@@ -8,6 +8,7 @@ import CommunitySection from './CommunitySection';
 import PageTitle from '../../components/PageTitle';
 import TestimonialSection from './TestimonialSection';
 import ContactForm from '../../components/ContactForm';
+import SEOHead from '../../components/SEOHead';
 
 const Home: React.FC = () => {
   const heroImage = new URL('/public/home/hero.png', import.meta.url).href;
@@ -15,6 +16,13 @@ const Home: React.FC = () => {
 
   return (
     <>
+      <SEOHead
+        title="Xperience - Mentoria para Empreendedores | IA do Empreendedor"
+        description="Transforme sua ideia em um negócio de sucesso com nossa mentoria especializada. Descubra nossa IA do Empreendedor gratuita e impulsione seu negócio com soluções práticas e inovadoras."
+        keywords="mentoria empresarial, consultoria para empreendedores, IA do empreendedor, negócios, startup, empreendedorismo, consultoria empresarial"
+        ogImage="/home/hero.png"
+        canonical="https://xperience.com.br/"
+      />
       <Hero
         title="Explore nossa"
         highlightedText='"IA do empreendedor"'

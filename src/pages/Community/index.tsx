@@ -7,10 +7,18 @@ import Rabisco2 from "../../../assets/svg/rabisco2.svg";
 import EmojisDesktop from "../../../assets/svg/emojisDesktop.svg";
 import EmojisMobile from "../../../assets/svg/emojisMobile.svg";
 import Cards from "./Cards";
+import SEOHead from "../../components/SEOHead";
 
 const Community: React.FC = () => {
   return (
     <main className="relative bg-white">
+      <SEOHead
+        title="Comunidade Empreendedora | Xperience"
+        description="Faça parte de uma comunidade empreendedora engajada. Compartilhe problemas, receba sugestões, encontre fornecedores e faça parcerias de sucesso."
+        keywords="comunidade empreendedora, networking, parcerias, fornecedores, compra coletiva, posicionamento de mercado"
+        ogImage="/community/hero.png"
+        canonical="https://xperience.com.br/community"
+      />
       <div className="relative flex flex-col justify-start items-center">
         <img
           src={PeoplesCommunity}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { HashRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import "./App.css";
 import Home from './pages/Home';
 import Solutions from './pages/Solutions';
@@ -14,7 +14,7 @@ import "@twa-dev/sdk";
 
 function App() {
   return (
-    <HashRouter>
+    <BrowserRouter>
       <DefaultLayout>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -30,7 +30,7 @@ function App() {
           } />
         </Routes>
       </DefaultLayout>
-    </HashRouter>
+    </BrowserRouter>
   );
 }
 

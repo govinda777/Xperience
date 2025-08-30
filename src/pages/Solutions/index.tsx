@@ -5,6 +5,7 @@ import IntroSection from '../../components/IntroSection';
 import BannerIntro from '../../components/BannerIntro';
 import IaDoEmpreendedorBanner from './IaDoEmpreendedorBanner';
 import IAReports from './IAReports';
+import SEOHead from '../../components/SEOHead';
 
 const Solutions: React.FC = () => {
   
@@ -12,6 +13,13 @@ const Solutions: React.FC = () => {
 
   return (
     <div className="bg-[#F34A0D]">
+      <SEOHead
+        title="Soluções Empresariais | Xperience"
+        description="Consultoria empresarial sob medida para pequenos empreendedores. Soluções inovadoras e práticas para organização de processos e estratégias de expansão."
+        keywords="consultoria empresarial, soluções para pequenos negócios, organização de processos, estratégias de expansão, IA do empreendedor"
+        ogImage="/solutions/hero.png"
+        canonical="https://xperience.com.br/solutions"
+      />
       <Hero />
       <IntroSection 
         imageSrc={introSectionImage}

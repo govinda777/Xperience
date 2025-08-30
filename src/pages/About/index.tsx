@@ -7,10 +7,18 @@ import EmojiSurprise from "../../../assets/svg/emojiSurprise.svg";
 import Rabisco from "../../../assets/svg/rabisco.svg";
 import Couple from "../../../assets/couple.png";
 import Surprised from "../../../assets/svg/surprised.svg";
+import SEOHead from "../../components/SEOHead";
 
 const About: React.FC = () => {
   return (
     <main className="relative bg-white">
+      <SEOHead
+        title="Sobre Nós | Xperience - Inovação e Resultados Imediatos"
+        description="Conheça a Xperience Consultoria Empresarial. Nossa missão é simplificar processos e potencializar resultados para pequenos empreendedores com inovação e praticidade."
+        keywords="sobre xperience, consultoria empresarial, missão, visão, valores, inovação, praticidade, resultados imediatos"
+        ogImage="/about/hero.png"
+        canonical="https://xperience.com.br/about"
+      />
       <div className="">
         <div className="relative">
           <img src={Peoples} alt="Pessoas sorrindo" className="w-full" />

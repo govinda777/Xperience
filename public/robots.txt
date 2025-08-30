@@ -1,0 +1,27 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://gosouza.github.io/Xperience/sitemap.xml
+
+# Disallow admin areas
+Disallow: /dashboard
+Disallow: /admin
+
+# Allow important pages
+Allow: /
+Allow: /solutions
+Allow: /plans
+Allow: /about
+Allow: /contact
+Allow: /community
+
+# Crawl delay
+Crawl-delay: 1
+
+# Block common bot paths
+Disallow: /api/
+Disallow: /*.json$
+Disallow: /*?*utm_*
+Disallow: /*?*fbclid*
+Disallow: /*?*gclid*

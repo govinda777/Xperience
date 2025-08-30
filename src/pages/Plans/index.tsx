@@ -10,6 +10,7 @@ import ContactForm from "../../components/ContactForm";
 import EnjoyTools from "./EnjoyTools";
 import Emoji from "../../../assets/svg/emoji.svg";
 import PlansTable from "../../components/Plans/PlansTable";
+import SEOHead from "../../components/SEOHead";
 
 const Plans: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'MENTORIA' | 'ENCUBADORA'>('MENTORIA');
@@ -191,6 +192,13 @@ const Plans: React.FC = () => {
 
   return (
     <main className="relative bg-gradient-to-r from-[#FADD6B] to-[#FACC15]">
+      <SEOHead
+        title="Planos de Mentoria e Encubadora | Xperience"
+        description="Escolha o plano ideal para seu negócio. Mentoria individual ou programa de encubadora com consultoria personalizada e ferramentas inovadoras."
+        keywords="planos de mentoria, encubadora de negócios, consultoria personalizada, mentoria individual, programa de aceleração"
+        ogImage="/plans/hero.png"
+        canonical="https://xperience.com.br/plans"
+      />
       <img
         src={Bols1}
         alt="bolas 1"
