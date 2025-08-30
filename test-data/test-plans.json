@@ -1,0 +1,37 @@
+[
+  {
+    "id": "essential",
+    "name": "Essencial",
+    "price": 297,
+    "currency": "BRL",
+    "features": [
+      "Acesso básico",
+      "Suporte por email",
+      "30 dias de garantia"
+    ]
+  },
+  {
+    "id": "expert",
+    "name": "Expert",
+    "price": 497,
+    "currency": "BRL",
+    "features": [
+      "Acesso completo",
+      "Suporte prioritário",
+      "Mentoria 1:1",
+      "60 dias de garantia"
+    ]
+  },
+  {
+    "id": "premium",
+    "name": "Premium",
+    "price": 797,
+    "currency": "BRL",
+    "features": [
+      "Acesso vitalício",
+      "Suporte 24/7",
+      "Mentoria ilimitada",
+      "Garantia vitalícia"
+    ]
+  }
+]

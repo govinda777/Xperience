@@ -1,20 +1,54 @@
-# Xperience DAO Platform
+# Xperience - Plataforma de Mentoria para Empreendedores
 
 <p align="center">
     <img src="assets/logo.jpg" height="150px" alt="Xperience Logo" />
 </p>
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Discord](https://img.shields.io/badge/Discord-Join%20Us-blue)](https://discord.gg/xperience)
-[![Documentation](https://img.shields.io/badge/Xperience_Docs-Read_Now-00B4DB)](https://docs.xperience.dao)
-[![Figma Site](public/business_model_canvas.jpeg)](https://www.figma.com/proto/rreMluYljxGrLOU8Zbbkv8/Xperience---handoff?page-id=94%3A331&node-id=2271-9744&node-type=frame&viewport=-14319%2C-15975%2C0.27&t=7xqRHxPo1CsISzv9-1&scaling=scale-down-width&content-scaling=fixed&starting-point-node-id=2271%3A9744)
-[![Figma Bussiness Canvas](public/bunner.jpeg)](https://www.figma.com/board/X9f1GSq2qGlbHBUgaq58sp/Xperience---Design?node-id=0-1&t=L9x5n45sshhtOD0W-1)
+[![React](https://img.shields.io/badge/React-18.2.0-blue)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.7.2-blue)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-6.3.5-646CFF)](https://vitejs.dev/)
+[![Tests](https://img.shields.io/badge/Tests-Jest%20%7C%20Cypress-green)](https://jestjs.io/)
+[![PWA](https://img.shields.io/badge/PWA-Ready-purple)](https://web.dev/progressive-web-apps/)
 
-> Uma consultoria empresarial descomplicada que utiliza DAO e estratégia do Oceano Azul para tornar a concorrência irrelevante, disponível também como template para criar sua própria versão.
+> Programa de mentoria inovador que transforma ideias em negócios de sucesso através de metodologias comprovadas e tecnologia de ponta. Uma plataforma completa com sistema de pagamentos integrado, autenticação segura e experiência mobile otimizada.
 
 ## 🌊 Visão Geral
 
-A Xperience representa uma revolução no mercado de consultoria empresarial, combinando metodologias inovadoras com tecnologia descentralizada para transformar a maneira como as empresas abordam seus desafios e oportunidades.
+A Xperience é uma plataforma completa de mentoria empresarial que combina metodologias comprovadas com tecnologia de ponta. Nossa solução oferece um ecossistema integrado para transformar ideias em negócios de sucesso, com foco em resultados mensuráveis e experiência do usuário excepcional.
+
+## ✨ Funcionalidades Principais
+
+### 🎯 Sistema de Mentoria
+- **Programas Estruturados**: Planos de mentoria de 3 a 12 meses
+- **Sessões Personalizadas**: 1h a 3h por sessão, adaptadas ao nível
+- **Acompanhamento Contínuo**: Dashboard de progresso em tempo real
+- **Metodologia Oceano Azul**: Estratégias para tornar a concorrência irrelevante
+
+### 💳 Sistema de Pagamentos Integrado
+- **PIX**: Pagamento instantâneo com QR Code
+- **Bitcoin**: Desconto de 5% para pagamentos em BTC
+- **USDT**: Desconto de 3% para pagamentos em USDT (TRC20)
+- **Cartões**: Integração com MercadoPago
+- **Carteiras Web3**: Suporte a TON Connect e Account Abstraction
+
+### 🔐 Autenticação Segura
+- **Auth0**: Login social e tradicional
+- **Web3 Auth**: Integração com carteiras blockchain
+- **Privy**: Autenticação descentralizada
+- **Proteção de Rotas**: Acesso controlado ao dashboard
+
+### 📱 Experiência Mobile
+- **PWA**: Progressive Web App instalável
+- **Telegram Web App**: Integração nativa com Telegram
+- **Design Responsivo**: Otimizado para todos os dispositivos
+- **Offline First**: Funcionalidades básicas offline
+
+### 🛒 E-commerce Completo
+- **Carrinho de Compras**: Gestão de itens e quantidades
+- **Checkout Otimizado**: Processo simplificado de compra
+- **Gestão de Pedidos**: Acompanhamento completo do status
+- **Relatórios**: Analytics de vendas e conversão
 
 ## 📚 Nossa Dupla Proposta de Valor
 
@@ -141,30 +175,126 @@ Disponibilizamos nossa infraestrutura completa como um template personalizável,
    - Resultados mensuráveis
 
 ### Como Desenvolvedor
-1. **Use o Template**
+
+#### 📋 Pré-requisitos
+
+Antes de começar, certifique-se de ter instalado:
+
+- **Node.js 18+** ([Download](https://nodejs.org/))
+- **npm** ou **yarn** (incluído com Node.js)
+- **Git** ([Download](https://git-scm.com/))
+
+#### 🚀 Início Rápido
+
+1. **Clone o Repositório**
    ```bash
-   # Clone o repositório
-   git clone https://github.com/xperience-dao/platform.git
+   git clone https://github.com/gosouza/Xperience.git
+   cd Xperience
    ```
 
-2. **Configure sua Versão**
+2. **Instale as Dependências**
    ```bash
-   # Instale as dependências
-   yarn install --registry https://registry.npmmirror.com --verbose
- 
-   # Configure o ambiente
-   cp .env.example .env
+   # Usando npm (recomendado)
+   npm install
 
-   # Add dependencies
-   yarn add lucide-react --registry https://registry.npmmirror.com
-yarn add -D @testing-library/react@latest @testing-library/jest-dom@latest vitest --registry https://registry.npmmirror.com
+   # Ou usando yarn
+   yarn install
    ```
 
-3. **Personalize e Lance**
+3. **Configure o Ambiente**
    ```bash
-   # Inicie o desenvolvimento
+   # Crie arquivo de ambiente (opcional para desenvolvimento)
+   touch .env
+   
+   # Adicione as variáveis necessárias (exemplo):
+   echo "VITE_SITE_URL=http://localhost:5173" >> .env
+   echo "VITE_NODE_ENV=development" >> .env
+   
+   # Para produção, configure também:
+   # VITE_GA_MEASUREMENT_ID=G-XXXXXXXXXX
+   # VITE_AUTH0_DOMAIN=your-domain.auth0.com
+   # VITE_AUTH0_CLIENT_ID=your-client-id
+   # VITE_MERCADOPAGO_PUBLIC_KEY=your-public-key
+   # VITE_TON_NETWORK=mainnet
+   ```
+
+4. **Inicie o Desenvolvimento**
+   ```bash
    npm run dev
+   # Aplicação disponível em http://localhost:5173
    ```
+
+#### 🧪 Executar Testes
+
+```bash
+# Todos os testes
+npm run test:all
+
+# Testes unitários
+npm run test:unit
+
+# Testes de integração
+npm run test:integration
+
+# Testes BDD
+npm run test:bdd
+
+# Testes E2E
+npm run test:e2e
+
+# Cobertura de testes
+npm run test:coverage
+```
+
+#### 📦 Build para Produção
+
+```bash
+# Build otimizado
+npm run build
+
+# Preview do build
+npm run preview
+```
+
+#### 🔧 Scripts Disponíveis
+
+- `npm run dev` - Servidor de desenvolvimento
+- `npm run build` - Build para produção
+- `npm run preview` - Preview do build
+- `npm run lint` - Verificar código
+- `npm run test` - Executar testes
+- `npm run test:watch` - Testes em modo watch
+- `npm run reports` - Gerar relatórios de teste
+
+#### 🚨 Troubleshooting
+
+**Problema: Erro ao instalar dependências**
+```bash
+# Limpe o cache e reinstale
+npm cache clean --force
+rm -rf node_modules package-lock.json
+npm install
+```
+
+**Problema: Porta 5173 já está em uso**
+```bash
+# Use uma porta diferente
+npm run dev -- --port 3000
+```
+
+**Problema: Erro de permissão no Windows**
+```bash
+# Execute como administrador ou use:
+npm install --no-optional
+```
+
+**Problema: Build falha**
+```bash
+# Verifique se todas as dependências estão instaladas
+npm run lint
+npm run test:unit
+npm run build
+```
 
 ## 💡 Casos de Sucesso
 
@@ -172,43 +302,144 @@ yarn add -D @testing-library/react@latest @testing-library/jest-dom@latest vites
 - **Empresa B**: Aumento de 150% em engajamento
 - **Empresa C**: Novo mercado conquistado
 
-## 🛠 Recursos Técnicos
+## 🛠 Stack Tecnológico
 
-### Arquitetura
-```
-xperience/
-├── src/
-│   ├── core/          # Núcleo da plataforma
-│   ├── modules/       # Módulos funcionais
-│   └── services/      # Serviços integrados
-└── docs/             # Documentação
-```
+### Frontend
+- **React 18.2.0** - Biblioteca principal para UI
+- **TypeScript 5.7.2** - Tipagem estática
+- **Vite 6.3.5** - Build tool e dev server
+- **React Router DOM 7.3.0** - Roteamento
+- **Tailwind CSS 3.4.17** - Framework CSS
+- **Styled Components 6.1.13** - CSS-in-JS
 
-### Stack Tecnológico
-- Frontend: React/Vite
-- Backend: Node.js
-- Blockchain: Ethereum/Polygon
-- IA: TensorFlow/PyTorch
+### Pagamentos & Blockchain
+- **TON Connect** - Integração com TON Blockchain
+- **Ethers.js 5.7.2** - Interação com Ethereum
+- **Account Abstraction (ERC-4337)** - Carteiras inteligentes
+- **MercadoPago 2.8.0** - Gateway de pagamento PIX
+- **QRCode 1.5.4** - Geração de códigos QR
+
+### Autenticação & Segurança
+- **Auth0 React 2.3.0** - Autenticação OAuth
+- **Privy 2.24.0** - Autenticação Web3
+- **Crypto-js 4.2.0** - Criptografia
+
+### Testes & Qualidade
+- **Jest 29.7.0** - Framework de testes
+- **Testing Library** - Testes de componentes
+- **Cypress 13.15.0** - Testes E2E
+- **Cucumber.js 11.3.0** - Testes BDD
+- **ESLint 9.0.0** - Linting
+
+### PWA & Performance
+- **Vite PWA Plugin** - Progressive Web App
+- **React Helmet Async** - SEO otimizado
+- **React GA4** - Analytics
+- **Workbox** - Service Worker
+
+### Arquitetura do Projeto
+```
+src/
+├── components/          # Componentes reutilizáveis
+│   ├── payments/       # Sistema de pagamentos
+│   ├── cart/          # Carrinho de compras
+│   └── checkout/      # Processo de checkout
+├── pages/             # Páginas da aplicação
+├── services/          # Lógica de negócio
+│   └── providers/     # Provedores de pagamento
+├── hooks/             # Custom hooks
+├── contexts/          # Contextos React
+├── types/             # Definições TypeScript
+├── utils/             # Utilitários
+└── __tests__/         # Testes organizados
+```
 
 ## 📈 Roadmap
 
-### 2024
-- Q1: Lançamento da plataforma base
-- Q2: Integração IA avançada
-- Q3: Expansão internacional
-- Q4: Novas verticais de negócio
+### 2024 - Consolidação da Plataforma
+- ✅ **Q1**: Lançamento da plataforma base
+  - Sistema de pagamentos PIX, Bitcoin e USDT
+  - Autenticação Auth0 e Web3
+  - PWA e Telegram Web App
+- ✅ **Q2**: Sistema de testes robusto
+  - Cobertura de 70%+ em testes
+  - Testes BDD e E2E
+  - CI/CD automatizado
+- 🔄 **Q3**: Melhorias de UX/UI
+  - Dashboard analytics avançado
+  - Otimizações de performance
+  - SEO e acessibilidade
+- 📅 **Q4**: Expansão de funcionalidades
+  - Sistema de afiliados
+  - Integração com mais blockchains
+  - API pública
 
-## 🤝 Comunidade
+### 2025 - Crescimento e Inovação
+- **Q1**: Inteligência Artificial
+  - Chatbot de mentoria
+  - Análise preditiva de negócios
+  - Recomendações personalizadas
+- **Q2**: Expansão Internacional
+  - Suporte multi-idiomas
+  - Gateways de pagamento globais
+  - Parcerias estratégicas
+- **Q3**: Ecossistema DAO
+  - Governança descentralizada
+  - Token de utilidade
+  - Staking e rewards
+- **Q4**: Novas Verticais
+  - Mentoria para startups tech
+  - Consultoria para DAOs
+  - Educação blockchain
 
-- [Discord](https://discord.gg/xperience)
-- [Telegram](https://t.me/xperience_dao)
-- [Forum](https://forum.xperience.dao)
+## 🤝 Contribuindo
 
-## 📞 Contato
+Contribuições são sempre bem-vindas! Veja como você pode ajudar:
 
-- 📧 Email: contact@xperience.dao
-- 🐦 Twitter: [@XperienceDAO](https://twitter.com/XperienceDAO)
-- 🌐 Website: [xperience.dao](https://xperience.dao)
+### 🐛 Reportar Bugs
+1. Verifique se o bug já foi reportado nas [Issues](https://github.com/gosouza/Xperience/issues)
+2. Crie uma nova issue com detalhes do problema
+3. Inclua steps para reproduzir o bug
+
+### 💡 Sugerir Melhorias
+1. Abra uma issue com a tag `enhancement`
+2. Descreva a funcionalidade desejada
+3. Explique por que seria útil
+
+### 🔧 Contribuir com Código
+1. Fork o projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+4. Push para a branch (`git push origin feature/AmazingFeature`)
+5. Abra um Pull Request
+
+### 📋 Guidelines
+- Siga os padrões de código existentes
+- Adicione testes para novas funcionalidades
+- Atualize a documentação quando necessário
+- Use commits semânticos (feat, fix, docs, etc.)
+
+## 🤝 Comunidade & Suporte
+
+### 💬 Canais de Comunicação
+- 📧 **Email**: contato@xperience.com.br
+- 💼 **LinkedIn**: [Xperience Mentoria](https://linkedin.com/company/xperience-mentoria)
+- 📱 **WhatsApp**: [Grupo da Comunidade](https://chat.whatsapp.com/xperience)
+- 🌐 **Website**: [xperience.com.br](https://xperience.com.br)
+
+### 🆘 Suporte Técnico
+- 🐛 **Issues**: [GitHub Issues](https://github.com/gosouza/Xperience/issues)
+- 📚 **Documentação**: [Wiki do Projeto](https://github.com/gosouza/Xperience/wiki)
+- 💡 **Discussões**: [GitHub Discussions](https://github.com/gosouza/Xperience/discussions)
+
+## 📚 Documentação Adicional
+
+- 📖 **[Arquitetura](./ARCHITECTURE.md)** - Estrutura técnica e padrões
+- 🔧 **[API e Serviços](./API.md)** - Documentação da API
+- 🧪 **[Testes](./TESTING.md)** - Guia completo de testes
+- 🚀 **[Deploy](./DEPLOYMENT.md)** - Guias de deploy para produção
+- 🤝 **[Contribuição](./CONTRIBUTING.md)** - Como contribuir com o projeto
+- 📁 **[Estrutura do Projeto](./PROJECT_STRUCTURE.md)** - Organização de arquivos
 
 ## 📜 Licença
 
@@ -217,7 +448,7 @@ Este projeto está sob a licença MIT. Veja [LICENSE](./LICENSE) para mais detal
 ---
 
 <p align="center">
-    <sub>Desenvolvido com 💙 pela comunidade Xperience DAO</sub>
+    <sub>Desenvolvido com 💙 pela comunidade Xperience</sub>
     <br>
-    <sub>Transformando a consultoria empresarial através da inovação descentralizada</sub>
+    <sub>Transformando ideias em negócios de sucesso através de mentoria inovadora</sub>
 </p>

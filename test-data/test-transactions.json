@@ -1,0 +1,25 @@
+[
+  {
+    "id": "tx-1",
+    "userId": "test-user-1",
+    "planId": "essential",
+    "amount": 297,
+    "currency": "BRL",
+    "provider": "pix",
+    "status": "completed",
+    "transactionId": "mp-123456",
+    "createdAt": "2023-01-01T10:00:00Z",
+    "completedAt": "2023-01-01T10:01:00Z"
+  },
+  {
+    "id": "tx-2",
+    "userId": "test-user-2",
+    "planId": "expert",
+    "amount": 0.0083,
+    "currency": "BTC",
+    "provider": "bitcoin",
+    "status": "pending",
+    "transactionId": "btc-789012",
+    "createdAt": "2023-01-02T14:30:00Z"
+  }
+]

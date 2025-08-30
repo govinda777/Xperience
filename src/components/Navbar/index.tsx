@@ -3,12 +3,15 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Menu, X, User } from "lucide-react";
 import { useAuth0 } from "@auth0/auth0-react";
 import AuthButton from "../AuthButton";
+import CartIcon from "../cart/CartIcon";
+import CartSidebar from "../cart/CartSidebar";
 
 const logo = new URL("/public/logo.svg", import.meta.url).href;
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const { isAuthenticated, user } = useAuth0(); // Obtém status de login e informações do usuário
@@ -85,6 +88,11 @@ const Navbar = () => {
 
         {/* Desktop Auth Buttons */}
         <div className="hidden md:flex items-center gap-4">
+          <CartIcon 
+            onClick={() => setIsCartOpen(true)}
+            className="text-gray-700 hover:text-gray-900 transition-colors"
+          />
+          
           {isAuthenticated ? (
             <div className="flex items-center gap-4">
               <User 
@@ -150,6 +158,16 @@ const Navbar = () => {
 
             {/* Mobile Authentication */}
             <div className="flex flex-col space-y-4 pt-4">
+              <div className="flex justify-center">
+                <CartIcon 
+                  onClick={() => {
+                    setIsCartOpen(true);
+                    setIsOpen(false);
+                  }}
+                  className="text-gray-700 hover:text-gray-900 transition-colors"
+                />
+              </div>
+              
               {isAuthenticated ? (
                 <div className="flex flex-col items-center">
                   <User 
@@ -169,6 +187,12 @@ const Navbar = () => {
           </div>
         </div>
       )}
+      
+      {/* Cart Sidebar */}
+      <CartSidebar 
+        isOpen={isCartOpen} 
+        onClose={() => setIsCartOpen(false)} 
+      />
     </header>
   );
 };

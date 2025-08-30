@@ -1,0 +1,14 @@
+{
+  "auth0": {
+    "domain": "test.auth0.com",
+    "clientId": "test-client-id",
+    "audience": "test-audience"
+  },
+  "mercadopago": {
+    "accessToken": "test-mp-token",
+    "publicKey": "test-mp-public-key"
+  },
+  "coingecko": {
+    "baseUrl": "https://api.coingecko.com/api/v3"
+  }
+}

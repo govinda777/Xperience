@@ -1,0 +1,24 @@
+[
+  {
+    "id": "test-user-1",
+    "email": "test1@xperience.com",
+    "name": "Test User 1",
+    "sub": "auth0|test-user-1",
+    "wallet": {
+      "address": "0x123456789abcdef123456789abcdef123456789a",
+      "smartAccountAddress": "0xabcdef123456789abcdef123456789abcdef123456",
+      "balance": "1.5"
+    }
+  },
+  {
+    "id": "test-user-2",
+    "email": "test2@xperience.com",
+    "name": "Test User 2",
+    "sub": "auth0|test-user-2",
+    "wallet": {
+      "address": "0x987654321fedcba987654321fedcba987654321b",
+      "smartAccountAddress": "0xfedcba987654321fedcba987654321fedcba987654",
+      "balance": "2.3"
+    }
+  }
+]
