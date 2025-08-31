@@ -1,7 +1,5 @@
 // Configuração do Privy para autenticação e pagamentos
-import { PrivyClientConfig } from '@privy-io/react-auth';
-
-export const privyConfig: PrivyClientConfig = {
+export const privyConfig = {
   appId: process.env.VITE_PRIVY_APP_ID || 'clp123456789', // Substitua pelo seu App ID real
   config: {
     // Configurações de login
