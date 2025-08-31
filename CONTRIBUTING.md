@@ -614,3 +614,4 @@ Este projeto adere ao [Código de Conduta](CODE_OF_CONDUCT.md). Ao participar, v
 ---
 
 Obrigado por contribuir com a Xperience! Juntos estamos construindo uma plataforma incrível para transformar ideias em negócios de sucesso. 🚀
+

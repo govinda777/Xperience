@@ -531,3 +531,4 @@ Veja a pasta `src/services/__tests__/` para exemplos completos de uso e testes d
 ---
 
 Esta documentação é mantida atualizada conforme a evolução dos serviços. Para dúvidas ou sugestões, abra uma issue no repositório.
+

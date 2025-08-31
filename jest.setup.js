@@ -77,3 +77,4 @@ Object.defineProperty(global, 'window', {
   },
   writable: true
 });
+

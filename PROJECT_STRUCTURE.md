@@ -472,3 +472,4 @@ generate-tree.sh             # Geração de árvore de arquivos
 Esta estrutura foi projetada para crescer com o projeto, mantendo organização e clareza mesmo com o aumento da complexidade e do time de desenvolvimento.
 
 *Para dúvidas sobre a organização ou sugestões de melhorias, consulte o [CONTRIBUTING.md](./CONTRIBUTING.md) ou abra uma issue no repositório.*
+

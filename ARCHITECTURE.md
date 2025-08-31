@@ -308,3 +308,4 @@ Code Push → GitHub Actions → Tests → Build → Deploy
 ---
 
 Esta arquitetura foi projetada para ser **escalável**, **manutenível** e **testável**, seguindo as melhores práticas da indústria e permitindo evolução contínua da plataforma.
+
