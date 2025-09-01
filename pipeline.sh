@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Pipeline de CI/CD para Xperience
+# Pipeline de CI/CD simplificado para Xperience
 # Este script executa verificações básicas antes do commit
 
-echo "🚀 Iniciando pipeline de CI/CD..."
+echo "🚀 Iniciando pipeline simplificado de CI/CD..."
 
 # Cores para output
 RED='\033[0;31m'
@@ -44,7 +44,7 @@ else
     exit 1
 fi
 
-# 2. Executar linting (não crítico)
+# 2. Executar linting básico
 log_info "Executando linting..."
 if npm run lint 2>/dev/null; then
     log_success "Linting passou!"
@@ -52,7 +52,7 @@ else
     log_warning "Linting falhou, mas continuando..."
 fi
 
-# 3. Verificar se o Vite consegue fazer build (mais tolerante)
+# 3. Verificar se o Vite consegue fazer build
 log_info "Tentando build com Vite..."
 if timeout 60 npm run build 2>/dev/null; then
     log_success "Build Vite concluído!"
@@ -60,26 +60,26 @@ else
     log_warning "Build Vite falhou ou demorou muito, mas continuando..."
 fi
 
-# 4. Verificar se há arquivos de teste básicos
-log_info "Verificando testes disponíveis..."
-if find src -name "*.test.*" -o -name "*.spec.*" | head -1 | read; then
-    log_success "Arquivos de teste encontrados!"
+# 4. Executar testes unitários (apenas se existirem)
+log_info "Executando testes unitários..."
+if npm run test:unit 2>/dev/null; then
+    log_success "Testes unitários passaram!"
 else
-    log_warning "Nenhum arquivo de teste encontrado"
+    log_warning "Testes unitários falharam ou não existem"
 fi
 
-log_success "🎉 Pipeline concluído! Verificações básicas realizadas."
+log_success "🎉 Pipeline simplificado concluído!"
 echo ""
 echo "📊 Resumo das verificações:"
 echo "  ✅ Estrutura do projeto"
 echo "  ⚠️  Linting (avisos)"
 echo "  ⚠️  Build (tentativa)"
-echo "  ⚠️  Testes (verificação)"
+echo "  ⚠️  Testes unitários (básicos)"
 echo ""
-echo "💡 Este é um pipeline básico para permitir commits."
+echo "💡 Pipeline simplificado - apenas verificações essenciais."
 echo "   Para verificações completas, execute:"
-echo "   - 'npm run lint' para linting"
-echo "   - 'npm run build' para build completo"
-echo "   - 'npm run test' para testes"
+echo "   - 'npm run test:unit' para testes unitários"
+echo "   - 'npm run test:integration' para testes de integração"
+echo "   - 'npm run test:coverage' para relatório de cobertura"
 echo "   - 'npm run dev' para testar a aplicação"
 echo ""

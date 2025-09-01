@@ -7,7 +7,16 @@ import { VitePWA } from 'vite-plugin-pwa';
 export default defineConfig({
   plugins: [
     react(), 
-    nodePolyfills(),
+    nodePolyfills({
+      // Whether to polyfill specific globals
+      globals: {
+        Buffer: true,
+        global: true,
+        process: true,
+      },
+      // Whether to polyfill `global`
+      protocolImports: true,
+    }),
     VitePWA({
       registerType: 'autoUpdate',
       workbox: {
@@ -42,6 +51,11 @@ export default defineConfig({
   base: '/', // Removido prefixo GitHub Pages
   build: {
     rollupOptions: {
+      external: [
+        'unenv/node/process',
+        'unenv/node/global',
+        'unenv/node/buffer'
+      ],
       output: {
         manualChunks: {
           vendor: ['react', 'react-dom'],
@@ -63,5 +77,17 @@ export default defineConfig({
   server: {
     port: 5173,
     host: true
-  }
+  },
+  // Resolve configuration to handle Node.js modules
+  resolve: {
+    alias: {
+      process: 'process/browser',
+      stream: 'stream-browserify',
+      util: 'util',
+    },
+  },
+  // Define global variables
+  define: {
+    global: 'globalThis',
+  },
 });
