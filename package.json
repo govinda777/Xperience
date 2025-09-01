@@ -8,6 +8,7 @@
     "prepare": "husky install",
     "dev": "vite",
     "build": "tsc && vite build",
+    "build:clean": "./scripts/build.sh",
     "preview": "vite preview",
     "configbot": "node configure.js",
     "test": "jest",

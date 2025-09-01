@@ -1,0 +1,11 @@
+{
+  "build": {
+    "rollupOptions": {
+      "onwarn": {
+        "ANNOTATION_POSITION": "ignore",
+        "MODULE_LEVEL_DIRECTIVE": "ignore",
+        "UNUSED_EXTERNAL_IMPORT": "ignore"
+      }
+    }
+  }
+}

@@ -3,9 +3,44 @@ import react from "@vitejs/plugin-react";
 import { nodePolyfills } from "vite-plugin-node-polyfills";
 import { VitePWA } from 'vite-plugin-pwa';
 
+// Custom plugin to suppress Privy warnings
+const suppressPrivyWarnings = () => {
+  return {
+    name: 'suppress-privy-warnings',
+    config(config) {
+      if (!config.build) config.build = {};
+      if (!config.build.rollupOptions) config.build.rollupOptions = {};
+      
+      const originalOnwarn = config.build.rollupOptions.onwarn;
+      
+      config.build.rollupOptions.onwarn = (warning, warn) => {
+        // Suppress Privy library warnings about /*#__PURE__*/ comments
+        if (warning.code === 'ANNOTATION_POSITION' && 
+            warning.message.includes('/*#__PURE__*/')) {
+          return;
+        }
+        // Suppress other common warnings that don't affect functionality
+        if (warning.code === 'MODULE_LEVEL_DIRECTIVE' ||
+            warning.code === 'UNUSED_EXTERNAL_IMPORT' ||
+            warning.code === 'EVAL') {
+          return;
+        }
+        
+        // Call original onwarn if it exists
+        if (originalOnwarn) {
+          originalOnwarn(warning, warn);
+        } else {
+          warn(warning);
+        }
+      };
+    }
+  };
+};
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
+    suppressPrivyWarnings(),
     react(), 
     nodePolyfills({
       // Whether to polyfill specific globals
@@ -69,7 +104,11 @@ export default defineConfig({
     terserOptions: {
       compress: {
         drop_console: true,
-        drop_debugger: true
+        drop_debugger: true,
+        pure_funcs: ['console.log', 'console.info', 'console.debug']
+      },
+      format: {
+        comments: false
       }
     }
   },
