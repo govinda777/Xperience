@@ -3,50 +3,16 @@ import { PaymentProviderInterface, PaymentResult, PaymentStatus, PaymentCurrency
 import { paymentConfig } from '../../config/privy';
 
 export class PrivyPaymentProvider implements PaymentProviderInterface {
-  id = 'privy' as const;
+  id = 'pix' as const; // Using PIX as the primary method
   name = 'Privy Payment Gateway';
-  type = 'hybrid' as const;
+  type = 'fiat' as const;
   supportedCurrencies: PaymentCurrency[] = ['BRL', 'USD', 'BTC', 'USDT'];
 
   private apiUrl = process.env.VITE_API_URL || 'http://localhost:3001/api';
 
-  async process(amount: number, planId: string, userId: string, method: 'pix' | 'bitcoin' | 'usdt' | 'github'): Promise<PaymentResult> {
-    try {
-      const response = await fetch(`${this.apiUrl}/payments/create`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          amount,
-          planId,
-          userId,
-          method,
-          provider: 'privy',
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`Payment creation failed: ${response.statusText}`);
-      }
-
-      const data = await response.json();
-      
-      return {
-        transactionId: data.transactionId,
-        paymentUrl: data.paymentUrl,
-        paymentAddress: data.paymentAddress,
-        qrCode: data.qrCode,
-        qrCodeBase64: data.qrCodeBase64,
-        amount: data.amount,
-        currency: data.currency,
-        expiresAt: data.expiresAt ? new Date(data.expiresAt) : undefined,
-        metadata: data.metadata,
-      };
-    } catch (error) {
-      console.error('Erro ao processar pagamento via Privy:', error);
-      throw error;
-    }
+  async process(amount: number, planId: string, userId: string): Promise<PaymentResult> {
+    // Default to PIX payment
+    return this.processPixPayment(amount, planId, userId, {});
   }
 
   async verify(transactionId: string): Promise<PaymentStatus> {

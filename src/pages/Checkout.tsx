@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { usePrivy } from '@privy-io/react-auth';
+// import { usePrivy } from '@privy-io/react-auth';
 import { useCart } from '../contexts/CartContext';
 import CheckoutForm from '../components/checkout/CheckoutForm';
 import PaymentMethodSelection from '../components/checkout/PaymentMethodSelection';
@@ -12,7 +12,7 @@ type CheckoutStep = 'info' | 'payment' | 'processing' | 'success';
 
 const Checkout: React.FC = () => {
   const navigate = useNavigate();
-  const { authenticated, login } = usePrivy();
+  // const { authenticated, login } = usePrivy();
   const { hasItems, clearCart } = useCart();
 
   const [currentStep, setCurrentStep] = useState<CheckoutStep>('info');
@@ -24,39 +24,39 @@ const Checkout: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   // Verificar se usuário está autenticado
-  if (!authenticated) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="max-w-md mx-auto text-center p-6">
-          <div className="bg-white rounded-lg shadow-sm border p-8">
-            <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <User className="w-8 h-8 text-blue-600" />
-            </div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">
-              Login Necessário
-            </h2>
-            <p className="text-gray-600 mb-6">
-              Você precisa estar logado para finalizar sua compra
-            </p>
-            <div className="space-y-3">
-              <button
-                onClick={login}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors"
-              >
-                Fazer Login
-              </button>
-              <button
-                onClick={() => navigate('/plans')}
-                className="w-full border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium py-2 px-4 rounded-lg transition-colors"
-              >
-                Voltar aos Planos
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  // if (!authenticated) {
+  //   return (
+  //     <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+  //       <div className="max-w-md mx-auto text-center p-6">
+  //         <div className="bg-white rounded-lg shadow-sm border p-8">
+  //           <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+  //             <User className="w-8 h-8 text-blue-600" />
+  //           </div>
+  //           <h2 className="text-2xl font-bold text-gray-900 mb-4">
+  //             Login Necessário
+  //           </h2>
+  //           <p className="text-gray-600 mb-6">
+  //             Você precisa estar logado para finalizar sua compra
+  //           </p>
+  //           <div className="space-y-3">
+  //             <button
+  //               onClick={login}
+  //               className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors"
+  //             >
+  //               Fazer Login
+  //             </button>
+  //             <button
+  //               onClick={() => navigate('/plans')}
+  //               className="w-full border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium py-2 px-4 rounded-lg transition-colors"
+  //             >
+  //               Voltar aos Planos
+  //             </button>
+  //           </div>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   // Verificar se há itens no carrinho
   if (!hasItems()) {

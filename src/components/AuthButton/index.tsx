@@ -1,25 +1,23 @@
 import React from "react";
-import { useAuth0 } from "@auth0/auth0-react";
+import { usePrivy } from "@privy-io/react-auth";
 
 const AuthButton = () => {
-  const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0();
+  const { login, logout, authenticated, user } = usePrivy();
 
   // Obtém apenas o primeiro nome do usuário
-  const firstName = user?.name?.split(" ")[0];
+  const firstName = user?.email?.address?.split("@")[0] || user?.wallet?.address?.slice(0, 6) + "..." || "Usuário";
 
   return (
     <div>
-      {isAuthenticated ? (
+      {authenticated ? (
         <>
           <p>Bem-vindo, {firstName}</p>
-          <button onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>
+          <button onClick={() => logout()}>
             Logout
           </button>
         </>
       ) : (
-        <button onClick={() => loginWithRedirect({
-          appState: { returnTo: "/dashboard" }
-        })}>Login</button>
+        <button onClick={() => login()}>Login</button>
       )}
     </div>
   );

@@ -1,12 +1,12 @@
-import { useAuth0 } from "@auth0/auth0-react";
+import { usePrivy } from "@privy-io/react-auth";
 import { Navigate } from "react-router-dom";
 
 const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
-  const { isAuthenticated, isLoading } = useAuth0();
+  const { authenticated, ready } = usePrivy();
 
-  if (isLoading) return <p>Carregando...</p>;
+  if (!ready) return <p>Carregando...</p>;
 
-  return isAuthenticated ? children : <Navigate to="/" />;
+  return authenticated ? children : <Navigate to="/" />;
 };
 
 export default ProtectedRoute;

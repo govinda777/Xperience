@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAuth0 } from '@auth0/auth0-react';
+import { usePrivy } from '@privy-io/react-auth';
 import WalletInfo from '../components/WalletInfo';
 import Transaction from '../components/Transaction';
 
@@ -7,9 +7,9 @@ import Transaction from '../components/Transaction';
  * Wallet Management Page
  */
 const WalletManagement: React.FC = () => {
-  const { isAuthenticated, isLoading, loginWithRedirect, user } = useAuth0();
+  const { authenticated, ready, login, user } = usePrivy();
 
-  if (isLoading) {
+  if (!ready) {
     return (
       <div className="flex items-center justify-center h-96">
         <div className="text-center">
@@ -20,7 +20,7 @@ const WalletManagement: React.FC = () => {
     );
   }
 
-  if (!isAuthenticated) {
+  if (!authenticated) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-8">
         <div className="text-center bg-white p-8 rounded-lg shadow-sm border">
@@ -29,7 +29,7 @@ const WalletManagement: React.FC = () => {
             Faça login para acessar sua carteira digital e gerenciar suas transações.
           </p>
           <button
-            onClick={() => loginWithRedirect()}
+            onClick={() => login()}
             className="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
           >
             Fazer Login
@@ -62,7 +62,7 @@ const WalletManagement: React.FC = () => {
       <div className="mb-8">
         <h2 className="text-2xl font-bold">Sua Carteira Digital</h2>
         <p className="text-gray-600 mt-1">
-          Bem-vindo(a), {user?.name || 'Usuário'}! Gerencie sua carteira e faça transações.
+          Bem-vindo(a), {user?.email?.address?.split("@")[0] || user?.wallet?.address?.slice(0, 10) + "..." || 'Usuário'}! Gerencie sua carteira e faça transações.
         </p>
       </div>
 

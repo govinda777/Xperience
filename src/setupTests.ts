@@ -28,7 +28,7 @@ Object.defineProperty(globalThis, 'import', {
 });
 
 // Alternative mock for import.meta
-global.importMeta = {
+(global as any).importMeta = {
   env: {
     VITE_MERCADO_PAGO_PUBLIC_KEY: 'test-key',
     VITE_RPC_URL: 'https://test-rpc.com',

@@ -1,21 +1,21 @@
 // Configuração do Privy para autenticação e pagamentos
 export const privyConfig = {
-  appId: process.env.VITE_PRIVY_APP_ID || 'clp123456789', // Substitua pelo seu App ID real
+  appId: process.env.VITE_PRIVY_APP_ID || 'cmdwdbrix009rky0ch4w7hgvm', // App ID do Privy
   config: {
     // Configurações de login
-    loginMethods: ['email', 'sms', 'wallet', 'google', 'github'],
+    loginMethods: ['email', 'sms', 'wallet', 'google', 'github'] as ('email' | 'github' | 'google' | 'sms' | 'wallet' | 'twitter' | 'discord' | 'linkedin' | 'spotify' | 'instagram' | 'tiktok' | 'apple' | 'farcaster' | 'telegram')[],
     
     // Configurações de aparência
     appearance: {
-      theme: 'dark',
-      accentColor: '#6366F1',
+      theme: 'dark' as const,
+      accentColor: '#6366F1' as const,
       logo: '/logo.svg',
       showWalletLoginFirst: false,
     },
     
     // Configurações de wallet embarcada
     embeddedWallets: {
-      createOnLogin: 'users-without-wallets',
+      createOnLogin: 'users-without-wallets' as const,
       requireUserPasswordOnCreate: true,
       noPromptOnSignature: false,
     },

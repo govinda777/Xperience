@@ -52,7 +52,7 @@ export const PaymentStatusModal: React.FC<PaymentStatusModalProps> = ({
     }
   };
 
-  const config = methodConfig[method];
+  const config = methodConfig[method as keyof typeof methodConfig];
 
   // Status do pagamento
   const getStatusInfo = () => {

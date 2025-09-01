@@ -1,4 +1,4 @@
-import { Cart, CartItem, CartSummary, Discount } from '../types/cart';
+import { Cart, CartItem, CartSummary } from '../types/cart';
 
 export class CartService {
   private cart: Cart | null = null;
@@ -16,10 +16,11 @@ export class CartService {
       createdAt: new Date(),
       updatedAt: new Date(),
       userId: undefined,
-      sessionId: this.generateSessionId(),
       currency: 'BRL',
-      status: 'active',
-      expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours
+      subtotal: 0,
+      discount: 0,
+      tax: 0,
+      total: 0,
     };
 
     this.cart = newCart;
@@ -132,6 +133,7 @@ export class CartService {
       return {
         subtotal: 0,
         discount: 0,
+        tax: 0,
         total: 0,
         itemCount: 0,
         currency: 'BRL'
@@ -159,13 +161,14 @@ export class CartService {
     const total = subtotal - totalDiscount;
     const itemCount = this.cart.items.reduce((sum, item) => sum + item.quantity, 0);
 
-    return {
-      subtotal,
-      discount: totalDiscount,
-      total: Math.max(0, total), // Ensure total is never negative
-      itemCount,
-      currency: this.cart.currency
-    };
+          return {
+        subtotal,
+        discount: totalDiscount,
+        tax: 0, // Tax calculation would go here
+        total: Math.max(0, total), // Ensure total is never negative
+        itemCount,
+        currency: this.cart.currency
+      };
   }
 
   hasItems(): boolean {
@@ -181,7 +184,7 @@ export class CartService {
   }
 
   // Discount Management
-  applyDiscount(discount: Discount): boolean {
+  applyDiscount(discount: any): boolean {
     if (!this.cart) {
       return false;
     }

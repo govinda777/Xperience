@@ -120,7 +120,7 @@ export class OrderService {
       // Fallback: atualizar localmente
       const order = this.getOrderLocally(orderId);
       if (order) {
-        order.paymentStatus = paymentStatus;
+        order.paymentStatus = paymentStatus as 'pending' | 'processing' | 'completed' | 'failed' | 'refunded';
         order.paymentId = paymentId;
         order.transactionHash = transactionHash;
         order.updatedAt = new Date();

@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useAuth0 } from '@auth0/auth0-react';
+import { usePrivy } from '@privy-io/react-auth';
 import { UserWalletService } from '../services/userWalletService';
 import { WalletService } from '../services/walletService';
 
@@ -21,7 +21,7 @@ interface WalletData {
  * Hook to interact with user's ERC-4337 wallet
  */
 export const useUserWallet = () => {
-  const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
+  const { user, authenticated } = usePrivy();
   const [walletData, setWalletData] = useState<WalletData | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -33,7 +33,7 @@ export const useUserWallet = () => {
    * Initialize the user's wallet
    */
   const initializeWallet = useCallback(async () => {
-    if (!isAuthenticated || !user?.sub) {
+    if (!authenticated || !user?.id) {
       setWalletData(null);
       return;
     }
@@ -43,7 +43,7 @@ export const useUserWallet = () => {
 
     try {
       // Get or create the user's wallet
-      const wallet = await userWalletService.getOrCreateUserWallet(user.sub);
+      const wallet = await userWalletService.getOrCreateUserWallet(user.id);
       
       // Get the wallet balance
       const balance = await walletService.getBalance(wallet.smartAccountAddress);
@@ -60,7 +60,7 @@ export const useUserWallet = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [isAuthenticated, user?.sub]);
+  }, [authenticated, user?.id]);
 
   /**
    * Effect to initialize the wallet when the user's authentication state changes
@@ -73,7 +73,7 @@ export const useUserWallet = () => {
    * Send a transaction using the user's wallet
    */
   const sendTransaction = async (transaction: TransactionRequest): Promise<string> => {
-    if (!isAuthenticated || !user?.sub || !walletData) {
+    if (!authenticated || !user?.id || !walletData) {
       throw new Error('User not authenticated or wallet not initialized');
     }
 
@@ -82,7 +82,7 @@ export const useUserWallet = () => {
 
     try {
       // Get the user's wallet
-      const wallet = await userWalletService.getUserWallet(user.sub);
+      const wallet = await userWalletService.getUserWallet(user.id);
       
       if (!wallet) {
         throw new Error('Wallet not found');
@@ -114,12 +114,12 @@ export const useUserWallet = () => {
    * Refresh the wallet balance
    */
   const refreshBalance = async (): Promise<void> => {
-    if (!isAuthenticated || !user?.sub || !walletData) {
+    if (!authenticated || !user?.id || !walletData) {
       return;
     }
 
     try {
-      const balance = await userWalletService.getUserBalance(user.sub);
+      const balance = await userWalletService.getUserBalance(user.id);
       
       setWalletData({
         ...walletData,

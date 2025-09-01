@@ -1,10 +1,10 @@
 import React from "react";
-import { useAuth0 } from "@auth0/auth0-react";
+import { usePrivy } from "@privy-io/react-auth";
 
 const Dashboard = () => {
-  const { user, logout, isLoading } = useAuth0();
+  const { user, logout, ready } = usePrivy();
 
-  if (isLoading) {
+  if (!ready) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-orange-500"></div>
@@ -25,25 +25,17 @@ const Dashboard = () => {
         {/* User Profile Section */}
         <div className="p-6 flex flex-col md:flex-row border-b">
           <div className="flex-shrink-0 mb-4 md:mb-0">
-            {user?.picture ? (
-              <img 
-                src={user.picture} 
-                alt="Foto do perfil" 
-                className="w-24 h-24 rounded-full border-4 border-gray-200"
-              />
-            ) : (
-              <div className="w-24 h-24 rounded-full bg-gray-300 flex items-center justify-center">
-                <span className="text-2xl text-gray-600">{user?.name?.charAt(0) || "U"}</span>
-              </div>
-            )}
+            <div className="w-24 h-24 rounded-full bg-gray-300 flex items-center justify-center">
+              <span className="text-2xl text-gray-600">{(user?.email?.address?.charAt(0) || user?.wallet?.address?.charAt(0) || "U").toUpperCase()}</span>
+            </div>
           </div>
           <div className="md:ml-6">
-            <h2 className="text-2xl font-bold text-gray-800">{user?.name}</h2>
-            <p className="text-gray-600">{user?.email}</p>
+            <h2 className="text-2xl font-bold text-gray-800">{user?.email?.address?.split("@")[0] || user?.wallet?.address?.slice(0, 10) + "..." || "Usuário"}</h2>
+            <p className="text-gray-600">{user?.email?.address || user?.wallet?.address || "Usuário Privy"}</p>
             
             <div className="mt-4 flex flex-wrap gap-2">
               <button 
-                onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}
+                onClick={() => logout()}
                 className="px-4 py-2 bg-orange-600 text-white rounded hover:bg-orange-700 transition"
               >
                 Sair da conta

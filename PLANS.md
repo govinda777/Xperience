@@ -6,7 +6,7 @@ O Xperience é uma consultoria descomplicada, focada em resultados.
 
 Voçê como nosso cliente pode:
 
-- Ser mentorado por nossos especialistas
+- Ser orientado por nossos especialistas
 
 # PROGRAMA XPERIENCE - MENTORIA INDIVIDUAL
 

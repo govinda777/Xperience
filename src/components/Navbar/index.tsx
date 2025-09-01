@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Menu, X, User } from "lucide-react";
-import { useAuth0 } from "@auth0/auth0-react";
+import { usePrivy } from "@privy-io/react-auth";
 import AuthButton from "../AuthButton";
 import CartIcon from "../cart/CartIcon";
 import CartSidebar from "../cart/CartSidebar";
@@ -14,7 +14,7 @@ const Navbar = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const { isAuthenticated, user } = useAuth0(); // Obtém status de login e informações do usuário
+  const { authenticated, user } = usePrivy(); // Obtém status de login e informações do usuário
 
   useEffect(() => {
     const handleScroll = () => {
@@ -93,7 +93,7 @@ const Navbar = () => {
             className="text-gray-700 hover:text-gray-900 transition-colors"
           />
           
-          {isAuthenticated ? (
+          {authenticated ? (
             <div className="flex items-center gap-4">
               <User 
                 className="h-8 w-8 text-gray-700 cursor-pointer" 
@@ -168,7 +168,7 @@ const Navbar = () => {
                 />
               </div>
               
-              {isAuthenticated ? (
+              {authenticated ? (
                 <div className="flex flex-col items-center">
                   <User 
                     className="h-6 w-6 text-gray-700 cursor-pointer" 
@@ -177,7 +177,7 @@ const Navbar = () => {
                       setIsOpen(false);
                     }}
                   />
-                  <p className="text-lg">{user?.name}</p>
+                  <p className="text-lg">{user?.email?.address?.split("@")[0] || user?.wallet?.address?.slice(0, 10) + "..." || "Usuário"}</p>
                   <AuthButton />
                 </div>
               ) : (

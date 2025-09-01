@@ -1,7 +1,7 @@
 import React from "react";
 import Check from "../../../../assets/svg/check.svg";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react";
+import { usePrivy } from "@privy-io/react-auth";
 import Crown from "../../../../assets/svg/crown.svg";
 
 interface PlansCardsProps {
@@ -112,16 +112,12 @@ const PlanButton: React.FC<{ link: string; isRecomendad: boolean }> = ({
   link,
   isRecomendad,
 }) => {
-  const { loginWithRedirect } = useAuth0();
+  const { login } = usePrivy();
   const navigate = useNavigate();
 
   const handlePlanSelection = (e: React.MouseEvent) => {
     e.preventDefault();
-    loginWithRedirect({
-      appState: {
-        returnTo: link,
-      },
-    });
+    login();
   };
 
   return (

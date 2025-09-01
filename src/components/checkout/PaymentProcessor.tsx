@@ -77,7 +77,7 @@ const PaymentProcessor: React.FC<PaymentProcessorProps> = ({
               summary.total,
               cart.items[0]?.planId || 'default',
               user.id,
-              user.github?.username
+              user.github?.username || undefined
             );
             break;
           default:

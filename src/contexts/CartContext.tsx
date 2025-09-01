@@ -250,7 +250,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
           const newCart: Cart = {
             ...initialCart,
             id: generateCartId(),
-            userId: user?.id,
+            userId: undefined, // user?.id,
           };
           dispatch({ type: 'SET_CART', payload: newCart });
         }
@@ -261,7 +261,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     };
 
     loadCart();
-  }, [user]);
+  }, []); // [user]);
 
   // Salvar carrinho no localStorage sempre que mudar
   useEffect(() => {
@@ -271,18 +271,18 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   }, [state.cart]);
 
   // Atualizar userId quando usuário fizer login
-  useEffect(() => {
-    if (authenticated && user && state.cart.userId !== user.id) {
-      dispatch({
-        type: 'SET_CART',
-        payload: {
-          ...state.cart,
-          userId: user.id,
-          updatedAt: new Date(),
-        },
-      });
-    }
-  }, [authenticated, user, state.cart.userId]);
+  // useEffect(() => {
+  //   if (authenticated && user && state.cart.userId !== user.id) {
+  //     dispatch({
+  //       type: 'SET_CART',
+  //       payload: {
+  //         ...state.cart,
+  //         userId: user.id,
+  //         updatedAt: new Date(),
+  //       },
+  //     });
+  //   }
+  // }, [authenticated, user, state.cart.userId]);
 
   // Implementação das funções do contexto
   const addItem = async (itemData: Omit<CartItem, 'id' | 'quantity'>): Promise<void> => {
@@ -454,9 +454,9 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       dispatch({ type: 'SET_LOADING', payload: true });
       dispatch({ type: 'SET_ERROR', payload: null });
 
-      if (!authenticated || !user) {
-        throw new Error('Usuário não autenticado');
-      }
+      // if (!authenticated || !user) {
+      //   throw new Error('Usuário não autenticado');
+      // }
 
       if (state.cart.items.length === 0) {
         throw new Error('Carrinho vazio');
@@ -466,7 +466,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       const checkoutSession: CheckoutSession = {
         id: `checkout_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
         cartId: state.cart.id,
-        userId: user.id,
+        userId: user?.id || 'anonymous',
         status: 'pending',
         customerInfo,
         billingAddress,

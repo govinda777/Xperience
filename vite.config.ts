@@ -11,7 +11,8 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,jpg,jpeg,webp}']
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,jpg,jpeg,webp}'],
+        maximumFileSizeToCacheInBytes: 5 * 1024 * 1024 // 5MB
       },
       manifest: {
         name: 'Xperience - Mentoria para Empreendedores',
@@ -38,7 +39,7 @@ export default defineConfig({
       }
     })
   ],
-  base: process.env.NODE_ENV === 'production' ? '/Xperience/' : '/', // GitHub Pages base path
+  base: '/', // Removido prefixo GitHub Pages
   build: {
     rollupOptions: {
       output: {

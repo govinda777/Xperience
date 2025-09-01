@@ -51,7 +51,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onNext, isLoading = false }
       newErrors.email = 'Email inválido';
     }
 
-    if (!customerInfo.phone.trim()) {
+    if (!customerInfo.phone?.trim()) {
       newErrors.phone = 'Telefone é obrigatório';
     } else if (!/^\(\d{2}\)\s\d{4,5}-\d{4}$/.test(customerInfo.phone)) {
       newErrors.phone = 'Telefone inválido (ex: (11) 99999-9999)';
@@ -220,7 +220,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onNext, isLoading = false }
                       value={customerInfo.document}
                       onChange={(e) => setCustomerInfo({ 
                         ...customerInfo, 
-                        document: formatDocument(e.target.value, customerInfo.documentType) 
+                        document: formatDocument(e.target.value, customerInfo.documentType || 'cpf') 
                       })}
                       className={`flex-1 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
                         errors.document ? 'border-red-500' : 'border-gray-300'

@@ -51,10 +51,10 @@ eliminando elementos que sobrecarregam custos e focando no que realmente **encan
 ### 3.1. Responsabilidades dos Mentores
 - **Orientação Estratégica:** Auxiliar na criação de estratégias inovadoras, com foco no Blueocean.
 - **Compartilhamento de Experiências:** Trazer insights práticos e alertas para evitar erros comuns.
-- **Acompanhamento Contínuo:** Monitorar o progresso dos mentorados e garantir o cumprimento das etapas do programa.
+- **Acompanhamento Contínuo:** Monitorar o progresso dos participantes e garantir o cumprimento das etapas do programa.
 - **Feedback Contínuo:** Garantir que nossa mentoria esteja dentro ou além das expectativas do cliente.
 
-### 3.2. Responsabilidades dos Mentorados
+### 3.2. Responsabilidades dos Participantes
 - **Engajamento Ativo:** Participar das sessões preparados para absorver e aplicar os aprendizados.
 - **Execução de Tarefas:** Realizar breves pesquisas de mercado quando necessário; Preparar materiais solicitados para as reuniões; Ter conversas estratégicas com pessoas ou parceiros importantes para o negócio.
 - **Proatividade:** Trazer dúvidas, sugestões e compartilhar aprendizados para enriquecer as discussões.
@@ -88,4 +88,4 @@ eliminando elementos que sobrecarregam custos e focando no que realmente **encan
 
 O modelo de mentoria baseado no **Blue Ocean Strategy** tem como principal diferencial a busca por inovação e a criação de um espaço de mercado próprio, 
 onde a concorrência perde relevância. Com uma estrutura modular, foco no desenvolvimento prático e acompanhamento contínuo, o programa está desenhado para transformar ideias promissoras em negócios sólidos e escaláveis. 
-Ao integrar mentores experientes e mentorados engajados, o projeto não só promove a inovação, mas também estabelece uma cultura de aprendizado colaborativo e crescimento sustentável.
+Ao integrar mentores experientes e participantes engajados, o projeto não só promove a inovação, mas também estabelece uma cultura de aprendizado colaborativo e crescimento sustentável.
