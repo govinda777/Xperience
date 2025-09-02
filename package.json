@@ -31,7 +31,10 @@
     "test:cypress": "cypress run",
     "test:e2e": "start-server-and-test dev http://localhost:5173 'yarn cypress run'",
     "reports": "npm run test:setup && mkdir -p reports && npm run test:coverage && npm run test:bdd:html",
-    "test:ci": "npm run test:setup && npm run test:unit && npm run test:bdd:ci"
+    "test:ci": "npm run test:setup && npm run test:unit && npm run test:bdd:ci",
+    "security:check": "node scripts/security-check.js",
+    "security:audit": "npm audit --audit-level=high",
+    "tsc": "tsc --noEmit"
   },
   "dependencies": {
     "@account-abstraction/contracts": "^0.6.0",
@@ -75,6 +78,7 @@
     "ton-crypto": "^3.2.0",
     "use-local-storage": "^3.0.0",
     "userop": "^0.3.4",
+    "valtio": "^1.13.0",
     "vite-plugin-node-polyfills": "^0.23.0",
     "vite-plugin-pwa": "^1.0.3"
   },
