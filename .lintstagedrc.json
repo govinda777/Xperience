@@ -1,0 +1,12 @@
+{
+  "*.{ts,tsx}": [
+    "eslint --fix",
+    "tsc --noEmit",
+    "jest --bail --findRelatedTests",
+    "secretlint"
+  ],
+  "*.{js,jsx}": ["eslint --fix", "secretlint"],
+  "*.{json,md}": ["prettier --write", "secretlint"],
+  "*.{env,env.*}": ["secretlint"],
+  "*.{yml,yaml}": ["secretlint"]
+}

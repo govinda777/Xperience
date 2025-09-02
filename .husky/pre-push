@@ -1,0 +1,61 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+# Cores para output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m'
+
+echo -e "${BLUE}🚀 Iniciando verificações de pre-push...${NC}"
+
+# Executar verificações em paralelo
+{
+  # Verificação de tipos TypeScript
+  echo -e "${BLUE}ℹ️  Verificando tipos TypeScript...${NC}"
+  npm run tsc --noEmit
+} &
+typescript_pid=$!
+
+{
+  # Testes unitários com cache
+  echo -e "${BLUE}ℹ️  Executando testes unitários...${NC}"
+  npm run test:unit --cache
+} &
+tests_pid=$!
+
+{
+  # Build do projeto
+  echo -e "${BLUE}ℹ️  Realizando build do projeto...${NC}"
+  npm run build
+} &
+build_pid=$!
+
+{
+  # Verificação de segurança
+  echo -e "${BLUE}🔒 Executando verificações de segurança...${NC}"
+  npm run security:check && npm run security:audit
+} &
+security_pid=$!
+
+# Aguardar conclusão de todos os processos
+wait $typescript_pid
+typescript_status=$?
+wait $tests_pid
+tests_status=$?
+wait $build_pid
+build_status=$?
+wait $security_pid
+security_status=$?
+
+# Verificar resultados
+if [ $typescript_status -ne 0 ] || [ $tests_status -ne 0 ] || [ $build_status -ne 0 ] || [ $security_status -ne 0 ]; then
+  echo -e "${RED}❌ Falha nas verificações de pre-push${NC}"
+  if [ $security_status -ne 0 ]; then
+    echo -e "${RED}⚠️  Falha nas verificações de segurança. Por favor, corrija os problemas antes de fazer push.${NC}"
+  fi
+  exit 1
+fi
+
+echo -e "${GREEN}✅ Pre-push concluído com sucesso!${NC}"
