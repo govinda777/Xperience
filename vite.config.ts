@@ -53,6 +53,10 @@ export default defineConfig({
   base: '/', // Removido prefixo GitHub Pages
   build: {
     rollupOptions: {
+      external: [
+        'unenv/node/process',
+        'unenv/node/events',
+      ],
       output: {
         manualChunks: {
           vendor: ['react', 'react-dom'],
@@ -66,7 +70,8 @@ export default defineConfig({
             warning.code === 'MODULE_LEVEL_DIRECTIVE' ||
             warning.code === 'UNUSED_EXTERNAL_IMPORT' ||
             warning.code === 'EVAL' ||
-            warning.message.includes('unenv/node/events')) {
+            warning.message.includes('unenv/node/events') ||
+            warning.message.includes('unenv/node/process')) {
           return;
         }
         warn(warning);
@@ -83,6 +88,10 @@ export default defineConfig({
       format: {
         comments: false
       }
+    },
+    commonjsOptions: {
+      transformMixedEsModules: true,
+      include: [/node_modules/],
     }
   },
   // Otimizações de desenvolvimento
@@ -97,6 +106,7 @@ export default defineConfig({
       stream: 'stream-browserify',
       util: 'util',
       events: path.resolve(__dirname, 'node_modules/events'),
+      'unenv/node/process': path.resolve(__dirname, 'node_modules/process/browser.js'),
     },
   },
   optimizeDeps: {
@@ -105,10 +115,12 @@ export default defineConfig({
         global: 'globalThis'
       },
       plugins: []
-    }
+    },
+    include: ['process/browser', 'events', 'stream-browserify', 'util']
   },
   // Define global variables
   define: {
     global: 'globalThis',
+    'process.env': {},
   },
 });

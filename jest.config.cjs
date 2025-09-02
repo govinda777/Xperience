@@ -18,7 +18,6 @@ module.exports = {
     'node_modules/(?!(react-router|react-router-dom|@privy-io|jose|@tanstack|lucide-react)/)'
   ],
   globals: {
-    // Mock import.meta for Jest
     'import.meta': {
       env: {
         VITE_MERCADO_PAGO_PUBLIC_KEY: 'test-key',
@@ -36,27 +35,53 @@ module.exports = {
     '!src/vite-env.d.ts',
     '!src/__tests__/**',
     '!src/**/*.test.{ts,tsx}',
+    '!src/**/*.stories.{ts,tsx}',
+    '!src/**/index.{ts,tsx}',
   ],
   coverageDirectory: 'coverage',
-  coverageReporters: ['text', 'lcov', 'html'],
+  coverageReporters: ['text', 'lcov', 'html', 'json-summary'],
   coverageThreshold: {
     global: {
-      branches: 0,
-      functions: 0,
-      lines: 0,
-      statements: 0,
+      branches: 70,
+      functions: 75,
+      lines: 80,
+      statements: 80,
+    },
+    './src/components/': {
+      branches: 80,
+      functions: 85,
+      lines: 85,
+      statements: 85,
+    },
+    './src/services/': {
+      branches: 85,
+      functions: 90,
+      lines: 90,
+      statements: 90,
+    },
+    './src/hooks/': {
+      branches: 85,
+      functions: 90,
+      lines: 90,
+      statements: 90,
+    },
+    './src/utils/': {
+      branches: 90,
+      functions: 90,
+      lines: 90,
+      statements: 90,
     },
     './src/components/payments/': {
-      branches: 0,
-      functions: 0,
-      lines: 0,
-      statements: 0,
+      branches: 90,
+      functions: 95,
+      lines: 95,
+      statements: 95,
     },
     './src/services/providers/': {
-      branches: 0,
-      functions: 0,
-      lines: 0,
-      statements: 0,
+      branches: 90,
+      functions: 95,
+      lines: 95,
+      statements: 95,
     },
   },
   testMatch: [

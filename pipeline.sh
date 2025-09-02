@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Pipeline de CI/CD simplificado para Xperience
-# Este script executa verificações básicas antes do commit
+# Pipeline de CI/CD aprimorado para Xperience
+# Este script executa verificações rigorosas antes do commit
 
-echo "🚀 Iniciando pipeline simplificado de CI/CD..."
+echo "🚀 Iniciando pipeline de CI/CD..."
 
 # Cores para output
 RED='\033[0;31m'
@@ -29,10 +29,20 @@ log_error() {
     echo -e "${RED}❌ $1${NC}"
 }
 
+# Função para verificar o último comando
+check_result() {
+    if [ $? -ne 0 ]; then
+        log_error "$1"
+        exit 1
+    fi
+    log_success "$2"
+}
+
 # Verificar se node_modules existe
 if [ ! -d "node_modules" ]; then
     log_warning "node_modules não encontrado. Instalando dependências..."
     npm install
+    check_result "Falha ao instalar dependências" "Dependências instaladas com sucesso"
 fi
 
 # 1. Verificar se os arquivos principais existem
@@ -44,42 +54,64 @@ else
     exit 1
 fi
 
-# 2. Executar linting básico
+# 2. Verificar tipos TypeScript
+log_info "Verificando tipos TypeScript..."
+npm run tsc --noEmit
+check_result "Verificação de tipos TypeScript falhou" "Verificação de tipos TypeScript passou"
+
+# 3. Executar linting
 log_info "Executando linting..."
-if npm run lint 2>/dev/null; then
-    log_success "Linting passou!"
-else
-    log_warning "Linting falhou, mas continuando..."
-fi
+npm run lint
+check_result "Linting falhou" "Linting passou"
 
-# 3. Verificar se o Vite consegue fazer build
-log_info "Tentando build com Vite..."
-if timeout 60 npm run build 2>/dev/null; then
-    log_success "Build Vite concluído!"
-else
-    log_warning "Build Vite falhou ou demorou muito, mas continuando..."
-fi
-
-# 4. Executar testes unitários (apenas se existirem)
+# 4. Executar testes unitários
 log_info "Executando testes unitários..."
-if npm run test:unit 2>/dev/null; then
-    log_success "Testes unitários passaram!"
+npm run test:unit
+check_result "Testes unitários falharam" "Testes unitários passaram"
+
+# 5. Verificar cobertura de testes
+log_info "Verificando cobertura de testes..."
+npm run test:coverage
+check_result "Verificação de cobertura falhou" "Verificação de cobertura passou"
+
+# 6. Executar testes E2E
+log_info "Executando testes E2E..."
+npm run test:cypress
+check_result "Testes E2E falharam" "Testes E2E passaram"
+
+# 7. Fazer build do projeto
+log_info "Realizando build do projeto..."
+npm run build
+check_result "Build falhou" "Build concluído com sucesso"
+
+# 8. Executar preview do build
+log_info "Verificando build..."
+timeout 30 npm run preview &
+PREVIEW_PID=$!
+sleep 5
+
+if kill -0 $PREVIEW_PID 2>/dev/null; then
+    kill $PREVIEW_PID
+    log_success "Preview do build verificado com sucesso"
 else
-    log_warning "Testes unitários falharam ou não existem"
+    log_error "Falha ao iniciar preview do build"
+    exit 1
 fi
 
-log_success "🎉 Pipeline simplificado concluído!"
+log_success "🎉 Pipeline concluído com sucesso!"
 echo ""
 echo "📊 Resumo das verificações:"
 echo "  ✅ Estrutura do projeto"
-echo "  ⚠️  Linting (avisos)"
-echo "  ⚠️  Build (tentativa)"
-echo "  ⚠️  Testes unitários (básicos)"
+echo "  ✅ Verificação de tipos TypeScript"
+echo "  ✅ Linting"
+echo "  ✅ Testes unitários"
+echo "  ✅ Cobertura de testes"
+echo "  ✅ Testes E2E"
+echo "  ✅ Build"
+echo "  ✅ Preview do build"
 echo ""
-echo "💡 Pipeline simplificado - apenas verificações essenciais."
-echo "   Para verificações completas, execute:"
-echo "   - 'npm run test:unit' para testes unitários"
-echo "   - 'npm run test:integration' para testes de integração"
-echo "   - 'npm run test:coverage' para relatório de cobertura"
-echo "   - 'npm run dev' para testar a aplicação"
+echo "💡 Todas as verificações são obrigatórias para o commit ser aceito."
+echo "   Para mais detalhes, verifique os relatórios em:"
+echo "   - coverage/ para relatório de cobertura"
+echo "   - reports/ para relatórios de testes"
 echo ""
