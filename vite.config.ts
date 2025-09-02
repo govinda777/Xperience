@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { nodePolyfills } from "vite-plugin-node-polyfills";
 import { VitePWA } from 'vite-plugin-pwa';
+import path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -52,25 +53,20 @@ export default defineConfig({
   base: '/', // Removido prefixo GitHub Pages
   build: {
     rollupOptions: {
-      external: [
-        'unenv/node/process',
-        'unenv/node/global',
-        'unenv/node/buffer',
-        'unenv/polyfill/globalthis'
-      ],
       output: {
         manualChunks: {
           vendor: ['react', 'react-dom'],
           router: ['react-router-dom'],
-          analytics: ['react-ga4', 'react-helmet-async']
+          analytics: ['react-ga4', 'react-helmet-async'],
+          wallet: ['@walletconnect/ethereum-provider', '@walletconnect/universal-provider']
         }
       },
       onwarn(warning, warn) {
-        // Suppress all Privy-related warnings
         if (warning.code === 'ANNOTATION_POSITION' || 
             warning.code === 'MODULE_LEVEL_DIRECTIVE' ||
             warning.code === 'UNUSED_EXTERNAL_IMPORT' ||
-            warning.code === 'EVAL') {
+            warning.code === 'EVAL' ||
+            warning.message.includes('unenv/node/events')) {
           return;
         }
         warn(warning);
@@ -100,8 +96,16 @@ export default defineConfig({
       process: 'process/browser',
       stream: 'stream-browserify',
       util: 'util',
-      'unenv/polyfill/globalthis': 'globalThis',
+      events: path.resolve(__dirname, 'node_modules/events'),
     },
+  },
+  optimizeDeps: {
+    esbuildOptions: {
+      define: {
+        global: 'globalThis'
+      },
+      plugins: []
+    }
   },
   // Define global variables
   define: {
