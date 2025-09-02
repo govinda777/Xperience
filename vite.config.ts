@@ -3,44 +3,9 @@ import react from "@vitejs/plugin-react";
 import { nodePolyfills } from "vite-plugin-node-polyfills";
 import { VitePWA } from 'vite-plugin-pwa';
 
-// Custom plugin to suppress Privy warnings
-const suppressPrivyWarnings = () => {
-  return {
-    name: 'suppress-privy-warnings',
-    config(config) {
-      if (!config.build) config.build = {};
-      if (!config.build.rollupOptions) config.build.rollupOptions = {};
-      
-      const originalOnwarn = config.build.rollupOptions.onwarn;
-      
-      config.build.rollupOptions.onwarn = (warning, warn) => {
-        // Suppress Privy library warnings about /*#__PURE__*/ comments
-        if (warning.code === 'ANNOTATION_POSITION' && 
-            warning.message.includes('/*#__PURE__*/')) {
-          return;
-        }
-        // Suppress other common warnings that don't affect functionality
-        if (warning.code === 'MODULE_LEVEL_DIRECTIVE' ||
-            warning.code === 'UNUSED_EXTERNAL_IMPORT' ||
-            warning.code === 'EVAL') {
-          return;
-        }
-        
-        // Call original onwarn if it exists
-        if (originalOnwarn) {
-          originalOnwarn(warning, warn);
-        } else {
-          warn(warning);
-        }
-      };
-    }
-  };
-};
-
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    suppressPrivyWarnings(),
     react(), 
     nodePolyfills({
       // Whether to polyfill specific globals
@@ -48,6 +13,7 @@ export default defineConfig({
         Buffer: true,
         global: true,
         process: true,
+        globalThis: true,
       },
       // Whether to polyfill `global`
       protocolImports: true,
@@ -89,7 +55,8 @@ export default defineConfig({
       external: [
         'unenv/node/process',
         'unenv/node/global',
-        'unenv/node/buffer'
+        'unenv/node/buffer',
+        'unenv/polyfill/globalthis'
       ],
       output: {
         manualChunks: {
@@ -97,6 +64,16 @@ export default defineConfig({
           router: ['react-router-dom'],
           analytics: ['react-ga4', 'react-helmet-async']
         }
+      },
+      onwarn(warning, warn) {
+        // Suppress all Privy-related warnings
+        if (warning.code === 'ANNOTATION_POSITION' || 
+            warning.code === 'MODULE_LEVEL_DIRECTIVE' ||
+            warning.code === 'UNUSED_EXTERNAL_IMPORT' ||
+            warning.code === 'EVAL') {
+          return;
+        }
+        warn(warning);
       }
     },
     // Otimizações de performance
@@ -123,6 +100,7 @@ export default defineConfig({
       process: 'process/browser',
       stream: 'stream-browserify',
       util: 'util',
+      'unenv/polyfill/globalthis': 'globalThis',
     },
   },
   // Define global variables
