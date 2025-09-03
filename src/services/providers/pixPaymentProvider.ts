@@ -42,12 +42,29 @@ interface MercadoPagoPayment {
 }
 
 export class PixPaymentProvider implements PaymentProviderInterface {
-  id = "pix" as const;
-  name = "PIX";
-  type = "fiat" as const;
-  supportedCurrencies: PaymentCurrency[] = ["BRL"];
+  // Public properties
+  public readonly id = "pix" as const;
+  public readonly name = "PIX";
+  public readonly type = "fiat" as const;
+  public readonly supportedCurrencies: PaymentCurrency[] = ["BRL"];
 
-  validatePaymentData(data: {
+  // Private properties
+  private baseUrl: string;
+  private accessToken: string;
+
+  constructor() {
+    this.accessToken = PAYMENT_CONFIG.mercadoPago.accessToken;
+    this.baseUrl = PAYMENT_CONFIG.mercadoPago.sandboxMode
+      ? "https://api.mercadopago.com/sandbox"
+      : "https://api.mercadopago.com";
+
+    if (!this.accessToken) {
+      throw new Error("Token de acesso do Mercado Pago não configurado");
+    }
+  }
+
+  // Public methods
+  public validatePaymentData(data: {
     amount: number;
     currency: PaymentCurrency;
     description: string;
@@ -73,50 +90,34 @@ export class PixPaymentProvider implements PaymentProviderInterface {
     };
   }
 
-  formatAmount(amount: number, currency: PaymentCurrency): string {
+  public formatAmount(amount: number, currency: PaymentCurrency): string {
     return new Intl.NumberFormat("pt-BR", {
       style: "currency",
       currency: "BRL",
     }).format(amount);
   }
 
-  isPaymentExpired(expirationDate: string): boolean {
+  public isPaymentExpired(expirationDate: string): boolean {
     return new Date(expirationDate).getTime() < Date.now();
   }
 
-  calculateDiscountedAmount(amount: number, currency: PaymentCurrency): number {
+  public calculateDiscountedAmount(amount: number, currency: PaymentCurrency): number {
     return amount; // No discount for PIX
   }
 
-  getSupportedNetworks(): string[] {
+  public getSupportedNetworks(): string[] {
     return []; // PIX doesn't use blockchain networks
   }
 
-  getEstimatedConfirmationTime(): string {
+  public getEstimatedConfirmationTime(): string {
     return "Instantâneo";
   }
 
-  getPaymentInstructions(locale: string): string {
+  public getPaymentInstructions(locale: string): string {
     return "1. Abra o aplicativo do seu banco\n2. Selecione a opção PIX\n3. Escaneie o QR Code ou copie o código PIX\n4. Confirme o pagamento";
-
-  private baseUrl: string;
-  private accessToken: string;
-
-  constructor() {
-    this.accessToken = PAYMENT_CONFIG.mercadoPago.accessToken;
-    this.baseUrl = PAYMENT_CONFIG.mercadoPago.sandboxMode
-      ? "https://api.mercadopago.com/sandbox"
-      : "https://api.mercadopago.com";
-
-    if (!this.accessToken) {
-      throw new Error("Token de acesso do Mercado Pago não configurado");
-    }
   }
 
-  /**
-   * Processa um pagamento PIX
-   */
-  async process(
+  public async process(
     amount: number,
     planId: string,
     userId: string,
@@ -176,10 +177,7 @@ export class PixPaymentProvider implements PaymentProviderInterface {
     }
   }
 
-  /**
-   * Verifica o status de um pagamento PIX
-   */
-  async verify(transactionId: string): Promise<PaymentStatus> {
+  public async verify(transactionId: string): Promise<PaymentStatus> {
     try {
       // Buscar pagamentos pela preferência
       const payments = await this.getPaymentsByPreference(transactionId);
@@ -202,17 +200,40 @@ export class PixPaymentProvider implements PaymentProviderInterface {
     }
   }
 
-  /**
-   * Cancela um pagamento PIX (não suportado pelo PIX, mas podemos marcar como expirado)
-   */
-  async cancel(transactionId: string): Promise<boolean> {
+  public async cancel(transactionId: string): Promise<boolean> {
     // PIX não suporta cancelamento após geração, apenas expiração
     return false;
   }
 
-  /**
-   * Cria uma preferência no Mercado Pago
-   */
+  public async processWebhook(payload: any): Promise<{
+    transactionId: string;
+    status: PaymentStatus;
+    amount?: number;
+  }> {
+    try {
+      const { type, data } = payload;
+
+      if (type === "payment") {
+        const paymentId = data.id;
+
+        // Buscar detalhes do pagamento
+        const payment = await this.getPaymentDetails(paymentId);
+
+        return {
+          transactionId: payment.external_reference || paymentId,
+          status: this.mapMercadoPagoStatus(payment.status),
+          amount: payment.transaction_amount,
+        };
+      }
+
+      throw new Error("Tipo de webhook não suportado");
+    } catch (error) {
+      console.error("Erro ao processar webhook PIX:", error);
+      throw error;
+    }
+  }
+
+  // Private methods
   private async createPreference(
     preference: MercadoPagoPreference,
   ): Promise<MercadoPagoResponse> {
@@ -233,9 +254,6 @@ export class PixPaymentProvider implements PaymentProviderInterface {
     return await response.json();
   }
 
-  /**
-   * Gera QR Code PIX específico
-   */
   private async generatePixQRCode(
     preferenceId: string,
     amount: number,
@@ -283,9 +301,6 @@ export class PixPaymentProvider implements PaymentProviderInterface {
     }
   }
 
-  /**
-   * Gera QR Code a partir de uma URL
-   */
   private async generateQRCodeFromUrl(url: string): Promise<string> {
     try {
       // Usar biblioteca QRCode para gerar o código
@@ -307,9 +322,6 @@ export class PixPaymentProvider implements PaymentProviderInterface {
     }
   }
 
-  /**
-   * Busca pagamentos por ID da preferência
-   */
   private async getPaymentsByPreference(
     preferenceId: string,
   ): Promise<MercadoPagoPayment[]> {
@@ -335,9 +347,6 @@ export class PixPaymentProvider implements PaymentProviderInterface {
     }
   }
 
-  /**
-   * Mapeia status do Mercado Pago para nosso sistema
-   */
   private mapMercadoPagoStatus(mpStatus: string): PaymentStatus {
     switch (mpStatus) {
       case "pending":
@@ -363,40 +372,6 @@ export class PixPaymentProvider implements PaymentProviderInterface {
     }
   }
 
-  /**
-   * Processa webhook do Mercado Pago
-   */
-  async processWebhook(payload: any): Promise<{
-    transactionId: string;
-    status: PaymentStatus;
-    amount?: number;
-  }> {
-    try {
-      const { type, data } = payload;
-
-      if (type === "payment") {
-        const paymentId = data.id;
-
-        // Buscar detalhes do pagamento
-        const payment = await this.getPaymentDetails(paymentId);
-
-        return {
-          transactionId: payment.external_reference || paymentId,
-          status: this.mapMercadoPagoStatus(payment.status),
-          amount: payment.transaction_amount,
-        };
-      }
-
-      throw new Error("Tipo de webhook não suportado");
-    } catch (error) {
-      console.error("Erro ao processar webhook PIX:", error);
-      throw error;
-    }
-  }
-
-  /**
-   * Busca detalhes de um pagamento específico
-   */
   private async getPaymentDetails(
     paymentId: string,
   ): Promise<MercadoPagoPayment> {
