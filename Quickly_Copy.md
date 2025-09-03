@@ -31,6 +31,7 @@ npm install
 ### 3. Personalize sua DAO
 
 1. **Edite o arquivo `config.js`**
+
    ```javascript
    // config/app.js
    export default {
@@ -38,7 +39,7 @@ npm install
      description: "Sua descrição",
      tokenSymbol: "TOKEN",
      // ... outras configurações
-   }
+   };
    ```
 
 2. **Atualize as imagens**
@@ -46,10 +47,11 @@ npm install
    - Atualize `/public/images/` com suas próprias imagens
 
 3. **Personalize os Smart Contracts**
+
    ```bash
    # Entre no diretório de contratos
    cd contracts
-   
+
    # Edite os parâmetros do token
    nano TokenConfig.sol
    ```
@@ -63,10 +65,11 @@ npm install
    - Guarde o token fornecido
 
 2. **Configure o Web App**
+
    ```bash
    # Execute o script de configuração
    npm run configbot
-   
+
    # Siga as instruções do prompt
    ```
 
@@ -89,6 +92,7 @@ npm run start
 ## 🎨 Personalizando sua Experiência
 
 ### Temas e Estilos
+
 - Edite `/src/styles/theme.js` para suas cores
 - Modifique `/src/styles/global.css` para estilos globais
 - Atualize componentes em `/src/components/`
@@ -115,6 +119,7 @@ npm run start
 ### Personalize seu TWA (Telegram Web App)
 
 1. **Atualize Metadados**
+
    ```bash
    # Configure seu app
    npm run config-twa
@@ -128,10 +133,11 @@ npm run start
 ## 🔄 Próximos Passos
 
 1. **Teste sua Plataforma**
+
    ```bash
    # Execute testes
    npm run test
-   
+
    # Inicie ambiente de desenvolvimento
    npm run dev
    ```

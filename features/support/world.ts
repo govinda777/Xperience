@@ -1,4 +1,4 @@
-import { setWorldConstructor, World, IWorldOptions } from '@cucumber/cucumber';
+import { setWorldConstructor, World, IWorldOptions } from "@cucumber/cucumber";
 
 export interface CustomWorld extends World {
   // Authentication state
@@ -7,7 +7,7 @@ export interface CustomWorld extends World {
     user: any;
     error: string | null;
   };
-  
+
   // Payment state
   paymentState: {
     selectedPlan: any;
@@ -15,14 +15,14 @@ export interface CustomWorld extends World {
     paymentData: any;
     status: string;
   };
-  
+
   // Wallet state
   walletState: {
     address: string | null;
     balance: string;
     transactions: any[];
   };
-  
+
   // UI state
   uiState: {
     currentPage: string;
@@ -30,13 +30,13 @@ export interface CustomWorld extends World {
     error: string | null;
     formData: any;
   };
-  
+
   // Test data
   credentials: {
     email: string;
     password: string;
   } | null;
-  
+
   // Helper methods
   resetState(): void;
   setAuthenticatedUser(user: any): void;
@@ -49,69 +49,69 @@ export class XperienceWorld extends World implements CustomWorld {
     user: null,
     error: null,
   };
-  
+
   paymentState = {
     selectedPlan: null,
     selectedMethod: null,
     paymentData: null,
-    status: 'idle',
+    status: "idle",
   };
-  
+
   walletState = {
     address: null,
-    balance: '0',
+    balance: "0",
     transactions: [],
   };
-  
+
   uiState = {
-    currentPage: 'home',
+    currentPage: "home",
     isLoading: false,
     error: null,
     formData: null,
   };
-  
+
   credentials = null;
-  
+
   constructor(options: IWorldOptions) {
     super(options);
   }
-  
+
   resetState(): void {
     this.authState = {
       isAuthenticated: false,
       user: null,
       error: null,
     };
-    
+
     this.paymentState = {
       selectedPlan: null,
       selectedMethod: null,
       paymentData: null,
-      status: 'idle',
+      status: "idle",
     };
-    
+
     this.walletState = {
       address: null,
-      balance: '0',
+      balance: "0",
       transactions: [],
     };
-    
+
     this.uiState = {
-      currentPage: 'home',
+      currentPage: "home",
       isLoading: false,
       error: null,
       formData: null,
     };
-    
+
     this.credentials = null;
   }
-  
+
   setAuthenticatedUser(user: any): void {
     this.authState.isAuthenticated = true;
     this.authState.user = user;
     this.authState.error = null;
   }
-  
+
   setError(error: string): void {
     this.uiState.error = error;
   }

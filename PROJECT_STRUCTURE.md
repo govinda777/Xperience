@@ -57,6 +57,7 @@ src/
 ### Organização por Funcionalidade
 
 #### Sistema de Pagamentos (`payments/`)
+
 ```
 payments/
 ├── 📄 index.ts                    # Exports principais
@@ -74,6 +75,7 @@ payments/
 ```
 
 #### Carrinho de Compras (`cart/`)
+
 ```
 cart/
 ├── 📄 CartIcon.tsx           # Ícone com contador
@@ -82,6 +84,7 @@ cart/
 ```
 
 #### Checkout (`checkout/`)
+
 ```
 checkout/
 ├── 📄 CheckoutForm.tsx           # Formulário principal
@@ -91,6 +94,7 @@ checkout/
 ```
 
 #### Autenticação (`auth/`)
+
 ```
 auth/
 └── 📁 AuthButton/
@@ -99,6 +103,7 @@ auth/
 ```
 
 #### Interface Geral
+
 ```
 components/
 ├── 📁 Navbar/                # Navegação principal
@@ -143,6 +148,7 @@ pages/
 ### Padrão de Organização de Páginas
 
 Cada página complexa segue o padrão:
+
 ```
 PageName/
 ├── 📄 index.tsx              # Componente principal da página
@@ -251,7 +257,7 @@ contracts/
 └── 📄 faucetJettonWallet.ts  # Wallet jetton
 ```
 
-## 🧪 Testes (__tests__/ e outros)
+## 🧪 Testes (**tests**/ e outros)
 
 ### Estrutura Global de Testes
 
@@ -375,12 +381,12 @@ public/
 ```typescript
 // ✅ Bom - Barrel exports
 // src/components/payments/index.ts
-export { PaymentGateway } from './PaymentGateway';
-export { PaymentMethodSelector } from './PaymentMethodSelector';
-export { PixPaymentComponent } from './PixPaymentComponent';
+export { PaymentGateway } from "./PaymentGateway";
+export { PaymentMethodSelector } from "./PaymentMethodSelector";
+export { PixPaymentComponent } from "./PixPaymentComponent";
 
 // ✅ Bom - Import do barrel
-import { PaymentGateway, PixPaymentComponent } from '@/components/payments';
+import { PaymentGateway, PixPaymentComponent } from "@/components/payments";
 ```
 
 ## 🔄 Fluxo de Desenvolvimento
@@ -471,5 +477,4 @@ generate-tree.sh             # Geração de árvore de arquivos
 
 Esta estrutura foi projetada para crescer com o projeto, mantendo organização e clareza mesmo com o aumento da complexidade e do time de desenvolvimento.
 
-*Para dúvidas sobre a organização ou sugestões de melhorias, consulte o [CONTRIBUTING.md](./CONTRIBUTING.md) ou abra uma issue no repositório.*
-
+_Para dúvidas sobre a organização ou sugestões de melhorias, consulte o [CONTRIBUTING.md](./CONTRIBUTING.md) ou abra uma issue no repositório._

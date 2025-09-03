@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <title>Three.js - Máquina de Vendas</title>
@@ -26,11 +26,11 @@
   <body>
     <div id="container"></div>
     <script type="module">
-      import * as THREE from 'three';
-      import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-      import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+      import * as THREE from "three";
+      import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+      import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
-      const container = document.getElementById('container');
+      const container = document.getElementById("container");
 
       const scene = new THREE.Scene();
       scene.background = new THREE.Color(0xeeeeee);
@@ -39,7 +39,7 @@
         45,
         window.innerWidth / window.innerHeight,
         0.1,
-        1000
+        1000,
       );
       camera.position.set(0, 2, 5);
 
@@ -59,7 +59,7 @@
 
       const loader = new GLTFLoader();
       loader.load(
-        'path/to/your/vending_machine_model.glb',
+        "path/to/your/vending_machine_model.glb",
         function (gltf) {
           const model = gltf.scene;
           scene.add(model);
@@ -67,10 +67,10 @@
         undefined,
         function (error) {
           console.error(error);
-        }
+        },
       );
 
-      window.addEventListener('resize', () => {
+      window.addEventListener("resize", () => {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);

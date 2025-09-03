@@ -1,89 +1,123 @@
-import React, { createContext, useContext, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import ReactGA from 'react-ga4';
-import { seoConfig } from '../config/env';
+import React, { createContext, useContext, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import ReactGA from "react-ga4";
+import { seoConfig } from "../config/env";
 
 interface AnalyticsContextType {
   trackPageView: (path: string) => void;
-  trackEvent: (action: string, category: string, label?: string, value?: number) => void;
+  trackEvent: (
+    action: string,
+    category: string,
+    label?: string,
+    value?: number,
+  ) => void;
   trackConversion: (conversionType: string, value?: number) => void;
 }
 
-const AnalyticsContext = createContext<AnalyticsContextType | undefined>(undefined);
+const AnalyticsContext = createContext<AnalyticsContextType | undefined>(
+  undefined,
+);
 
-export const AnalyticsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const AnalyticsProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const location = useLocation();
 
   useEffect(() => {
     // Inicializar Google Analytics apenas se habilitado
-    if (seoConfig.enableAnalytics && seoConfig.gaId && seoConfig.gaId !== 'G-XXXXXXXXXX') {
+    if (
+      seoConfig.enableAnalytics &&
+      seoConfig.gaId &&
+      seoConfig.gaId !== "G-XXXXXXXXXX"
+    ) {
       ReactGA.initialize(seoConfig.gaId, {
-        testMode: seoConfig.isDev
+        testMode: seoConfig.isDev,
       });
     }
   }, []);
 
   useEffect(() => {
     // Track page view on route change
-    if (seoConfig.enableAnalytics && seoConfig.gaId && seoConfig.gaId !== 'G-XXXXXXXXXX') {
+    if (
+      seoConfig.enableAnalytics &&
+      seoConfig.gaId &&
+      seoConfig.gaId !== "G-XXXXXXXXXX"
+    ) {
       const path = location.pathname + location.search;
-      ReactGA.send({ 
-        hitType: 'pageview', 
+      ReactGA.send({
+        hitType: "pageview",
         page: path,
-        title: document.title
+        title: document.title,
       });
     }
   }, [location]);
 
   const trackPageView = (path: string) => {
-    if (seoConfig.enableAnalytics && seoConfig.gaId && seoConfig.gaId !== 'G-XXXXXXXXXX') {
-      ReactGA.send({ 
-        hitType: 'pageview', 
+    if (
+      seoConfig.enableAnalytics &&
+      seoConfig.gaId &&
+      seoConfig.gaId !== "G-XXXXXXXXXX"
+    ) {
+      ReactGA.send({
+        hitType: "pageview",
         page: path,
-        title: document.title
+        title: document.title,
       });
     }
   };
 
-  const trackEvent = (action: string, category: string, label?: string, value?: number) => {
-    if (seoConfig.enableAnalytics && seoConfig.gaId && seoConfig.gaId !== 'G-XXXXXXXXXX') {
+  const trackEvent = (
+    action: string,
+    category: string,
+    label?: string,
+    value?: number,
+  ) => {
+    if (
+      seoConfig.enableAnalytics &&
+      seoConfig.gaId &&
+      seoConfig.gaId !== "G-XXXXXXXXXX"
+    ) {
       ReactGA.event({
         action,
         category,
         label,
-        value
+        value,
       });
     }
   };
 
   const trackConversion = (conversionType: string, value?: number) => {
-    if (seoConfig.enableAnalytics && seoConfig.gaId && seoConfig.gaId !== 'G-XXXXXXXXXX') {
+    if (
+      seoConfig.enableAnalytics &&
+      seoConfig.gaId &&
+      seoConfig.gaId !== "G-XXXXXXXXXX"
+    ) {
       ReactGA.event({
-        action: 'conversion',
-        category: 'engagement',
+        action: "conversion",
+        category: "engagement",
         label: conversionType,
-        value
+        value,
       });
 
       // Track specific conversion events
       switch (conversionType) {
-        case 'contact_form_submit':
+        case "contact_form_submit":
           ReactGA.event({
-            action: 'generate_lead',
-            category: 'conversion'
+            action: "generate_lead",
+            category: "conversion",
           });
           break;
-        case 'plan_selection':
+        case "plan_selection":
           ReactGA.event({
-            action: 'select_item',
-            category: 'ecommerce',
-            label: 'plan_selection'
+            action: "select_item",
+            category: "ecommerce",
+            label: "plan_selection",
           });
           break;
-        case 'newsletter_signup':
+        case "newsletter_signup":
           ReactGA.event({
-            action: 'sign_up',
-            category: 'engagement'
+            action: "sign_up",
+            category: "engagement",
           });
           break;
       }
@@ -91,7 +125,9 @@ export const AnalyticsProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   };
 
   return (
-    <AnalyticsContext.Provider value={{ trackPageView, trackEvent, trackConversion }}>
+    <AnalyticsContext.Provider
+      value={{ trackPageView, trackEvent, trackConversion }}
+    >
       {children}
     </AnalyticsContext.Provider>
   );
@@ -100,7 +136,7 @@ export const AnalyticsProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 export const useAnalytics = () => {
   const context = useContext(AnalyticsContext);
   if (!context) {
-    throw new Error('useAnalytics must be used within AnalyticsProvider');
+    throw new Error("useAnalytics must be used within AnalyticsProvider");
   }
   return context;
 };

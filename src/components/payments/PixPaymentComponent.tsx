@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Plan } from '../../types/payment';
+import React, { useState } from "react";
+import { Plan } from "../../types/payment";
 
 interface PixPaymentComponentProps {
   plan: Plan;
@@ -14,7 +14,7 @@ export const PixPaymentComponent: React.FC<PixPaymentComponentProps> = ({
   finalPrice,
   onProcess,
   isProcessing,
-  disabled = false
+  disabled = false,
 }) => {
   const [showInstructions, setShowInstructions] = useState(false);
 
@@ -24,7 +24,9 @@ export const PixPaymentComponent: React.FC<PixPaymentComponentProps> = ({
         <div className="flex items-center space-x-3 mb-4">
           <div className="text-4xl">🏦</div>
           <div>
-            <h3 className="text-xl font-bold text-gray-800">Pagamento via PIX</h3>
+            <h3 className="text-xl font-bold text-gray-800">
+              Pagamento via PIX
+            </h3>
             <p className="text-sm text-gray-600">
               Confirmação instantânea • Disponível 24/7
             </p>
@@ -39,7 +41,8 @@ export const PixPaymentComponent: React.FC<PixPaymentComponentProps> = ({
             </span>
           </div>
           <p className="text-sm text-green-700">
-            Após confirmar o pagamento PIX, seu acesso será liberado imediatamente.
+            Após confirmar o pagamento PIX, seu acesso será liberado
+            imediatamente.
           </p>
         </div>
 
@@ -48,14 +51,14 @@ export const PixPaymentComponent: React.FC<PixPaymentComponentProps> = ({
             <span className="text-gray-600">Plano:</span>
             <span className="font-medium">{plan.name}</span>
           </div>
-          
+
           <div className="flex justify-between items-center py-2 border-b border-gray-100">
             <span className="text-gray-600">Valor:</span>
             <span className="text-xl font-bold text-gray-800">
               R$ {finalPrice.toFixed(2)}
             </span>
           </div>
-          
+
           <div className="flex justify-between items-center py-2">
             <span className="text-gray-600">Método:</span>
             <div className="flex items-center space-x-2">
@@ -77,7 +80,9 @@ export const PixPaymentComponent: React.FC<PixPaymentComponentProps> = ({
           <span className="text-sm font-medium text-gray-700">
             Como funciona o pagamento PIX?
           </span>
-          <span className={`transform transition-transform ${showInstructions ? 'rotate-180' : ''}`}>
+          <span
+            className={`transform transition-transform ${showInstructions ? "rotate-180" : ""}`}
+          >
             ▼
           </span>
         </button>
@@ -86,19 +91,27 @@ export const PixPaymentComponent: React.FC<PixPaymentComponentProps> = ({
           <div className="mt-3 p-4 bg-blue-50 border border-blue-200 rounded-lg">
             <ol className="text-sm text-blue-800 space-y-2">
               <li className="flex items-start space-x-2">
-                <span className="flex-shrink-0 w-5 h-5 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs font-bold">1</span>
+                <span className="flex-shrink-0 w-5 h-5 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs font-bold">
+                  1
+                </span>
                 <span>Clique em "Gerar QR Code PIX" abaixo</span>
               </li>
               <li className="flex items-start space-x-2">
-                <span className="flex-shrink-0 w-5 h-5 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs font-bold">2</span>
+                <span className="flex-shrink-0 w-5 h-5 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs font-bold">
+                  2
+                </span>
                 <span>Abra o app do seu banco e escaneie o QR Code</span>
               </li>
               <li className="flex items-start space-x-2">
-                <span className="flex-shrink-0 w-5 h-5 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs font-bold">3</span>
+                <span className="flex-shrink-0 w-5 h-5 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs font-bold">
+                  3
+                </span>
                 <span>Confirme o pagamento no seu app bancário</span>
               </li>
               <li className="flex items-start space-x-2">
-                <span className="flex-shrink-0 w-5 h-5 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs font-bold">4</span>
+                <span className="flex-shrink-0 w-5 h-5 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs font-bold">
+                  4
+                </span>
                 <span>Seu acesso será liberado automaticamente</span>
               </li>
             </ol>
@@ -112,9 +125,10 @@ export const PixPaymentComponent: React.FC<PixPaymentComponentProps> = ({
         disabled={disabled || isProcessing}
         className={`
           w-full py-4 px-6 rounded-lg font-semibold text-white transition-all duration-200
-          ${disabled || isProcessing
-            ? 'bg-gray-400 cursor-not-allowed'
-            : 'bg-green-600 hover:bg-green-700 active:bg-green-800 shadow-lg hover:shadow-xl'
+          ${
+            disabled || isProcessing
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-green-600 hover:bg-green-700 active:bg-green-800 shadow-lg hover:shadow-xl"
           }
         `}
       >
@@ -147,7 +161,7 @@ export const PixPaymentComponent: React.FC<PixPaymentComponentProps> = ({
             <span>Sem taxas</span>
           </div>
         </div>
-        
+
         <p className="text-xs text-gray-500 text-center">
           O QR Code PIX expira em 15 minutos após a geração
         </p>

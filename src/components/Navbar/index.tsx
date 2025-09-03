@@ -32,7 +32,11 @@ const Navbar = () => {
     { name: "Comunidade", path: "/community" },
     { name: "Blog", path: "/blog" },
     { name: "Planos", path: "/plans" },
-    { name: "IA do Empreendedor", path: "https://ai-entrepreneur-connect.replit.app", external: true },
+    {
+      name: "IA do Empreendedor",
+      path: "https://ai-entrepreneur-connect.replit.app",
+      external: true,
+    },
   ];
 
   return (
@@ -53,7 +57,7 @@ const Navbar = () => {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex gap-8">
-          {navItems.map((item) => (
+          {navItems.map((item) =>
             item.external ? (
               <a
                 key={item.name}
@@ -82,24 +86,24 @@ const Navbar = () => {
                   }`}
                 ></span>
               </Link>
-            )
-          ))}
+            ),
+          )}
         </nav>
 
         {/* Desktop Auth Buttons */}
         <div className="hidden md:flex items-center gap-4">
-          <CartIcon 
+          <CartIcon
             onClick={() => setIsCartOpen(true)}
             className="text-gray-700 hover:text-gray-900 transition-colors"
           />
-          
+
           {authenticated ? (
             <div className="flex items-center gap-4">
-              <User 
-                className="h-8 w-8 text-gray-700 cursor-pointer" 
-                onClick={() => navigate('/dashboard')}
+              <User
+                className="h-8 w-8 text-gray-700 cursor-pointer"
+                onClick={() => navigate("/dashboard")}
               />
-              
+
               <AuthButton />
             </div>
           ) : (
@@ -121,7 +125,7 @@ const Navbar = () => {
         <div className="md:hidden fixed inset-0 top-[72px] bg-[#FED7AA] z-50 mt-2">
           <div className="flex flex-col p-4 space-y-4">
             <nav className="flex flex-col space-y-4">
-              {navItems.map((item) => (
+              {navItems.map((item) =>
                 item.external ? (
                   <a
                     key={item.name}
@@ -152,14 +156,14 @@ const Navbar = () => {
                       }`}
                     ></span>
                   </Link>
-                )
-              ))}
+                ),
+              )}
             </nav>
 
             {/* Mobile Authentication */}
             <div className="flex flex-col space-y-4 pt-4">
               <div className="flex justify-center">
-                <CartIcon 
+                <CartIcon
                   onClick={() => {
                     setIsCartOpen(true);
                     setIsOpen(false);
@@ -167,17 +171,21 @@ const Navbar = () => {
                   className="text-gray-700 hover:text-gray-900 transition-colors"
                 />
               </div>
-              
+
               {authenticated ? (
                 <div className="flex flex-col items-center">
-                  <User 
-                    className="h-6 w-6 text-gray-700 cursor-pointer" 
+                  <User
+                    className="h-6 w-6 text-gray-700 cursor-pointer"
                     onClick={() => {
-                      navigate('/dashboard');
+                      navigate("/dashboard");
                       setIsOpen(false);
                     }}
                   />
-                  <p className="text-lg">{user?.email?.address?.split("@")[0] || user?.wallet?.address?.slice(0, 10) + "..." || "Usuário"}</p>
+                  <p className="text-lg">
+                    {user?.email?.address?.split("@")[0] ||
+                      user?.wallet?.address?.slice(0, 10) + "..." ||
+                      "Usuário"}
+                  </p>
                   <AuthButton />
                 </div>
               ) : (
@@ -187,12 +195,9 @@ const Navbar = () => {
           </div>
         </div>
       )}
-      
+
       {/* Cart Sidebar */}
-      <CartSidebar 
-        isOpen={isCartOpen} 
-        onClose={() => setIsCartOpen(false)} 
-      />
+      <CartSidebar isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
     </header>
   );
 };

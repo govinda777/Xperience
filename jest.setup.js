@@ -1,80 +1,110 @@
-// jest.setup.js
-const { TextEncoder, TextDecoder } = require('util');
+// Mock global fetch
+global.fetch = jest.fn();
+
+// Mock localStorage
+const localStorageMock = {
+  getItem: jest.fn(),
+  setItem: jest.fn(),
+  removeItem: jest.fn(),
+  clear: jest.fn(),
+};
+global.localStorage = localStorageMock;
+
+// Mock sessionStorage
+const sessionStorageMock = {
+  getItem: jest.fn(),
+  setItem: jest.fn(),
+  removeItem: jest.fn(),
+  clear: jest.fn(),
+};
+global.sessionStorage = sessionStorageMock;
+
+// Mock URL.createObjectURL
+global.URL.createObjectURL = jest.fn();
+global.URL.revokeObjectURL = jest.fn();
+
+// Mock crypto
+global.crypto = {
+  getRandomValues: jest.fn(),
+  subtle: {
+    digest: jest.fn(),
+    encrypt: jest.fn(),
+    decrypt: jest.fn(),
+    sign: jest.fn(),
+    verify: jest.fn(),
+    generateKey: jest.fn(),
+    deriveKey: jest.fn(),
+    importKey: jest.fn(),
+    exportKey: jest.fn(),
+    wrapKey: jest.fn(),
+    unwrapKey: jest.fn(),
+  },
+};
+
+// Mock window.location
+delete window.location;
+window.location = {
+  href: '',
+  hash: '',
+  host: '',
+  hostname: '',
+  origin: '',
+  pathname: '',
+  port: '',
+  protocol: '',
+  search: '',
+  assign: jest.fn(),
+  reload: jest.fn(),
+  replace: jest.fn(),
+  toString: jest.fn(),
+};
 
 // Mock TextEncoder/TextDecoder
-global.TextEncoder = TextEncoder;
-global.TextDecoder = TextDecoder;
+global.TextEncoder = require('util').TextEncoder;
+global.TextDecoder = require('util').TextDecoder;
 
-// Mock import.meta
-const mockImportMeta = {
-  env: {
-    VITE_MERCADO_PAGO_PUBLIC_KEY: 'test-key',
-    VITE_RPC_URL: 'https://test-rpc.com',
-    VITE_PRIVY_APP_ID: 'test-app-id',
-    VITE_ALCHEMY_API_KEY: 'test-alchemy-key',
-    VITE_GITHUB_CLIENT_ID: 'test-github-client-id',
-    VITE_GITHUB_CLIENT_SECRET: 'test-github-secret',
-    VITE_GA_MEASUREMENT_ID: 'G-TEST123',
-  },
-  url: 'file://test'
-};
-
-// Define import.meta globally
-Object.defineProperty(global, 'import', {
-  value: {
-    meta: mockImportMeta
-  },
-  writable: true
-});
-
-// Also define it on globalThis
-Object.defineProperty(globalThis, 'import', {
-  value: {
-    meta: mockImportMeta
-  },
-  writable: true
-});
-
-// Mock for modules that use import.meta
-global.importMeta = mockImportMeta;
-
-// Mock URL constructor for asset imports
-global.URL = class URL {
-  constructor(url, base) {
-    this.href = url.startsWith('/') ? `file://${url}` : url;
-    this.pathname = url;
+// Mock performance API
+const mockPerformanceObserver = jest.fn();
+class PerformanceObserverMock {
+  constructor(callback) {
+    this.callback = callback;
+    mockPerformanceObserver(callback);
   }
+  observe = jest.fn();
+  disconnect = jest.fn();
+}
+
+global.PerformanceObserver = PerformanceObserverMock;
+
+const mockNavigationTiming = {
+  requestStart: 0,
+  responseStart: 100,
 };
 
-// Mock navigator
-Object.defineProperty(global, 'navigator', {
-  value: {
-    clipboard: {
-      writeText: jest.fn(() => Promise.resolve()),
-      readText: jest.fn(() => Promise.resolve('test')),
-    },
-    userAgent: 'test'
-  },
-  writable: true
-});
+const mockPaintEntry = {
+  name: 'first-contentful-paint',
+  startTime: 150,
+};
 
-// Mock window
-Object.defineProperty(global, 'window', {
-  value: {
-    ...global.window,
-    open: jest.fn(),
-    Telegram: {
-      WebApp: {
-        ready: jest.fn(),
-        MainButton: {
-          setText: jest.fn(),
-          show: jest.fn(),
-          hide: jest.fn(),
-          onClick: jest.fn(),
-        },
-      }
+global.performance = {
+  getEntriesByType: jest.fn((type) => {
+    switch (type) {
+      case 'navigation':
+        return [mockNavigationTiming];
+      case 'paint':
+        return [mockPaintEntry];
+      default:
+        return [];
     }
+  }),
+  getEntriesByName: jest.fn().mockReturnValue([]),
+  now: jest.fn().mockReturnValue(0),
+  mark: jest.fn(),
+  measure: jest.fn(),
+  clearMarks: jest.fn(),
+  clearMeasures: jest.fn(),
+  timing: {
+    navigationStart: 0,
+    loadEventEnd: 0,
   },
-  writable: true
-});
-
+};

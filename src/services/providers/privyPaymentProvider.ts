@@ -1,28 +1,40 @@
 // Provedor de pagamentos integrado com Privy
-import { PaymentProviderInterface, PaymentResult, PaymentStatus, PaymentCurrency } from '../../types/payment';
-import { paymentConfig } from '../../config/privy';
+import {
+  PaymentProviderInterface,
+  PaymentResult,
+  PaymentStatus,
+  PaymentCurrency,
+} from "../../types/payment";
+import { paymentConfig } from "../../config/privy";
 
 export class PrivyPaymentProvider implements PaymentProviderInterface {
-  id = 'pix' as const; // Using PIX as the primary method
-  name = 'Privy Payment Gateway';
-  type = 'fiat' as const;
-  supportedCurrencies: PaymentCurrency[] = ['BRL', 'USD', 'BTC', 'USDT'];
+  id = "pix" as const; // Using PIX as the primary method
+  name = "Privy Payment Gateway";
+  type = "fiat" as const;
+  supportedCurrencies: PaymentCurrency[] = ["BRL", "USD", "BTC", "USDT"];
 
-  private apiUrl = process.env.VITE_API_URL || 'http://localhost:3001/api';
+  private apiUrl = process.env.VITE_API_URL || "http://localhost:3001/api";
 
-  async process(amount: number, planId: string, userId: string): Promise<PaymentResult> {
+  async process(
+    amount: number,
+    planId: string,
+    userId: string,
+  ): Promise<PaymentResult> {
     // Default to PIX payment
     return this.processPixPayment(amount, planId, userId, {});
   }
 
   async verify(transactionId: string): Promise<PaymentStatus> {
     try {
-      const response = await fetch(`${this.apiUrl}/payments/${transactionId}/status`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        `${this.apiUrl}/payments/${transactionId}/status`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
         },
-      });
+      );
 
       if (!response.ok) {
         throw new Error(`Payment verification failed: ${response.statusText}`);
@@ -31,34 +43,42 @@ export class PrivyPaymentProvider implements PaymentProviderInterface {
       const data = await response.json();
       return data.status;
     } catch (error) {
-      console.error('Erro ao verificar pagamento:', error);
-      return 'failed';
+      console.error("Erro ao verificar pagamento:", error);
+      return "failed";
     }
   }
 
   async cancel(transactionId: string): Promise<boolean> {
     try {
-      const response = await fetch(`${this.apiUrl}/payments/${transactionId}/cancel`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        `${this.apiUrl}/payments/${transactionId}/cancel`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
         },
-      });
+      );
 
       return response.ok;
     } catch (error) {
-      console.error('Erro ao cancelar pagamento:', error);
+      console.error("Erro ao cancelar pagamento:", error);
       return false;
     }
   }
 
   // Método específico para PIX via Privy + Mercado Pago
-  async processPixPayment(amount: number, planId: string, userId: string, customerInfo: any): Promise<PaymentResult> {
+  async processPixPayment(
+    amount: number,
+    planId: string,
+    userId: string,
+    customerInfo: any,
+  ): Promise<PaymentResult> {
     try {
       const response = await fetch(`${this.apiUrl}/payments/pix`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           amount,
@@ -75,33 +95,40 @@ export class PrivyPaymentProvider implements PaymentProviderInterface {
       }
 
       const data = await response.json();
-      
+
       return {
         transactionId: data.id,
         paymentUrl: data.point_of_interaction?.transaction_data?.ticket_url,
         qrCode: data.point_of_interaction?.transaction_data?.qr_code,
-        qrCodeBase64: data.point_of_interaction?.transaction_data?.qr_code_base64,
+        qrCodeBase64:
+          data.point_of_interaction?.transaction_data?.qr_code_base64,
         amount: data.transaction_amount,
-        currency: 'BRL',
-        expiresAt: data.date_of_expiration ? new Date(data.date_of_expiration) : undefined,
+        currency: "BRL",
+        expiresAt: data.date_of_expiration
+          ? new Date(data.date_of_expiration)
+          : undefined,
         metadata: {
           pixKey: data.point_of_interaction?.transaction_data?.qr_code,
           status: data.status,
         },
       };
     } catch (error) {
-      console.error('Erro ao processar pagamento PIX:', error);
+      console.error("Erro ao processar pagamento PIX:", error);
       throw error;
     }
   }
 
   // Método específico para Bitcoin via Privy
-  async processBitcoinPayment(amount: number, planId: string, userId: string): Promise<PaymentResult> {
+  async processBitcoinPayment(
+    amount: number,
+    planId: string,
+    userId: string,
+  ): Promise<PaymentResult> {
     try {
       const response = await fetch(`${this.apiUrl}/payments/bitcoin`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           amount,
@@ -112,18 +139,20 @@ export class PrivyPaymentProvider implements PaymentProviderInterface {
       });
 
       if (!response.ok) {
-        throw new Error(`Bitcoin payment creation failed: ${response.statusText}`);
+        throw new Error(
+          `Bitcoin payment creation failed: ${response.statusText}`,
+        );
       }
 
       const data = await response.json();
-      
+
       return {
         transactionId: data.transactionId,
         paymentAddress: data.address,
         qrCode: data.qrCode,
         qrCodeBase64: data.qrCodeBase64,
         amount: data.amount,
-        currency: 'BTC',
+        currency: "BTC",
         expiresAt: data.expiresAt ? new Date(data.expiresAt) : undefined,
         metadata: {
           network: data.network,
@@ -131,22 +160,28 @@ export class PrivyPaymentProvider implements PaymentProviderInterface {
         },
       };
     } catch (error) {
-      console.error('Erro ao processar pagamento Bitcoin:', error);
+      console.error("Erro ao processar pagamento Bitcoin:", error);
       throw error;
     }
   }
 
   // Método específico para USDT via Privy
-  async processUSDTPayment(amount: number, planId: string, userId: string, network: 'ethereum' | 'polygon' = 'ethereum'): Promise<PaymentResult> {
+  async processUSDTPayment(
+    amount: number,
+    planId: string,
+    userId: string,
+    network: "ethereum" | "polygon" = "ethereum",
+  ): Promise<PaymentResult> {
     try {
-      const contractAddress = network === 'polygon' 
-        ? paymentConfig.usdt.polygonContractAddress 
-        : paymentConfig.usdt.contractAddress;
+      const contractAddress =
+        network === "polygon"
+          ? paymentConfig.usdt.polygonContractAddress
+          : paymentConfig.usdt.contractAddress;
 
       const response = await fetch(`${this.apiUrl}/payments/usdt`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           amount,
@@ -163,14 +198,14 @@ export class PrivyPaymentProvider implements PaymentProviderInterface {
       }
 
       const data = await response.json();
-      
+
       return {
         transactionId: data.transactionId,
         paymentAddress: data.address,
         qrCode: data.qrCode,
         qrCodeBase64: data.qrCodeBase64,
         amount: data.amount,
-        currency: 'USDT',
+        currency: "USDT",
         expiresAt: data.expiresAt ? new Date(data.expiresAt) : undefined,
         metadata: {
           network: data.network,
@@ -179,18 +214,23 @@ export class PrivyPaymentProvider implements PaymentProviderInterface {
         },
       };
     } catch (error) {
-      console.error('Erro ao processar pagamento USDT:', error);
+      console.error("Erro ao processar pagamento USDT:", error);
       throw error;
     }
   }
 
   // Método específico para GitHub Pay
-  async processGitHubPayment(amount: number, planId: string, userId: string, githubUsername?: string): Promise<PaymentResult> {
+  async processGitHubPayment(
+    amount: number,
+    planId: string,
+    userId: string,
+    githubUsername?: string,
+  ): Promise<PaymentResult> {
     try {
       const response = await fetch(`${this.apiUrl}/payments/github`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           amount,
@@ -202,16 +242,18 @@ export class PrivyPaymentProvider implements PaymentProviderInterface {
       });
 
       if (!response.ok) {
-        throw new Error(`GitHub payment creation failed: ${response.statusText}`);
+        throw new Error(
+          `GitHub payment creation failed: ${response.statusText}`,
+        );
       }
 
       const data = await response.json();
-      
+
       return {
         transactionId: data.transactionId,
         paymentUrl: data.sponsorshipUrl,
         amount: data.amount,
-        currency: 'USD',
+        currency: "USD",
         expiresAt: data.expiresAt ? new Date(data.expiresAt) : undefined,
         metadata: {
           githubUsername: data.githubUsername,
@@ -220,7 +262,7 @@ export class PrivyPaymentProvider implements PaymentProviderInterface {
         },
       };
     } catch (error) {
-      console.error('Erro ao processar pagamento GitHub:', error);
+      console.error("Erro ao processar pagamento GitHub:", error);
       throw error;
     }
   }
@@ -229,28 +271,32 @@ export class PrivyPaymentProvider implements PaymentProviderInterface {
   async getExchangeRates(): Promise<Record<string, number>> {
     try {
       const response = await fetch(`${this.apiUrl}/payments/exchange-rates`);
-      
+
       if (!response.ok) {
-        throw new Error('Failed to fetch exchange rates');
+        throw new Error("Failed to fetch exchange rates");
       }
 
       return await response.json();
     } catch (error) {
-      console.error('Erro ao obter taxas de câmbio:', error);
+      console.error("Erro ao obter taxas de câmbio:", error);
       // Retornar taxas padrão em caso de erro
       return {
-        'BRL/USD': 0.20,
-        'USD/BRL': 5.00,
-        'BTC/USD': 45000,
-        'USD/BTC': 0.000022,
-        'USDT/USD': 1.00,
-        'USD/USDT': 1.00,
+        "BRL/USD": 0.2,
+        "USD/BRL": 5.0,
+        "BTC/USD": 45000,
+        "USD/BTC": 0.000022,
+        "USDT/USD": 1.0,
+        "USD/USDT": 1.0,
       };
     }
   }
 
   // Método para converter valores entre moedas
-  async convertAmount(amount: number, fromCurrency: PaymentCurrency, toCurrency: PaymentCurrency): Promise<number> {
+  async convertAmount(
+    amount: number,
+    fromCurrency: PaymentCurrency,
+    toCurrency: PaymentCurrency,
+  ): Promise<number> {
     if (fromCurrency === toCurrency) {
       return amount;
     }
@@ -260,19 +306,24 @@ export class PrivyPaymentProvider implements PaymentProviderInterface {
     const rate = rates[rateKey];
 
     if (!rate) {
-      throw new Error(`Exchange rate not available for ${fromCurrency} to ${toCurrency}`);
+      throw new Error(
+        `Exchange rate not available for ${fromCurrency} to ${toCurrency}`,
+      );
     }
 
     return amount * rate;
   }
 
   // Método para validar endereço de carteira
-  async validateWalletAddress(address: string, currency: PaymentCurrency): Promise<boolean> {
+  async validateWalletAddress(
+    address: string,
+    currency: PaymentCurrency,
+  ): Promise<boolean> {
     try {
       const response = await fetch(`${this.apiUrl}/payments/validate-address`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ address, currency }),
       });
@@ -284,23 +335,28 @@ export class PrivyPaymentProvider implements PaymentProviderInterface {
       const data = await response.json();
       return data.isValid;
     } catch (error) {
-      console.error('Erro ao validar endereço:', error);
+      console.error("Erro ao validar endereço:", error);
       return false;
     }
   }
 
   // Método para obter histórico de transações
-  async getTransactionHistory(userId: string, limit: number = 10): Promise<any[]> {
+  async getTransactionHistory(
+    userId: string,
+    limit: number = 10,
+  ): Promise<any[]> {
     try {
-      const response = await fetch(`${this.apiUrl}/payments/history/${userId}?limit=${limit}`);
-      
+      const response = await fetch(
+        `${this.apiUrl}/payments/history/${userId}?limit=${limit}`,
+      );
+
       if (!response.ok) {
-        throw new Error('Failed to fetch transaction history');
+        throw new Error("Failed to fetch transaction history");
       }
 
       return await response.json();
     } catch (error) {
-      console.error('Erro ao obter histórico de transações:', error);
+      console.error("Erro ao obter histórico de transações:", error);
       return [];
     }
   }

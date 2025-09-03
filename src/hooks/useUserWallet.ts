@@ -1,7 +1,7 @@
-import { useState, useEffect, useCallback } from 'react';
-import { usePrivy } from '@privy-io/react-auth';
-import { UserWalletService } from '../services/userWalletService';
-import { WalletService } from '../services/walletService';
+import { useState, useEffect, useCallback } from "react";
+import { usePrivy } from "@privy-io/react-auth";
+import { UserWalletService } from "../services/userWalletService";
+import { WalletService } from "../services/walletService";
 
 // Interface for transaction request
 interface TransactionRequest {
@@ -25,7 +25,7 @@ export const useUserWallet = () => {
   const [walletData, setWalletData] = useState<WalletData | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  
+
   const userWalletService = new UserWalletService();
   const walletService = new WalletService();
 
@@ -44,10 +44,12 @@ export const useUserWallet = () => {
     try {
       // Get or create the user's wallet
       const wallet = await userWalletService.getOrCreateUserWallet(user.id);
-      
+
       // Get the wallet balance
-      const balance = await walletService.getBalance(wallet.smartAccountAddress);
-      
+      const balance = await walletService.getBalance(
+        wallet.smartAccountAddress,
+      );
+
       // Update the wallet data state
       setWalletData({
         address: wallet.address,
@@ -55,8 +57,8 @@ export const useUserWallet = () => {
         balance,
       });
     } catch (err) {
-      console.error('Failed to initialize wallet:', err);
-      setError('Failed to initialize wallet');
+      console.error("Failed to initialize wallet:", err);
+      setError("Failed to initialize wallet");
     } finally {
       setIsLoading(false);
     }
@@ -72,9 +74,11 @@ export const useUserWallet = () => {
   /**
    * Send a transaction using the user's wallet
    */
-  const sendTransaction = async (transaction: TransactionRequest): Promise<string> => {
+  const sendTransaction = async (
+    transaction: TransactionRequest,
+  ): Promise<string> => {
     if (!authenticated || !user?.id || !walletData) {
-      throw new Error('User not authenticated or wallet not initialized');
+      throw new Error("User not authenticated or wallet not initialized");
     }
 
     setIsLoading(true);
@@ -83,27 +87,29 @@ export const useUserWallet = () => {
     try {
       // Get the user's wallet
       const wallet = await userWalletService.getUserWallet(user.id);
-      
+
       if (!wallet) {
-        throw new Error('Wallet not found');
+        throw new Error("Wallet not found");
       }
-      
+
       // Send the transaction
       const txHash = await walletService.sendTransaction(wallet, transaction);
-      
+
       // Refresh the wallet balance
-      const balance = await walletService.getBalance(wallet.smartAccountAddress);
-      
+      const balance = await walletService.getBalance(
+        wallet.smartAccountAddress,
+      );
+
       // Update the wallet data state
       setWalletData({
         ...walletData,
         balance,
       });
-      
+
       return txHash;
     } catch (err) {
-      console.error('Failed to send transaction:', err);
-      setError('Failed to send transaction');
+      console.error("Failed to send transaction:", err);
+      setError("Failed to send transaction");
       throw err;
     } finally {
       setIsLoading(false);
@@ -120,14 +126,14 @@ export const useUserWallet = () => {
 
     try {
       const balance = await userWalletService.getUserBalance(user.id);
-      
+
       setWalletData({
         ...walletData,
         balance,
       });
     } catch (err) {
-      console.error('Failed to refresh balance:', err);
-      setError('Failed to refresh balance');
+      console.error("Failed to refresh balance:", err);
+      setError("Failed to refresh balance");
     }
   };
 
@@ -139,4 +145,4 @@ export const useUserWallet = () => {
     refreshBalance,
     initializeWallet,
   };
-}; 
+};

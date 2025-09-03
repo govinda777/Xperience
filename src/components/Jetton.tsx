@@ -1,5 +1,10 @@
-import React from 'react'; // Adicione esta linha
-import { toNano as _toNano, Address as _Address, Cell as _Cell, fromNano as _fromNano } from "ton";
+import React from "react"; // Adicione esta linha
+import {
+  toNano as _toNano,
+  Address as _Address,
+  Cell as _Cell,
+  fromNano as _fromNano,
+} from "ton";
 import { useTonConnect } from "../hooks/useTonConnect";
 import { useFaucetJettonContract } from "../hooks/useFaucetJettonContract";
 import {
@@ -19,8 +24,7 @@ export function Jetton() {
       <FlexBoxCol>
         <h3>Faucet Jetton : ----</h3>
         <FlexBoxRow>
-          Wallet :
-          <Ellipsis>{jettonWalletAddress}</Ellipsis>
+          Wallet :<Ellipsis>{jettonWalletAddress}</Ellipsis>
         </FlexBoxRow>
         <FlexBoxRow>
           Balance:

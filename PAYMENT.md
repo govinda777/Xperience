@@ -60,6 +60,7 @@ npm install -D @types/qrcode @types/mercadopago @types/crypto-js
 Crie um arquivo `.env` na raiz do projeto com as seguintes variáveis:
 
 ### Configurações Gerais
+
 ```env
 # Ambiente
 VITE_ENVIRONMENT=development # ou 'production'
@@ -70,6 +71,7 @@ VITE_WEBHOOK_URL=https://your-app.vercel.app/api/webhooks
 ```
 
 ### Mercado Pago (PIX)
+
 ```env
 # Mercado Pago - PIX
 VITE_MERCADO_PAGO_PUBLIC_KEY=TEST-your-public-key
@@ -81,6 +83,7 @@ VITE_MERCADO_PAGO_ACCESS_TOKEN=TEST-your-access-token
 ```
 
 ### Privy (Bitcoin/USDT)
+
 ```env
 # Privy - Carteiras Crypto
 VITE_PRIVY_APP_ID=your-privy-app-id
@@ -88,6 +91,7 @@ VITE_PRIVY_APP_SECRET=your-privy-app-secret
 ```
 
 ### APIs Externas
+
 ```env
 # Ethereum RPC (para USDT)
 ETHEREUM_RPC_URL=https://mainnet.infura.io/v3/YOUR_PROJECT_ID
@@ -100,6 +104,7 @@ ETHERSCAN_API_KEY=YourApiKeyToken
 ```
 
 ### Segurança
+
 ```env
 # Chaves de segurança
 VITE_ENCRYPTION_KEY=your-32-character-encryption-key
@@ -111,25 +116,28 @@ VITE_WEBHOOK_SECRET=your-webhook-secret-key
 ### PIX (Mercado Pago)
 
 #### 1. Configuração da Conta
+
 1. Acesse [Mercado Pago Developers](https://www.mercadopago.com.br/developers)
 2. Crie uma aplicação
 3. Obtenha as credenciais de teste e produção
 4. Configure as URLs de webhook
 
 #### 2. Configuração no Código
+
 ```typescript
 // src/config/payment.ts
 export const PAYMENT_CONFIG: PaymentConfig = {
   mercadoPago: {
-    publicKey: import.meta.env.VITE_MERCADO_PAGO_PUBLIC_KEY || '',
-    accessToken: import.meta.env.VITE_MERCADO_PAGO_ACCESS_TOKEN || '',
-    sandboxMode: import.meta.env.VITE_ENVIRONMENT !== 'production'
+    publicKey: import.meta.env.VITE_MERCADO_PAGO_PUBLIC_KEY || "",
+    accessToken: import.meta.env.VITE_MERCADO_PAGO_ACCESS_TOKEN || "",
+    sandboxMode: import.meta.env.VITE_ENVIRONMENT !== "production",
   },
   // ...
 };
 ```
 
 #### 3. Características
+
 - ⏱️ Timeout: 15 minutos
 - 🔄 Polling: 3 segundos
 - 💰 Desconto: 0%
@@ -138,12 +146,14 @@ export const PAYMENT_CONFIG: PaymentConfig = {
 ### Bitcoin
 
 #### 1. Configuração
+
 ```typescript
 // Configuração automática via Blockstream API
 // Não requer configuração adicional para consultas
 ```
 
 #### 2. Características
+
 - ⏱️ Timeout: 1 hora
 - 🔄 Polling: 30 segundos
 - 💰 Desconto: 5%
@@ -153,17 +163,20 @@ export const PAYMENT_CONFIG: PaymentConfig = {
 ### USDT (Ethereum)
 
 #### 1. Configuração da Infura
+
 1. Acesse [Infura.io](https://infura.io/)
 2. Crie um projeto Ethereum
 3. Obtenha a URL do endpoint
 4. Configure no `.env`
 
 #### 2. Configuração da Etherscan
+
 1. Acesse [Etherscan.io](https://etherscan.io/apis)
 2. Crie uma conta e obtenha API key
 3. Configure no `.env`
 
 #### 3. Características
+
 - ⏱️ Timeout: 1 hora
 - 🔄 Polling: 30 segundos
 - 💰 Desconto: 3%
@@ -197,7 +210,9 @@ src/
 ### Arquivos Principais
 
 #### `paymentService.ts`
+
 Serviço central que gerencia todos os provedores:
+
 - Registro de provedores
 - Processamento de pagamentos
 - Verificação de status
@@ -205,7 +220,9 @@ Serviço central que gerencia todos os provedores:
 - Armazenamento local
 
 #### `payment.ts` (config)
+
 Configurações centralizadas:
+
 - Credenciais dos provedores
 - Timeouts e intervalos
 - Limites de valores
@@ -213,7 +230,9 @@ Configurações centralizadas:
 - URLs das APIs
 
 #### `payment.ts` (types)
+
 Definições TypeScript:
+
 - Interfaces dos provedores
 - Tipos de status
 - Estruturas de dados
@@ -224,28 +243,30 @@ Definições TypeScript:
 ### Endpoints Necessários
 
 #### 1. Webhook PIX
+
 ```typescript
 // api/webhooks/pix.ts
 export async function POST(request: Request) {
   const payload = await request.json();
-  
+
   // Verificar assinatura
-  const signature = request.headers.get('x-signature');
+  const signature = request.headers.get("x-signature");
   if (!verifySignature(payload, signature)) {
-    return new Response('Unauthorized', { status: 401 });
+    return new Response("Unauthorized", { status: 401 });
   }
-  
+
   // Processar webhook
   const { type, data } = payload;
-  if (type === 'payment') {
-    await updatePaymentStatus(data.id, 'completed');
+  if (type === "payment") {
+    await updatePaymentStatus(data.id, "completed");
   }
-  
-  return new Response('OK', { status: 200 });
+
+  return new Response("OK", { status: 200 });
 }
 ```
 
 #### 2. API de Conversão
+
 ```typescript
 // api/exchange-rates.ts
 export async function GET() {
@@ -257,6 +278,7 @@ export async function GET() {
 ### URLs de Webhook
 
 Configure as seguintes URLs no Mercado Pago:
+
 - **PIX**: `https://your-app.vercel.app/api/webhooks/pix`
 - **Notificações**: `https://your-app.vercel.app/api/webhooks/notifications`
 
@@ -265,26 +287,26 @@ Configure as seguintes URLs no Mercado Pago:
 ### Uso Básico
 
 ```tsx
-import { PaymentGateway } from './components/payments';
+import { PaymentGateway } from "./components/payments";
 
 function CheckoutPage() {
   const plan = {
-    id: 'premium',
-    name: 'Plano Premium',
-    description: 'Acesso completo por 1 mês',
-    price: 29.90,
-    currency: 'BRL',
-    features: ['Feature 1', 'Feature 2'],
-    duration: 1
+    id: "premium",
+    name: "Plano Premium",
+    description: "Acesso completo por 1 mês",
+    price: 29.9,
+    currency: "BRL",
+    features: ["Feature 1", "Feature 2"],
+    duration: 1,
   };
 
   const handlePaymentComplete = (result: PaymentResult) => {
-    console.log('Pagamento concluído:', result);
+    console.log("Pagamento concluído:", result);
     // Redirecionar ou atualizar UI
   };
 
   const handlePaymentError = (error: Error) => {
-    console.error('Erro no pagamento:', error);
+    console.error("Erro no pagamento:", error);
     // Mostrar mensagem de erro
   };
 
@@ -294,7 +316,7 @@ function CheckoutPage() {
       userId="user-123"
       onPaymentComplete={handlePaymentComplete}
       onPaymentError={handlePaymentError}
-      onCancel={() => console.log('Pagamento cancelado')}
+      onCancel={() => console.log("Pagamento cancelado")}
     />
   );
 }
@@ -303,20 +325,22 @@ function CheckoutPage() {
 ### Componentes Individuais
 
 #### PaymentMethodSelector
+
 ```tsx
 <PaymentMethodSelector
   selected="pix"
   onChange={setSelectedMethod}
   prices={{
-    pix: 29.90,
-    bitcoin: 28.41,  // 5% desconto
-    usdt: 29.01      // 3% desconto
+    pix: 29.9,
+    bitcoin: 28.41, // 5% desconto
+    usdt: 29.01, // 3% desconto
   }}
   disabled={false}
 />
 ```
 
 #### PaymentStatusModal
+
 ```tsx
 <PaymentStatusModal
   payment={paymentResult}
@@ -332,6 +356,7 @@ function CheckoutPage() {
 ### Testes de Desenvolvimento
 
 #### 1. PIX (Mercado Pago Sandbox)
+
 ```bash
 # Usar credenciais de teste
 VITE_MERCADO_PAGO_PUBLIC_KEY=TEST-your-test-key
@@ -339,16 +364,19 @@ VITE_MERCADO_PAGO_ACCESS_TOKEN=TEST-your-test-token
 ```
 
 Cartões de teste:
+
 - **Aprovado**: 5031 7557 3453 0604
 - **Rejeitado**: 5031 7557 3453 0604
 
 #### 2. Bitcoin (Testnet)
+
 ```typescript
 // Configurar para testnet
-const BITCOIN_TESTNET_API = 'https://blockstream.info/testnet/api';
+const BITCOIN_TESTNET_API = "https://blockstream.info/testnet/api";
 ```
 
 #### 3. USDT (Sepolia Testnet)
+
 ```env
 ETHEREUM_RPC_URL=https://sepolia.infura.io/v3/YOUR_PROJECT_ID
 ```
@@ -356,8 +384,10 @@ ETHEREUM_RPC_URL=https://sepolia.infura.io/v3/YOUR_PROJECT_ID
 ### Problemas Comuns
 
 #### ❌ "Provedor não encontrado"
+
 **Causa**: Provedor não registrado
 **Solução**:
+
 ```typescript
 // Verificar se o provedor foi registrado
 const provider = new PixPaymentProvider();
@@ -365,23 +395,29 @@ paymentService.registerProvider(provider);
 ```
 
 #### ❌ "Erro na conversão de moeda"
+
 **Causa**: API de cotação indisponível
 **Solução**:
+
 ```typescript
 // Implementar fallback
 const fallbackRate = 5.0; // BRL/USD aproximado
 ```
 
 #### ❌ "QR Code não carrega"
+
 **Causa**: Biblioteca QRCode não instalada
 **Solução**:
+
 ```bash
 npm install qrcode @types/qrcode
 ```
 
 #### ❌ "Webhook não recebe notificações"
+
 **Causa**: URL incorreta ou HTTPS necessário
 **Solução**:
+
 - Verificar URL no painel do Mercado Pago
 - Usar HTTPS em produção
 - Testar com ngrok em desenvolvimento
@@ -389,21 +425,23 @@ npm install qrcode @types/qrcode
 ### Logs e Debug
 
 #### Habilitar logs detalhados:
+
 ```typescript
 // src/config/payment.ts
 export function getEnvironmentConfig() {
   return {
-    logLevel: 'debug', // 'error' | 'warn' | 'info' | 'debug'
-    enableAnalytics: true
+    logLevel: "debug", // 'error' | 'warn' | 'info' | 'debug'
+    enableAnalytics: true,
   };
 }
 ```
 
 #### Monitorar transações:
+
 ```typescript
 // Verificar localStorage
-const payments = localStorage.getItem('xperience_payments');
-console.log('Pagamentos armazenados:', JSON.parse(payments || '{}'));
+const payments = localStorage.getItem("xperience_payments");
+console.log("Pagamentos armazenados:", JSON.parse(payments || "{}"));
 ```
 
 ## 🔒 Segurança
@@ -411,45 +449,51 @@ console.log('Pagamentos armazenados:', JSON.parse(payments || '{}'));
 ### Boas Práticas
 
 #### 1. Variáveis de Ambiente
+
 - ✅ Nunca commitar credenciais
 - ✅ Usar diferentes chaves para dev/prod
 - ✅ Rotacionar chaves regularmente
 
 #### 2. Webhooks
+
 ```typescript
 // Verificar assinatura do webhook
 function verifyWebhookSignature(payload: string, signature: string): boolean {
   const expectedSignature = crypto
-    .createHmac('sha256', process.env.WEBHOOK_SECRET!)
+    .createHmac("sha256", process.env.WEBHOOK_SECRET!)
     .update(payload)
-    .digest('hex');
-  
+    .digest("hex");
+
   return signature === expectedSignature;
 }
 ```
 
 #### 3. Validação de Dados
+
 ```typescript
 // Validar valores
-if (amount < PAYMENT_CONSTANTS.MIN_PAYMENT_BRL || 
-    amount > PAYMENT_CONSTANTS.MAX_PAYMENT_BRL) {
-  throw new Error('Valor inválido');
+if (
+  amount < PAYMENT_CONSTANTS.MIN_PAYMENT_BRL ||
+  amount > PAYMENT_CONSTANTS.MAX_PAYMENT_BRL
+) {
+  throw new Error("Valor inválido");
 }
 ```
 
 #### 4. Rate Limiting
+
 ```typescript
 // Implementar rate limiting para APIs
 const rateLimiter = new Map();
 function checkRateLimit(userId: string): boolean {
   const now = Date.now();
   const userRequests = rateLimiter.get(userId) || [];
-  const recentRequests = userRequests.filter(time => now - time < 60000);
-  
+  const recentRequests = userRequests.filter((time) => now - time < 60000);
+
   if (recentRequests.length >= 10) {
     return false; // Muitas requisições
   }
-  
+
   rateLimiter.set(userId, [...recentRequests, now]);
   return true;
 }
@@ -458,17 +502,24 @@ function checkRateLimit(userId: string): boolean {
 ### Criptografia
 
 #### Dados sensíveis:
+
 ```typescript
-import CryptoJS from 'crypto-js';
+import CryptoJS from "crypto-js";
 
 // Criptografar dados sensíveis
 function encryptData(data: string): string {
-  return CryptoJS.AES.encrypt(data, PAYMENT_CONFIG.security.encryptionKey).toString();
+  return CryptoJS.AES.encrypt(
+    data,
+    PAYMENT_CONFIG.security.encryptionKey,
+  ).toString();
 }
 
 // Descriptografar dados
 function decryptData(encryptedData: string): string {
-  const bytes = CryptoJS.AES.decrypt(encryptedData, PAYMENT_CONFIG.security.encryptionKey);
+  const bytes = CryptoJS.AES.decrypt(
+    encryptedData,
+    PAYMENT_CONFIG.security.encryptionKey,
+  );
   return bytes.toString(CryptoJS.enc.Utf8);
 }
 ```
@@ -478,6 +529,7 @@ function decryptData(encryptedData: string): string {
 ### Vercel
 
 #### 1. Configurar Variáveis de Ambiente
+
 ```bash
 # Via CLI
 vercel env add VITE_MERCADO_PAGO_PUBLIC_KEY
@@ -486,6 +538,7 @@ vercel env add VITE_MERCADO_PAGO_ACCESS_TOKEN
 ```
 
 #### 2. Configurar Domínio
+
 ```bash
 # vercel.json
 {
@@ -511,6 +564,7 @@ vercel env add VITE_MERCADO_PAGO_ACCESS_TOKEN
 ### Netlify
 
 #### 1. Build Settings
+
 ```toml
 # netlify.toml
 [build]
@@ -546,18 +600,18 @@ ETHEREUM_RPC_URL=https://mainnet.infura.io/v3/YOUR_PROJECT_ID
 ```typescript
 // Implementar tracking de eventos
 function trackPaymentEvent(event: string, data: any) {
-  if (typeof gtag !== 'undefined') {
-    gtag('event', event, {
-      event_category: 'payment',
+  if (typeof gtag !== "undefined") {
+    gtag("event", event, {
+      event_category: "payment",
       event_label: data.method,
-      value: data.amount
+      value: data.amount,
     });
   }
 }
 
 // Usar nos componentes
-trackPaymentEvent('payment_initiated', { method: 'pix', amount: 29.90 });
-trackPaymentEvent('payment_completed', { method: 'pix', amount: 29.90 });
+trackPaymentEvent("payment_initiated", { method: "pix", amount: 29.9 });
+trackPaymentEvent("payment_completed", { method: "pix", amount: 29.9 });
 ```
 
 ### Métricas Importantes
@@ -579,6 +633,7 @@ trackPaymentEvent('payment_completed', { method: 'pix', amount: 29.90 });
 ### Logs de Erro
 
 Para reportar problemas, inclua:
+
 1. Método de pagamento usado
 2. Valor da transação
 3. ID da transação
@@ -590,6 +645,7 @@ Para reportar problemas, inclua:
 ## 📝 Changelog
 
 ### v1.0.0 (Atual)
+
 - ✅ Implementação PIX via Mercado Pago
 - ✅ Implementação Bitcoin via Blockstream
 - ✅ Implementação USDT via Ethereum
@@ -599,6 +655,7 @@ Para reportar problemas, inclua:
 - ✅ Webhooks para PIX
 
 ### Próximas Versões
+
 - 🔄 Suporte a Polygon para USDT
 - 🔄 Lightning Network para Bitcoin
 - 🔄 Mais opções de stablecoins

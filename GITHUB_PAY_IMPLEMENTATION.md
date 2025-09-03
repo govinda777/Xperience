@@ -7,6 +7,7 @@ Foi implementado com sucesso o **GitHub Pay** como um novo meio de pagamento no 
 ## Funcionalidades Implementadas
 
 ### 1. Provider de Pagamento GitHub (`GitHubPaymentProvider`)
+
 - **Localização**: `src/services/providers/githubPaymentProvider.ts`
 - **Funcionalidades**:
   - Conversão automática de BRL para USD
@@ -17,6 +18,7 @@ Foi implementado com sucesso o **GitHub Pay** como um novo meio de pagamento no 
   - Suporte a verificação manual
 
 ### 2. Componente de Interface (`GitHubPaymentComponent`)
+
 - **Localização**: `src/components/payments/GitHubPaymentComponent.tsx`
 - **Funcionalidades**:
   - Interface moderna e intuitiva
@@ -27,6 +29,7 @@ Foi implementado com sucesso o **GitHub Pay** como um novo meio de pagamento no 
   - Link direto para o perfil GitHub
 
 ### 3. Integração no Sistema
+
 - **PaymentMethodSelector**: Adicionado GitHub Pay como opção
 - **PaymentGateway**: Integrado no fluxo principal de pagamentos
 - **Tipos**: Atualizados para suportar 'github' como provider e 'USD' como moeda
@@ -34,14 +37,17 @@ Foi implementado com sucesso o **GitHub Pay** como um novo meio de pagamento no 
 ## Características Técnicas
 
 ### Conversão de Moeda
+
 - **Taxa de conversão**: 1 BRL ≈ 0.18 USD (aproximada)
 - **Valor mínimo**: $1 USD
 - **Exibição**: Mostra valor em USD e equivalente em BRL
 
 ### URL do GitHub Sponsors
+
 Formato: `https://github.com/sponsors/{username}/sponsorships?sponsor={username}&frequency=one-time&amount={amount}&preview=true`
 
 ### Configuração
+
 - **Username padrão**: `govinda777`
 - **Frequência**: `one-time` (pagamento único)
 - **Moeda**: USD
@@ -49,11 +55,13 @@ Formato: `https://github.com/sponsors/{username}/sponsorships?sponsor={username}
 ## Interface do Usuário
 
 ### Seletor de Método de Pagamento
+
 - Ícone: 🐙 (polvo do GitHub)
 - Badge: "NOVO" (destaque em roxo)
 - Características: "Pagamento via GitHub", "Suporte ao projeto", "Fácil e seguro"
 
 ### Componente de Pagamento
+
 1. **Header**: Logo GitHub + informações básicas
 2. **Valor**: Exibição em USD com equivalente em BRL
 3. **Status**: Indicador visual do estado do pagamento
@@ -65,15 +73,18 @@ Formato: `https://github.com/sponsors/{username}/sponsorships?sponsor={username}
 ## Estados do Pagamento
 
 ### 1. Pendente (⏳)
+
 - Estado inicial
 - Botão "Pagar com GitHub Sponsors" disponível
 
 ### 2. Processando (🔄)
+
 - Após clicar em pagar
 - Mostra instruções para completar no GitHub
 - Botão "Já paguei - Confirmar manualmente" disponível
 
 ### 3. Confirmado (✅)
+
 - Após confirmação manual
 - Mensagem de agradecimento
 - Callback `onPaymentComplete` executado
@@ -81,6 +92,7 @@ Formato: `https://github.com/sponsors/{username}/sponsorships?sponsor={username}
 ## Testes
 
 ### Provider Tests (21 testes)
+
 - ✅ Configuração e validação
 - ✅ Processamento de pagamento
 - ✅ Conversão de moeda
@@ -89,6 +101,7 @@ Formato: `https://github.com/sponsors/{username}/sponsorships?sponsor={username}
 - ✅ Tratamento de erros
 
 ### Component Tests (19 testes)
+
 - ✅ Renderização
 - ✅ Exibição de informações
 - ✅ Interações do usuário
@@ -101,12 +114,14 @@ Formato: `https://github.com/sponsors/{username}/sponsorships?sponsor={username}
 ## Arquivos Criados/Modificados
 
 ### Novos Arquivos
+
 - `src/services/providers/githubPaymentProvider.ts`
 - `src/components/payments/GitHubPaymentComponent.tsx`
 - `src/__tests__/services/providers/githubPaymentProvider.test.ts`
 - `src/__tests__/components/payments/GitHubPaymentComponent.test.tsx`
 
 ### Arquivos Modificados
+
 - `src/types/payment.ts` - Adicionado 'github' e 'USD'
 - `src/components/payments/PaymentMethodSelector.tsx` - Integrado GitHub Pay
 - `src/components/payments/PaymentGateway.tsx` - Suporte ao GitHub Pay
@@ -116,6 +131,7 @@ Formato: `https://github.com/sponsors/{username}/sponsorships?sponsor={username}
 ## Como Usar
 
 ### Para Desenvolvedores
+
 ```typescript
 import { GitHubPaymentProvider } from './services/providers/githubPaymentProvider';
 import { GitHubPaymentComponent } from './components/payments/GitHubPaymentComponent';
@@ -136,6 +152,7 @@ const result = await provider.process(100, 'plan-1', 'user-1');
 ```
 
 ### Para Usuários
+
 1. Selecionar "GitHub Pay" como método de pagamento
 2. Clicar em "Pagar com GitHub Sponsors"
 3. Completar o pagamento no GitHub
@@ -158,6 +175,7 @@ const result = await provider.process(100, 'plan-1', 'user-1');
 ## Conclusão
 
 A implementação do GitHub Pay foi concluída com sucesso, oferecendo:
+
 - ✅ Interface moderna e intuitiva
 - ✅ Integração completa no sistema
 - ✅ Testes abrangentes (100% de cobertura)

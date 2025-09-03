@@ -14,6 +14,7 @@ Bem-vindo à campanha de crowdfunding para o GAME-Habitus. Este documento tem co
 ## Sobre o Projeto
 
 GAME-Habitus vai além do entretenimento tradicional, proporcionando:
+
 - Uma narrativa envolvente que integra desafios e recompensas.
 - Uma jogabilidade dinâmica, projetada para estimular a criatividade.
 - Uma interface intuitiva, focada na experiência do usuário.
@@ -21,6 +22,7 @@ GAME-Habitus vai além do entretenimento tradicional, proporcionando:
 ## Como Contribuir
 
 Você pode ajudar de diversas maneiras:
+
 - **Doações Diretas:** Contribua com o valor que puder para apoiar o desenvolvimento.
 - **Divulgação:** Compartilhe a campanha em suas redes sociais para alcançar mais apoiadores.
 - **Feedback:** Envie sugestões e opiniões para melhorar e refinar o projeto.
@@ -28,6 +30,7 @@ Você pode ajudar de diversas maneiras:
 ## Recompensas aos Apoiadores
 
 Para agradecer o suporte, oferecemos uma série de recompensas exclusivas:
+
 - **Apoio Básico:** Agradecimento nas redes sociais e acesso antecipado a atualizações.
 - **Apoio Intermediário:** Acesso antecipado ao jogo e recompensas básicas.
 - **Apoio Premium:** Edição limitada do jogo, participação em eventos exclusivos e créditos especiais no projeto.
@@ -47,6 +50,7 @@ Para agradecer o suporte, oferecemos uma série de recompensas exclusivas:
 ## Contato
 
 Para mais informações ou dúvidas, entre em contato:
+
 - **Email:** contato@game-habitus.com
 - **Redes Sociais:** [Insira os links das redes sociais]
 

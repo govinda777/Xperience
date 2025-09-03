@@ -1,17 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { PaymentProvider, PaymentResult, Plan, PaymentStatus } from '../../types/payment';
-import { paymentService } from '../../services/paymentService';
-import { PixPaymentProvider } from '../../services/providers/pixPaymentProvider';
-import { BitcoinPaymentProvider } from '../../services/providers/bitcoinPaymentProvider';
-import { USDTPaymentProvider } from '../../services/providers/usdtPaymentProvider';
-import { GitHubPaymentProvider } from '../../services/providers/githubPaymentProvider';
-import { PaymentMethodSelector } from './PaymentMethodSelector';
-import { PixPaymentComponent } from './PixPaymentComponent';
-import { BitcoinPaymentComponent } from './BitcoinPaymentComponent';
-import { USDTPaymentComponent } from './USDTPaymentComponent';
-import { GitHubPaymentComponent } from './GitHubPaymentComponent';
-import { PaymentStatusModal } from './PaymentStatusModal';
-import { PAYMENT_CONSTANTS } from '../../config/payment';
+import React, { useState, useEffect } from "react";
+import {
+  PaymentProvider,
+  PaymentResult,
+  Plan,
+  PaymentStatus,
+} from "../../types/payment";
+import { paymentService } from "../../services/paymentService";
+import { PixPaymentProvider } from "../../services/providers/pixPaymentProvider";
+import { BitcoinPaymentProvider } from "../../services/providers/bitcoinPaymentProvider";
+import { USDTPaymentProvider } from "../../services/providers/usdtPaymentProvider";
+import { GitHubPaymentProvider } from "../../services/providers/githubPaymentProvider";
+import { PaymentMethodSelector } from "./PaymentMethodSelector";
+import { PixPaymentComponent } from "./PixPaymentComponent";
+import { BitcoinPaymentComponent } from "./BitcoinPaymentComponent";
+import { USDTPaymentComponent } from "./USDTPaymentComponent";
+import { GitHubPaymentComponent } from "./GitHubPaymentComponent";
+import { PaymentStatusModal } from "./PaymentStatusModal";
+import { PAYMENT_CONSTANTS } from "../../config/payment";
 
 interface PaymentGatewayProps {
   plan: Plan;
@@ -26,12 +31,14 @@ export const PaymentGateway: React.FC<PaymentGatewayProps> = ({
   userId,
   onPaymentComplete,
   onPaymentError,
-  onCancel
+  onCancel,
 }) => {
-  const [selectedMethod, setSelectedMethod] = useState<PaymentProvider>('pix');
+  const [selectedMethod, setSelectedMethod] = useState<PaymentProvider>("pix");
   const [isProcessing, setIsProcessing] = useState(false);
-  const [currentPayment, setCurrentPayment] = useState<PaymentResult | null>(null);
-  const [paymentStatus, setPaymentStatus] = useState<PaymentStatus>('pending');
+  const [currentPayment, setCurrentPayment] = useState<PaymentResult | null>(
+    null,
+  );
+  const [paymentStatus, setPaymentStatus] = useState<PaymentStatus>("pending");
   const [showStatusModal, setShowStatusModal] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -48,8 +55,8 @@ export const PaymentGateway: React.FC<PaymentGatewayProps> = ({
       paymentService.registerProvider(usdtProvider);
       paymentService.registerProvider(githubProvider);
     } catch (error) {
-      console.error('Erro ao inicializar provedores:', error);
-      setError('Erro na configuração dos métodos de pagamento');
+      console.error("Erro ao inicializar provedores:", error);
+      setError("Erro na configuração dos métodos de pagamento");
     }
   }, []);
 
@@ -66,28 +73,33 @@ export const PaymentGateway: React.FC<PaymentGatewayProps> = ({
 
     try {
       const finalPrice = calculateFinalPrice(method);
-      const currency = method === 'pix' ? 'BRL' : 
-                      method === 'bitcoin' ? 'BTC' : 
-                      method === 'usdt' ? 'USDT' : 'USD';
-      
+      const currency =
+        method === "pix"
+          ? "BRL"
+          : method === "bitcoin"
+            ? "BTC"
+            : method === "usdt"
+              ? "USDT"
+              : "USD";
+
       const result = await paymentService.processPayment(
         method,
         finalPrice,
         currency,
         plan.id,
-        userId
+        userId,
       );
 
       setCurrentPayment(result);
-      setPaymentStatus('pending');
+      setPaymentStatus("pending");
       setShowStatusModal(true);
 
       // Iniciar monitoramento do pagamento
       startPaymentMonitoring(result.transactionId, method);
-
     } catch (error) {
-      console.error('Erro ao processar pagamento:', error);
-      const errorMessage = error instanceof Error ? error.message : 'Erro desconhecido';
+      console.error("Erro ao processar pagamento:", error);
+      const errorMessage =
+        error instanceof Error ? error.message : "Erro desconhecido";
       setError(errorMessage);
       onPaymentError(error instanceof Error ? error : new Error(errorMessage));
     } finally {
@@ -96,41 +108,49 @@ export const PaymentGateway: React.FC<PaymentGatewayProps> = ({
   };
 
   // Monitorar status do pagamento
-  const startPaymentMonitoring = (transactionId: string, method: PaymentProvider) => {
+  const startPaymentMonitoring = (
+    transactionId: string,
+    method: PaymentProvider,
+  ) => {
     const checkStatus = async () => {
       try {
-        const status = await paymentService.verifyPayment(method, transactionId);
+        const status = await paymentService.verifyPayment(
+          method,
+          transactionId,
+        );
         setPaymentStatus(status);
 
-        if (status === 'completed') {
+        if (status === "completed") {
           clearInterval(interval);
           onPaymentComplete(currentPayment!);
-        } else if (status === 'failed' || status === 'expired') {
+        } else if (status === "failed" || status === "expired") {
           clearInterval(interval);
-          setError('Pagamento falhou ou expirou');
+          setError("Pagamento falhou ou expirou");
         }
       } catch (error) {
-        console.error('Erro ao verificar status:', error);
+        console.error("Erro ao verificar status:", error);
       }
     };
 
     // Intervalo baseado no tipo de pagamento
-    const intervalTime = method === 'pix' 
-      ? PAYMENT_CONSTANTS.PIX_POLLING_INTERVAL 
-      : PAYMENT_CONSTANTS.CRYPTO_POLLING_INTERVAL;
+    const intervalTime =
+      method === "pix"
+        ? PAYMENT_CONSTANTS.PIX_POLLING_INTERVAL
+        : PAYMENT_CONSTANTS.CRYPTO_POLLING_INTERVAL;
 
     const interval = setInterval(checkStatus, intervalTime);
 
     // Timeout baseado no tipo de pagamento
-    const timeout = method === 'pix' 
-      ? PAYMENT_CONSTANTS.PIX_TIMEOUT 
-      : PAYMENT_CONSTANTS.CRYPTO_TIMEOUT;
+    const timeout =
+      method === "pix"
+        ? PAYMENT_CONSTANTS.PIX_TIMEOUT
+        : PAYMENT_CONSTANTS.CRYPTO_TIMEOUT;
 
     setTimeout(() => {
       clearInterval(interval);
-      if (paymentStatus === 'pending' || paymentStatus === 'processing') {
-        setPaymentStatus('expired');
-        setError('Pagamento expirou');
+      if (paymentStatus === "pending" || paymentStatus === "processing") {
+        setPaymentStatus("expired");
+        setError("Pagamento expirou");
       }
     }, timeout);
   };
@@ -139,14 +159,17 @@ export const PaymentGateway: React.FC<PaymentGatewayProps> = ({
   const handleCancel = async () => {
     if (currentPayment) {
       try {
-        await paymentService.cancelPayment(selectedMethod, currentPayment.transactionId);
+        await paymentService.cancelPayment(
+          selectedMethod,
+          currentPayment.transactionId,
+        );
       } catch (error) {
-        console.error('Erro ao cancelar pagamento:', error);
+        console.error("Erro ao cancelar pagamento:", error);
       }
     }
-    
+
     setCurrentPayment(null);
-    setPaymentStatus('pending');
+    setPaymentStatus("pending");
     setShowStatusModal(false);
     onCancel();
   };
@@ -154,7 +177,7 @@ export const PaymentGateway: React.FC<PaymentGatewayProps> = ({
   // Tentar novamente
   const handleRetry = () => {
     setCurrentPayment(null);
-    setPaymentStatus('pending');
+    setPaymentStatus("pending");
     setShowStatusModal(false);
     setError(null);
   };
@@ -174,7 +197,10 @@ export const PaymentGateway: React.FC<PaymentGatewayProps> = ({
             </span>
             {PAYMENT_CONSTANTS.PAYMENT_DISCOUNTS[selectedMethod] > 0 && (
               <span className="text-sm text-green-600 font-medium">
-                {(PAYMENT_CONSTANTS.PAYMENT_DISCOUNTS[selectedMethod] * 100).toFixed(0)}% OFF
+                {(
+                  PAYMENT_CONSTANTS.PAYMENT_DISCOUNTS[selectedMethod] * 100
+                ).toFixed(0)}
+                % OFF
               </span>
             )}
           </div>
@@ -203,49 +229,49 @@ export const PaymentGateway: React.FC<PaymentGatewayProps> = ({
           selected={selectedMethod}
           onChange={setSelectedMethod}
           prices={{
-            pix: calculateFinalPrice('pix'),
-            bitcoin: calculateFinalPrice('bitcoin'),
-            usdt: calculateFinalPrice('usdt'),
-            github: calculateFinalPrice('github')
+            pix: calculateFinalPrice("pix"),
+            bitcoin: calculateFinalPrice("bitcoin"),
+            usdt: calculateFinalPrice("usdt"),
+            github: calculateFinalPrice("github"),
           }}
           disabled={isProcessing}
         />
       </div>
 
       <div className="payment-component">
-        {selectedMethod === 'pix' && (
+        {selectedMethod === "pix" && (
           <PixPaymentComponent
             plan={plan}
-            finalPrice={calculateFinalPrice('pix')}
-            onProcess={() => handlePaymentProcess('pix')}
+            finalPrice={calculateFinalPrice("pix")}
+            onProcess={() => handlePaymentProcess("pix")}
             isProcessing={isProcessing}
             disabled={isProcessing}
           />
         )}
 
-        {selectedMethod === 'bitcoin' && (
+        {selectedMethod === "bitcoin" && (
           <BitcoinPaymentComponent
             plan={plan}
-            finalPrice={calculateFinalPrice('bitcoin')}
-            onProcess={() => handlePaymentProcess('bitcoin')}
+            finalPrice={calculateFinalPrice("bitcoin")}
+            onProcess={() => handlePaymentProcess("bitcoin")}
             isProcessing={isProcessing}
             disabled={isProcessing}
           />
         )}
 
-        {selectedMethod === 'usdt' && (
+        {selectedMethod === "usdt" && (
           <USDTPaymentComponent
             plan={plan}
-            finalPrice={calculateFinalPrice('usdt')}
-            onProcess={() => handlePaymentProcess('usdt')}
+            finalPrice={calculateFinalPrice("usdt")}
+            onProcess={() => handlePaymentProcess("usdt")}
             isProcessing={isProcessing}
             disabled={isProcessing}
           />
         )}
 
-        {selectedMethod === 'github' && (
+        {selectedMethod === "github" && (
           <GitHubPaymentComponent
-            amount={calculateFinalPrice('github')}
+            amount={calculateFinalPrice("github")}
             planId={plan.id}
             userId={userId}
             onPaymentComplete={onPaymentComplete}

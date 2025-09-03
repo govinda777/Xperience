@@ -1,9 +1,15 @@
-import React from 'react';
+import React from "react";
 import { TonConnectButton } from "@tonconnect/ui-react";
 import { useCounterContract } from "../hooks/useCounterContract";
 import { useTonConnect } from "../hooks/useTonConnect";
 
-import { Card, FlexBoxCol, FlexBoxRow, Ellipsis, Button } from "./styled/styled";
+import {
+  Card,
+  FlexBoxCol,
+  FlexBoxRow,
+  Ellipsis,
+  Button,
+} from "./styled/styled";
 
 interface CounterProps {
   connected?: boolean;
@@ -19,7 +25,11 @@ export function Counter({
   sendIncrement: propSendIncrement,
 }: CounterProps) {
   const { connected: hookConnected } = useTonConnect();
-  const { value: hookValue, address: hookAddress, sendIncrement: hookSendIncrement } = useCounterContract();
+  const {
+    value: hookValue,
+    address: hookAddress,
+    sendIncrement: hookSendIncrement,
+  } = useCounterContract();
 
   const connected = propConnected ?? hookConnected;
   const value = propValue ?? hookValue;

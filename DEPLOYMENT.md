@@ -50,6 +50,7 @@ VITE_PRIVY_APP_ID=your-privy-app-id
 ## 🌟 GitHub Pages (Recomendado)
 
 ### Vantagens
+
 - ✅ **Gratuito** para repositórios públicos
 - ✅ **HTTPS automático** com certificado SSL
 - ✅ **CDN global** do GitHub
@@ -59,6 +60,7 @@ VITE_PRIVY_APP_ID=your-privy-app-id
 ### Configuração Rápida
 
 1. **Configure o Repositório**
+
    ```bash
    # Certifique-se que está na branch main
    git checkout main
@@ -71,6 +73,7 @@ VITE_PRIVY_APP_ID=your-privy-app-id
    - Branch: **main**
 
 3. **Deploy Automático**
+
    ```bash
    git add .
    git commit -m "Deploy to GitHub Pages"
@@ -87,10 +90,11 @@ VITE_PRIVY_APP_ID=your-privy-app-id
 #### Domínio Personalizado
 
 1. **Configure DNS**
+
    ```
    # CNAME record
    www.xperience.com.br -> SEU_USERNAME.github.io
-   
+
    # A records (apex domain)
    185.199.108.153
    185.199.109.153
@@ -121,56 +125,57 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-      
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18'
-        cache: 'npm'
-        
-    - name: Install dependencies
-      run: npm ci
-      
-    - name: Run tests
-      run: npm run test:unit
-      
-    - name: Build
-      run: npm run build
-      env:
-        VITE_GA_MEASUREMENT_ID: ${{ secrets.GA_MEASUREMENT_ID }}
-        VITE_GTM_ID: ${{ secrets.GTM_ID }}
-        VITE_SITE_URL: https://gosouza.github.io/Xperience
-        
-    - name: Upload artifact
-      uses: actions/upload-pages-artifact@v3
-      with:
-        path: ./dist
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm run test:unit
+
+      - name: Build
+        run: npm run build
+        env:
+          VITE_GA_MEASUREMENT_ID: ${{ secrets.GA_MEASUREMENT_ID }}
+          VITE_GTM_ID: ${{ secrets.GTM_ID }}
+          VITE_SITE_URL: https://gosouza.github.io/Xperience
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    
+
     permissions:
       pages: write
       id-token: write
-      
+
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-      
+
     steps:
-    - name: Deploy to GitHub Pages
-      id: deployment
-      uses: actions/deploy-pages@v4
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
 ```
 
 ## ⚡ Vercel
 
 ### Vantagens
+
 - ✅ **Performance excepcional** com Edge Network
 - ✅ **Deploy automático** via Git
 - ✅ **Preview deployments** para PRs
@@ -200,6 +205,7 @@ vercel --prod
    - Conecte seu repositório GitHub
 
 2. **Configurações de Build**
+
    ```json
    {
      "buildCommand": "npm run build",
@@ -232,6 +238,7 @@ vercel --prod
 ## 🌐 Netlify
 
 ### Vantagens
+
 - ✅ **CDN global** com cache inteligente
 - ✅ **Forms handling** sem backend
 - ✅ **Split testing** A/B nativo
@@ -253,12 +260,14 @@ npm run build
    - New site from Git
 
 2. **Configurações de Build**
+
    ```
    Build command: npm run build
    Publish directory: dist
    ```
 
 3. **netlify.toml**
+
    ```toml
    [build]
      publish = "dist"
@@ -289,6 +298,7 @@ npm run build
 ## ☁️ AWS S3 + CloudFront
 
 ### Vantagens
+
 - ✅ **Escalabilidade ilimitada**
 - ✅ **CDN global** com CloudFront
 - ✅ **Controle total** sobre configurações
@@ -297,28 +307,33 @@ npm run build
 ### Configuração
 
 1. **Criar Bucket S3**
+
    ```bash
    aws s3 mb s3://xperience-website
    aws s3 website s3://xperience-website --index-document index.html --error-document 404.html
    ```
 
 2. **Build e Upload**
+
    ```bash
    npm run build
    aws s3 sync dist/ s3://xperience-website --delete
    ```
 
 3. **CloudFront Distribution**
+
    ```json
    {
-     "Origins": [{
-       "DomainName": "xperience-website.s3-website-us-east-1.amazonaws.com",
-       "Id": "S3-xperience-website",
-       "CustomOriginConfig": {
-         "HTTPPort": 80,
-         "OriginProtocolPolicy": "http-only"
+     "Origins": [
+       {
+         "DomainName": "xperience-website.s3-website-us-east-1.amazonaws.com",
+         "Id": "S3-xperience-website",
+         "CustomOriginConfig": {
+           "HTTPPort": 80,
+           "OriginProtocolPolicy": "http-only"
+         }
        }
-     }],
+     ],
      "DefaultCacheBehavior": {
        "TargetOriginId": "S3-xperience-website",
        "ViewerProtocolPolicy": "redirect-to-https",
@@ -328,25 +343,27 @@ npm run build
    ```
 
 4. **Script de Deploy**
+
    ```bash
    #!/bin/bash
    # deploy-aws.sh
-   
+
    echo "Building project..."
    npm run build
-   
+
    echo "Uploading to S3..."
    aws s3 sync dist/ s3://xperience-website --delete
-   
+
    echo "Invalidating CloudFront..."
    aws cloudfront create-invalidation --distribution-id E1234567890 --paths "/*"
-   
+
    echo "Deploy complete!"
    ```
 
 ## 🖥️ VPS/Servidor Próprio
 
 ### Vantagens
+
 - ✅ **Controle total** sobre ambiente
 - ✅ **Customização** ilimitada
 - ✅ **Backend integrado** possível
@@ -365,16 +382,16 @@ server {
 server {
     listen 443 ssl http2;
     server_name xperience.com.br www.xperience.com.br;
-    
+
     # SSL Configuration
     ssl_certificate /etc/letsencrypt/live/xperience.com.br/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/xperience.com.br/privkey.pem;
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers ECDHE-RSA-AES256-GCM-SHA512:DHE-RSA-AES256-GCM-SHA512;
-    
+
     root /var/www/xperience/dist;
     index index.html;
-    
+
     # Gzip compression
     gzip on;
     gzip_vary on;
@@ -387,38 +404,38 @@ server {
         application/javascript
         application/xml+rss
         application/json;
-    
+
     # Cache static assets
     location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
         expires 1y;
         add_header Cache-Control "public, immutable";
         add_header Vary "Accept-Encoding";
     }
-    
+
     # Cache HTML with shorter expiry
     location ~* \.html$ {
         expires 1h;
         add_header Cache-Control "public, must-revalidate";
     }
-    
+
     # SPA fallback
     location / {
         try_files $uri $uri/ /index.html;
     }
-    
+
     # Security headers
     add_header X-Frame-Options "SAMEORIGIN" always;
     add_header X-Content-Type-Options "nosniff" always;
     add_header X-XSS-Protection "1; mode=block" always;
     add_header Referrer-Policy "strict-origin-when-cross-origin" always;
     add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' *.googletagmanager.com *.google-analytics.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: *.google-analytics.com;" always;
-    
+
     # SEO files
     location = /robots.txt {
         expires 1d;
         add_header Cache-Control "public";
     }
-    
+
     location = /sitemap.xml {
         expires 1d;
         add_header Cache-Control "public";
@@ -484,19 +501,19 @@ CMD ["nginx", "-g", "daemon off;"]
 server {
     listen 80;
     server_name localhost;
-    
+
     root /usr/share/nginx/html;
     index index.html;
-    
+
     # Gzip
     gzip on;
     gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
-    
+
     # SPA fallback
     location / {
         try_files $uri $uri/ /index.html;
     }
-    
+
     # Cache static assets
     location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2)$ {
         expires 1y;
@@ -509,7 +526,7 @@ server {
 
 ```yaml
 # docker-compose.yml
-version: '3.8'
+version: "3.8"
 
 services:
   xperience:
@@ -519,7 +536,7 @@ services:
     environment:
       - NODE_ENV=production
     restart: unless-stopped
-    
+
   # Optional: Add SSL with Let's Encrypt
   certbot:
     image: certbot/certbot
@@ -554,10 +571,11 @@ docker-compose up -d
    - Copie o Measurement ID
 
 2. **Configurar no Deploy**
+
    ```bash
    # GitHub Secrets
    VITE_GA_MEASUREMENT_ID=G-XXXXXXXXXX
-   
+
    # Vercel Environment Variables
    VITE_GA_MEASUREMENT_ID=G-XXXXXXXXXX
    ```
@@ -621,18 +639,18 @@ fi
 module.exports = {
   ci: {
     collect: {
-      url: ['https://xperience.com.br'],
-      numberOfRuns: 3
+      url: ["https://xperience.com.br"],
+      numberOfRuns: 3,
     },
     assert: {
       assertions: {
-        'categories:performance': ['error', {minScore: 0.9}],
-        'categories:accessibility': ['error', {minScore: 0.9}],
-        'categories:best-practices': ['error', {minScore: 0.9}],
-        'categories:seo': ['error', {minScore: 0.9}]
-      }
-    }
-  }
+        "categories:performance": ["error", { minScore: 0.9 }],
+        "categories:accessibility": ["error", { minScore: 0.9 }],
+        "categories:best-practices": ["error", { minScore: 0.9 }],
+        "categories:seo": ["error", { minScore: 0.9 }],
+      },
+    },
+  },
 };
 ```
 
@@ -641,11 +659,11 @@ module.exports = {
 ```typescript
 // src/utils/analytics.ts
 export const trackDeployment = () => {
-  if (typeof gtag !== 'undefined') {
-    gtag('event', 'deployment', {
-      event_category: 'system',
+  if (typeof gtag !== "undefined") {
+    gtag("event", "deployment", {
+      event_category: "system",
       event_label: process.env.NODE_ENV,
-      value: 1
+      value: 1,
     });
   }
 };
@@ -656,18 +674,22 @@ export const trackDeployment = () => {
 ### Problemas Comuns
 
 #### 1. **404 em Rotas Diretas**
+
 **Causa**: SPA routing não configurado
 **Solução**: Configure fallback para index.html
 
 #### 2. **Assets não Carregam**
+
 **Causa**: Base path incorreto
 **Solução**: Verifique `vite.config.ts` base path
 
 #### 3. **CORS Errors**
+
 **Causa**: Configuração de domínio
 **Solução**: Configure headers CORS no servidor
 
 #### 4. **Performance Baixa**
+
 **Causa**: Assets não otimizados
 **Solução**: Verifique build e compressão
 
@@ -716,14 +738,14 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          vendor: ['react', 'react-dom'],
-          router: ['react-router-dom'],
-          analytics: ['react-ga4', 'react-helmet-async'],
-          payments: ['@tonconnect/ui-react', 'ethers']
-        }
-      }
-    }
-  }
+          vendor: ["react", "react-dom"],
+          router: ["react-router-dom"],
+          analytics: ["react-ga4", "react-helmet-async"],
+          payments: ["@tonconnect/ui-react", "ethers"],
+        },
+      },
+    },
+  },
 });
 ```
 
@@ -731,26 +753,20 @@ export default defineConfig({
 
 ```javascript
 // public/sw.js
-const CACHE_NAME = 'xperience-v1';
-const urlsToCache = [
-  '/',
-  '/static/css/main.css',
-  '/static/js/main.js'
-];
+const CACHE_NAME = "xperience-v1";
+const urlsToCache = ["/", "/static/css/main.css", "/static/js/main.js"];
 
-self.addEventListener('install', event => {
+self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(urlsToCache))
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(urlsToCache)),
   );
 });
 
-self.addEventListener('fetch', event => {
+self.addEventListener("fetch", (event) => {
   event.respondWith(
-    caches.match(event.request)
-      .then(response => {
-        return response || fetch(event.request);
-      })
+    caches.match(event.request).then((response) => {
+      return response || fetch(event.request);
+    }),
   );
 });
 ```
@@ -816,11 +832,10 @@ Para dúvidas sobre deploy:
 **Plataformas recomendadas por caso de uso:**
 
 - 🏠 **Projeto pessoal**: GitHub Pages
-- 🚀 **Startup**: Vercel ou Netlify  
+- 🚀 **Startup**: Vercel ou Netlify
 - 🏢 **Empresa**: AWS ou VPS próprio
 - 🔧 **Controle total**: Docker + VPS
 
 ---
 
-*Guia completo para deploy em produção com todas as configurações necessárias para máxima performance e SEO.*
-
+_Guia completo para deploy em produção com todas as configurações necessárias para máxima performance e SEO._

@@ -1,6 +1,5 @@
-
 // components/Hero/index.tsx
-import React from 'react';
+import React from "react";
 
 interface HeroProps {
   title: string;
@@ -23,7 +22,7 @@ const Hero: React.FC<HeroProps> = ({
   buttonText,
   buttonIcon = "✨",
   imageSrc,
-  imageAlt
+  imageAlt,
 }) => {
   return (
     <div className="w-full">
@@ -35,11 +34,9 @@ const Hero: React.FC<HeroProps> = ({
             <span className="text-white text-3xl md:text-[50px] font-bold block my-2">
               {highlightedText}
             </span>
-            <span className="text-white md:text-7xl text-4xl">
-              {subtitle}
-            </span>
+            <span className="text-white md:text-7xl text-4xl">{subtitle}</span>
           </h1>
-          
+
           <p className="text-white text-2xl mb-12 max-w-2xl">
             {description}
             <span className="font-bold">{emphasizedText}</span>
@@ -52,14 +49,10 @@ const Hero: React.FC<HeroProps> = ({
         </div>
 
         <div className="absolute right-0 bottom-0 hidden md:block">
-          <img 
-            src={imageSrc}
-            alt={imageAlt} 
-            className="w-[500px] h-auto"
-          />
+          <img src={imageSrc} alt={imageAlt} className="w-[500px] h-auto" />
         </div>
         <div className="block md:hidden relative flex justify-end items-end left-4">
-          <img 
+          <img
             src={imageSrc}
             alt={imageAlt}
             className="w-full max-w-[500px] h-auto"

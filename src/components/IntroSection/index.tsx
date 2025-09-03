@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface IntroSectionProps {
   imageSrc: string;
@@ -17,10 +17,12 @@ const IntroSection: React.FC<IntroSectionProps> = ({
   description,
   objectiveText = "Nosso objetivo é claro:",
   highlightedText,
-  className = ""
+  className = "",
 }) => {
   return (
-    <section className={`w-full md:h-screen overflow-hidden flex flex-col ${className}`}>
+    <section
+      className={`w-full md:h-screen overflow-hidden flex flex-col ${className}`}
+    >
       {/* Top Section (Imagem) */}
       <div className="flex-1 bg-gradient-to-b from-[#F34A0D] to-[#FFF1E7] flex items-center justify-center">
         <div className="w-full px-4">

@@ -17,6 +17,7 @@ A Tela Estratégica é o principal instrumento visual da Estratégia Blue Ocean,
 ![Strategy Canvas](https://quickchart.io/chart?c=%7B%22type%22%3A%22radar%22%2C%22data%22%3A%7B%22labels%22%3A%5B%22Pre%C3%A7o%22%2C%22Variedade%20de%20Destinos%22%2C%22Atendimento%20Personalizado%22%2C%22Experi%C3%AAncias%20Imersivas%22%2C%22Sustentabilidade%22%2C%22Tecnologia%22%2C%22Conhecimento%20Local%22%5D%2C%22datasets%22%3A%5B%7B%22label%22%3A%22InovTour%22%2C%22data%22%3A%5B6%2C7%2C9%2C10%2C10%2C9%2C10%5D%2C%22backgroundColor%22%3A%22rgba%280%2C%20120%2C%20255%2C%200.2%29%22%2C%22borderColor%22%3A%22rgba%280%2C%20120%2C%20255%2C%201%29%22%7D%2C%7B%22label%22%3A%22Ag%C3%AAncias%20Tradicionais%22%2C%22data%22%3A%5B4%2C8%2C5%2C3%2C2%2C4%2C5%5D%2C%22backgroundColor%22%3A%22rgba%28255%2C%200%2C%200%2C%200.2%29%22%2C%22borderColor%22%3A%22rgba%28255%2C%200%2C%200%2C%201%29%22%7D%5D%7D%2C%22options%22%3A%7B%22title%22%3A%7B%22display%22%3Atrue%2C%22text%22%3A%22Strategy%20Canvas%3A%20InovTour%20vs.%20Ag%C3%AAncias%20Tradicionais%22%7D%7D%7D)
 
 O gráfico acima demonstra como a InovTour (oceano azul) se diferencia das agências de turismo tradicionais (oceano vermelho) ao:
+
 - Oferecer experiências imersivas exclusivas
 - Priorizar sustentabilidade em todas as operações
 - Proporcionar conhecimento local aprofundado

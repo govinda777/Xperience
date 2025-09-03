@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface SolutionsProps {
   title: string;
@@ -23,8 +23,8 @@ const Solutions: React.FC<SolutionsProps> = ({
         {/* Imagem */}
         <div className="relative">
           <div className="">
-            <img 
-              src={solutionsImageSrc} 
+            <img
+              src={solutionsImageSrc}
               alt={solutionsImageAlt}
               className="w-full h-full object-cover"
             />
@@ -38,26 +38,26 @@ const Solutions: React.FC<SolutionsProps> = ({
             <br />
             <span className="block mt-2">{subtitle}</span>
           </h2>
-          
+
           <p className="text-gray-600 text-lg md:text-xl md:text-left text-center mb-8">
             {description}
           </p>
 
-          <a 
-            href="/solucoes" 
+          <a
+            href="/solucoes"
             className="text-orange-500 text-lg md:text-xl font-semibold mx-auto md:mx-0 flex items-center hover:text-orange-600 transition-colors"
           >
             {linkText}
-            <svg 
-              className="ml-2 w-6 h-6" 
-              fill="none" 
-              stroke="currentColor" 
+            <svg
+              className="ml-2 w-6 h-6"
+              fill="none"
+              stroke="currentColor"
               viewBox="0 0 24 24"
             >
-              <path 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                strokeWidth={2} 
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
                 d="M9 5l7 7-7 7"
               />
             </svg>

@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 
 interface IaDoEmpreendedorBannerProps {
-  title: string;        // Exemplo: "IA do Empreendedor"
-  subtitle: string;     // Exemplo: "chatbot Xperience"
-  description: string;  // Exemplo: "Utilizamos nossa expertise..."
+  title: string; // Exemplo: "IA do Empreendedor"
+  subtitle: string; // Exemplo: "chatbot Xperience"
+  description: string; // Exemplo: "Utilizamos nossa expertise..."
   highlightText: string; // Exemplo: "TUDO DE FORMA GRATUITA!"
-  buttonText: string;   // Exemplo: "Explore a IA"
+  buttonText: string; // Exemplo: "Explore a IA"
 }
 
 const IaDoEmpreendedorBanner: React.FC<IaDoEmpreendedorBannerProps> = ({
@@ -13,14 +13,16 @@ const IaDoEmpreendedorBanner: React.FC<IaDoEmpreendedorBannerProps> = ({
   subtitle,
   description,
   highlightText,
-  buttonText
+  buttonText,
 }) => {
   // Ajuste o path conforme sua estrutura de arquivos
-  const logoSrc = new URL('/public/logo-ia-do-empreendedor.png', import.meta.url).href;
+  const logoSrc = new URL(
+    "/public/logo-ia-do-empreendedor.png",
+    import.meta.url,
+  ).href;
 
   return (
     <div className="relative bg-[#F8B195] w-full md:min-h-screen flex items-center justify-center px-4 py-10 md:px-8 md:py-8 overflow-hidden">
-
       {/* Bolinhas de fundo */}
       <div
         className="absolute w-24 h-24 rounded-full bg-[#F9CDBA] opacity-60 top-10 left-10
@@ -37,7 +39,6 @@ const IaDoEmpreendedorBanner: React.FC<IaDoEmpreendedorBannerProps> = ({
 
       {/* Grid principal (2 colunas no desktop, 1 no mobile) */}
       <div className="relative max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-
         {/* Coluna Esquerda: Logo, Título, Subtítulo */}
         <div className="flex flex-col justify-center items-center text-center">
           <img
@@ -48,9 +49,7 @@ const IaDoEmpreendedorBanner: React.FC<IaDoEmpreendedorBannerProps> = ({
           <h2 className="text-4xl md:text-5xl font-bold text-gray-800 leading-tight">
             {title}
           </h2>
-          <p className="text-xl md:text-2xl text-gray-700 mt-2">
-            {subtitle}
-          </p>
+          <p className="text-xl md:text-2xl text-gray-700 mt-2">{subtitle}</p>
         </div>
 
         {/* Coluna Direita: Descrição, Destaque e Botão (alinhados à esquerda) */}
@@ -73,7 +72,6 @@ const IaDoEmpreendedorBanner: React.FC<IaDoEmpreendedorBannerProps> = ({
             {buttonText}
           </a>
         </div>
-
       </div>
     </div>
   );

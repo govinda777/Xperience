@@ -1,9 +1,11 @@
 # 🚀 Plano de Implementação SEO Simplificado - Xperience
 
 ## 📋 Visão Geral
+
 Implementação gradual de SEO focando primeiro no **tráfego orgânico**, depois no **pago**, com arquitetura leve para Pixel e Google Ads.
 
 ## 🎯 Objetivos Simplificados
+
 1. **Fase 1**: Monitorar tráfego orgânico e performance básica
 2. **Fase 2**: Implementar tracking de conversões e Google Ads
 3. **Fase 3**: Otimização contínua baseada em dados
@@ -24,6 +26,7 @@ Implementação gradual de SEO focando primeiro no **tráfego orgânico**, depoi
 ### ✅ **Soluções Propostas:**
 
 #### 1. **Mudança de Router (CRÍTICO para SEO)**
+
 ```typescript
 // ❌ ATUAL: HashRouter (ruim para SEO)
 import { HashRouter } from 'react-router-dom';
@@ -52,6 +55,7 @@ function App() {
 ```
 
 #### 2. **Sistema de Meta Tags Dinâmicas**
+
 ```typescript
 // src/components/SEOHead.tsx
 import { Helmet } from 'react-helmet-async';
@@ -74,31 +78,31 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
   noIndex = false
 }) => {
   const siteUrl = 'https://xperience.com.br';
-  
+
   return (
     <Helmet>
       <title>{title}</title>
       <meta name="description" content={description} />
       {keywords && <meta name="keywords" content={keywords} />}
-      
+
       {/* Open Graph */}
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
       <meta property="og:type" content="website" />
       <meta property="og:url" content={canonical || window.location.href} />
       {ogImage && <meta property="og:image" content={ogImage} />}
-      
+
       {/* Twitter Card */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
-      
+
       {/* Canonical */}
       {canonical && <link rel="canonical" href={canonical} />}
-      
+
       {/* Robots */}
       {noIndex && <meta name="robots" content="noindex, nofollow" />}
-      
+
       {/* Structured Data */}
       <script type="application/ld+json">
         {JSON.stringify({
@@ -116,6 +120,7 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
 ```
 
 #### 3. **Layout com SEO Integrado**
+
 ```typescript
 // src/layouts/DefaultLayout.tsx
 import React from 'react';
@@ -148,6 +153,7 @@ export default DefaultLayout;
 ```
 
 #### 4. **Context para Analytics**
+
 ```typescript
 // src/contexts/AnalyticsContext.tsx
 import React, { createContext, useContext, useEffect } from 'react';
@@ -204,80 +210,86 @@ export const useAnalytics = () => {
 ```
 
 #### 5. **Configuração do Vite para SEO**
+
 ```typescript
 // vite.config.ts
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import { VitePWA } from 'vite-plugin-pwa';
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import { VitePWA } from "vite-plugin-pwa";
 
 export default defineConfig({
   plugins: [
     react(),
     VitePWA({
-      registerType: 'autoUpdate',
+      registerType: "autoUpdate",
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg}']
+        globPatterns: ["**/*.{js,css,html,ico,png,svg}"],
       },
       manifest: {
-        name: 'Xperience - Mentoria para Empreendedores',
-        short_name: 'Xperience',
-        description: 'Programa de mentoria para empreendedores',
-        theme_color: '#FD9526',
-        background_color: '#ffffff',
-        display: 'standalone',
+        name: "Xperience - Mentoria para Empreendedores",
+        short_name: "Xperience",
+        description: "Programa de mentoria para empreendedores",
+        theme_color: "#FD9526",
+        background_color: "#ffffff",
+        display: "standalone",
         icons: [
           {
-            src: '/logo-192.png',
-            sizes: '192x192',
-            type: 'image/png'
+            src: "/logo-192.png",
+            sizes: "192x192",
+            type: "image/png",
           },
           {
-            src: '/logo-512.png',
-            sizes: '512x512',
-            type: 'image/png'
-          }
-        ]
-      }
-    })
+            src: "/logo-512.png",
+            sizes: "512x512",
+            type: "image/png",
+          },
+        ],
+      },
+    }),
   ],
   build: {
     rollupOptions: {
       output: {
         manualChunks: {
-          vendor: ['react', 'react-dom'],
-          router: ['react-router-dom']
-        }
-      }
-    }
-  }
+          vendor: ["react", "react-dom"],
+          router: ["react-router-dom"],
+        },
+      },
+    },
+  },
 });
 ```
 
 #### 6. **Sitemap Dinâmico**
+
 ```typescript
 // src/utils/sitemap.ts
 export const generateSitemap = () => {
-  const baseUrl = 'https://xperience.com.br';
-  
+  const baseUrl = "https://xperience.com.br";
+
   const routes = [
-    { path: '/', priority: '1.0', changefreq: 'daily' },
-    { path: '/solutions', priority: '0.8', changefreq: 'weekly' },
-    { path: '/plans', priority: '0.8', changefreq: 'weekly' },
-    { path: '/about', priority: '0.6', changefreq: 'monthly' },
-    { path: '/contact', priority: '0.5', changefreq: 'monthly' },
-    { path: '/community', priority: '0.7', changefreq: 'weekly' }
+    { path: "/", priority: "1.0", changefreq: "daily" },
+    { path: "/solutions", priority: "0.8", changefreq: "weekly" },
+    { path: "/plans", priority: "0.8", changefreq: "weekly" },
+    { path: "/about", priority: "0.6", changefreq: "monthly" },
+    { path: "/contact", priority: "0.5", changefreq: "monthly" },
+    { path: "/community", priority: "0.7", changefreq: "weekly" },
   ];
 
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${routes.map(route => `
+${routes
+  .map(
+    (route) => `
   <url>
     <loc>${baseUrl}${route.path}</loc>
     <lastmod>${new Date().toISOString()}</lastmod>
     <changefreq>${route.changefreq}</changefreq>
     <priority>${route.priority}</priority>
   </url>
-`).join('')}
+`,
+  )
+  .join("")}
 </urlset>`;
 
   return sitemap;
@@ -285,6 +297,7 @@ ${routes.map(route => `
 ```
 
 #### 7. **Robots.txt**
+
 ```txt
 # public/robots.txt
 User-agent: *
@@ -306,16 +319,19 @@ Crawl-delay: 1
 ## 🛠️ Ferramentas Essenciais (Fase 1)
 
 ### 1. Google Analytics 4 (GA4)
+
 - **O que**: Tracking básico de usuários e comportamento
 - **Por que**: Gratuito, essencial para entender tráfego
 - **Implementação**: Tag no `<head>` do site
 
 ### 2. Google Search Console
+
 - **O que**: Monitorar indexação e performance orgânica
 - **Por que**: Gratuito, mostra como o Google vê seu site
 - **Implementação**: Verificação via meta tag ou arquivo
 
 ### 3. Google PageSpeed Insights
+
 - **O que**: Métricas de performance básicas
 - **Por que**: Performance afeta ranking orgânico
 - **Implementação**: API simples para auditorias
@@ -325,6 +341,7 @@ Crawl-delay: 1
 ## 📦 Dependências Mínimas
 
 ### 1. Dependências Principais
+
 ```json
 {
   "dependencies": {
@@ -338,6 +355,7 @@ Crawl-delay: 1
 ```
 
 ### 2. Dependências de Desenvolvimento
+
 ```json
 {
   "devDependencies": {
@@ -354,6 +372,7 @@ Crawl-delay: 1
 ## 🚀 Implementação por Fases
 
 ### Fase 1: Tráfego Orgânico (Semana 1-2)
+
 - [ ] **Mudar de HashRouter para BrowserRouter**
 - [ ] Configurar Google Analytics 4
 - [ ] Configurar Google Search Console
@@ -362,6 +381,7 @@ Crawl-delay: 1
 - [ ] Implementar structured data (schema.org)
 
 ### Fase 2: Performance e Otimização (Semana 3-4)
+
 - [ ] Integrar Google PageSpeed Insights
 - [ ] Implementar lazy loading de imagens
 - [ ] Otimizar Core Web Vitals
@@ -370,6 +390,7 @@ Crawl-delay: 1
 - [ ] Configurar PWA (Progressive Web App)
 
 ### Fase 3: Google Ads e Conversões (Semana 5-6)
+
 - [ ] Configurar Google Tag Manager
 - [ ] Implementar Google Ads Pixel
 - [ ] Configurar conversões e eventos
@@ -381,12 +402,14 @@ Crawl-delay: 1
 ## 📊 Métricas Essenciais
 
 ### 1. Tráfego Orgânico (Fase 1)
+
 - **Sessões orgânicas**: Visitas vindas de busca
 - **Páginas mais visitadas**: Conteúdo que gera tráfego
 - **Taxa de rejeição**: Qualidade do conteúdo
 - **Tempo na página**: Engajamento dos usuários
 
 ### 2. Performance (Fase 2)
+
 - **Core Web Vitals**:
   - LCP (Largest Contentful Paint) < 2.5s
   - FID (First Input Delay) < 100ms
@@ -394,6 +417,7 @@ Crawl-delay: 1
 - **PageSpeed Score**: > 90
 
 ### 3. Conversões (Fase 3)
+
 - **Taxa de conversão**: % de visitantes que convertem
 - **Custo por conversão**: Eficiência do investimento
 - **ROAS**: Retorno sobre investimento em ads
@@ -403,24 +427,25 @@ Crawl-delay: 1
 ## 🔧 Configurações Simples
 
 ### 1. Google Analytics 4
+
 ```typescript
 // src/hooks/useAnalytics.ts
-import ReactGA from 'react-ga4';
+import ReactGA from "react-ga4";
 
 export const useAnalytics = () => {
   const initGA = () => {
-    ReactGA.initialize('GA_MEASUREMENT_ID');
+    ReactGA.initialize("GA_MEASUREMENT_ID");
   };
 
   const trackPageView = (path: string) => {
-    ReactGA.send({ hitType: 'pageview', page: path });
+    ReactGA.send({ hitType: "pageview", page: path });
   };
 
   const trackEvent = (action: string, category: string, label?: string) => {
     ReactGA.event({
       category,
       action,
-      label
+      label,
     });
   };
 
@@ -429,22 +454,29 @@ export const useAnalytics = () => {
 ```
 
 ### 2. Google Tag Manager
+
 ```html
 <!-- index.html -->
 <head>
   <!-- Google Tag Manager -->
   <script>
-    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-XXXXXXX');
+    (function (w, d, s, l, i) {
+      w[l] = w[l] || [];
+      w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+      var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s),
+        dl = l != "dataLayer" ? "&l=" + l : "";
+      j.async = true;
+      j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+      f.parentNode.insertBefore(j, f);
+    })(window, document, "script", "dataLayer", "GTM-XXXXXXX");
   </script>
   <!-- End Google Tag Manager -->
 </head>
 ```
 
 ### 3. Meta Tags SEO
+
 ```typescript
 // src/components/SEOHead.tsx
 import { Helmet } from 'react-helmet';
@@ -483,6 +515,7 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
 ## 📈 Dashboard Simples
 
 ### 1. Componente de Métricas
+
 ```typescript
 // src/components/SEODashboard.tsx
 import React from 'react';
@@ -530,6 +563,7 @@ export const SEODashboard: React.FC = () => {
 ## 🔄 Automação Básica
 
 ### 1. Coleta Automática de Dados
+
 ```typescript
 // src/services/seoService.ts
 export class SEOService {
@@ -540,7 +574,7 @@ export class SEOService {
       const metrics = await this.fetchGA4Metrics();
       await this.saveMetrics(metrics);
     } catch (error) {
-      console.error('Erro ao coletar métricas:', error);
+      console.error("Erro ao coletar métricas:", error);
     }
   }
 
@@ -553,7 +587,7 @@ export class SEOService {
         await this.savePerformance(url, performance);
       }
     } catch (error) {
-      console.error('Erro na auditoria:', error);
+      console.error("Erro na auditoria:", error);
     }
   }
 }
@@ -563,22 +597,24 @@ export class SEOService {
 
 ## 📅 Cronograma Simplificado
 
-| Semana | Foco | Entregáveis |
-|--------|------|-------------|
-| 1-2    | Tráfego Orgânico | GA4, Search Console, tracking básico |
-| 3-4    | Performance | PageSpeed, Core Web Vitals, otimizações |
-| 5-6    | Google Ads | GTM, Pixel, conversões, remarketing |
+| Semana | Foco             | Entregáveis                             |
+| ------ | ---------------- | --------------------------------------- |
+| 1-2    | Tráfego Orgânico | GA4, Search Console, tracking básico    |
+| 3-4    | Performance      | PageSpeed, Core Web Vitals, otimizações |
+| 5-6    | Google Ads       | GTM, Pixel, conversões, remarketing     |
 
 ---
 
 ## 💰 Custos Estimados
 
 ### Fase 1-2: Gratuito
+
 - Google Analytics 4: ✅ Gratuito
 - Google Search Console: ✅ Gratuito
 - Google PageSpeed Insights: ✅ Gratuito
 
 ### Fase 3: Baixo Custo
+
 - Google Tag Manager: ✅ Gratuito
 - Google Ads: 💰 Apenas quando usar (pay-per-click)
 
@@ -602,5 +638,5 @@ export class SEOService {
 
 ---
 
-*Plano simplificado focado em resultados rápidos e arquitetura leve.*
-*Última atualização: $(date)*
+_Plano simplificado focado em resultados rápidos e arquitetura leve._
+_Última atualização: $(date)_

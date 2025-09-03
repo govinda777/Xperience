@@ -29,6 +29,7 @@ vercel --prod
 ```
 
 **Configurações no Vercel:**
+
 ```json
 {
   "buildCommand": "npm run build",
@@ -39,6 +40,7 @@ vercel --prod
 ```
 
 **Variáveis de Ambiente no Vercel:**
+
 - `VITE_GA_MEASUREMENT_ID`
 - `VITE_GTM_ID`
 - `VITE_SITE_URL`
@@ -53,6 +55,7 @@ Publish directory: dist
 ```
 
 **netlify.toml:**
+
 ```toml
 [build]
   publish = "dist"
@@ -95,6 +98,7 @@ aws cloudfront create-invalidation --distribution-id YOUR_DISTRIBUTION_ID --path
 ### 4. **VPS/Servidor Próprio**
 
 **Nginx Configuration:**
+
 ```nginx
 server {
     listen 80;
@@ -105,15 +109,15 @@ server {
 server {
     listen 443 ssl http2;
     server_name xperience.com.br www.xperience.com.br;
-    
+
     # SSL Configuration
     ssl_certificate /path/to/certificate.crt;
     ssl_certificate_key /path/to/private.key;
     ssl_protocols TLSv1.2 TLSv1.3;
-    
+
     root /var/www/xperience/dist;
     index index.html;
-    
+
     # Gzip compression
     gzip on;
     gzip_vary on;
@@ -126,37 +130,37 @@ server {
         application/javascript
         application/xml+rss
         application/json;
-    
+
     # Cache static assets
     location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
         expires 1y;
         add_header Cache-Control "public, immutable";
         add_header Vary "Accept-Encoding";
     }
-    
+
     # Cache HTML with shorter expiry
     location ~* \.html$ {
         expires 1h;
         add_header Cache-Control "public, must-revalidate";
     }
-    
+
     # SPA fallback
     location / {
         try_files $uri $uri/ /index.html;
     }
-    
+
     # Security headers
     add_header X-Frame-Options "SAMEORIGIN" always;
     add_header X-Content-Type-Options "nosniff" always;
     add_header X-XSS-Protection "1; mode=block" always;
     add_header Referrer-Policy "strict-origin-when-cross-origin" always;
-    
+
     # SEO files
     location = /robots.txt {
         expires 1d;
         add_header Cache-Control "public";
     }
-    
+
     location = /sitemap.xml {
         expires 1d;
         add_header Cache-Control "public";
@@ -227,13 +231,14 @@ module.exports = {
 ### **Testes Essenciais**
 
 1. **SEO Validation**
+
    ```bash
    # Verificar meta tags
    curl -s https://xperience.com.br | grep -i "<meta"
-   
+
    # Verificar sitemap
    curl -s https://xperience.com.br/sitemap.xml
-   
+
    # Verificar robots.txt
    curl -s https://xperience.com.br/robots.txt
    ```
@@ -320,41 +325,41 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - uses: actions/checkout@v3
-    
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18'
-        cache: 'npm'
-    
-    - name: Install dependencies
-      run: npm ci
-    
-    - name: Run tests
-      run: npm test
-    
-    - name: Build
-      run: npm run build
-      env:
-        VITE_GA_MEASUREMENT_ID: ${{ secrets.GA_MEASUREMENT_ID }}
-        VITE_GTM_ID: ${{ secrets.GTM_ID }}
-        VITE_SITE_URL: https://xperience.com.br
-    
-    - name: Run Lighthouse CI
-      run: |
-        npm install -g @lhci/cli
-        lhci autorun
-    
-    - name: Deploy to Vercel
-      uses: amondnet/vercel-action@v20
-      with:
-        vercel-token: ${{ secrets.VERCEL_TOKEN }}
-        vercel-org-id: ${{ secrets.ORG_ID }}
-        vercel-project-id: ${{ secrets.PROJECT_ID }}
-        vercel-args: '--prod'
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build
+        run: npm run build
+        env:
+          VITE_GA_MEASUREMENT_ID: ${{ secrets.GA_MEASUREMENT_ID }}
+          VITE_GTM_ID: ${{ secrets.GTM_ID }}
+          VITE_SITE_URL: https://xperience.com.br
+
+      - name: Run Lighthouse CI
+        run: |
+          npm install -g @lhci/cli
+          lhci autorun
+
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v20
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.ORG_ID }}
+          vercel-project-id: ${{ secrets.PROJECT_ID }}
+          vercel-args: "--prod"
 ```
 
 ## 📈 Otimizações Avançadas
@@ -368,13 +373,13 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          vendor: ['react', 'react-dom'],
-          router: ['react-router-dom'],
-          analytics: ['react-ga4', 'react-helmet-async']
-        }
-      }
-    }
-  }
+          vendor: ["react", "react-dom"],
+          router: ["react-router-dom"],
+          analytics: ["react-ga4", "react-helmet-async"],
+        },
+      },
+    },
+  },
 });
 ```
 
@@ -382,17 +387,20 @@ export default defineConfig({
 
 ```javascript
 // public/sw.js - Custom service worker
-self.addEventListener('fetch', event => {
-  if (event.request.destination === 'image') {
+self.addEventListener("fetch", (event) => {
+  if (event.request.destination === "image") {
     event.respondWith(
-      caches.open('images').then(cache => {
-        return cache.match(event.request).then(response => {
-          return response || fetch(event.request).then(fetchResponse => {
-            cache.put(event.request, fetchResponse.clone());
-            return fetchResponse;
-          });
+      caches.open("images").then((cache) => {
+        return cache.match(event.request).then((response) => {
+          return (
+            response ||
+            fetch(event.request).then((fetchResponse) => {
+              cache.put(event.request, fetchResponse.clone());
+              return fetchResponse;
+            })
+          );
         });
-      })
+      }),
     );
   }
 });
@@ -419,4 +427,4 @@ self.addEventListener('fetch', event => {
 
 ---
 
-*Guia completo para deploy em produção com todas as configurações SEO necessárias.*
+_Guia completo para deploy em produção com todas as configurações SEO necessárias._

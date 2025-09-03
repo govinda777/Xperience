@@ -13,19 +13,19 @@ graph TB
         B --> C[User Profile]
         C --> D[Session Management]
     end
-    
+
     subgraph "Camada de Autorização"
         E[Protected Routes] --> F[Role Verification]
         F --> G[Permission Check]
         G --> H[Resource Access]
     end
-    
+
     subgraph "Integração Blockchain"
         I[User ID] --> J[Wallet Binding]
         J --> K[ERC-4337 Smart Account]
         K --> L[Secure Key Management]
     end
-    
+
     A --> E
     C --> I
     D --> F
@@ -47,6 +47,7 @@ export const auth0Config = {
 ```
 
 **Características:**
+
 - **Provider**: Auth0 como provedor OAuth
 - **Domínio**: Ambiente de desenvolvimento configurado
 - **Redirect**: Retorno para origem da aplicação
@@ -58,14 +59,14 @@ export const auth0Config = {
 // src/components/AuthButton/index.tsx
 const AuthButton = () => {
   const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0();
-  
+
   return (
     <div>
       {isAuthenticated ? (
         <>
           <p>Bem-vindo, {user?.name?.split(" ")[0]}</p>
-          <button onClick={() => logout({ 
-            logoutParams: { returnTo: window.location.origin } 
+          <button onClick={() => logout({
+            logoutParams: { returnTo: window.location.origin }
           })}>
             Logout
           </button>
@@ -83,6 +84,7 @@ const AuthButton = () => {
 ```
 
 **Funcionalidades:**
+
 - **Login Redirect**: Redirecionamento automático para dashboard
 - **Logout Seguro**: Limpeza completa da sessão
 - **Estado Condicional**: Interface adaptativa baseada no status de autenticação
@@ -98,12 +100,13 @@ const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   const { isAuthenticated, isLoading } = useAuth0();
 
   if (isLoading) return <p>Carregando...</p>;
-  
+
   return isAuthenticated ? children : <Navigate to="/" />;
 };
 ```
 
 **Implementação:**
+
 - **Verificação de Estado**: Checagem do status de autenticação
 - **Loading State**: Tratamento de estados de carregamento
 - **Redirecionamento**: Navegação automática para home se não autenticado
@@ -121,6 +124,7 @@ const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
 ```
 
 **Rotas Protegidas Atuais:**
+
 - `/dashboard` - Painel principal do usuário
 - Futuras rotas administrativas e de gestão de carteira
 
@@ -133,20 +137,20 @@ const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
 export class UserWalletService {
   async getOrCreateUserWallet(userId: string): Promise<StoredWallet> {
     const existingWallet = await this.getUserWallet(userId);
-    
+
     if (existingWallet) {
       return existingWallet;
     }
-    
+
     // Cria nova carteira ERC-4337 para o usuário
     const newWallet = await this.walletService.createWalletForUser(userId);
-    
+
     const storedWallet: StoredWallet = {
       userId: newWallet.userId,
       address: newWallet.address,
       smartAccountAddress: newWallet.smartAccountAddress,
     };
-    
+
     await this.storeUserWallet(storedWallet);
     return storedWallet;
   }
@@ -154,6 +158,7 @@ export class UserWalletService {
 ```
 
 **Características:**
+
 - **Vinculação Automática**: Cada usuário OAuth recebe uma carteira ERC-4337
 - **Persistência Segura**: Armazenamento local com criptografia
 - **Smart Accounts**: Carteiras inteligentes com recursos avançados
@@ -166,24 +171,24 @@ export class UserWalletService {
 export const useUserWallet = () => {
   const { user, isAuthenticated } = useAuth0();
   const [walletData, setWalletData] = useState<WalletData | null>(null);
-  
+
   const initializeWallet = useCallback(async () => {
     if (!isAuthenticated || !user?.sub) {
       setWalletData(null);
       return;
     }
-    
+
     // Inicializa ou recupera carteira do usuário
     const wallet = await userWalletService.getOrCreateUserWallet(user.sub);
     const balance = await walletService.getBalance(wallet.smartAccountAddress);
-    
+
     setWalletData({
       address: wallet.address,
       smartAccountAddress: wallet.smartAccountAddress,
       balance,
     });
   }, [isAuthenticated, user?.sub]);
-  
+
   return {
     walletData,
     sendTransaction,
@@ -196,14 +201,16 @@ export const useUserWallet = () => {
 ## 🎯 Níveis de Acesso e Permissões
 
 ### 1. **Usuários Não Autenticados**
+
 - **Acesso**: Páginas públicas (Home, Solutions, Plans, Contact, About, Community)
 - **Restrições**: Não podem acessar dashboard ou funcionalidades premium
 - **Funcionalidades**: Visualização de conteúdo público e processo de login
 
 ### 2. **Usuários Autenticados**
+
 - **Acesso**: Todas as páginas públicas + Dashboard
 - **Carteira**: Carteira ERC-4337 vinculada automaticamente
-- **Funcionalidades**: 
+- **Funcionalidades**:
   - Gestão de carteira blockchain
   - Transações via Account Abstraction
   - Acesso a serviços personalizados
@@ -214,20 +221,24 @@ export const useUserWallet = () => {
 # Níveis de Acesso baseados em Token XPT:
 
 ## 🥉 Holder Básico
+
 - Participação em votações básicas
 - Acesso a recursos padrão da plataforma
 
 ## 🥈 Holder Intermediário (Staking)
+
 - Votações com peso aumentado
 - Acesso a recursos premium
 - Participação em pools de liquidez
 
 ## 🥇 Holder Avançado (Alto Staking)
+
 - Criação de propostas de governança
 - Acesso antecipado a funcionalidades
 - Participação em grupos de trabalho
 
 ## 💎 Fundadores/Equipe
+
 - Acesso administrativo completo
 - Gestão de contratos inteligentes
 - Controle de distribuição de tokens
@@ -242,7 +253,7 @@ export const useUserWallet = () => {
 async storePrivateKey(userId: string, privateKey: string, password: string): Promise<void> {
   // Criptografia AES das chaves privadas
   const encryptedKey = CryptoJS.AES.encrypt(privateKey, password).toString();
-  
+
   wallet.encryptedKey = encryptedKey;
   await this.storeUserWallet(wallet);
 }
@@ -251,7 +262,7 @@ async getPrivateKey(userId: string, password: string): Promise<string> {
   // Descriptografia segura das chaves
   const bytes = CryptoJS.AES.decrypt(wallet.encryptedKey, password);
   const privateKey = bytes.toString(CryptoJS.enc.Utf8);
-  
+
   return privateKey;
 }
 ```
@@ -263,10 +274,10 @@ async getPrivateKey(userId: string, password: string): Promise<string> {
 async generateRecoveryKey(userId: string, password: string): Promise<string> {
   const privateKey = await this.getPrivateKey(userId, password);
   const recoveryKey = CryptoJS.lib.WordArray.random(16).toString();
-  
+
   // Criptografia dupla para recovery
   const encryptedWithRecovery = CryptoJS.AES.encrypt(privateKey, recoveryKey).toString();
-  
+
   localStorage.setItem(`recovery_${userId}`, encryptedWithRecovery);
   return recoveryKey;
 }
@@ -283,7 +294,7 @@ sequenceDiagram
     participant X as Xperience App
     participant W as Wallet Service
     participant B as Blockchain
-    
+
     U->>A: Clica em Login
     A->>U: Redirect para Auth0
     U->>A: Insere credenciais
@@ -303,7 +314,7 @@ sequenceDiagram
     participant P as ProtectedRoute
     participant A as Auth0
     participant D as Dashboard
-    
+
     U->>P: Acessa rota protegida
     P->>A: Verifica isAuthenticated
     alt Usuário autenticado
@@ -319,20 +330,23 @@ sequenceDiagram
 ## 🚀 Funcionalidades Avançadas
 
 ### 1. **Account Abstraction (ERC-4337)**
+
 - **Gasless Transactions**: Transações sem custo de gas para usuários
 - **Batch Operations**: Múltiplas operações em uma única transação
 - **Social Recovery**: Recuperação de carteira via rede social
 - **Multi-signature**: Assinaturas múltiplas para segurança adicional
 
 ### 2. **Integração com Pagamentos**
+
 - **PIX**: Via Mercado Pago para pagamentos em Real
 - **Bitcoin**: Pagamentos diretos em BTC
 - **USDT**: Stablecoin para estabilidade de preço
 - **Token XPT**: Token nativo para governança e utilidades
 
 ### 3. **Sistema de Planos**
+
 - **START**: R$ 1.500 - Acesso básico
-- **ESSENCIAL**: R$ 3.000 - Recursos intermediários  
+- **ESSENCIAL**: R$ 3.000 - Recursos intermediários
 - **PRINCIPAL**: R$ 6.000 - Funcionalidades avançadas
 - **AVANÇADA**: R$ 10.000 - Acesso premium
 - **PREMIUM**: R$ 30.000 - Recursos exclusivos
@@ -341,6 +355,7 @@ sequenceDiagram
 ## 🔧 Configurações de Segurança
 
 ### 1. **Variáveis de Ambiente**
+
 ```bash
 # Auth0 Configuration
 VITE_AUTH0_DOMAIN=dev-koop8k021nsu56xw.us.auth0.com
@@ -356,6 +371,7 @@ PRIVY_APP_ID=your_privy_app_id
 ```
 
 ### 2. **Políticas de Segurança**
+
 - **HTTPS Only**: Todas as comunicações via HTTPS
 - **JWT Validation**: Validação rigorosa de tokens
 - **CORS Policy**: Política restritiva de CORS
@@ -365,12 +381,14 @@ PRIVY_APP_ID=your_privy_app_id
 ## 📈 Monitoramento e Auditoria
 
 ### 1. **Métricas de Segurança**
+
 - Taxa de tentativas de login falhadas
 - Número de carteiras criadas por dia
 - Volume de transações por usuário
 - Tentativas de acesso não autorizado
 
 ### 2. **Logs de Auditoria**
+
 - Todas as operações de carteira
 - Mudanças de permissões
 - Acessos a recursos protegidos
@@ -379,18 +397,21 @@ PRIVY_APP_ID=your_privy_app_id
 ## 🔄 Roadmap de Melhorias
 
 ### **Fase 1: Implementação Atual** ✅
+
 - [x] Auth0 OAuth integration
 - [x] Protected routes
 - [x] ERC-4337 wallet binding
 - [x] Basic user management
 
 ### **Fase 2: Melhorias de Segurança** 🚧
+
 - [ ] Multi-factor authentication (MFA)
 - [ ] Role-based access control (RBAC)
 - [ ] Advanced audit logging
 - [ ] Security monitoring dashboard
 
 ### **Fase 3: Funcionalidades Avançadas** 📋
+
 - [ ] Social recovery implementation
 - [ ] Multi-signature wallets
 - [ ] Advanced governance features
@@ -406,4 +427,4 @@ Para questões relacionadas à autenticação e autorização:
 
 ---
 
-*Este documento é atualizado regularmente conforme novas funcionalidades de segurança são implementadas no projeto Xperience.*
+_Este documento é atualizado regularmente conforme novas funcionalidades de segurança são implementadas no projeto Xperience._

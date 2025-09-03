@@ -20,12 +20,14 @@ A Xperience é uma plataforma completa de mentoria empresarial que combina metod
 ## ✨ Funcionalidades Principais
 
 ### 🎯 Sistema de Mentoria
+
 - **Programas Estruturados**: Planos de mentoria de 3 a 12 meses
 - **Sessões Personalizadas**: 1h a 3h por sessão, adaptadas ao nível
 - **Acompanhamento Contínuo**: Dashboard de progresso em tempo real
 - **Metodologia Oceano Azul**: Estratégias para tornar a concorrência irrelevante
 
 ### 💳 Sistema de Pagamentos Integrado
+
 - **PIX**: Pagamento instantâneo com QR Code
 - **Bitcoin**: Desconto de 5% para pagamentos em BTC
 - **USDT**: Desconto de 3% para pagamentos em USDT (TRC20)
@@ -33,18 +35,21 @@ A Xperience é uma plataforma completa de mentoria empresarial que combina metod
 - **Carteiras Web3**: Suporte a TON Connect e Account Abstraction
 
 ### 🔐 Autenticação Segura
+
 - **Auth0**: Login social e tradicional
 - **Web3 Auth**: Integração com carteiras blockchain
 - **Privy**: Autenticação descentralizada
 - **Proteção de Rotas**: Acesso controlado ao dashboard
 
 ### 📱 Experiência Mobile
+
 - **PWA**: Progressive Web App instalável
 - **Telegram Web App**: Integração nativa com Telegram
 - **Design Responsivo**: Otimizado para todos os dispositivos
 - **Offline First**: Funcionalidades básicas offline
 
 ### 🛒 E-commerce Completo
+
 - **Carrinho de Compras**: Gestão de itens e quantidades
 - **Checkout Otimizado**: Processo simplificado de compra
 - **Gestão de Pedidos**: Acompanhamento completo do status
@@ -57,6 +62,7 @@ A Xperience é uma plataforma completa de mentoria empresarial que combina metod
 Oferecemos uma abordagem única e descomplicada para consultoria empresarial, focada em resultados tangíveis e inovação sustentável.
 
 #### Serviços Principais
+
 - **Análise Estratégica do Oceano Azul**
   - Identificação de novos espaços de mercado
   - Mapeamento de oportunidades inexploradas
@@ -78,6 +84,7 @@ Oferecemos uma abordagem única e descomplicada para consultoria empresarial, fo
   - Implementação de estratégias disruptivas
 
 #### Metodologia
+
 1. **Diagnóstico Inicial**
    - Análise situacional
    - Identificação de oportunidades
@@ -105,11 +112,13 @@ Disponibilizamos nossa infraestrutura completa como um template personalizável,
 #### Componentes do Template
 
 ##### A. Sistema de Governança DAO
+
 - Mecanismos de votação transparentes
 - Gestão descentralizada de recursos
 - Tomada de decisão colaborativa
 
 ##### B. Plataforma Tecnológica
+
 - **Frontend Modular**
   - Interface personalizável
   - Componentes reutilizáveis
@@ -126,6 +135,7 @@ Disponibilizamos nossa infraestrutura completa como um template personalizável,
   - Recomendações automatizadas
 
 ##### C. Integrações
+
 - **Telegram Web App (TWA)**
   - Bot personalizado
   - Interface integrada
@@ -137,6 +147,7 @@ Disponibilizamos nossa infraestrutura completa como um template personalizável,
   - Sistema de recompensas
 
 ##### D. Ferramentas de Análise
+
 - Dashboard personalizado
 - Métricas em tempo real
 - Relatórios automatizados
@@ -144,12 +155,14 @@ Disponibilizamos nossa infraestrutura completa como um template personalizável,
 ## 🎯 Para Quem é a Xperience?
 
 ### Consultoria
+
 - Empresas buscando inovação estratégica
 - Organizações em transformação
 - Negócios procurando diferenciação
 - Startups em fase de crescimento
 
 ### Template
+
 - Consultores independentes
 - Empresas de consultoria
 - Comunidades descentralizadas
@@ -158,7 +171,9 @@ Disponibilizamos nossa infraestrutura completa como um template personalizável,
 ## 🚀 Como Começar
 
 ### Como Cliente
+
 1. **Agende uma Consulta**
+
    ```bash
    # Entre em contato através do nosso site
    www.xperience.dao/consulta
@@ -187,12 +202,14 @@ Antes de começar, certifique-se de ter instalado:
 #### 🚀 Início Rápido
 
 1. **Clone o Repositório**
+
    ```bash
    git clone https://github.com/gosouza/Xperience.git
    cd Xperience
    ```
 
 2. **Instale as Dependências**
+
    ```bash
    # Usando npm (recomendado)
    npm install
@@ -202,14 +219,15 @@ Antes de começar, certifique-se de ter instalado:
    ```
 
 3. **Configure o Ambiente**
+
    ```bash
    # Crie arquivo de ambiente (opcional para desenvolvimento)
    touch .env
-   
+
    # Adicione as variáveis necessárias (exemplo):
    echo "VITE_SITE_URL=http://localhost:5173" >> .env
    echo "VITE_NODE_ENV=development" >> .env
-   
+
    # Para produção, configure também:
    # VITE_GA_MEASUREMENT_ID=G-XXXXXXXXXX
    # VITE_AUTH0_DOMAIN=your-domain.auth0.com
@@ -269,6 +287,7 @@ npm run preview
 #### 🚨 Troubleshooting
 
 **Problema: Erro ao instalar dependências**
+
 ```bash
 # Limpe o cache e reinstale
 npm cache clean --force
@@ -277,18 +296,21 @@ npm install
 ```
 
 **Problema: Porta 5173 já está em uso**
+
 ```bash
 # Use uma porta diferente
 npm run dev -- --port 3000
 ```
 
 **Problema: Erro de permissão no Windows**
+
 ```bash
 # Execute como administrador ou use:
 npm install --no-optional
 ```
 
 **Problema: Build falha**
+
 ```bash
 # Verifique se todas as dependências estão instaladas
 npm run lint
@@ -305,6 +327,7 @@ npm run build
 ## 🛠 Stack Tecnológico
 
 ### Frontend
+
 - **React 18.2.0** - Biblioteca principal para UI
 - **TypeScript 5.7.2** - Tipagem estática
 - **Vite 6.3.5** - Build tool e dev server
@@ -313,6 +336,7 @@ npm run build
 - **Styled Components 6.1.13** - CSS-in-JS
 
 ### Pagamentos & Blockchain
+
 - **TON Connect** - Integração com TON Blockchain
 - **Ethers.js 5.7.2** - Interação com Ethereum
 - **Account Abstraction (ERC-4337)** - Carteiras inteligentes
@@ -320,11 +344,13 @@ npm run build
 - **QRCode 1.5.4** - Geração de códigos QR
 
 ### Autenticação & Segurança
+
 - **Auth0 React 2.3.0** - Autenticação OAuth
 - **Privy 2.24.0** - Autenticação Web3
 - **Crypto-js 4.2.0** - Criptografia
 
 ### Testes & Qualidade
+
 - **Jest 29.7.0** - Framework de testes
 - **Testing Library** - Testes de componentes
 - **Cypress 13.15.0** - Testes E2E
@@ -332,12 +358,14 @@ npm run build
 - **ESLint 9.0.0** - Linting
 
 ### PWA & Performance
+
 - **Vite PWA Plugin** - Progressive Web App
 - **React Helmet Async** - SEO otimizado
 - **React GA4** - Analytics
 - **Workbox** - Service Worker
 
 ### Arquitetura do Projeto
+
 ```
 src/
 ├── components/          # Componentes reutilizáveis
@@ -357,6 +385,7 @@ src/
 ## 📈 Roadmap
 
 ### 2024 - Consolidação da Plataforma
+
 - ✅ **Q1**: Lançamento da plataforma base
   - Sistema de pagamentos PIX, Bitcoin e USDT
   - Autenticação Auth0 e Web3
@@ -375,6 +404,7 @@ src/
   - API pública
 
 ### 2025 - Crescimento e Inovação
+
 - **Q1**: Inteligência Artificial
   - Chatbot de mentoria
   - Análise preditiva de negócios
@@ -397,16 +427,19 @@ src/
 Contribuições são sempre bem-vindas! Veja como você pode ajudar:
 
 ### 🐛 Reportar Bugs
+
 1. Verifique se o bug já foi reportado nas [Issues](https://github.com/gosouza/Xperience/issues)
 2. Crie uma nova issue com detalhes do problema
 3. Inclua steps para reproduzir o bug
 
 ### 💡 Sugerir Melhorias
+
 1. Abra uma issue com a tag `enhancement`
 2. Descreva a funcionalidade desejada
 3. Explique por que seria útil
 
 ### 🔧 Contribuir com Código
+
 1. Fork o projeto
 2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
 3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
@@ -414,6 +447,7 @@ Contribuições são sempre bem-vindas! Veja como você pode ajudar:
 5. Abra um Pull Request
 
 ### 📋 Guidelines
+
 - Siga os padrões de código existentes
 - Adicione testes para novas funcionalidades
 - Atualize a documentação quando necessário
@@ -422,12 +456,14 @@ Contribuições são sempre bem-vindas! Veja como você pode ajudar:
 ## 🤝 Comunidade & Suporte
 
 ### 💬 Canais de Comunicação
+
 - 📧 **Email**: contato@xperience.com.br
 - 💼 **LinkedIn**: [Xperience Mentoria](https://linkedin.com/company/xperience-mentoria)
 - 📱 **WhatsApp**: [Grupo da Comunidade](https://chat.whatsapp.com/xperience)
 - 🌐 **Website**: [xperience.com.br](https://xperience.com.br)
 
 ### 🆘 Suporte Técnico
+
 - 🐛 **Issues**: [GitHub Issues](https://github.com/gosouza/Xperience/issues)
 - 📚 **Documentação**: [Wiki do Projeto](https://github.com/gosouza/Xperience/wiki)
 - 💡 **Discussões**: [GitHub Discussions](https://github.com/gosouza/Xperience/discussions)

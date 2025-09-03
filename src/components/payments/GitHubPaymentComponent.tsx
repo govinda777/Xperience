@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { PaymentResult, PaymentStatus } from '../../types/payment';
-import { GitHubPaymentProvider } from '../../services/providers/githubPaymentProvider';
+import React, { useState, useEffect } from "react";
+import { PaymentResult, PaymentStatus } from "../../types/payment";
+import { GitHubPaymentProvider } from "../../services/providers/githubPaymentProvider";
 
 interface GitHubPaymentComponentProps {
   amount: number;
@@ -27,11 +27,13 @@ export const GitHubPaymentComponent: React.FC<GitHubPaymentComponentProps> = ({
   userId,
   onPaymentComplete,
   onPaymentError,
-  onCancel
+  onCancel,
 }) => {
-  const [paymentResult, setPaymentResult] = useState<PaymentResult | null>(null);
+  const [paymentResult, setPaymentResult] = useState<PaymentResult | null>(
+    null,
+  );
   const [isLoading, setIsLoading] = useState(false);
-  const [paymentStatus, setPaymentStatus] = useState<PaymentStatus>('pending');
+  const [paymentStatus, setPaymentStatus] = useState<PaymentStatus>("pending");
   const [instructions, setInstructions] = useState<{
     title: string;
     steps: string[];
@@ -46,23 +48,28 @@ export const GitHubPaymentComponent: React.FC<GitHubPaymentComponentProps> = ({
   const initializePayment = async () => {
     try {
       setIsLoading(true);
-      
+
       // Validar configuração
       const validation = githubProvider.validateConfiguration();
       if (!validation.isValid) {
-        throw new Error(`Configuração inválida: ${validation.errors.join(', ')}`);
+        throw new Error(
+          `Configuração inválida: ${validation.errors.join(", ")}`,
+        );
       }
 
       // Processar pagamento
       const result = await githubProvider.process(amount, planId, userId);
       setPaymentResult(result);
-      
+
       // Gerar instruções
-      const paymentInstructions = githubProvider.generatePaymentInstructions(result);
+      const paymentInstructions =
+        githubProvider.generatePaymentInstructions(result);
       setInstructions(paymentInstructions);
-      
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Erro ao inicializar pagamento GitHub';
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "Erro ao inicializar pagamento GitHub";
       onPaymentError(errorMessage);
     } finally {
       setIsLoading(false);
@@ -72,15 +79,15 @@ export const GitHubPaymentComponent: React.FC<GitHubPaymentComponentProps> = ({
   const handlePayWithGitHub = () => {
     if (paymentResult?.paymentUrl) {
       // Abrir GitHub Sponsors em nova aba
-      window.open(paymentResult.paymentUrl, '_blank', 'noopener,noreferrer');
-      
+      window.open(paymentResult.paymentUrl, "_blank", "noopener,noreferrer");
+
       // Marcar como processando
-      setPaymentStatus('processing');
-      
+      setPaymentStatus("processing");
+
       // Simular verificação (em produção seria um polling ou webhook)
       setTimeout(() => {
         // Por enquanto, marcar como pendente para verificação manual
-        setPaymentStatus('pending');
+        setPaymentStatus("pending");
       }, 2000);
     }
   };
@@ -88,7 +95,7 @@ export const GitHubPaymentComponent: React.FC<GitHubPaymentComponentProps> = ({
   const handleManualConfirmation = () => {
     if (paymentResult) {
       // Simular confirmação manual (em produção seria via admin panel)
-      setPaymentStatus('completed');
+      setPaymentStatus("completed");
       onPaymentComplete(paymentResult);
     }
   };
@@ -111,7 +118,9 @@ export const GitHubPaymentComponent: React.FC<GitHubPaymentComponentProps> = ({
           <div className="flex items-center">
             <span className="text-red-500 text-xl mr-3">⚠️</span>
             <div>
-              <h3 className="text-red-800 font-medium">Erro na inicialização</h3>
+              <h3 className="text-red-800 font-medium">
+                Erro na inicialização
+              </h3>
               <p className="text-red-600 text-sm mt-1">
                 Não foi possível inicializar o pagamento GitHub.
               </p>
@@ -135,7 +144,9 @@ export const GitHubPaymentComponent: React.FC<GitHubPaymentComponentProps> = ({
             </div>
             <div>
               <h2 className="text-xl font-bold text-gray-900">GitHub Pay</h2>
-              <p className="text-sm text-gray-600">Patrocine via GitHub Sponsors</p>
+              <p className="text-sm text-gray-600">
+                Patrocine via GitHub Sponsors
+              </p>
             </div>
           </div>
           <button
@@ -155,7 +166,10 @@ export const GitHubPaymentComponent: React.FC<GitHubPaymentComponentProps> = ({
                 ${paymentResult.amount} USD
               </div>
               <div className="text-sm text-gray-500">
-                ≈ R$ {githubProvider.convertUsdToBrl(paymentResult.amount).toFixed(2)}
+                ≈ R${" "}
+                {githubProvider
+                  .convertUsdToBrl(paymentResult.amount)
+                  .toFixed(2)}
               </div>
             </div>
           </div>
@@ -163,21 +177,23 @@ export const GitHubPaymentComponent: React.FC<GitHubPaymentComponentProps> = ({
 
         {/* Status */}
         <div className="mb-6">
-          <div className={`
+          <div
+            className={`
             flex items-center space-x-2 p-3 rounded-lg
-            ${paymentStatus === 'pending' ? 'bg-yellow-50 text-yellow-800' : ''}
-            ${paymentStatus === 'processing' ? 'bg-blue-50 text-blue-800' : ''}
-            ${paymentStatus === 'completed' ? 'bg-green-50 text-green-800' : ''}
-          `}>
+            ${paymentStatus === "pending" ? "bg-yellow-50 text-yellow-800" : ""}
+            ${paymentStatus === "processing" ? "bg-blue-50 text-blue-800" : ""}
+            ${paymentStatus === "completed" ? "bg-green-50 text-green-800" : ""}
+          `}
+          >
             <span className="text-lg">
-              {paymentStatus === 'pending' && '⏳'}
-              {paymentStatus === 'processing' && '🔄'}
-              {paymentStatus === 'completed' && '✅'}
+              {paymentStatus === "pending" && "⏳"}
+              {paymentStatus === "processing" && "🔄"}
+              {paymentStatus === "completed" && "✅"}
             </span>
             <span className="font-medium">
-              {paymentStatus === 'pending' && 'Aguardando pagamento'}
-              {paymentStatus === 'processing' && 'Processando pagamento...'}
-              {paymentStatus === 'completed' && 'Pagamento confirmado!'}
+              {paymentStatus === "pending" && "Aguardando pagamento"}
+              {paymentStatus === "processing" && "Processando pagamento..."}
+              {paymentStatus === "completed" && "Pagamento confirmado!"}
             </span>
           </div>
         </div>
@@ -187,15 +203,15 @@ export const GitHubPaymentComponent: React.FC<GitHubPaymentComponentProps> = ({
           <h3 className="text-lg font-semibold text-gray-800 mb-3">
             {instructions.title}
           </h3>
-          
+
           <div className="space-y-2 mb-4">
             {instructions.steps.map((step, index) => (
               <div key={index} className="flex items-start space-x-2">
                 <span className="text-blue-500 font-medium text-sm mt-0.5">
-                  {step.split('.')[0]}.
+                  {step.split(".")[0]}.
                 </span>
                 <span className="text-gray-700 text-sm">
-                  {step.substring(step.indexOf('.') + 1).trim()}
+                  {step.substring(step.indexOf(".") + 1).trim()}
                 </span>
               </div>
             ))}
@@ -217,7 +233,7 @@ export const GitHubPaymentComponent: React.FC<GitHubPaymentComponentProps> = ({
 
         {/* Botões de ação */}
         <div className="space-y-3">
-          {paymentStatus === 'pending' && (
+          {paymentStatus === "pending" && (
             <button
               onClick={handlePayWithGitHub}
               className="w-full bg-gray-900 text-white py-3 px-4 rounded-lg font-medium hover:bg-gray-800 transition-colors flex items-center justify-center space-x-2"
@@ -227,15 +243,16 @@ export const GitHubPaymentComponent: React.FC<GitHubPaymentComponentProps> = ({
             </button>
           )}
 
-          {paymentStatus === 'processing' && (
+          {paymentStatus === "processing" && (
             <div className="space-y-2">
               <div className="bg-blue-100 border border-blue-200 rounded-lg p-3">
                 <p className="text-blue-800 text-sm">
-                  <strong>Pagamento em andamento!</strong><br/>
+                  <strong>Pagamento em andamento!</strong>
+                  <br />
                   Complete o pagamento na aba do GitHub que foi aberta.
                 </p>
               </div>
-              
+
               <button
                 onClick={handleManualConfirmation}
                 className="w-full bg-green-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-green-700 transition-colors text-sm"
@@ -245,14 +262,17 @@ export const GitHubPaymentComponent: React.FC<GitHubPaymentComponentProps> = ({
             </div>
           )}
 
-          {paymentStatus === 'completed' && (
+          {paymentStatus === "completed" && (
             <div className="bg-green-100 border border-green-200 rounded-lg p-4">
               <div className="flex items-center space-x-2">
                 <span className="text-green-600 text-xl">🎉</span>
                 <div>
-                  <h4 className="text-green-800 font-medium">Pagamento confirmado!</h4>
+                  <h4 className="text-green-800 font-medium">
+                    Pagamento confirmado!
+                  </h4>
                   <p className="text-green-700 text-sm">
-                    Obrigado pelo seu patrocínio! Seu acesso será liberado em breve.
+                    Obrigado pelo seu patrocínio! Seu acesso será liberado em
+                    breve.
                   </p>
                 </div>
               </div>
@@ -280,8 +300,8 @@ export const GitHubPaymentComponent: React.FC<GitHubPaymentComponentProps> = ({
           <div className="flex items-center space-x-2 text-xs text-gray-600">
             <span>🔒</span>
             <span>
-              Pagamento processado de forma segura pelo GitHub Sponsors.
-              Seus dados estão protegidos.
+              Pagamento processado de forma segura pelo GitHub Sponsors. Seus
+              dados estão protegidos.
             </span>
           </div>
         </div>

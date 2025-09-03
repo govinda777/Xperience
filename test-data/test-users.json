@@ -5,8 +5,8 @@
     "name": "Test User 1",
     "sub": "auth0|test-user-1",
     "wallet": {
-      "address": "0x123456789abcdef123456789abcdef123456789a",
-      "smartAccountAddress": "0xabcdef123456789abcdef123456789abcdef123456",
+      "address": "test-wallet-address-1",
+      "smartAccountAddress": "test-smart-account-1",
       "balance": "1.5"
     }
   },
@@ -16,8 +16,8 @@
     "name": "Test User 2",
     "sub": "auth0|test-user-2",
     "wallet": {
-      "address": "0x987654321fedcba987654321fedcba987654321b",
-      "smartAccountAddress": "0xfedcba987654321fedcba987654321fedcba987654",
+      "address": "test-wallet-address-2",
+      "smartAccountAddress": "test-smart-account-2",
       "balance": "2.3"
     }
   }

@@ -1,4 +1,3 @@
-
 ## List all files in a directory
 
 ```bash

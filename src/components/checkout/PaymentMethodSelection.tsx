@@ -1,12 +1,18 @@
-import React, { useState } from 'react';
-import { CreditCard, Smartphone, Bitcoin, DollarSign, Github } from 'lucide-react';
-import { availablePaymentMethods } from '../../config/privy';
-import { formatCurrency } from '../../types/cart';
-import { useCart } from '../../contexts/CartContext';
+import React, { useState } from "react";
+import {
+  CreditCard,
+  Smartphone,
+  Bitcoin,
+  DollarSign,
+  Github,
+} from "lucide-react";
+import { availablePaymentMethods } from "../../config/privy";
+import { formatCurrency } from "../../types/cart";
+import { useCart } from "../../contexts/CartContext";
 
 interface PaymentMethodSelectionProps {
-  onSelect: (method: 'pix' | 'bitcoin' | 'usdt' | 'github') => void;
-  selectedMethod?: 'pix' | 'bitcoin' | 'usdt' | 'github';
+  onSelect: (method: "pix" | "bitcoin" | "usdt" | "github") => void;
+  selectedMethod?: "pix" | "bitcoin" | "usdt" | "github";
   isLoading?: boolean;
 }
 
@@ -20,25 +26,30 @@ const PaymentMethodSelection: React.FC<PaymentMethodSelectionProps> = ({
 
   const getMethodIcon = (methodId: string) => {
     switch (methodId) {
-      case 'pix':
+      case "pix":
         return <Smartphone className="w-6 h-6" />;
-      case 'bitcoin':
+      case "bitcoin":
         return <Bitcoin className="w-6 h-6" />;
-      case 'usdt':
+      case "usdt":
         return <DollarSign className="w-6 h-6" />;
-      case 'github':
+      case "github":
         return <Github className="w-6 h-6" />;
       default:
         return <CreditCard className="w-6 h-6" />;
     }
   };
 
-  const calculateFinalAmount = (method: typeof availablePaymentMethods[0]) => {
-    const feeAmount = (summary.total * method.fees.percentage) / 100 + method.fees.fixed;
+  const calculateFinalAmount = (
+    method: (typeof availablePaymentMethods)[0],
+  ) => {
+    const feeAmount =
+      (summary.total * method.fees.percentage) / 100 + method.fees.fixed;
     return summary.total + feeAmount;
   };
 
-  const enabledMethods = availablePaymentMethods.filter(method => method.enabled);
+  const enabledMethods = availablePaymentMethods.filter(
+    (method) => method.enabled,
+  );
 
   return (
     <div className="max-w-4xl mx-auto p-6">
@@ -62,11 +73,12 @@ const PaymentMethodSelection: React.FC<PaymentMethodSelectionProps> = ({
               key={method.id}
               className={`
                 relative border-2 rounded-lg p-6 cursor-pointer transition-all duration-200 hover:shadow-lg
-                ${isSelected 
-                  ? 'border-blue-500 bg-blue-50 shadow-md' 
-                  : 'border-gray-200 hover:border-gray-300'
+                ${
+                  isSelected
+                    ? "border-blue-500 bg-blue-50 shadow-md"
+                    : "border-gray-200 hover:border-gray-300"
                 }
-                ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}
+                ${isLoading ? "opacity-50 cursor-not-allowed" : ""}
               `}
               onClick={() => !isLoading && onSelect(method.id)}
             >
@@ -74,8 +86,16 @@ const PaymentMethodSelection: React.FC<PaymentMethodSelectionProps> = ({
               {isSelected && (
                 <div className="absolute top-4 right-4">
                   <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
-                    <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    <svg
+                      className="w-4 h-4 text-white"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                        clipRule="evenodd"
+                      />
                     </svg>
                   </div>
                 </div>
@@ -83,10 +103,12 @@ const PaymentMethodSelection: React.FC<PaymentMethodSelectionProps> = ({
 
               {/* Ícone e nome */}
               <div className="flex items-center gap-4 mb-4">
-                <div className={`
+                <div
+                  className={`
                   p-3 rounded-full 
-                  ${isSelected ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 text-gray-600'}
-                `}>
+                  ${isSelected ? "bg-blue-100 text-blue-600" : "bg-gray-100 text-gray-600"}
+                `}
+                >
                   {getMethodIcon(method.id)}
                 </div>
                 <div>
@@ -104,14 +126,18 @@ const PaymentMethodSelection: React.FC<PaymentMethodSelectionProps> = ({
                   <span className="text-gray-600">Tempo de processamento:</span>
                   <span className="font-medium">{method.processingTime}</span>
                 </div>
-                
+
                 {hasFees && (
                   <div className="flex items-center justify-between text-sm mb-2">
                     <span className="text-gray-600">Taxa:</span>
                     <span className="font-medium text-orange-600">
-                      {method.fees.percentage > 0 && `${method.fees.percentage}%`}
-                      {method.fees.percentage > 0 && method.fees.fixed > 0 && ' + '}
-                      {method.fees.fixed > 0 && formatCurrency(method.fees.fixed, summary.currency)}
+                      {method.fees.percentage > 0 &&
+                        `${method.fees.percentage}%`}
+                      {method.fees.percentage > 0 &&
+                        method.fees.fixed > 0 &&
+                        " + "}
+                      {method.fees.fixed > 0 &&
+                        formatCurrency(method.fees.fixed, summary.currency)}
                     </span>
                   </div>
                 )}
@@ -127,7 +153,8 @@ const PaymentMethodSelection: React.FC<PaymentMethodSelectionProps> = ({
                     </div>
                     {hasFees && finalAmount !== summary.total && (
                       <div className="text-xs text-gray-500">
-                        Original: {formatCurrency(summary.total, summary.currency)}
+                        Original:{" "}
+                        {formatCurrency(summary.total, summary.currency)}
                       </div>
                     )}
                   </div>
@@ -136,22 +163,22 @@ const PaymentMethodSelection: React.FC<PaymentMethodSelectionProps> = ({
 
               {/* Características especiais */}
               <div className="mt-4 flex flex-wrap gap-2">
-                {method.id === 'pix' && (
+                {method.id === "pix" && (
                   <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
                     Instantâneo
                   </span>
                 )}
-                {method.id === 'bitcoin' && (
+                {method.id === "bitcoin" && (
                   <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-800">
                     Descentralizado
                   </span>
                 )}
-                {method.id === 'usdt' && (
+                {method.id === "usdt" && (
                   <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                     Stablecoin
                   </span>
                 )}
-                {method.id === 'github' && (
+                {method.id === "github" && (
                   <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
                     Open Source
                   </span>
@@ -164,34 +191,38 @@ const PaymentMethodSelection: React.FC<PaymentMethodSelectionProps> = ({
               </div>
 
               {/* Informações adicionais por método */}
-              {method.id === 'pix' && (
+              {method.id === "pix" && (
                 <div className="mt-3 p-3 bg-gray-50 rounded-lg">
                   <p className="text-xs text-gray-600">
-                    💡 Pagamento via PIX é processado instantaneamente e está disponível 24/7
+                    💡 Pagamento via PIX é processado instantaneamente e está
+                    disponível 24/7
                   </p>
                 </div>
               )}
 
-              {method.id === 'bitcoin' && (
+              {method.id === "bitcoin" && (
                 <div className="mt-3 p-3 bg-gray-50 rounded-lg">
                   <p className="text-xs text-gray-600">
-                    ⚡ Pagamento em Bitcoin pode levar de 10 minutos a 1 hora para confirmação
+                    ⚡ Pagamento em Bitcoin pode levar de 10 minutos a 1 hora
+                    para confirmação
                   </p>
                 </div>
               )}
 
-              {method.id === 'usdt' && (
+              {method.id === "usdt" && (
                 <div className="mt-3 p-3 bg-gray-50 rounded-lg">
                   <p className="text-xs text-gray-600">
-                    🔒 USDT é uma stablecoin pareada ao dólar americano, oferecendo estabilidade de preço
+                    🔒 USDT é uma stablecoin pareada ao dólar americano,
+                    oferecendo estabilidade de preço
                   </p>
                 </div>
               )}
 
-              {method.id === 'github' && (
+              {method.id === "github" && (
                 <div className="mt-3 p-3 bg-gray-50 rounded-lg">
                   <p className="text-xs text-gray-600">
-                    🐙 Pagamento via GitHub Sponsors apoia o desenvolvimento open source
+                    🐙 Pagamento via GitHub Sponsors apoia o desenvolvimento
+                    open source
                   </p>
                 </div>
               )}
@@ -203,8 +234,16 @@ const PaymentMethodSelection: React.FC<PaymentMethodSelectionProps> = ({
       {/* Informações de segurança */}
       <div className="mt-8 p-6 bg-gray-50 rounded-lg">
         <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
-          <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-            <path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+          <svg
+            className="w-5 h-5 text-green-600"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              fillRule="evenodd"
+              d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+              clipRule="evenodd"
+            />
           </svg>
           Pagamento Seguro
         </h3>
@@ -239,9 +278,23 @@ const PaymentMethodSelection: React.FC<PaymentMethodSelectionProps> = ({
               </>
             ) : (
               <>
-                Continuar com {availablePaymentMethods.find(m => m.id === selectedMethod)?.name}
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                Continuar com{" "}
+                {
+                  availablePaymentMethods.find((m) => m.id === selectedMethod)
+                    ?.name
+                }
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
                 </svg>
               </>
             )}

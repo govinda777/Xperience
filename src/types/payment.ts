@@ -1,8 +1,14 @@
 // Tipos e interfaces para o sistema de pagamentos
 
-export type PaymentProvider = 'pix' | 'bitcoin' | 'usdt' | 'github';
-export type PaymentCurrency = 'BRL' | 'BTC' | 'USDT' | 'USD';
-export type PaymentStatus = 'pending' | 'processing' | 'completed' | 'failed' | 'expired' | 'cancelled';
+export type PaymentProvider = "pix" | "bitcoin" | "usdt" | "github";
+export type PaymentCurrency = "BRL" | "BTC" | "USDT" | "USD";
+export type PaymentStatus =
+  | "pending"
+  | "processing"
+  | "completed"
+  | "failed"
+  | "expired"
+  | "cancelled";
 
 export interface PaymentState {
   id: string;
@@ -33,9 +39,13 @@ export interface PaymentResult {
 export interface PaymentProviderInterface {
   id: PaymentProvider;
   name: string;
-  type: 'fiat' | 'crypto';
+  type: "fiat" | "crypto";
   supportedCurrencies: PaymentCurrency[];
-  process(amount: number, planId: string, userId: string): Promise<PaymentResult>;
+  process(
+    amount: number,
+    planId: string,
+    userId: string,
+  ): Promise<PaymentResult>;
   verify(transactionId: string): Promise<PaymentStatus>;
   cancel?(transactionId: string): Promise<boolean>;
 }
@@ -104,7 +114,7 @@ export class PaymentError extends Error {
     details?: Record<string, any>;
   }) {
     super(options.message);
-    this.name = 'PaymentError';
+    this.name = "PaymentError";
     this.code = options.code;
     this.provider = options.provider;
     this.transactionId = options.transactionId;

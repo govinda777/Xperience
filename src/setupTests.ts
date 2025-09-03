@@ -1,81 +1,81 @@
-// src/setupTests.ts
+// jest-dom adds custom jest matchers for asserting on DOM nodes.
+// allows you to do things like:
+// expect(element).toHaveTextContent(/react/i)
+// learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom';
 
-// Mock TextEncoder/TextDecoder for Node.js environment
-if (typeof global.TextEncoder === 'undefined') {
-  const { TextEncoder, TextDecoder } = require('util');
-  global.TextEncoder = TextEncoder;
-  global.TextDecoder = TextDecoder;
+// Mock window.matchMedia
+Object.defineProperty(window, 'matchMedia', {
+  writable: true,
+  value: jest.fn().mockImplementation(query => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: jest.fn(), // deprecated
+    removeListener: jest.fn(), // deprecated
+    addEventListener: jest.fn(),
+    removeEventListener: jest.fn(),
+    dispatchEvent: jest.fn(),
+  })),
+});
+
+// Mock window.scrollTo
+Object.defineProperty(window, 'scrollTo', {
+  writable: true,
+  value: jest.fn(),
+});
+
+// Mock window.IntersectionObserver
+class MockIntersectionObserver {
+  observe = jest.fn();
+  unobserve = jest.fn();
+  disconnect = jest.fn();
+  constructor() {}
 }
 
-// Mock import.meta.env for Vite
-Object.defineProperty(globalThis, 'import', {
-  value: {
-    meta: {
-      env: {
-        VITE_MERCADO_PAGO_PUBLIC_KEY: 'test-key',
-        VITE_RPC_URL: 'https://test-rpc.com',
-        VITE_PRIVY_APP_ID: 'test-app-id',
-        VITE_ALCHEMY_API_KEY: 'test-alchemy-key',
-        VITE_GITHUB_CLIENT_ID: 'test-github-client-id',
-        VITE_GITHUB_CLIENT_SECRET: 'test-github-secret',
-        VITE_GA_MEASUREMENT_ID: 'G-TEST123',
-      },
-      url: 'file://test'
-    }
-  },
-  writable: true
-});
-
-// Alternative mock for import.meta
-(global as any).importMeta = {
-  env: {
-    VITE_MERCADO_PAGO_PUBLIC_KEY: 'test-key',
-    VITE_RPC_URL: 'https://test-rpc.com',
-    VITE_PRIVY_APP_ID: 'test-app-id',
-    VITE_ALCHEMY_API_KEY: 'test-alchemy-key',
-    VITE_GITHUB_CLIENT_ID: 'test-github-client-id',
-    VITE_GITHUB_CLIENT_SECRET: 'test-github-secret',
-    VITE_GA_MEASUREMENT_ID: 'G-TEST123',
-  },
-  url: 'file://test'
-};
-
-// Mock navigator.clipboard
-Object.defineProperty(navigator, 'clipboard', {
-  value: {
-    writeText: jest.fn(() => Promise.resolve()),
-    readText: jest.fn(() => Promise.resolve('test')),
-  },
+Object.defineProperty(window, 'IntersectionObserver', {
   writable: true,
+  value: MockIntersectionObserver,
 });
 
-// Define o mock do WebApp do Telegram
-const mockTelegramWebApp = {
-  ready: jest.fn(),
-  MainButton: {
-    setText: jest.fn(),
-    show: jest.fn(),
-    hide: jest.fn(),
-    onClick: jest.fn(),
-  },
-};
+// Mock window.ResizeObserver
+class MockResizeObserver {
+  observe = jest.fn();
+  unobserve = jest.fn();
+  disconnect = jest.fn();
+  constructor() {}
+}
 
-// Atribui o mock ao objeto window
-Object.defineProperty(window, 'Telegram', {
-  value: {
-    WebApp: mockTelegramWebApp
-  },
-  writable: true
-});
-
-// Mock window.open
-Object.defineProperty(window, 'open', {
-  value: jest.fn(),
+Object.defineProperty(window, 'ResizeObserver', {
   writable: true,
+  value: MockResizeObserver,
 });
 
-// Limpa todos os mocks após cada teste
-afterEach(() => {
-  jest.clearAllMocks();
+// Mock window.getSelection
+Object.defineProperty(window, 'getSelection', {
+  writable: true,
+  value: () => ({
+    removeAllRanges: jest.fn(),
+    addRange: jest.fn(),
+  }),
+});
+
+// Mock window.document.createRange
+Object.defineProperty(window.document, 'createRange', {
+  writable: true,
+  value: () => ({
+    setStart: jest.fn(),
+    setEnd: jest.fn(),
+    getBoundingClientRect: () => ({
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+    }),
+    getClientRects: () => [],
+  }),
 });

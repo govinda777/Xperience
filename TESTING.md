@@ -30,6 +30,7 @@ Localização: `src/__tests__/components/`, `src/__tests__/services/`, `src/__te
 #### 🧩 Componentes Testados
 
 **Sistema de Pagamentos:**
+
 - `PaymentMethodSelector`: Seleção de métodos de pagamento
 - `PixPaymentComponent`: Interface de pagamento PIX
 - `BitcoinPaymentComponent`: Interface de pagamento Bitcoin
@@ -38,15 +39,18 @@ Localização: `src/__tests__/components/`, `src/__tests__/services/`, `src/__te
 - `PaymentGateway`: Orquestrador de pagamentos
 
 **Sistema de Carrinho:**
+
 - `CartIcon`: Ícone do carrinho com contador
 - `CartSidebar`: Sidebar do carrinho
 - `CheckoutForm`: Formulário de checkout
 
 **Autenticação:**
+
 - `AuthButton`: Botão de login/logout
 - `ProtectedRoute`: Proteção de rotas
 
 **Interface Geral:**
+
 - `Navbar`: Navegação principal
 - `Footer`: Rodapé com links
 - `SEOHead`: Meta tags dinâmicas
@@ -55,12 +59,14 @@ Localização: `src/__tests__/components/`, `src/__tests__/services/`, `src/__te
 #### 🔧 Serviços Testados
 
 **Providers de Pagamento:**
+
 - `PixPaymentProvider`: Provider de pagamento PIX
 - `BitcoinPaymentProvider`: Provider de pagamento Bitcoin
 - `USDTPaymentProvider`: Provider de pagamento USDT
 - `GitHubPaymentProvider`: Provider GitHub Sponsors
 
 **Serviços de Negócio:**
+
 - `PaymentService`: Orquestração de pagamentos
 - `CartService`: Gerenciamento do carrinho
 - `UserWalletService`: Gestão de carteiras
@@ -69,6 +75,7 @@ Localização: `src/__tests__/components/`, `src/__tests__/services/`, `src/__te
 #### 🎣 Hooks Testados
 
 **Hooks Customizados:**
+
 - `useCart`: Gerenciamento do carrinho
 - `useTonConnect`: Integração TON Connect
 - `useUserWallet`: Carteira do usuário
@@ -80,6 +87,7 @@ Localização: `src/__tests__/components/`, `src/__tests__/services/`, `src/__te
 Localização: `src/__tests__/integration/`
 
 **Fluxos testados:**
+
 - Jornada completa de pagamento PIX
 - Validação de dados de pagamento
 - Tratamento de erros e recuperação
@@ -91,6 +99,7 @@ Localização: `src/__tests__/integration/`
 Localização: `features/`
 
 **Cenários cobertos:**
+
 - Pagamento bem-sucedido via PIX, Bitcoin e USDT
 - Validação de dados de entrada
 - Tratamento de erros do servidor
@@ -103,6 +112,7 @@ Localização: `features/`
 Localização: `lighthouse.config.js`, `src/__tests__/performance/`
 
 **Métricas Monitoradas:**
+
 - **Core Web Vitals**: LCP, FID, CLS
 - **Performance Score**: Lighthouse > 90
 - **Accessibility Score**: > 95
@@ -110,6 +120,7 @@ Localização: `lighthouse.config.js`, `src/__tests__/performance/`
 - **Best Practices**: > 90
 
 **Ferramentas Utilizadas:**
+
 - **Lighthouse CI**: Testes automatizados de performance
 - **Web Vitals**: Métricas em tempo real
 - **Bundle Analyzer**: Análise de tamanho dos chunks
@@ -117,12 +128,14 @@ Localização: `lighthouse.config.js`, `src/__tests__/performance/`
 ### 5. Testes de Acessibilidade
 
 **Verificações Automáticas:**
+
 - **axe-core**: Testes de acessibilidade automatizados
 - **ARIA**: Validação de atributos ARIA
 - **Contraste**: Verificação de contraste de cores
 - **Navegação por Teclado**: Testes de navegação
 
 **Conformidade:**
+
 - **WCAG 2.1 AA**: Nível de conformidade
 - **Screen Readers**: Compatibilidade testada
 - **Keyboard Navigation**: Navegação completa por teclado
@@ -130,6 +143,7 @@ Localização: `lighthouse.config.js`, `src/__tests__/performance/`
 ### 6. Testes de Segurança
 
 **Validações de Segurança:**
+
 - **Autenticação**: Fluxos de login/logout
 - **Autorização**: Proteção de rotas
 - **Sanitização**: Validação de inputs
@@ -140,6 +154,7 @@ Localização: `lighthouse.config.js`, `src/__tests__/performance/`
 Localização: `src/__tests__/mocks/`
 
 **MSW (Mock Service Worker)** configurado para simular:
+
 - APIs de pagamento PIX (MercadoPago)
 - APIs de pagamento Bitcoin
 - APIs de pagamento USDT
@@ -301,12 +316,12 @@ Feature: Nova Funcionalidade
 ### Mocks MSW
 
 ```typescript
-import { http, HttpResponse } from 'msw';
+import { http, HttpResponse } from "msw";
 
 export const handlers = [
-  http.post('/api/new-endpoint', () => {
+  http.post("/api/new-endpoint", () => {
     return HttpResponse.json({ success: true });
-  })
+  }),
 ];
 ```
 
@@ -347,6 +362,7 @@ DEBUG=* npm test
 ### CI/CD Integration
 
 Os testes são executados automaticamente em:
+
 - Pull Requests
 - Commits na branch main
 - Builds de produção
@@ -376,70 +392,70 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18'
-        cache: 'npm'
-    
-    - name: Install dependencies
-      run: npm ci
-    
-    - name: Run linting
-      run: npm run lint
-    
-    - name: Run unit tests
-      run: npm run test:unit
-    
-    - name: Run integration tests
-      run: npm run test:integration
-    
-    - name: Run BDD tests
-      run: npm run test:bdd:ci
-    
-    - name: Generate coverage report
-      run: npm run test:coverage
-    
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v3
-      with:
-        file: ./coverage/lcov.info
-    
-    - name: Run Lighthouse CI
-      run: |
-        npm install -g @lhci/cli
-        lhci autorun
-    
-    - name: Run accessibility tests
-      run: npm run test:accessibility
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run linting
+        run: npm run lint
+
+      - name: Run unit tests
+        run: npm run test:unit
+
+      - name: Run integration tests
+        run: npm run test:integration
+
+      - name: Run BDD tests
+        run: npm run test:bdd:ci
+
+      - name: Generate coverage report
+        run: npm run test:coverage
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./coverage/lcov.info
+
+      - name: Run Lighthouse CI
+        run: |
+          npm install -g @lhci/cli
+          lhci autorun
+
+      - name: Run accessibility tests
+        run: npm run test:accessibility
 
   e2e:
     runs-on: ubuntu-latest
     needs: test
-    
+
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18'
-        cache: 'npm'
-    
-    - name: Install dependencies
-      run: npm ci
-    
-    - name: Build application
-      run: npm run build
-    
-    - name: Run E2E tests
-      run: npm run test:e2e
-      env:
-        CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build application
+        run: npm run build
+
+      - name: Run E2E tests
+        run: npm run test:e2e
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
 ```
 
 ### Configuração de Quality Gates
@@ -452,21 +468,21 @@ module.exports = {
       branches: 70,
       functions: 70,
       lines: 70,
-      statements: 70
+      statements: 70,
     },
-    './src/components/payments/': {
+    "./src/components/payments/": {
       branches: 80,
       functions: 85,
       lines: 85,
-      statements: 85
+      statements: 85,
     },
-    './src/services/': {
+    "./src/services/": {
       branches: 80,
       functions: 80,
       lines: 80,
-      statements: 80
-    }
-  }
+      statements: 80,
+    },
+  },
 };
 ```
 
@@ -477,21 +493,21 @@ module.exports = {
 module.exports = {
   ci: {
     collect: {
-      url: ['http://localhost:3000'],
-      numberOfRuns: 3
+      url: ["http://localhost:3000"],
+      numberOfRuns: 3,
     },
     assert: {
       assertions: {
-        'categories:performance': ['error', {minScore: 0.9}],
-        'categories:accessibility': ['error', {minScore: 0.95}],
-        'categories:best-practices': ['error', {minScore: 0.9}],
-        'categories:seo': ['error', {minScore: 0.95}]
-      }
+        "categories:performance": ["error", { minScore: 0.9 }],
+        "categories:accessibility": ["error", { minScore: 0.95 }],
+        "categories:best-practices": ["error", { minScore: 0.9 }],
+        "categories:seo": ["error", { minScore: 0.95 }],
+      },
     },
     upload: {
-      target: 'temporary-public-storage'
-    }
-  }
+      target: "temporary-public-storage",
+    },
+  },
 };
 ```
 
@@ -544,15 +560,15 @@ describe('PaymentButton', () => {
 
 ```typescript
 // ✅ Bom - Agrupamento lógico
-describe('PaymentService', () => {
-  describe('PIX payments', () => {
-    it('should create PIX payment successfully');
-    it('should handle PIX payment errors');
+describe("PaymentService", () => {
+  describe("PIX payments", () => {
+    it("should create PIX payment successfully");
+    it("should handle PIX payment errors");
   });
-  
-  describe('Bitcoin payments', () => {
-    it('should apply 5% discount for Bitcoin');
-    it('should generate Bitcoin address');
+
+  describe("Bitcoin payments", () => {
+    it("should apply 5% discount for Bitcoin");
+    it("should generate Bitcoin address");
   });
 });
 ```
@@ -564,7 +580,7 @@ describe('PaymentService', () => {
 const mockPaymentProvider = {
   createPayment: jest.fn(),
   checkStatus: jest.fn(),
-  cancelPayment: jest.fn()
+  cancelPayment: jest.fn(),
 };
 
 beforeEach(() => {
@@ -583,18 +599,18 @@ export const getTestMetrics = () => ({
     statements: 85.2,
     branches: 78.9,
     functions: 82.1,
-    lines: 84.7
+    lines: 84.7,
   },
   performance: {
     lighthouse: 94,
-    webVitals: 'good',
-    bundleSize: '245kb'
+    webVitals: "good",
+    bundleSize: "245kb",
   },
   accessibility: {
     score: 96,
     violations: 0,
-    wcagLevel: 'AA'
-  }
+    wcagLevel: "AA",
+  },
 });
 ```
 
@@ -613,6 +629,7 @@ export const getTestMetrics = () => ({
 ---
 
 Para mais informações, consulte a documentação específica de cada ferramenta:
+
 - [Jest](https://jestjs.io/docs/getting-started)
 - [Testing Library](https://testing-library.com/docs/)
 - [Cucumber.js](https://cucumber.io/docs/cucumber/)

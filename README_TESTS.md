@@ -47,6 +47,7 @@ A aplicação Xperience possui uma suíte completa de testes que inclui:
 ### Componentes Testados
 
 #### PaymentMethodSelector
+
 - ✅ Renderização de métodos de pagamento
 - ✅ Exibição de preços corretos
 - ✅ Seleção de métodos
@@ -54,6 +55,7 @@ A aplicação Xperience possui uma suíte completa de testes que inclui:
 - ✅ Badges de desconto
 
 #### PaymentStatusModal
+
 - ✅ Estados de pagamento (pending, completed, failed, expired)
 - ✅ Exibição de QR codes
 - ✅ Informações específicas por método
@@ -62,6 +64,7 @@ A aplicação Xperience possui uma suíte completa de testes que inclui:
 ### Services Testados
 
 #### PaymentService
+
 - ✅ Gerenciamento de provedores
 - ✅ Processamento de pagamentos
 - ✅ Verificação de status
@@ -69,6 +72,7 @@ A aplicação Xperience possui uma suíte completa de testes que inclui:
 - ✅ Histórico de pagamentos
 
 #### PixPaymentProvider
+
 - ✅ Configuração do MercadoPago
 - ✅ Criação de pagamentos PIX
 - ✅ Verificação de status
@@ -78,6 +82,7 @@ A aplicação Xperience possui uma suíte completa de testes que inclui:
 ### Hooks Testados
 
 #### useUserWallet
+
 - ✅ Inicialização de carteira
 - ✅ Envio de transações
 - ✅ Atualização de saldo
@@ -89,6 +94,7 @@ A aplicação Xperience possui uma suíte completa de testes que inclui:
 ### Funcionalidades Cobertas
 
 #### Autenticação de Usuário (`user_authentication.feature`)
+
 - Login bem-sucedido com Auth0
 - Tentativas de login inválidas
 - Logout do sistema
@@ -97,6 +103,7 @@ A aplicação Xperience possui uma suíte completa de testes que inclui:
 - Expiração de sessão
 
 #### Fluxo de Pagamento (`payment_flow.feature`)
+
 - Seleção de métodos de pagamento (PIX, Bitcoin, USDT, GitHub)
 - Processamento de pagamentos
 - Cancelamento e expiração
@@ -104,6 +111,7 @@ A aplicação Xperience possui uma suíte completa de testes que inclui:
 - Verificação de status
 
 #### Gerenciamento de Carteira (`wallet_management.feature`)
+
 - Visualização de informações da carteira
 - Inicialização automática
 - Envio de transações
@@ -112,6 +120,7 @@ A aplicação Xperience possui uma suíte completa de testes que inclui:
 - Integração com Auth0
 
 #### Experiência do Usuário (`user_experience.feature`)
+
 - Navegação e responsividade
 - Formulários e validações
 - SEO e performance
@@ -122,11 +131,13 @@ A aplicação Xperience possui uma suíte completa de testes que inclui:
 ## 🚀 Comandos de Teste
 
 ### Configuração Inicial
+
 ```bash
 npm run test:setup    # Configura ambiente de teste
 ```
 
 ### Testes de Unidade
+
 ```bash
 npm run test                    # Executa todos os testes Jest
 npm run test:unit              # Executa apenas testes de unidade
@@ -138,6 +149,7 @@ npm run test:coverage          # Executa testes com cobertura
 ```
 
 ### Testes BDD
+
 ```bash
 npm run test:bdd               # Executa testes BDD
 npm run test:bdd:ci            # Executa testes BDD para CI
@@ -146,6 +158,7 @@ npm run test:bdd:html          # Gera relatório HTML dos testes BDD
 ```
 
 ### Testes Completos
+
 ```bash
 npm run test:all               # Executa todos os tipos de teste
 npm run test:ci                # Executa testes para CI/CD
@@ -156,18 +169,21 @@ npm run test:clean             # Limpa arquivos de teste
 ## ⚙️ Configuração
 
 ### Jest (jest.config.cjs)
+
 - Ambiente: jsdom
 - Cobertura: 70% global, 80% para pagamentos, 85% para providers
 - Transformações: TypeScript com ts-jest
 - Mocks: CSS e assets
 
 ### Cucumber (cucumber.js)
+
 - Perfis: default, ci, debug
 - Formatos: progress-bar, JSON, HTML
 - Paralelização: 2-4 workers
 - Retry: 1-2 tentativas para testes instáveis
 
 ### Hooks e World
+
 - Estado global compartilhado entre steps
 - Mocks automáticos para APIs externas
 - Limpeza automática entre cenários
@@ -176,16 +192,19 @@ npm run test:clean             # Limpa arquivos de teste
 ## 📊 Relatórios
 
 ### Cobertura de Código
+
 - Localização: `coverage/lcov-report/index.html`
 - Métricas: Linhas, funções, branches, statements
 - Threshold: Configurado por diretório
 
 ### Relatórios BDD
+
 - JSON: `reports/cucumber_report.json`
 - HTML: `reports/cucumber_report.html`
 - Console: Formatação colorida com progresso
 
 ### Dados de Teste
+
 - Usuários: `test-data/test-users.json`
 - Planos: `test-data/test-plans.json`
 - Transações: `test-data/test-transactions.json`
@@ -208,29 +227,32 @@ npm run test:clean             # Limpa arquivos de teste
 
 ## 🎯 Metas de Cobertura
 
-| Área | Meta | Atual |
-|------|------|-------|
-| Global | 70% | ✅ |
-| Componentes de Pagamento | 80% | ✅ |
-| Providers de Pagamento | 85% | ✅ |
-| Services | 75% | ✅ |
-| Hooks | 70% | ✅ |
+| Área                     | Meta | Atual |
+| ------------------------ | ---- | ----- |
+| Global                   | 70%  | ✅    |
+| Componentes de Pagamento | 80%  | ✅    |
+| Providers de Pagamento   | 85%  | ✅    |
+| Services                 | 75%  | ✅    |
+| Hooks                    | 70%  | ✅    |
 
 ## 🚨 Troubleshooting
 
 ### Problemas Comuns
 
 1. **Testes falhando por timeout**
+
    ```bash
    npm run test:bdd:debug  # Para investigar
    ```
 
 2. **Mocks não funcionando**
+
    ```bash
    npm run test:clean && npm run test:setup
    ```
 
 3. **Cobertura baixa**
+
    ```bash
    npm run test:coverage  # Verificar relatório detalhado
    ```
@@ -266,6 +288,7 @@ npm run test:clean             # Limpa arquivos de teste
 ---
 
 Para mais informações, consulte a documentação específica de cada ferramenta:
+
 - [Jest](https://jestjs.io/)
 - [Cucumber.js](https://cucumber.io/docs/cucumber/)
 - [Testing Library](https://testing-library.com/)

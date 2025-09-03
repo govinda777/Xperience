@@ -111,27 +111,27 @@ src/
 ### 1. Importar e Usar o Gateway de Pagamentos
 
 ```tsx
-import { PaymentGateway } from './components/payments/PaymentGateway';
-import { Plan } from './types/payment';
+import { PaymentGateway } from "./components/payments/PaymentGateway";
+import { Plan } from "./types/payment";
 
 const MyComponent = () => {
   const plan: Plan = {
-    id: 'basic',
-    name: 'Plano Básico',
-    description: 'Acesso completo por 1 mês',
-    price: 97.00,
-    currency: 'BRL',
-    features: ['Feature 1', 'Feature 2'],
-    duration: 1
+    id: "basic",
+    name: "Plano Básico",
+    description: "Acesso completo por 1 mês",
+    price: 97.0,
+    currency: "BRL",
+    features: ["Feature 1", "Feature 2"],
+    duration: 1,
   };
 
   const handlePaymentComplete = (result) => {
-    console.log('Pagamento concluído:', result);
+    console.log("Pagamento concluído:", result);
     // Redirecionar para área do usuário
   };
 
   const handlePaymentError = (error) => {
-    console.error('Erro no pagamento:', error);
+    console.error("Erro no pagamento:", error);
     // Mostrar mensagem de erro
   };
 
@@ -141,7 +141,7 @@ const MyComponent = () => {
       userId="user123"
       onPaymentComplete={handlePaymentComplete}
       onPaymentError={handlePaymentError}
-      onCancel={() => console.log('Pagamento cancelado')}
+      onCancel={() => console.log("Pagamento cancelado")}
     />
   );
 };
@@ -168,18 +168,22 @@ O sistema monitora automaticamente o status dos pagamentos:
 ## 🔒 Segurança Implementada
 
 ### 1. Criptografia
+
 - Dados sensíveis criptografados com AES-256
 - Chaves armazenadas em variáveis de ambiente
 
 ### 2. Validação de Webhooks
+
 - Verificação de assinatura HMAC
 - Validação de origem das requisições
 
 ### 3. Armazenamento Seguro
+
 - Uso de GitHub Secrets para produção
 - LocalStorage apenas para dados não sensíveis
 
 ### 4. Compliance
+
 - **LGPD**: Minimização de dados coletados
 - **PCI DSS**: Não armazenamento de dados de cartão
 - **AML/KYC**: Preparado para integração futura
@@ -187,12 +191,14 @@ O sistema monitora automaticamente o status dos pagamentos:
 ## 📊 Monitoramento e Analytics
 
 ### 1. Métricas Coletadas
+
 - Taxa de conversão por método
 - Tempo médio de processamento
 - Valor médio por transação
 - Distribuição de métodos de pagamento
 
 ### 2. Logs de Auditoria
+
 - Todas as transações são logadas
 - Histórico completo de status
 - Rastreabilidade total
@@ -200,24 +206,28 @@ O sistema monitora automaticamente o status dos pagamentos:
 ## 🛠️ Próximos Passos para Implementação
 
 ### Fase 1: Configuração Básica ✅
+
 - [x] Estrutura de tipos e interfaces
 - [x] Serviços de pagamento
 - [x] Componentes de UI
 - [x] Provedores PIX, Bitcoin e USDT
 
 ### Fase 2: Backend Serverless (Próximo)
+
 - [ ] GitHub Actions para webhooks
 - [ ] Funções Vercel/Netlify
 - [ ] Processamento de notificações
 - [ ] Validação de pagamentos
 
 ### Fase 3: Testes e Segurança
+
 - [ ] Testes automatizados
 - [ ] Testes de integração
 - [ ] Auditoria de segurança
 - [ ] Validação de compliance
 
 ### Fase 4: Deploy e Monitoramento
+
 - [ ] Deploy em produção
 - [ ] Monitoramento em tempo real
 - [ ] Dashboard de analytics

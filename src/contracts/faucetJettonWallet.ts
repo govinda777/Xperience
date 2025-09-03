@@ -18,6 +18,6 @@ export default class FaucetJettonWallet implements Contract {
 
   constructor(
     readonly address: _Address,
-    readonly init?: { code: _Cell; data: _Cell }
+    readonly init?: { code: _Cell; data: _Cell },
   ) {}
 }

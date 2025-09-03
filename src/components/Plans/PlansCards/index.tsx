@@ -5,7 +5,13 @@ import { usePrivy } from "@privy-io/react-auth";
 import Crown from "../../../../assets/svg/crown.svg";
 
 interface PlansCardsProps {
-  category: "START" | "ESSENCIAL" | "PRINCIPAL" | "AVANÇADA" | "PREMIUM" | "NINJA";
+  category:
+    | "START"
+    | "ESSENCIAL"
+    | "PRINCIPAL"
+    | "AVANÇADA"
+    | "PREMIUM"
+    | "NINJA";
   title: string;
   price: number;
   duration: string;
@@ -60,7 +66,7 @@ const PlansCards: React.FC<PlansCardsProps> = ({
       {/* Precificação */}
       <div className="mb-4 flex flex-row gap-2 items-end">
         <h1 className="text-4xl md:text-5xl font-bold text-[#060606]">
-          R$ {price.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+          R$ {price.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
         </h1>
       </div>
 
@@ -76,7 +82,8 @@ const PlansCards: React.FC<PlansCardsProps> = ({
       <div className="flex flex-row gap-2 items-center">
         <img src={Check} alt="Check" className="md:w-5 md:h-5 mt-0.5" />
         <p className="text-[#1A1A1A]">
-          <span className="font-bold">Sessões:</span> {sessions.total} ({sessions.details})
+          <span className="font-bold">Sessões:</span> {sessions.total} (
+          {sessions.details})
         </p>
       </div>
 

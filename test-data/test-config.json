@@ -1,0 +1,31 @@
+{
+  "testAddresses": {
+    "bitcoin": "test_btc_address",
+    "usdt": "test_usdt_address",
+    "pix": "test_pix_key"
+  },
+  "testQrCodes": {
+    "bitcoin": "test_btc_qr",
+    "usdt": "test_usdt_qr",
+    "pix": "test_pix_qr"
+  },
+  "testTransactions": {
+    "pix": {
+      "externalReference": "test_ref",
+      "preferenceId": "test_pref"
+    },
+    "crypto": {
+      "paymentAddress": "test_address"
+    }
+  },
+  "testKeys": {
+    "cart": "test_cart_key",
+    "seo": "test_seo_key",
+    "wallet": "test_wallet_key"
+  },
+  "testTokens": {
+    "api": "test_api_token",
+    "auth": "test_auth_token",
+    "payment": "test_payment_token"
+  }
+}

@@ -11,6 +11,7 @@ A Tela Estratégica é a principal ferramenta visual da Estratégia Blue Ocean. 
 ![Strategy Canvas](https://quickchart.io/chart?c=%7B%22type%22%3A%22radar%22%2C%22data%22%3A%7B%22labels%22%3A%5B%22Pre%C3%A7o%22%2C%22Variedade%20de%20T%C3%ADtulos%22%2C%22Conveni%C3%AAncia%22%2C%22Disponibilidade%20Imediata%22%2C%22Localiza%C3%A7%C3%A3o%20das%20Lojas%22%2C%22Experi%C3%AAncia%20de%20Loja%22%2C%22Conte%C3%BAdo%20Original%22%5D%2C%22datasets%22%3A%5B%7B%22label%22%3A%22Netflix%22%2C%22data%22%3A%5B9%2C8%2C9%2C5%2C1%2C1%2C9%5D%2C%22backgroundColor%22%3A%22rgba%280%2C%20120%2C%20255%2C%200.2%29%22%2C%22borderColor%22%3A%22rgba%280%2C%20120%2C%20255%2C%201%29%22%7D%2C%7B%22label%22%3A%22Blockbuster%22%2C%22data%22%3A%5B3%2C6%2C3%2C8%2C9%2C8%2C2%5D%2C%22backgroundColor%22%3A%22rgba%28255%2C%200%2C%200%2C%200.2%29%22%2C%22borderColor%22%3A%22rgba%28255%2C%200%2C%200%2C%201%29%22%7D%5D%7D%2C%22options%22%3A%7B%22title%22%3A%7B%22display%22%3Atrue%2C%22text%22%3A%22Strategy%20Canvas%3A%20Netflix%20vs.%20Blockbuster%20%282007%29%22%7D%7D%7D)
 
 O gráfico acima mostra como a Netflix (oceano azul) se diferenciou da Blockbuster (oceano vermelho) ao:
+
 - Eliminar fatores como localização física e experiência de loja
 - Aumentar conveniência com entregas por correio
 - Reduzir preço com modelo de assinatura

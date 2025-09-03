@@ -1,0 +1,21 @@
+{
+  "testAddresses": {
+    "bitcoin": "test-btc-address",
+    "usdt": "test-eth-address",
+    "pix": "test-pix-key"
+  },
+  "testQrCodes": {
+    "bitcoin": "test-btc-qr",
+    "usdt": "test-usdt-qr",
+    "pix": "test-pix-qr"
+  },
+  "testTransactions": {
+    "pix": {
+      "externalReference": "test-reference",
+      "preferenceId": "test-preference"
+    },
+    "crypto": {
+      "paymentAddress": "test-address"
+    }
+  }
+}

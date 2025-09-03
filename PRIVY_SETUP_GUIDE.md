@@ -7,6 +7,7 @@ O erro `Cannot initialize the Privy provider with an invalid Privy app ID` foi r
 ## 🔍 Diagnóstico do Problema
 
 O erro ocorreu porque:
+
 1. A variável `VITE_PRIVY_APP_ID` não estava definida no arquivo `.env`
 2. O Privy estava tentando inicializar com um App ID inválido ou ausente
 3. Componentes estavam usando hooks do Privy sem o provider configurado
@@ -15,11 +16,13 @@ O erro ocorreu porque:
 ## 🛠️ Solução Temporária (Implementada)
 
 ### 1. Desabilitar o Privy temporariamente
+
 - Comentamos o `PrivyProvider` no `src/main.tsx`
 - Comentamos os imports e usos do `usePrivy` nos componentes
 - Adicionamos `VITE_PRIVY_APP_ID=clp123456789` ao `.env`
 
 ### 2. Arquivos modificados:
+
 - `src/main.tsx` - PrivyProvider comentado
 - `src/pages/Checkout.tsx` - usePrivy comentado
 - `src/components/checkout/PaymentProcessor.tsx` - usePrivy comentado
@@ -30,18 +33,21 @@ O erro ocorreu porque:
 ## 🚀 Solução Permanente
 
 ### 1. Criar conta no Privy
+
 1. Acesse: https://privy.io/
 2. Crie uma conta
 3. Crie uma nova aplicação
 4. Copie o App ID gerado
 
 ### 2. Configurar variáveis de ambiente
+
 ```bash
 # No arquivo .env
 VITE_PRIVY_APP_ID=seu_app_id_real_aqui
 ```
 
 ### 3. Reabilitar o Privy
+
 1. Descomente o `PrivyProvider` no `src/main.tsx`
 2. Descomente os imports e usos do `usePrivy` nos componentes
 3. **Importante**: Descomente também as referências à variável `user` no `CartContext.tsx`
@@ -65,18 +71,19 @@ VITE_PRIVY_APP_ID=seu_app_id_real_aqui
 ## 🔧 Configuração Avançada
 
 ### Configurações do Privy em `src/config/privy.ts`
+
 ```typescript
 export const privyConfig = {
   appId: import.meta.env.VITE_PRIVY_APP_ID,
   config: {
-    loginMethods: ['email', 'sms', 'wallet', 'google', 'github'],
+    loginMethods: ["email", "sms", "wallet", "google", "github"],
     appearance: {
-      theme: 'dark',
-      accentColor: '#6366F1',
-      logo: '/logo.svg',
+      theme: "dark",
+      accentColor: "#6366F1",
+      logo: "/logo.svg",
     },
     embeddedWallets: {
-      createOnLogin: 'users-without-wallets',
+      createOnLogin: "users-without-wallets",
       requireUserPasswordOnCreate: true,
     },
     // ... outras configurações
@@ -85,6 +92,7 @@ export const privyConfig = {
 ```
 
 ### Redes suportadas
+
 - Ethereum Mainnet
 - Polygon
 - Base
@@ -93,11 +101,13 @@ export const privyConfig = {
 ## 🧪 Testando a Configuração
 
 1. **Teste de Autenticação:**
+
    ```bash
    npm run test:auth
    ```
 
 2. **Teste de Pagamentos:**
+
    ```bash
    npm run test:payment
    ```
@@ -110,15 +120,18 @@ export const privyConfig = {
 ## 🚨 Troubleshooting
 
 ### Erro: "Invalid Privy app ID"
+
 - Verifique se `VITE_PRIVY_APP_ID` está definido no `.env`
 - Confirme se o App ID é válido no Privy Dashboard
 - Reinicie o servidor de desenvolvimento
 
 ### Erro: "Privy provider not found"
+
 - Verifique se `PrivyProvider` está importado e usado em `main.tsx`
 - Confirme se todos os componentes estão dentro do `PrivyProvider`
 
 ### Erro: "user is not defined"
+
 - Verifique se todas as referências à variável `user` foram descomentadas no `CartContext.tsx`
 - Confirme se o `usePrivy` está sendo importado corretamente
 - Verifique se o `PrivyProvider` está ativo

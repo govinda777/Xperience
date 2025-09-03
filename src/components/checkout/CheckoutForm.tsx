@@ -1,37 +1,40 @@
-import React, { useState } from 'react';
-import { useCart } from '../../contexts/CartContext';
-import { usePrivy } from '@privy-io/react-auth';
-import { CustomerInfo, Address } from '../../types/cart';
-import { formatCurrency } from '../../types/cart';
-import { CreditCard, User, MapPin, Phone, Mail, FileText } from 'lucide-react';
+import React, { useState } from "react";
+import { useCart } from "../../contexts/CartContext";
+import { usePrivy } from "@privy-io/react-auth";
+import { CustomerInfo, Address } from "../../types/cart";
+import { formatCurrency } from "../../types/cart";
+import { CreditCard, User, MapPin, Phone, Mail, FileText } from "lucide-react";
 
 interface CheckoutFormProps {
   onNext: (customerInfo: CustomerInfo, billingAddress?: Address) => void;
   isLoading?: boolean;
 }
 
-const CheckoutForm: React.FC<CheckoutFormProps> = ({ onNext, isLoading = false }) => {
+const CheckoutForm: React.FC<CheckoutFormProps> = ({
+  onNext,
+  isLoading = false,
+}) => {
   const { cart, getCartSummary } = useCart();
   const { user } = usePrivy();
   const summary = getCartSummary();
 
   const [customerInfo, setCustomerInfo] = useState<CustomerInfo>({
-    name: user?.google?.name || user?.github?.name || '',
-    email: user?.email?.address || '',
-    phone: '',
-    document: '',
-    documentType: 'cpf',
+    name: user?.google?.name || user?.github?.name || "",
+    email: user?.email?.address || "",
+    phone: "",
+    document: "",
+    documentType: "cpf",
   });
 
   const [billingAddress, setBillingAddress] = useState<Address>({
-    street: '',
-    number: '',
-    complement: '',
-    neighborhood: '',
-    city: '',
-    state: '',
-    zipCode: '',
-    country: 'BR',
+    street: "",
+    number: "",
+    complement: "",
+    neighborhood: "",
+    city: "",
+    state: "",
+    zipCode: "",
+    country: "BR",
   });
 
   const [useAddress, setUseAddress] = useState(false);
@@ -42,56 +45,56 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onNext, isLoading = false }
 
     // Validar informações do cliente
     if (!customerInfo.name.trim()) {
-      newErrors.name = 'Nome é obrigatório';
+      newErrors.name = "Nome é obrigatório";
     }
 
     if (!customerInfo.email.trim()) {
-      newErrors.email = 'Email é obrigatório';
+      newErrors.email = "Email é obrigatório";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customerInfo.email)) {
-      newErrors.email = 'Email inválido';
+      newErrors.email = "Email inválido";
     }
 
     if (!customerInfo.phone?.trim()) {
-      newErrors.phone = 'Telefone é obrigatório';
+      newErrors.phone = "Telefone é obrigatório";
     } else if (!/^\(\d{2}\)\s\d{4,5}-\d{4}$/.test(customerInfo.phone)) {
-      newErrors.phone = 'Telefone inválido (ex: (11) 99999-9999)';
+      newErrors.phone = "Telefone inválido (ex: (11) 99999-9999)";
     }
 
-    if (customerInfo.document && customerInfo.documentType === 'cpf') {
-      const cpf = customerInfo.document.replace(/\D/g, '');
+    if (customerInfo.document && customerInfo.documentType === "cpf") {
+      const cpf = customerInfo.document.replace(/\D/g, "");
       if (cpf.length !== 11) {
-        newErrors.document = 'CPF deve ter 11 dígitos';
+        newErrors.document = "CPF deve ter 11 dígitos";
       }
     }
 
-    if (customerInfo.document && customerInfo.documentType === 'cnpj') {
-      const cnpj = customerInfo.document.replace(/\D/g, '');
+    if (customerInfo.document && customerInfo.documentType === "cnpj") {
+      const cnpj = customerInfo.document.replace(/\D/g, "");
       if (cnpj.length !== 14) {
-        newErrors.document = 'CNPJ deve ter 14 dígitos';
+        newErrors.document = "CNPJ deve ter 14 dígitos";
       }
     }
 
     // Validar endereço se necessário
     if (useAddress) {
       if (!billingAddress.street.trim()) {
-        newErrors.street = 'Rua é obrigatória';
+        newErrors.street = "Rua é obrigatória";
       }
       if (!billingAddress.number.trim()) {
-        newErrors.number = 'Número é obrigatório';
+        newErrors.number = "Número é obrigatório";
       }
       if (!billingAddress.neighborhood.trim()) {
-        newErrors.neighborhood = 'Bairro é obrigatório';
+        newErrors.neighborhood = "Bairro é obrigatório";
       }
       if (!billingAddress.city.trim()) {
-        newErrors.city = 'Cidade é obrigatória';
+        newErrors.city = "Cidade é obrigatória";
       }
       if (!billingAddress.state.trim()) {
-        newErrors.state = 'Estado é obrigatório';
+        newErrors.state = "Estado é obrigatório";
       }
       if (!billingAddress.zipCode.trim()) {
-        newErrors.zipCode = 'CEP é obrigatório';
+        newErrors.zipCode = "CEP é obrigatório";
       } else if (!/^\d{5}-?\d{3}$/.test(billingAddress.zipCode)) {
-        newErrors.zipCode = 'CEP inválido (ex: 12345-678)';
+        newErrors.zipCode = "CEP inválido (ex: 12345-678)";
       }
     }
 
@@ -101,7 +104,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onNext, isLoading = false }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
@@ -110,26 +113,29 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onNext, isLoading = false }
   };
 
   const formatPhone = (value: string) => {
-    const numbers = value.replace(/\D/g, '');
+    const numbers = value.replace(/\D/g, "");
     if (numbers.length <= 10) {
-      return numbers.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
+      return numbers.replace(/(\d{2})(\d{4})(\d{4})/, "($1) $2-$3");
     } else {
-      return numbers.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+      return numbers.replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3");
     }
   };
 
-  const formatDocument = (value: string, type: 'cpf' | 'cnpj') => {
-    const numbers = value.replace(/\D/g, '');
-    if (type === 'cpf') {
-      return numbers.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+  const formatDocument = (value: string, type: "cpf" | "cnpj") => {
+    const numbers = value.replace(/\D/g, "");
+    if (type === "cpf") {
+      return numbers.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
     } else {
-      return numbers.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
+      return numbers.replace(
+        /(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/,
+        "$1.$2.$3/$4-$5",
+      );
     }
   };
 
   const formatZipCode = (value: string) => {
-    const numbers = value.replace(/\D/g, '');
-    return numbers.replace(/(\d{5})(\d{3})/, '$1-$2');
+    const numbers = value.replace(/\D/g, "");
+    return numbers.replace(/(\d{5})(\d{3})/, "$1-$2");
   };
 
   return (
@@ -144,7 +150,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onNext, isLoading = false }
                 <User className="w-5 h-5" />
                 Informações Pessoais
               </h3>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -153,13 +159,17 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onNext, isLoading = false }
                   <input
                     type="text"
                     value={customerInfo.name}
-                    onChange={(e) => setCustomerInfo({ ...customerInfo, name: e.target.value })}
+                    onChange={(e) =>
+                      setCustomerInfo({ ...customerInfo, name: e.target.value })
+                    }
                     className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                      errors.name ? 'border-red-500' : 'border-gray-300'
+                      errors.name ? "border-red-500" : "border-gray-300"
                     }`}
                     placeholder="Seu nome completo"
                   />
-                  {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
+                  {errors.name && (
+                    <p className="text-red-500 text-xs mt-1">{errors.name}</p>
+                  )}
                 </div>
 
                 <div>
@@ -169,13 +179,20 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onNext, isLoading = false }
                   <input
                     type="email"
                     value={customerInfo.email}
-                    onChange={(e) => setCustomerInfo({ ...customerInfo, email: e.target.value })}
+                    onChange={(e) =>
+                      setCustomerInfo({
+                        ...customerInfo,
+                        email: e.target.value,
+                      })
+                    }
                     className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                      errors.email ? 'border-red-500' : 'border-gray-300'
+                      errors.email ? "border-red-500" : "border-gray-300"
                     }`}
                     placeholder="seu@email.com"
                   />
-                  {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
+                  {errors.email && (
+                    <p className="text-red-500 text-xs mt-1">{errors.email}</p>
+                  )}
                 </div>
 
                 <div>
@@ -185,17 +202,21 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onNext, isLoading = false }
                   <input
                     type="tel"
                     value={customerInfo.phone}
-                    onChange={(e) => setCustomerInfo({ 
-                      ...customerInfo, 
-                      phone: formatPhone(e.target.value) 
-                    })}
+                    onChange={(e) =>
+                      setCustomerInfo({
+                        ...customerInfo,
+                        phone: formatPhone(e.target.value),
+                      })
+                    }
                     className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                      errors.phone ? 'border-red-500' : 'border-gray-300'
+                      errors.phone ? "border-red-500" : "border-gray-300"
                     }`}
                     placeholder="(11) 99999-9999"
                     maxLength={15}
                   />
-                  {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
+                  {errors.phone && (
+                    <p className="text-red-500 text-xs mt-1">{errors.phone}</p>
+                  )}
                 </div>
 
                 <div>
@@ -205,11 +226,13 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onNext, isLoading = false }
                   <div className="flex gap-2">
                     <select
                       value={customerInfo.documentType}
-                      onChange={(e) => setCustomerInfo({ 
-                        ...customerInfo, 
-                        documentType: e.target.value as 'cpf' | 'cnpj',
-                        document: '' 
-                      })}
+                      onChange={(e) =>
+                        setCustomerInfo({
+                          ...customerInfo,
+                          documentType: e.target.value as "cpf" | "cnpj",
+                          document: "",
+                        })
+                      }
                       className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     >
                       <option value="cpf">CPF</option>
@@ -218,18 +241,31 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onNext, isLoading = false }
                     <input
                       type="text"
                       value={customerInfo.document}
-                      onChange={(e) => setCustomerInfo({ 
-                        ...customerInfo, 
-                        document: formatDocument(e.target.value, customerInfo.documentType || 'cpf') 
-                      })}
+                      onChange={(e) =>
+                        setCustomerInfo({
+                          ...customerInfo,
+                          document: formatDocument(
+                            e.target.value,
+                            customerInfo.documentType || "cpf",
+                          ),
+                        })
+                      }
                       className={`flex-1 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                        errors.document ? 'border-red-500' : 'border-gray-300'
+                        errors.document ? "border-red-500" : "border-gray-300"
                       }`}
-                      placeholder={customerInfo.documentType === 'cpf' ? '000.000.000-00' : '00.000.000/0000-00'}
-                      maxLength={customerInfo.documentType === 'cpf' ? 14 : 18}
+                      placeholder={
+                        customerInfo.documentType === "cpf"
+                          ? "000.000.000-00"
+                          : "00.000.000/0000-00"
+                      }
+                      maxLength={customerInfo.documentType === "cpf" ? 14 : 18}
                     />
                   </div>
-                  {errors.document && <p className="text-red-500 text-xs mt-1">{errors.document}</p>}
+                  {errors.document && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.document}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
@@ -261,17 +297,23 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onNext, isLoading = false }
                     <input
                       type="text"
                       value={billingAddress.zipCode}
-                      onChange={(e) => setBillingAddress({ 
-                        ...billingAddress, 
-                        zipCode: formatZipCode(e.target.value) 
-                      })}
+                      onChange={(e) =>
+                        setBillingAddress({
+                          ...billingAddress,
+                          zipCode: formatZipCode(e.target.value),
+                        })
+                      }
                       className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                        errors.zipCode ? 'border-red-500' : 'border-gray-300'
+                        errors.zipCode ? "border-red-500" : "border-gray-300"
                       }`}
                       placeholder="12345-678"
                       maxLength={9}
                     />
-                    {errors.zipCode && <p className="text-red-500 text-xs mt-1">{errors.zipCode}</p>}
+                    {errors.zipCode && (
+                      <p className="text-red-500 text-xs mt-1">
+                        {errors.zipCode}
+                      </p>
+                    )}
                   </div>
 
                   <div>
@@ -281,13 +323,22 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onNext, isLoading = false }
                     <input
                       type="text"
                       value={billingAddress.street}
-                      onChange={(e) => setBillingAddress({ ...billingAddress, street: e.target.value })}
+                      onChange={(e) =>
+                        setBillingAddress({
+                          ...billingAddress,
+                          street: e.target.value,
+                        })
+                      }
                       className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                        errors.street ? 'border-red-500' : 'border-gray-300'
+                        errors.street ? "border-red-500" : "border-gray-300"
                       }`}
                       placeholder="Nome da rua"
                     />
-                    {errors.street && <p className="text-red-500 text-xs mt-1">{errors.street}</p>}
+                    {errors.street && (
+                      <p className="text-red-500 text-xs mt-1">
+                        {errors.street}
+                      </p>
+                    )}
                   </div>
 
                   <div>
@@ -297,13 +348,22 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onNext, isLoading = false }
                     <input
                       type="text"
                       value={billingAddress.number}
-                      onChange={(e) => setBillingAddress({ ...billingAddress, number: e.target.value })}
+                      onChange={(e) =>
+                        setBillingAddress({
+                          ...billingAddress,
+                          number: e.target.value,
+                        })
+                      }
                       className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                        errors.number ? 'border-red-500' : 'border-gray-300'
+                        errors.number ? "border-red-500" : "border-gray-300"
                       }`}
                       placeholder="123"
                     />
-                    {errors.number && <p className="text-red-500 text-xs mt-1">{errors.number}</p>}
+                    {errors.number && (
+                      <p className="text-red-500 text-xs mt-1">
+                        {errors.number}
+                      </p>
+                    )}
                   </div>
 
                   <div>
@@ -313,7 +373,12 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onNext, isLoading = false }
                     <input
                       type="text"
                       value={billingAddress.complement}
-                      onChange={(e) => setBillingAddress({ ...billingAddress, complement: e.target.value })}
+                      onChange={(e) =>
+                        setBillingAddress({
+                          ...billingAddress,
+                          complement: e.target.value,
+                        })
+                      }
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       placeholder="Apto, sala, etc."
                     />
@@ -326,13 +391,24 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onNext, isLoading = false }
                     <input
                       type="text"
                       value={billingAddress.neighborhood}
-                      onChange={(e) => setBillingAddress({ ...billingAddress, neighborhood: e.target.value })}
+                      onChange={(e) =>
+                        setBillingAddress({
+                          ...billingAddress,
+                          neighborhood: e.target.value,
+                        })
+                      }
                       className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                        errors.neighborhood ? 'border-red-500' : 'border-gray-300'
+                        errors.neighborhood
+                          ? "border-red-500"
+                          : "border-gray-300"
                       }`}
                       placeholder="Nome do bairro"
                     />
-                    {errors.neighborhood && <p className="text-red-500 text-xs mt-1">{errors.neighborhood}</p>}
+                    {errors.neighborhood && (
+                      <p className="text-red-500 text-xs mt-1">
+                        {errors.neighborhood}
+                      </p>
+                    )}
                   </div>
 
                   <div>
@@ -342,13 +418,20 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onNext, isLoading = false }
                     <input
                       type="text"
                       value={billingAddress.city}
-                      onChange={(e) => setBillingAddress({ ...billingAddress, city: e.target.value })}
+                      onChange={(e) =>
+                        setBillingAddress({
+                          ...billingAddress,
+                          city: e.target.value,
+                        })
+                      }
                       className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                        errors.city ? 'border-red-500' : 'border-gray-300'
+                        errors.city ? "border-red-500" : "border-gray-300"
                       }`}
                       placeholder="Nome da cidade"
                     />
-                    {errors.city && <p className="text-red-500 text-xs mt-1">{errors.city}</p>}
+                    {errors.city && (
+                      <p className="text-red-500 text-xs mt-1">{errors.city}</p>
+                    )}
                   </div>
 
                   <div>
@@ -357,9 +440,14 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onNext, isLoading = false }
                     </label>
                     <select
                       value={billingAddress.state}
-                      onChange={(e) => setBillingAddress({ ...billingAddress, state: e.target.value })}
+                      onChange={(e) =>
+                        setBillingAddress({
+                          ...billingAddress,
+                          state: e.target.value,
+                        })
+                      }
                       className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                        errors.state ? 'border-red-500' : 'border-gray-300'
+                        errors.state ? "border-red-500" : "border-gray-300"
                       }`}
                     >
                       <option value="">Selecione o estado</option>
@@ -371,7 +459,11 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onNext, isLoading = false }
                       <option value="SC">Santa Catarina</option>
                       {/* Adicione outros estados conforme necessário */}
                     </select>
-                    {errors.state && <p className="text-red-500 text-xs mt-1">{errors.state}</p>}
+                    {errors.state && (
+                      <p className="text-red-500 text-xs mt-1">
+                        {errors.state}
+                      </p>
+                    )}
                   </div>
                 </div>
               )}
@@ -404,7 +496,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onNext, isLoading = false }
         <div className="lg:col-span-1">
           <div className="bg-white rounded-lg shadow-sm border p-6 sticky top-6">
             <h3 className="text-lg font-semibold mb-4">Resumo do Pedido</h3>
-            
+
             <div className="space-y-3 mb-4">
               {cart?.items.map((item) => (
                 <div key={item.id} className="flex justify-between items-start">
@@ -424,23 +516,27 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onNext, isLoading = false }
             <div className="border-t pt-4 space-y-2">
               <div className="flex justify-between text-sm">
                 <span>Subtotal</span>
-                <span>{formatCurrency(summary.subtotal, summary.currency)}</span>
+                <span>
+                  {formatCurrency(summary.subtotal, summary.currency)}
+                </span>
               </div>
-              
+
               {summary.discount > 0 && (
                 <div className="flex justify-between text-sm text-green-600">
                   <span>Desconto</span>
-                  <span>-{formatCurrency(summary.discount, summary.currency)}</span>
+                  <span>
+                    -{formatCurrency(summary.discount, summary.currency)}
+                  </span>
                 </div>
               )}
-              
+
               {summary.tax > 0 && (
                 <div className="flex justify-between text-sm">
                   <span>Impostos</span>
                   <span>{formatCurrency(summary.tax, summary.currency)}</span>
                 </div>
               )}
-              
+
               <div className="flex justify-between font-bold text-lg pt-2 border-t">
                 <span>Total</span>
                 <span>{formatCurrency(summary.total, summary.currency)}</span>

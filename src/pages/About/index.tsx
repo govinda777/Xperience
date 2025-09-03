@@ -25,11 +25,11 @@ const About: React.FC = () => {
         </div>
       </div>
       <section className="relative px-4 md:px-32 pt-10 md:pt-20">
-      <img
-        src={Slice}
-        alt="Pedaço bola"
-        className="w-24 h-24 md:w-40 md:h-40 md:block hidden absolute top-0 right-0 transform rotate-90"
-      />
+        <img
+          src={Slice}
+          alt="Pedaço bola"
+          className="w-24 h-24 md:w-40 md:h-40 md:block hidden absolute top-0 right-0 transform rotate-90"
+        />
 
         <h1 className="text-[#F34A0D] font-bold md:text-5xl xl:text-7xl sm:text-4xl text-4xl w-auto md:pr-0 pr-7 xl:w-auto">
           Inovação, praticidade e resultados imediatos
@@ -125,7 +125,7 @@ const About: React.FC = () => {
                 src={Surprised}
                 alt="Ícone Surpreso"
                 className="w-16 md:w-20 absolute md:-top-14 -top-10 md:-right-12 -right-10 transform rotate-90"
-              /> 
+              />
             </button>
           </div>
         </div>
@@ -134,7 +134,6 @@ const About: React.FC = () => {
           alt="Casal"
           className="w-auto max-w-full absolute right-0 bottom-0 md:w-auto md:right-0 md:bottom-1"
         />
-
       </div>
     </main>
   );

@@ -17,10 +17,7 @@ const queryClient = new QueryClient({
 const root = document.getElementById("root");
 if (root) {
   ReactDOM.createRoot(root).render(
-    <PrivyProvider
-      appId={privyConfig.appId}
-      config={privyConfig.config}
-    >
+    <PrivyProvider appId={privyConfig.appId} config={privyConfig.config}>
       <TonConnectUIProvider manifestUrl="https://raw.githubusercontent.com/ton-community/tutorials/main/03-client/test/public/tonconnect-manifest.json">
         <QueryClientProvider client={queryClient}>
           <CartProvider>
@@ -28,6 +25,6 @@ if (root) {
           </CartProvider>
         </QueryClientProvider>
       </TonConnectUIProvider>
-    </PrivyProvider>
+    </PrivyProvider>,
   );
 }

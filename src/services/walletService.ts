@@ -1,5 +1,5 @@
-import { ethers } from 'ethers';
-import { Client, Presets } from 'userop';
+import { ethers } from "ethers";
+import { Client, Presets } from "userop";
 
 // Interfaces
 interface UserWallet {
@@ -15,10 +15,10 @@ interface TransactionRequest {
 }
 
 // Configuration
-const RPC_URL = import.meta.env.VITE_RPC_URL || '';
-const BUNDLER_URL = import.meta.env.VITE_BUNDLER_URL || '';
-const ENTRYPOINT_ADDRESS = import.meta.env.VITE_ENTRYPOINT_ADDRESS || '';
-const FACTORY_ADDRESS = import.meta.env.VITE_FACTORY_ADDRESS || '';
+const RPC_URL = import.meta.env.VITE_RPC_URL || "";
+const BUNDLER_URL = import.meta.env.VITE_BUNDLER_URL || "";
+const ENTRYPOINT_ADDRESS = import.meta.env.VITE_ENTRYPOINT_ADDRESS || "";
+const FACTORY_ADDRESS = import.meta.env.VITE_FACTORY_ADDRESS || "";
 
 /**
  * Wallet Service - Handles ERC-4337 wallet operations
@@ -42,7 +42,7 @@ export class WalletService {
         overrideBundlerRpc: BUNDLER_URL,
       });
     } catch (error) {
-      console.error('Failed to initialize Client:', error);
+      console.error("Failed to initialize Client:", error);
     }
   }
 
@@ -55,17 +55,17 @@ export class WalletService {
     try {
       // Generate a random signer for the user
       const signer = ethers.Wallet.createRandom().connect(this.provider);
-      
+
       // Create a SimpleAccount using the Presets
       const simpleAccount = await Presets.Builder.SimpleAccount.init(
         signer,
         RPC_URL,
-        { entryPoint: ENTRYPOINT_ADDRESS, factory: FACTORY_ADDRESS }
+        { entryPoint: ENTRYPOINT_ADDRESS, factory: FACTORY_ADDRESS },
       );
 
       // Get the address, TypeScript may not recognize getAddress() directly
       const smartAccountAddress = await simpleAccount.getSender();
-      
+
       // Return the wallet information
       return {
         address: signer.address,
@@ -73,8 +73,8 @@ export class WalletService {
         smartAccountAddress,
       };
     } catch (error) {
-      console.error('Failed to create wallet:', error);
-      throw new Error('Failed to create wallet');
+      console.error("Failed to create wallet:", error);
+      throw new Error("Failed to create wallet");
     }
   }
 
@@ -84,50 +84,58 @@ export class WalletService {
    * @param transaction The transaction to send
    * @returns Transaction hash
    */
-  async sendTransaction(userWallet: UserWallet, transaction: TransactionRequest): Promise<string> {
+  async sendTransaction(
+    userWallet: UserWallet,
+    transaction: TransactionRequest,
+  ): Promise<string> {
     try {
       if (!this.client) {
         await this.initClient();
         if (!this.client) {
-          throw new Error('Client not initialized');
+          throw new Error("Client not initialized");
         }
       }
 
       // Recover the signer - in a real implementation, this would use a securely stored private key
       // For demo purposes only - in production you would use a proper key management system
-      const signer = new ethers.Wallet(userWallet.address).connect(this.provider);
-      
+      const signer = new ethers.Wallet(userWallet.address).connect(
+        this.provider,
+      );
+
       // Create the SimpleAccount instance
       const simpleAccount = await Presets.Builder.SimpleAccount.init(
         signer,
         RPC_URL,
-        { entryPoint: ENTRYPOINT_ADDRESS, factory: FACTORY_ADDRESS }
+        { entryPoint: ENTRYPOINT_ADDRESS, factory: FACTORY_ADDRESS },
       );
-      
+
       // Verify the account address matches
       const accountAddress = await simpleAccount.getSender();
-      if (accountAddress.toLowerCase() !== userWallet.smartAccountAddress.toLowerCase()) {
-        throw new Error('Account address mismatch');
+      if (
+        accountAddress.toLowerCase() !==
+        userWallet.smartAccountAddress.toLowerCase()
+      ) {
+        throw new Error("Account address mismatch");
       }
-      
+
       // Prepare the transaction data
-      const callData = transaction.data || '0x';
-      
+      const callData = transaction.data || "0x";
+
       // Create a UserOperation
       const userOp = simpleAccount.execute(
         transaction.to,
         transaction.value,
-        callData
+        callData,
       );
-      
+
       // Send the UserOperation
       const result = await this.client.sendUserOperation(userOp);
       const userOpReceipt = await result.wait();
-      
-      return userOpReceipt?.transactionHash || '';
+
+      return userOpReceipt?.transactionHash || "";
     } catch (error) {
-      console.error('Failed to send transaction:', error);
-      throw new Error('Failed to send transaction');
+      console.error("Failed to send transaction:", error);
+      throw new Error("Failed to send transaction");
     }
   }
 
@@ -141,8 +149,8 @@ export class WalletService {
       const balance = await this.provider.getBalance(smartAccountAddress);
       return ethers.utils.formatEther(balance);
     } catch (error) {
-      console.error('Failed to get balance:', error);
-      throw new Error('Failed to get balance');
+      console.error("Failed to get balance:", error);
+      throw new Error("Failed to get balance");
     }
   }
 
@@ -157,8 +165,8 @@ export class WalletService {
       const wallet = new ethers.Wallet(privateKey);
       return await wallet.signMessage(message);
     } catch (error) {
-      console.error('Failed to sign message:', error);
-      throw new Error('Failed to sign message');
+      console.error("Failed to sign message:", error);
+      throw new Error("Failed to sign message");
     }
   }
-} 
+}

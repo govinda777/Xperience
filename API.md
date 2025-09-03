@@ -41,9 +41,10 @@ interface PaymentService {
 Processa um pagamento usando o provider apropriado.
 
 **Parâmetros:**
+
 ```typescript
 interface PaymentRequest {
-  method: 'pix' | 'bitcoin' | 'usdt' | 'card';
+  method: "pix" | "bitcoin" | "usdt" | "card";
   amount: number;
   currency: string;
   customerData: CustomerData;
@@ -52,6 +53,7 @@ interface PaymentRequest {
 ```
 
 **Retorno:**
+
 ```typescript
 interface PaymentResult {
   success: boolean;
@@ -63,22 +65,23 @@ interface PaymentResult {
 ```
 
 **Exemplo de Uso:**
+
 ```typescript
 const paymentService = new PaymentService();
 
 const result = await paymentService.processPayment({
-  method: 'pix',
-  amount: 299.90,
-  currency: 'BRL',
+  method: "pix",
+  amount: 299.9,
+  currency: "BRL",
   customerData: {
-    name: 'João Silva',
-    email: 'joao@email.com',
-    document: '12345678901'
-  }
+    name: "João Silva",
+    email: "joao@email.com",
+    document: "12345678901",
+  },
 });
 
 if (result.success) {
-  console.log('QR Code:', result.qrCode);
+  console.log("QR Code:", result.qrCode);
 }
 ```
 
@@ -101,7 +104,7 @@ interface PixPaymentProvider {
 const pixProvider = new PixPaymentProvider({
   accessToken: process.env.MERCADOPAGO_ACCESS_TOKEN,
   publicKey: process.env.MERCADOPAGO_PUBLIC_KEY,
-  sandbox: process.env.NODE_ENV !== 'production'
+  sandbox: process.env.NODE_ENV !== "production",
 });
 ```
 
@@ -110,6 +113,7 @@ const pixProvider = new PixPaymentProvider({
 ##### `createPayment(data: PixPaymentData)`
 
 **Parâmetros:**
+
 ```typescript
 interface PixPaymentData {
   amount: number;
@@ -118,7 +122,7 @@ interface PixPaymentData {
     email: string;
     name: string;
     identification: {
-      type: 'CPF' | 'CNPJ';
+      type: "CPF" | "CNPJ";
       number: string;
     };
   };
@@ -127,6 +131,7 @@ interface PixPaymentData {
 ```
 
 **Retorno:**
+
 ```typescript
 interface PixPaymentResult {
   id: string;
@@ -153,8 +158,8 @@ interface BitcoinPaymentProvider {
 
 ```typescript
 const bitcoinProvider = new BitcoinPaymentProvider({
-  network: 'mainnet', // or 'testnet'
-  apiKey: process.env.BITCOIN_API_KEY
+  network: "mainnet", // or 'testnet'
+  apiKey: process.env.BITCOIN_API_KEY,
 });
 
 const address = await bitcoinProvider.generateAddress();
@@ -196,7 +201,7 @@ interface CartItem {
   name: string;
   price: number;
   quantity: number;
-  category: 'mentoria' | 'consultoria' | 'curso';
+  category: "mentoria" | "consultoria" | "curso";
   metadata?: Record<string, any>;
 }
 
@@ -216,11 +221,11 @@ const cartService = new CartService();
 
 // Adicionar item
 cartService.addItem({
-  id: 'plan-essential',
-  name: 'Plano Essencial',
+  id: "plan-essential",
+  name: "Plano Essencial",
   price: 3000,
   quantity: 1,
-  category: 'mentoria'
+  category: "mentoria",
 });
 
 // Calcular total
@@ -275,13 +280,13 @@ const tonService = new TonConnectService();
 
 // Conectar carteira
 const wallet = await tonService.connect();
-console.log('Connected:', wallet.address);
+console.log("Connected:", wallet.address);
 
 // Enviar transação
 const result = await tonService.sendTransaction({
-  to: 'EQD...',
-  amount: '1000000000', // 1 TON
-  payload: 'Payment for mentorship'
+  to: "EQD...",
+  amount: "1000000000", // 1 TON
+  payload: "Payment for mentorship",
 });
 ```
 
@@ -303,7 +308,7 @@ interface AnalyticsService {
 ```typescript
 interface AnalyticsEvent {
   name: string;
-  category: 'payment' | 'navigation' | 'user_action';
+  category: "payment" | "navigation" | "user_action";
   properties?: Record<string, any>;
 }
 
@@ -331,14 +336,14 @@ interface EnvConfig {
   MERCADOPAGO_ACCESS_TOKEN: string;
 
   // TON
-  TON_NETWORK: 'mainnet' | 'testnet';
+  TON_NETWORK: "mainnet" | "testnet";
   TON_API_KEY: string;
 
   // Analytics
   GA_MEASUREMENT_ID: string;
 
   // General
-  NODE_ENV: 'development' | 'production';
+  NODE_ENV: "development" | "production";
   API_BASE_URL: string;
 }
 ```
@@ -353,19 +358,19 @@ class PaymentError extends Error {
     message: string,
     public code: PaymentErrorCode,
     public provider: string,
-    public details?: any
+    public details?: any,
   ) {
     super(message);
-    this.name = 'PaymentError';
+    this.name = "PaymentError";
   }
 }
 
 enum PaymentErrorCode {
-  INVALID_DATA = 'INVALID_DATA',
-  NETWORK_ERROR = 'NETWORK_ERROR',
-  PROVIDER_ERROR = 'PROVIDER_ERROR',
-  TIMEOUT = 'TIMEOUT',
-  INSUFFICIENT_FUNDS = 'INSUFFICIENT_FUNDS'
+  INVALID_DATA = "INVALID_DATA",
+  NETWORK_ERROR = "NETWORK_ERROR",
+  PROVIDER_ERROR = "PROVIDER_ERROR",
+  TIMEOUT = "TIMEOUT",
+  INSUFFICIENT_FUNDS = "INSUFFICIENT_FUNDS",
 }
 ```
 
@@ -401,16 +406,16 @@ Para testes, utilizamos mocks dos serviços:
 const mockPaymentService = {
   processPayment: jest.fn().mockResolvedValue({
     success: true,
-    transactionId: 'mock-tx-123',
-    qrCode: 'mock-qr-code'
-  })
+    transactionId: "mock-tx-123",
+    qrCode: "mock-qr-code",
+  }),
 };
 
 // Mock Cart Service
 const mockCartService = {
   addItem: jest.fn(),
   getTotal: jest.fn().mockReturnValue(1000),
-  getItems: jest.fn().mockReturnValue([])
+  getItems: jest.fn().mockReturnValue([]),
 };
 ```
 
@@ -419,29 +424,29 @@ const mockCartService = {
 Para testes de integração:
 
 ```typescript
-import { http, HttpResponse } from 'msw';
+import { http, HttpResponse } from "msw";
 
 export const handlers = [
   // MercadoPago PIX
-  http.post('/v1/payments', () => {
+  http.post("/v1/payments", () => {
     return HttpResponse.json({
-      id: 'mock-payment-123',
+      id: "mock-payment-123",
       point_of_interaction: {
         transaction_data: {
-          qr_code: 'mock-qr-code',
-          qr_code_base64: 'data:image/png;base64,mock'
-        }
-      }
+          qr_code: "mock-qr-code",
+          qr_code_base64: "data:image/png;base64,mock",
+        },
+      },
     });
   }),
 
   // Bitcoin API
-  http.post('/api/bitcoin/address', () => {
+  http.post("/api/bitcoin/address", () => {
     return HttpResponse.json({
-      address: '1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa',
-      privateKey: 'mock-private-key'
+      address: "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa",
+      privateKey: "mock-private-key",
     });
-  })
+  }),
 ];
 ```
 
@@ -458,7 +463,11 @@ interface ServiceMetrics {
 }
 
 class ServiceMonitor {
-  static trackServiceCall(serviceName: string, duration: number, success: boolean) {
+  static trackServiceCall(
+    serviceName: string,
+    duration: number,
+    success: boolean,
+  ) {
     // Track metrics
   }
 }
@@ -473,13 +482,13 @@ class ServiceMonitor {
 export const initializeServices = async () => {
   // 1. Configuration
   await configService.load();
-  
+
   // 2. Authentication
   await authService.initialize();
-  
+
   // 3. Payment providers
   await paymentService.initialize();
-  
+
   // 4. Analytics
   await analyticsService.initialize();
 };
@@ -502,6 +511,7 @@ export const cleanupServices = () => {
 **Base URL:** `https://api.mercadopago.com`
 
 **Endpoints utilizados:**
+
 - `POST /v1/payments` - Criar pagamento PIX
 - `GET /v1/payments/{id}` - Consultar status
 - `POST /v1/payment_methods` - Listar métodos
@@ -511,6 +521,7 @@ export const cleanupServices = () => {
 **Base URL:** `https://toncenter.com/api/v2`
 
 **Endpoints utilizados:**
+
 - `POST /sendBoc` - Enviar transação
 - `GET /getAddressInformation` - Consultar saldo
 - `GET /getTransactions` - Histórico de transações
@@ -531,4 +542,3 @@ Veja a pasta `src/services/__tests__/` para exemplos completos de uso e testes d
 ---
 
 Esta documentação é mantida atualizada conforme a evolução dos serviços. Para dúvidas ou sugestões, abra uma issue no repositório.
-

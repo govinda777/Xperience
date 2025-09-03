@@ -19,22 +19,36 @@ const Dashboard = () => {
         {/* Header Section */}
         <div className="bg-gradient-to-r from-orange-500 to-amber-600 p-6 text-white">
           <h1 className="text-3xl font-bold">Área Logada</h1>
-          <p className="mt-2 text-amber-100">Bem-vindo à sua área exclusiva de usuário</p>
+          <p className="mt-2 text-amber-100">
+            Bem-vindo à sua área exclusiva de usuário
+          </p>
         </div>
 
         {/* User Profile Section */}
         <div className="p-6 flex flex-col md:flex-row border-b">
           <div className="flex-shrink-0 mb-4 md:mb-0">
             <div className="w-24 h-24 rounded-full bg-gray-300 flex items-center justify-center">
-              <span className="text-2xl text-gray-600">{(user?.email?.address?.charAt(0) || user?.wallet?.address?.charAt(0) || "U").toUpperCase()}</span>
+              <span className="text-2xl text-gray-600">
+                {(
+                  user?.email?.address?.charAt(0) ||
+                  user?.wallet?.address?.charAt(0) ||
+                  "U"
+                ).toUpperCase()}
+              </span>
             </div>
           </div>
           <div className="md:ml-6">
-            <h2 className="text-2xl font-bold text-gray-800">{user?.email?.address?.split("@")[0] || user?.wallet?.address?.slice(0, 10) + "..." || "Usuário"}</h2>
-            <p className="text-gray-600">{user?.email?.address || user?.wallet?.address || "Usuário Privy"}</p>
-            
+            <h2 className="text-2xl font-bold text-gray-800">
+              {user?.email?.address?.split("@")[0] ||
+                user?.wallet?.address?.slice(0, 10) + "..." ||
+                "Usuário"}
+            </h2>
+            <p className="text-gray-600">
+              {user?.email?.address || user?.wallet?.address || "Usuário Privy"}
+            </p>
+
             <div className="mt-4 flex flex-wrap gap-2">
-              <button 
+              <button
                 onClick={() => logout()}
                 className="px-4 py-2 bg-orange-600 text-white rounded hover:bg-orange-700 transition"
               >
@@ -51,7 +65,9 @@ const Dashboard = () => {
         <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Activity Summary */}
           <div className="bg-gray-50 p-5 rounded-lg shadow-sm">
-            <h3 className="text-xl font-semibold text-gray-800 mb-4">Resumo de Atividades</h3>
+            <h3 className="text-xl font-semibold text-gray-800 mb-4">
+              Resumo de Atividades
+            </h3>
             <div className="space-y-3">
               <div className="flex justify-between">
                 <span className="text-gray-600">Projetos ativos</span>
@@ -72,10 +88,12 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-          
+
           {/* Recent Activity */}
           <div className="bg-gray-50 p-5 rounded-lg shadow-sm">
-            <h3 className="text-xl font-semibold text-gray-800 mb-4">Atividades Recentes</h3>
+            <h3 className="text-xl font-semibold text-gray-800 mb-4">
+              Atividades Recentes
+            </h3>
             <div className="space-y-4">
               <div className="border-l-4 border-orange-500 pl-3">
                 <p className="text-gray-800">Relatório gerado com sucesso</p>
@@ -100,7 +118,9 @@ const Dashboard = () => {
 
         {/* Quick Access */}
         <div className="p-6 border-t">
-          <h3 className="text-xl font-semibold text-gray-800 mb-4">Acesso Rápido</h3>
+          <h3 className="text-xl font-semibold text-gray-800 mb-4">
+            Acesso Rápido
+          </h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="bg-orange-100 p-4 rounded-lg text-center cursor-pointer hover:bg-orange-200 transition">
               <div className="text-orange-700 text-2xl mb-2">📊</div>

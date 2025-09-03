@@ -46,16 +46,19 @@ A Xperience é uma plataforma de mentoria empresarial construída com arquitetur
 ## 🎯 Padrões Arquiteturais
 
 ### 1. Component-Based Architecture
+
 - **Componentes Reutilizáveis**: Cada funcionalidade é encapsulada em componentes independentes
 - **Composição**: Componentes complexos são compostos por componentes menores
 - **Props Interface**: Comunicação clara entre componentes via props tipadas
 
 ### 2. Service Layer Pattern
+
 - **Separação de Responsabilidades**: Lógica de negócio isolada em services
 - **Providers**: Implementações específicas para cada gateway de pagamento
 - **Abstração**: Interfaces comuns para diferentes implementações
 
 ### 3. Context Pattern
+
 - **Estado Global**: Gerenciamento de estado compartilhado via React Context
 - **Providers**: Encapsulamento de lógica de estado complexa
 - **Hooks Customizados**: Abstração do acesso ao contexto
@@ -151,16 +154,19 @@ Checkout → PaymentFlow → Order Service → Confirmation
 ### 1. Sistema de Pagamentos
 
 #### PaymentGateway
+
 - **Responsabilidade**: Orquestrar o processo de pagamento
 - **Dependências**: PaymentService, Context de carrinho
 - **Interface**: Recebe método de pagamento e valor
 
 #### PaymentMethodSelector
+
 - **Responsabilidade**: Seleção do método de pagamento
 - **Estados**: PIX, Bitcoin, USDT, Cartão
 - **Validação**: Verificação de dados obrigatórios
 
 #### Providers Específicos
+
 - **PixPaymentProvider**: Integração MercadoPago
 - **BitcoinPaymentProvider**: Carteiras Bitcoin
 - **USDTPaymentProvider**: Redes TRC20/ERC20
@@ -168,11 +174,13 @@ Checkout → PaymentFlow → Order Service → Confirmation
 ### 2. Sistema de Carrinho
 
 #### CartContext
+
 - **Estado**: Items, quantidades, total
 - **Ações**: Add, remove, update, clear
 - **Persistência**: Local Storage
 
 #### CartSidebar
+
 - **Responsabilidade**: Exibição e edição do carrinho
 - **Interações**: Alterar quantidades, remover items
 - **Navegação**: Redirect para checkout
@@ -180,6 +188,7 @@ Checkout → PaymentFlow → Order Service → Confirmation
 ### 3. Sistema de Autenticação
 
 #### AuthButton
+
 - **Estados**: Logado, não logado, carregando
 - **Providers**: Auth0, Privy, TON Connect
 - **Redirecionamento**: Dashboard após login
@@ -187,16 +196,19 @@ Checkout → PaymentFlow → Order Service → Confirmation
 ## 🔐 Segurança
 
 ### 1. Autenticação
+
 - **JWT Tokens**: Validação de sessão
 - **OAuth 2.0**: Login social seguro
 - **Web3 Auth**: Assinatura de carteira
 
 ### 2. Pagamentos
+
 - **Validação Client-Side**: Verificação de dados
 - **Tokens Temporários**: Chaves de pagamento com expiração
 - **Webhooks**: Confirmação server-side
 
 ### 3. Dados Sensíveis
+
 - **Não Armazenamento**: Dados de cartão não salvos
 - **Criptografia**: Informações sensíveis criptografadas
 - **HTTPS**: Todas as comunicações seguras
@@ -204,16 +216,19 @@ Checkout → PaymentFlow → Order Service → Confirmation
 ## 📊 Performance
 
 ### 1. Otimizações de Build
+
 - **Code Splitting**: Chunks separados por funcionalidade
 - **Tree Shaking**: Remoção de código não utilizado
 - **Minificação**: Compressão de assets
 
 ### 2. Runtime Performance
+
 - **Lazy Loading**: Componentes carregados sob demanda
 - **Memoização**: React.memo e useMemo
 - **Virtual Scrolling**: Listas grandes otimizadas
 
 ### 3. Caching
+
 - **Service Worker**: Cache de assets estáticos
 - **Local Storage**: Dados do usuário
 - **React Query**: Cache de requisições
@@ -221,16 +236,19 @@ Checkout → PaymentFlow → Order Service → Confirmation
 ## 🧪 Estratégia de Testes
 
 ### 1. Testes Unitários
+
 - **Componentes**: Testing Library
 - **Services**: Jest mocks
 - **Hooks**: React Hooks Testing Library
 
 ### 2. Testes de Integração
+
 - **Fluxos Completos**: Pagamento end-to-end
 - **MSW**: Mock Service Worker para APIs
 - **Context Testing**: Providers e estado
 
 ### 3. Testes E2E
+
 - **Cypress**: Jornadas críticas do usuário
 - **Visual Testing**: Screenshots comparativos
 - **Performance**: Lighthouse CI
@@ -238,6 +256,7 @@ Checkout → PaymentFlow → Order Service → Confirmation
 ## 🚀 Deploy e DevOps
 
 ### 1. Build Pipeline
+
 ```
 Code Push → GitHub Actions → Tests → Build → Deploy
      ↓           ↓           ↓       ↓       ↓
@@ -245,11 +264,13 @@ Code Push → GitHub Actions → Tests → Build → Deploy
 ```
 
 ### 2. Ambientes
+
 - **Development**: Local com hot reload
 - **Staging**: GitHub Pages preview
 - **Production**: GitHub Pages com domínio customizado
 
 ### 3. Monitoramento
+
 - **Analytics**: Google Analytics 4
 - **Performance**: Web Vitals
 - **Errors**: Console logging
@@ -257,16 +278,19 @@ Code Push → GitHub Actions → Tests → Build → Deploy
 ## 🔄 Padrões de Código
 
 ### 1. TypeScript
+
 - **Strict Mode**: Tipagem rigorosa
 - **Interfaces**: Contratos claros
 - **Generics**: Reutilização de tipos
 
 ### 2. React
+
 - **Functional Components**: Hooks over classes
 - **Custom Hooks**: Lógica reutilizável
 - **Error Boundaries**: Tratamento de erros
 
 ### 3. Styling
+
 - **Tailwind CSS**: Utility-first
 - **Styled Components**: CSS-in-JS quando necessário
 - **Responsive Design**: Mobile-first
@@ -274,16 +298,19 @@ Code Push → GitHub Actions → Tests → Build → Deploy
 ## 📈 Escalabilidade
 
 ### 1. Arquitetura Modular
+
 - **Micro-frontends**: Potencial para divisão
 - **Plugin System**: Extensibilidade via providers
 - **API Gateway**: Centralização de serviços
 
 ### 2. Performance Scaling
+
 - **CDN**: Distribuição de assets
 - **Lazy Loading**: Carregamento sob demanda
 - **Caching Strategy**: Múltiplas camadas
 
 ### 3. Team Scaling
+
 - **Component Library**: Reutilização entre projetos
 - **Documentation**: Storybook para componentes
 - **Standards**: ESLint e Prettier
@@ -291,16 +318,19 @@ Code Push → GitHub Actions → Tests → Build → Deploy
 ## 🔮 Futuras Melhorias
 
 ### 1. Tecnológicas
+
 - **Server-Side Rendering**: Next.js migration
 - **GraphQL**: API mais eficiente
 - **Micro-services**: Backend distribuído
 
 ### 2. Funcionais
+
 - **Real-time**: WebSocket para notificações
 - **AI Integration**: Chatbot e recomendações
 - **Multi-tenant**: Suporte a múltiplas organizações
 
 ### 3. DevOps
+
 - **Kubernetes**: Orquestração de containers
 - **Monitoring**: APM e logging avançado
 - **A/B Testing**: Experimentação contínua
@@ -308,4 +338,3 @@ Code Push → GitHub Actions → Tests → Build → Deploy
 ---
 
 Esta arquitetura foi projetada para ser **escalável**, **manutenível** e **testável**, seguindo as melhores práticas da indústria e permitindo evolução contínua da plataforma.
-

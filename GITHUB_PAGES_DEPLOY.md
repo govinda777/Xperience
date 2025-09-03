@@ -7,6 +7,7 @@ Este guia mostra como fazer deploy do projeto Xperience com todas as funcionalid
 ## ✅ Configurações Implementadas
 
 ### 🔧 **Ajustes para GitHub Pages**
+
 - [x] **Base Path**: Configurado para `/Xperience/`
 - [x] **SPA Routing**: Script para resolver rotas do React Router
 - [x] **404.html**: Fallback para Single Page Application
@@ -62,7 +63,7 @@ git push origin main
 ```typescript
 // vite.config.ts
 export default defineConfig({
-  base: process.env.NODE_ENV === 'production' ? '/Xperience/' : '/',
+  base: process.env.NODE_ENV === "production" ? "/Xperience/" : "/",
   // ... resto da configuração
 });
 ```
@@ -124,6 +125,7 @@ curl -s https://gosouza.github.io/Xperience/robots.txt
 ### **2. Configurar no GitHub**
 
 Adicione o ID como secret no repositório:
+
 - Nome: `VITE_GA_MEASUREMENT_ID`
 - Valor: `G-XXXXXXXXXX`
 
@@ -190,7 +192,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
@@ -256,4 +258,4 @@ Após o deploy, você terá:
 
 **🎉 Seu projeto está pronto para produção no GitHub Pages com SEO completo!**
 
-*Deploy configurado para máxima performance e SEO otimizado.*
+_Deploy configurado para máxima performance e SEO otimizado._

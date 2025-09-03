@@ -1,18 +1,19 @@
 // pages/Home/index.tsx
-import React from 'react';
-import Hero from './Hero';
-import Solutions from './Solutions';
-import IaDoEmpreendedor from './IaDoEmpreendedor';
-import WhyXperience from './WhyXperience';
-import CommunitySection from './CommunitySection';
-import PageTitle from '../../components/PageTitle';
-import TestimonialSection from './TestimonialSection';
-import ContactForm from '../../components/ContactForm';
-import SEOHead from '../../components/SEOHead';
+import React from "react";
+import Hero from "./Hero";
+import Solutions from "./Solutions";
+import IaDoEmpreendedor from "./IaDoEmpreendedor";
+import WhyXperience from "./WhyXperience";
+import CommunitySection from "./CommunitySection";
+import PageTitle from "../../components/PageTitle";
+import TestimonialSection from "./TestimonialSection";
+import ContactForm from "../../components/ContactForm";
+import SEOHead from "../../components/SEOHead";
 
 const Home: React.FC = () => {
-  const heroImage = new URL('/public/home/hero.png', import.meta.url).href;
-  const solutionsImage = new URL('/public/home/solutions.png', import.meta.url).href;
+  const heroImage = new URL("/public/home/hero.png", import.meta.url).href;
+  const solutionsImage = new URL("/public/home/solutions.png", import.meta.url)
+    .href;
 
   return (
     <>

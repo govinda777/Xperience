@@ -13,7 +13,9 @@ import PlansTable from "../../components/Plans/PlansTable";
 import SEOHead from "../../components/SEOHead";
 
 const Plans: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'MENTORIA' | 'ENCUBADORA'>('MENTORIA');
+  const [activeTab, setActiveTab] = useState<"MENTORIA" | "ENCUBADORA">(
+    "MENTORIA",
+  );
 
   const mentoringPlans = [
     {
@@ -87,7 +89,14 @@ const Plans: React.FC = () => {
         details: "a combinar",
       },
       periodicity: "a combinar",
-      modules: ["Módulo 1", "Módulo 2", "Módulo 3", "Módulo 4", "Módulo 5", "Módulo 6"],
+      modules: [
+        "Módulo 1",
+        "Módulo 2",
+        "Módulo 3",
+        "Módulo 4",
+        "Módulo 5",
+        "Módulo 6",
+      ],
       isRecomendad: false,
       link: "/plans/premium",
     },
@@ -209,7 +218,7 @@ const Plans: React.FC = () => {
         alt="bolas 2"
         className="md:block absolute right-0 top-0 md:top-1 md:w-auto w-14 hidden"
       />
-      
+
       {/* Cabeçalho */}
       <header className="text-center pt-10 md:pt-28 pb-12 relative z-10">
         <h1 className="font-bold text-4xl md:w-auto w-72 mx-auto md:text-5xl">
@@ -235,7 +244,7 @@ const Plans: React.FC = () => {
             benefits={[
               "Mentoria individual",
               "Acompanhamento personalizado",
-              "Suporte dedicado"
+              "Suporte dedicado",
             ]}
           />
           <TypePlans
@@ -245,7 +254,7 @@ const Plans: React.FC = () => {
             benefits={[
               "Desenvolvimento completo",
               "Pacotes de serviços",
-              "Suporte premium"
+              "Suporte premium",
             ]}
           />
         </div>
@@ -254,21 +263,21 @@ const Plans: React.FC = () => {
       {/* Tabs de navegação */}
       <div className="flex justify-center gap-4 py-8">
         <button
-          onClick={() => setActiveTab('MENTORIA')}
+          onClick={() => setActiveTab("MENTORIA")}
           className={`px-6 py-3 rounded-lg font-semibold ${
-            activeTab === 'MENTORIA'
-              ? 'bg-[#F34A0D] text-white'
-              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+            activeTab === "MENTORIA"
+              ? "bg-[#F34A0D] text-white"
+              : "bg-gray-100 text-gray-600 hover:bg-gray-200"
           }`}
         >
           Mentoria Individual
         </button>
         <button
-          onClick={() => setActiveTab('ENCUBADORA')}
+          onClick={() => setActiveTab("ENCUBADORA")}
           className={`px-6 py-3 rounded-lg font-semibold ${
-            activeTab === 'ENCUBADORA'
-              ? 'bg-[#F34A0D] text-white'
-              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+            activeTab === "ENCUBADORA"
+              ? "bg-[#F34A0D] text-white"
+              : "bg-gray-100 text-gray-600 hover:bg-gray-200"
           }`}
         >
           Encubadora
@@ -277,25 +286,19 @@ const Plans: React.FC = () => {
 
       {/* Seção dos planos */}
       <section className="py-16 px-4">
-        {activeTab === 'MENTORIA' ? (
+        {activeTab === "MENTORIA" ? (
           <div>
             <h2 className="text-3xl font-bold text-center mb-8">
               Programa Xperience - Mentoria Individual
             </h2>
-            <PlansTable
-              type="MENTORIA"
-              plans={mentoringPlans}
-            />
+            <PlansTable type="MENTORIA" plans={mentoringPlans} />
           </div>
         ) : (
           <div>
             <h2 className="text-3xl font-bold text-center mb-8">
               Programa Xperience - Encubadora
             </h2>
-            <PlansTable
-              type="ENCUBADORA"
-              plans={incubatorPlans}
-            />
+            <PlansTable type="ENCUBADORA" plans={incubatorPlans} />
           </div>
         )}
       </section>
@@ -309,8 +312,8 @@ const Plans: React.FC = () => {
           <img src={Warranty} alt="Garantia" className="mx-auto mb-8" />
           <h2 className="text-3xl font-bold mb-4">Garantia de Satisfação</h2>
           <p className="text-lg text-gray-600">
-            Se você não ficar satisfeito com nossos serviços nos primeiros 7 dias,
-            devolvemos seu dinheiro.
+            Se você não ficar satisfeito com nossos serviços nos primeiros 7
+            dias, devolvemos seu dinheiro.
           </p>
         </div>
       </section>

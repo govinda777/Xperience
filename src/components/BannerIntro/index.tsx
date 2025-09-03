@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface BannerIntroProps {
   imageSrc: string;
@@ -12,8 +12,8 @@ const BannerIntro: React.FC<BannerIntroProps> = ({
   imageSrc,
   title,
   highlightedText,
-  backgroundColor = '',
-  textColor = '#FFFFFF',
+  backgroundColor = "",
+  textColor = "#FFFFFF",
 }) => {
   return (
     <div
@@ -31,7 +31,7 @@ const BannerIntro: React.FC<BannerIntroProps> = ({
           <img
             src={imageSrc}
             alt="Mascote"
-            className='md:w-[300px] md:h-[300px] w-[200px] h-[200px]'
+            className="md:w-[300px] md:h-[300px] w-[200px] h-[200px]"
           />
         </div>
 
@@ -41,11 +41,8 @@ const BannerIntro: React.FC<BannerIntroProps> = ({
             className="text-4xl md:text-5xl font-bold md:mb-4"
             style={{ color: textColor }}
           >
-            {title}{' '}
-            <span
-              className="relative"
-              style={{ color: textColor }}
-            >
+            {title}{" "}
+            <span className="relative" style={{ color: textColor }}>
               {highlightedText}
               <div className="absolute bottom-0 left-0 w-full h-2 bg-yellow-300"></div>
             </span>

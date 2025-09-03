@@ -1,8 +1,8 @@
-import axios from 'axios';
-import { createInterface } from 'readline';
-import fs from 'fs';
+import axios from "axios";
+import { createInterface } from "readline";
+import fs from "fs";
 // 'promisify' não está sendo usado, remova ou use.
-import { promisify as _promisify } from 'util';
+import { promisify as _promisify } from "util";
 
 const rl = createInterface({
   input: process.stdin,
@@ -12,7 +12,8 @@ const rl = createInterface({
 const question = (question) =>
   new Promise((resolve) => rl.question(question, resolve));
 
-function exitError(_error) {  // prefixe o argumento não utilizado com _
+function exitError(_error) {
+  // prefixe o argumento não utilizado com _
   console.error(`Error! ${_error}`);
   process.exit(1);
 }
@@ -32,7 +33,7 @@ let githubUsername, githubRepo, botUsername;
 
 (async () => {
   try {
-    const file = fs.readFileSync('.git/config').toString();
+    const file = fs.readFileSync(".git/config").toString();
     const url = file.match(/url = (.*)/)[1];
     console.log(url);
     const params = url.match(/github.com[/:]([^/]*)\/(.*)\.git/);
@@ -40,24 +41,24 @@ let githubUsername, githubRepo, botUsername;
     githubRepo = params[2];
   } catch (error) {
     console.error(`Error! ${error}`);
-  }  
+  }
 
-  const accessToken = await question('Enter your bot access token: ');
-  if (!accessToken?.length > 0) exitError('Token is required');
+  const accessToken = await question("Enter your bot access token: ");
+  if (!accessToken?.length > 0) exitError("Token is required");
 
   const githubUsernameQ = await question(
     `Enter your github username${
       githubUsername ? ` (${githubUsername})` : ``
-    }: `
+    }: `,
   );
   githubUsername = githubUsernameQ || githubUsername;
-  if (!githubUsername?.length > 0) exitError('Github username is required');
+  if (!githubUsername?.length > 0) exitError("Github username is required");
 
   const githubRepoQ = await question(
-    `Enter your forked repo name${githubRepo ? ` (${githubRepo})` : ``}: `
+    `Enter your forked repo name${githubRepo ? ` (${githubRepo})` : ``}: `,
   );
   githubRepo = githubRepoQ || githubRepo;
-  if (!githubRepo?.length > 0) exitError('Repo name is required');
+  if (!githubRepo?.length > 0) exitError("Repo name is required");
 
   const getBot = await axios
     .get(`https://api.telegram.org/bot${accessToken}/getMe`)
@@ -71,8 +72,8 @@ let githubUsername, githubRepo, botUsername;
   const resp = await axios
     .post(`https://api.telegram.org/bot${accessToken}/setChatMenuButton`, {
       menu_button: {
-        type: 'web_app',
-        text: 'Launch Webapp',
+        type: "web_app",
+        text: "Launch Webapp",
         web_app: {
           url: url,
         },
@@ -82,7 +83,7 @@ let githubUsername, githubRepo, botUsername;
 
   if (resp.status === 200) {
     console.log(
-      `\nYou're all set! Visit https://t.me/${botUsername} to interact with your bot`
+      `\nYou're all set! Visit https://t.me/${botUsername} to interact with your bot`,
     );
     process.exit();
   } else {

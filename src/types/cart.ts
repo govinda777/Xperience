@@ -6,13 +6,13 @@ export interface CartItem {
   name: string;
   description: string;
   price: number;
-  currency: 'BRL' | 'USD' | 'BTC' | 'USDT';
+  currency: "BRL" | "USD" | "BTC" | "USDT";
   quantity: number;
   duration: number; // em meses
   features: string[];
   isPopular?: boolean;
   discount?: {
-    type: 'percentage' | 'fixed';
+    type: "percentage" | "fixed";
     value: number;
     code?: string;
   };
@@ -27,7 +27,7 @@ export interface Cart {
   discount: number;
   tax: number;
   total: number;
-  currency: 'BRL' | 'USD' | 'BTC' | 'USDT';
+  currency: "BRL" | "USD" | "BTC" | "USDT";
   createdAt: Date;
   updatedAt: Date;
   expiresAt?: Date;
@@ -47,7 +47,7 @@ export interface CartSummary {
 
 export interface Coupon {
   code: string;
-  type: 'percentage' | 'fixed';
+  type: "percentage" | "fixed";
   value: number;
   minAmount?: number;
   maxDiscount?: number;
@@ -61,7 +61,14 @@ export interface Coupon {
 }
 
 export interface CartAction {
-  type: 'ADD_ITEM' | 'REMOVE_ITEM' | 'UPDATE_QUANTITY' | 'APPLY_COUPON' | 'REMOVE_COUPON' | 'CLEAR_CART' | 'SET_CURRENCY';
+  type:
+    | "ADD_ITEM"
+    | "REMOVE_ITEM"
+    | "UPDATE_QUANTITY"
+    | "APPLY_COUPON"
+    | "REMOVE_COUPON"
+    | "CLEAR_CART"
+    | "SET_CURRENCY";
   payload?: any;
 }
 
@@ -69,8 +76,8 @@ export interface CheckoutSession {
   id: string;
   cartId: string;
   userId: string;
-  status: 'pending' | 'processing' | 'completed' | 'failed' | 'expired';
-  paymentMethod?: 'pix' | 'bitcoin' | 'usdt' | 'github';
+  status: "pending" | "processing" | "completed" | "failed" | "expired";
+  paymentMethod?: "pix" | "bitcoin" | "usdt" | "github";
   paymentIntentId?: string;
   billingAddress?: Address;
   shippingAddress?: Address;
@@ -99,7 +106,7 @@ export interface CustomerInfo {
   email: string;
   phone?: string;
   document?: string; // CPF/CNPJ
-  documentType?: 'cpf' | 'cnpj';
+  documentType?: "cpf" | "cnpj";
   birthDate?: Date;
 }
 
@@ -108,9 +115,15 @@ export interface Order {
   checkoutSessionId: string;
   userId: string;
   items: CartItem[];
-  status: 'pending' | 'confirmed' | 'processing' | 'completed' | 'cancelled' | 'refunded';
-  paymentStatus: 'pending' | 'processing' | 'completed' | 'failed' | 'refunded';
-  paymentMethod: 'pix' | 'bitcoin' | 'usdt' | 'github';
+  status:
+    | "pending"
+    | "confirmed"
+    | "processing"
+    | "completed"
+    | "cancelled"
+    | "refunded";
+  paymentStatus: "pending" | "processing" | "completed" | "failed" | "refunded";
+  paymentMethod: "pix" | "bitcoin" | "usdt" | "github";
   paymentId?: string;
   transactionHash?: string;
   subtotal: number;
@@ -130,32 +143,41 @@ export interface CartContextType {
   cart: Cart | null;
   isLoading: boolean;
   error: string | null;
-  
+
   // Actions
-  addItem: (item: Omit<CartItem, 'id' | 'quantity'>) => Promise<void>;
+  addItem: (item: Omit<CartItem, "id" | "quantity">) => Promise<void>;
   removeItem: (itemId: string) => Promise<void>;
   updateQuantity: (itemId: string, quantity: number) => Promise<void>;
   applyCoupon: (couponCode: string) => Promise<boolean>;
   removeCoupon: () => Promise<void>;
   clearCart: () => Promise<void>;
-  setCurrency: (currency: 'BRL' | 'USD' | 'BTC' | 'USDT') => Promise<void>;
-  
+  setCurrency: (currency: "BRL" | "USD" | "BTC" | "USDT") => Promise<void>;
+
   // Getters
   getCartSummary: () => CartSummary;
   getItemCount: () => number;
   hasItems: () => boolean;
-  
+
   // Checkout
-  createCheckoutSession: (customerInfo: CustomerInfo, billingAddress?: Address) => Promise<CheckoutSession>;
+  createCheckoutSession: (
+    customerInfo: CustomerInfo,
+    billingAddress?: Address,
+  ) => Promise<CheckoutSession>;
 }
 
 // Utilitários
-export const calculateCartTotals = (items: CartItem[], coupon?: Coupon): CartSummary => {
-  const subtotal = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  
+export const calculateCartTotals = (
+  items: CartItem[],
+  coupon?: Coupon,
+): CartSummary => {
+  const subtotal = items.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0,
+  );
+
   let discount = 0;
   if (coupon) {
-    if (coupon.type === 'percentage') {
+    if (coupon.type === "percentage") {
       discount = (subtotal * coupon.value) / 100;
       if (coupon.maxDiscount && discount > coupon.maxDiscount) {
         discount = coupon.maxDiscount;
@@ -164,52 +186,52 @@ export const calculateCartTotals = (items: CartItem[], coupon?: Coupon): CartSum
       discount = coupon.value;
     }
   }
-  
+
   // Adicionar desconto por item se aplicável
   const itemDiscounts = items.reduce((sum, item) => {
     if (item.discount) {
-      if (item.discount.type === 'percentage') {
-        return sum + ((item.price * item.quantity * item.discount.value) / 100);
+      if (item.discount.type === "percentage") {
+        return sum + (item.price * item.quantity * item.discount.value) / 100;
       } else {
-        return sum + (item.discount.value * item.quantity);
+        return sum + item.discount.value * item.quantity;
       }
     }
     return sum;
   }, 0);
-  
+
   discount += itemDiscounts;
-  
+
   // Calcular impostos (se aplicável)
   const tax = 0; // Por enquanto sem impostos
-  
+
   const total = Math.max(0, subtotal - discount + tax);
-  
+
   return {
     itemCount: items.reduce((sum, item) => sum + item.quantity, 0),
     subtotal,
     discount,
     tax,
     total,
-    currency: items[0]?.currency || 'BRL',
+    currency: items[0]?.currency || "BRL",
     savings: discount,
   };
 };
 
 export const formatCurrency = (amount: number, currency: string): string => {
   switch (currency) {
-    case 'BRL':
-      return new Intl.NumberFormat('pt-BR', {
-        style: 'currency',
-        currency: 'BRL',
+    case "BRL":
+      return new Intl.NumberFormat("pt-BR", {
+        style: "currency",
+        currency: "BRL",
       }).format(amount);
-    case 'USD':
-      return new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
+    case "USD":
+      return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
       }).format(amount);
-    case 'BTC':
+    case "BTC":
       return `₿ ${amount.toFixed(8)}`;
-    case 'USDT':
+    case "USDT":
       return `${amount.toFixed(2)} USDT`;
     default:
       return amount.toString();

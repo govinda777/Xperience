@@ -1,10 +1,8 @@
-
 # Govinda Systems DAO - Ecomm Template
 
 [![Cypress Tests](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/detailed/2ckppp/master&style=flat&logo=cypress)](https://dashboard.cypress.io/projects/2ckppp/runs)
 [![Join our Slack!](https://img.shields.io/static/v1?message=join%20chat&color=9cf&logo=slack&label=slack)](https://join.slack.com/t/mermaid-talk/shared_invite/enQtNzc4NDIyNzk4OTAyLWVhYjQxOTI2OTg4YmE1ZmJkY2Y4MTU3ODliYmIwOTY3NDJlYjA0YjIyZTdkMDMyZTUwOGI0NjEzYmEwODcwOTE)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/27fa023d-7c73-4a3f-9791-b3b657a47100/deploy-status)](https://app.netlify.com/sites/mermaidjs/deploys)
-
 
 > Um template inicial para criar uma TWA (Telegram Web App) que interage com a blockchain TON.
 
@@ -30,7 +28,6 @@ Este projeto é altamente opinativo, servindo como um ponto de partida para o de
 ## Como Usar
 
 1. **Crie um repositório a partir deste template usando o botão "Use this template"**
-
    - Escolha um nome para o seu repositório
    - **IMPORTANTE:** Marque a opção "Include all branches" para que a implantação no GitHub Pages funcione corretamente.
 
@@ -53,7 +50,6 @@ Este projeto é altamente opinativo, servindo como um ponto de partida para o de
     ```
 
 3. **Crie um novo bot com o [BotFather](https://t.me/botfather)**
-
    - Digite `/newbot`
    - Escolha um nome para o seu bot (ex: `Meu Ecomm TWA`)
    - Escolha um nome de usuário para o seu bot (ex: `meu_ecomm_twa_bot`)
@@ -78,7 +74,6 @@ Este projeto é altamente opinativo, servindo como um ponto de partida para o de
    - Exemplo: `Template inicial de E-commerce utilizando TON blockchain e Telegram Web Apps (TWA)`.
 
 5. **Envie uma imagem de visualização** (dimensões recomendadas: 640x360 pixels).
-
    - Depois de completar esses passos, o Web App estará pronto para ser vinculado ao bot e usado dentro do Telegram.
 
 ## Desenvolvimento
@@ -90,11 +85,9 @@ Este projeto é altamente opinativo, servindo como um ponto de partida para o de
    ```
 
 2. **Edite o código conforme necessário**
-
    - O aplicativo recarregará automaticamente com as mudanças.
 
 3. **Implantação automática**
-
    - Ao fazer push para a branch `main`, o aplicativo será implantado automaticamente via GitHub Actions.
 
 ## Contribuição

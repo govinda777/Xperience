@@ -1,6 +1,12 @@
+# Environment Variables
 .env
+.env.*
+!.env.example
 
+# Security Reports
 trivy-report.json
+security-report.json
+vulnerability-report.*
 
 # Logs
 logs
@@ -11,9 +17,15 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependencies
 node_modules
+.pnp
+.pnp.js
+
+# Build outputs
 dist
 dist-ssr
+build
 *.local
 
 # Editor directories and files
@@ -27,6 +39,43 @@ dist-ssr
 *.sln
 *.sw?
 
-
+# Testing and Coverage
 coverage
+.nyc_output
 tree.txt
+
+# Temporary files
+*.tmp
+*.temp
+.cache
+.temp
+
+# Credentials and Secrets
+*.pem
+*.key
+*.cert
+*.crt
+*.p12
+*.pfx
+*.keystore
+*.jks
+
+# Local development
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Debug files
+debug.log
+debug/
+
+# System Files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Package files
+*.tgz
+*.zip
+*.tar.gz

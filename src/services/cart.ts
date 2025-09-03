@@ -1,8 +1,9 @@
-import { Cart, CartItem, CartSummary } from '../types/cart';
+import { Cart, CartItem, CartSummary } from "../types/cart";
+import * as testConfig from "../../test-data/test-config.json";
 
 export class CartService {
   private cart: Cart | null = null;
-  private readonly STORAGE_KEY = 'xperience_cart';
+  private readonly STORAGE_KEY = process.env.NODE_ENV === 'test' ? testConfig.testKeys.cart : "xperience_cart";
 
   constructor() {
     this.loadFromStorage();
@@ -16,7 +17,7 @@ export class CartService {
       createdAt: new Date(),
       updatedAt: new Date(),
       userId: undefined,
-      currency: 'BRL',
+      currency: "BRL",
       subtotal: 0,
       discount: 0,
       tax: 0,
@@ -47,20 +48,22 @@ export class CartService {
       return false;
     }
 
-    const existingItemIndex = this.cart!.items.findIndex(cartItem => cartItem.id === item.id);
+    const existingItemIndex = this.cart!.items.findIndex(
+      (cartItem) => cartItem.id === item.id,
+    );
 
     if (existingItemIndex >= 0) {
       // Update existing item quantity
       const existingItem = this.cart!.items[existingItemIndex];
       const newQuantity = existingItem.quantity + item.quantity;
-      
+
       if (newQuantity > this.getMaxQuantityPerItem()) {
         return false;
       }
 
       this.cart!.items[existingItemIndex] = {
         ...existingItem,
-        quantity: newQuantity
+        quantity: newQuantity,
       };
     } else {
       // Add new item
@@ -82,7 +85,7 @@ export class CartService {
     }
 
     const initialLength = this.cart.items.length;
-    this.cart.items = this.cart.items.filter(item => item.id !== itemId);
+    this.cart.items = this.cart.items.filter((item) => item.id !== itemId);
 
     if (this.cart.items.length !== initialLength) {
       this.updateCartTimestamp();
@@ -93,29 +96,32 @@ export class CartService {
     return false;
   }
 
-  updateQuantity(itemId: string, quantity: number): { success: boolean; error?: string } {
+  updateQuantity(
+    itemId: string,
+    quantity: number,
+  ): { success: boolean; error?: string } {
     if (!this.cart) {
-      return { success: false, error: 'Cart not found' };
+      return { success: false, error: "Cart not found" };
     }
 
     if (quantity <= 0) {
-      return { success: false, error: 'Invalid quantity' };
+      return { success: false, error: "Invalid quantity" };
     }
 
     if (quantity > this.getMaxQuantityPerItem()) {
-      return { success: false, error: 'Quantity exceeds maximum allowed' };
+      return { success: false, error: "Quantity exceeds maximum allowed" };
     }
 
-    const itemIndex = this.cart.items.findIndex(item => item.id === itemId);
-    
+    const itemIndex = this.cart.items.findIndex((item) => item.id === itemId);
+
     if (itemIndex === -1) {
-      return { success: false, error: 'Item not found' };
+      return { success: false, error: "Item not found" };
     }
 
     this.cart.items[itemIndex].quantity = quantity;
     this.updateCartTimestamp();
     this.saveToStorage();
-    
+
     return { success: true };
   }
 
@@ -124,7 +130,7 @@ export class CartService {
       return undefined;
     }
 
-    return this.cart.items.find(item => item.id === itemId);
+    return this.cart.items.find((item) => item.id === itemId);
   }
 
   // Cart Summary and Calculations
@@ -136,39 +142,42 @@ export class CartService {
         tax: 0,
         total: 0,
         itemCount: 0,
-        currency: 'BRL'
+        currency: "BRL",
       };
     }
 
     const subtotal = this.cart.items.reduce((sum, item) => {
-      return sum + (item.price * item.quantity);
+      return sum + item.price * item.quantity;
     }, 0);
 
     let totalDiscount = 0;
 
     // Calculate item-level discounts
-    this.cart.items.forEach(item => {
+    this.cart.items.forEach((item) => {
       if (item.discount) {
         const itemTotal = item.price * item.quantity;
-        if (item.discount.type === 'percentage') {
+        if (item.discount.type === "percentage") {
           totalDiscount += itemTotal * (item.discount.value / 100);
-        } else if (item.discount.type === 'fixed') {
+        } else if (item.discount.type === "fixed") {
           totalDiscount += item.discount.value;
         }
       }
     });
 
     const total = subtotal - totalDiscount;
-    const itemCount = this.cart.items.reduce((sum, item) => sum + item.quantity, 0);
+    const itemCount = this.cart.items.reduce(
+      (sum, item) => sum + item.quantity,
+      0,
+    );
 
-          return {
-        subtotal,
-        discount: totalDiscount,
-        tax: 0, // Tax calculation would go here
-        total: Math.max(0, total), // Ensure total is never negative
-        itemCount,
-        currency: this.cart.currency
-      };
+    return {
+      subtotal,
+      discount: totalDiscount,
+      tax: 0, // Tax calculation would go here
+      total: Math.max(0, total), // Ensure total is never negative
+      itemCount,
+      currency: this.cart.currency,
+    };
   }
 
   hasItems(): boolean {
@@ -237,7 +246,7 @@ export class CartService {
       try {
         localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.cart));
       } catch (error) {
-        console.error('Failed to save cart to localStorage:', error);
+        console.error("Failed to save cart to localStorage:", error);
       }
     }
   }
@@ -247,7 +256,7 @@ export class CartService {
       const savedCart = localStorage.getItem(this.STORAGE_KEY);
       if (savedCart) {
         const parsedCart = JSON.parse(savedCart);
-        
+
         // Validate the loaded cart structure
         if (this.isValidCart(parsedCart)) {
           // Convert date strings back to Date objects
@@ -256,12 +265,12 @@ export class CartService {
           if (parsedCart.expiresAt) {
             parsedCart.expiresAt = new Date(parsedCart.expiresAt);
           }
-          
+
           this.cart = parsedCart;
         }
       }
     } catch (error) {
-      console.error('Failed to load cart from localStorage:', error);
+      console.error("Failed to load cart from localStorage:", error);
       // Clear corrupted data
       localStorage.removeItem(this.STORAGE_KEY);
     }
@@ -270,11 +279,10 @@ export class CartService {
   private isValidCart(cart: any): boolean {
     return (
       cart &&
-      typeof cart.id === 'string' &&
+      typeof cart.id === "string" &&
       Array.isArray(cart.items) &&
       cart.createdAt &&
       cart.updatedAt
     );
   }
 }
-

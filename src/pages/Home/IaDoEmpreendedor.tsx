@@ -1,5 +1,5 @@
 // Home/IaDoEmpreendedor.tsx
-import React from 'react';
+import React from "react";
 
 interface IaDoEmpreendedorProps {
   title: string;
@@ -20,8 +20,10 @@ const IaDoEmpreendedor: React.FC<IaDoEmpreendedorProps> = ({
   buttonText,
   logoAlt = "IA do Empreendedor Logo",
 }) => {
-
-  const logoSrc = new URL('/public/logo-ia-do-empreendedor.png', import.meta.url).href;
+  const logoSrc = new URL(
+    "/public/logo-ia-do-empreendedor.png",
+    import.meta.url,
+  ).href;
 
   return (
     <div className="w-full bg-black relative overflow-hidden">
@@ -31,8 +33,8 @@ const IaDoEmpreendedor: React.FC<IaDoEmpreendedorProps> = ({
 
       <div className="relative max-w-6xl mx-auto px-4 py-24 flex flex-col items-center text-center">
         <div className="md:flex-row flex-col flex items-center justify-center gap-6 mb-4">
-          <img 
-            src={logoSrc} 
+          <img
+            src={logoSrc}
             alt={logoAlt}
             className="w-20 h-20 object-contain"
           />
@@ -53,7 +55,7 @@ const IaDoEmpreendedor: React.FC<IaDoEmpreendedorProps> = ({
           {highlightPart1} <span className="font-bold">{highlightPart2}</span>
         </p>
 
-        <a 
+        <a
           href="https://ai-entrepreneur-connect.replit.app"
           target="_blank"
           rel="noopener noreferrer"

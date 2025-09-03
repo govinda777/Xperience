@@ -6,15 +6,14 @@ import { CHAIN } from "@tonconnect/protocol";
 
 export function useTonClient() {
   const { network } = useTonConnect();
+  const client = useAsyncInitialize(async () => {
+    if (!network) return;
+    return new TonClient({
+      endpoint: await getHttpEndpoint({
+        network: network === CHAIN.MAINNET ? "mainnet" : "testnet",
+      }),
+    });
+  }, [network]);
 
-  return {
-    client: useAsyncInitialize(async () => {
-      if (!network) return;
-      return new TonClient({
-        endpoint: await getHttpEndpoint({
-          network: network === CHAIN.MAINNET ? "mainnet" : "testnet",
-        }),
-      });
-    }, [network]),
-  };
+  return { client };
 }

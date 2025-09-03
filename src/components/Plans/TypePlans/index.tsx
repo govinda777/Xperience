@@ -47,7 +47,11 @@ const TypePlans: React.FC<TypePlansProps> = ({
       <div>
         <button className="p-3 border border-[#1A1A1A] text-[#1A1A1A] rounded-full md:rounded-[20px] flex items-center justify-center gap-2 hover:bg-gray-100">
           <p className="text-sm font-bold">Saiba mais</p>
-          <img src={ArrowDown} alt="Flecha para baixo" className="md:w-5 md:h-5" />
+          <img
+            src={ArrowDown}
+            alt="Flecha para baixo"
+            className="md:w-5 md:h-5"
+          />
         </button>
       </div>
     </div>

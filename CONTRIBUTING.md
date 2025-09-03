@@ -19,18 +19,21 @@ Obrigado pelo seu interesse em contribuir com a Xperience! Este guia fornece tod
 Existem várias maneiras de contribuir com o projeto:
 
 ### 🐛 Reportar Bugs
+
 - Verifique se o bug já foi reportado nas [Issues](https://github.com/gosouza/Xperience/issues)
 - Use o template de bug report
 - Inclua informações detalhadas sobre o ambiente
 - Adicione steps para reproduzir o problema
 
 ### 💡 Sugerir Melhorias
+
 - Abra uma issue com a tag `enhancement`
 - Descreva claramente a funcionalidade desejada
 - Explique o problema que seria resolvido
 - Considere implementações alternativas
 
 ### 🔧 Contribuir com Código
+
 - Corrija bugs existentes
 - Implemente novas funcionalidades
 - Melhore a performance
@@ -38,6 +41,7 @@ Existem várias maneiras de contribuir com o projeto:
 - Melhore a documentação
 
 ### 📚 Melhorar Documentação
+
 - Corrija erros de digitação
 - Adicione exemplos práticos
 - Traduza conteúdo
@@ -47,7 +51,7 @@ Existem várias maneiras de contribuir com o projeto:
 
 ### Pré-requisitos
 
-- **Node.js** 18+ 
+- **Node.js** 18+
 - **npm** ou **yarn**
 - **Git**
 - **Editor** com suporte a TypeScript (recomendado: VS Code)
@@ -55,6 +59,7 @@ Existem várias maneiras de contribuir com o projeto:
 ### Setup Inicial
 
 1. **Fork do Repositório**
+
    ```bash
    # Clique em "Fork" no GitHub
    # Clone seu fork
@@ -63,12 +68,14 @@ Existem várias maneiras de contribuir com o projeto:
    ```
 
 2. **Configurar Remote Upstream**
+
    ```bash
    git remote add upstream https://github.com/gosouza/Xperience.git
    git remote -v
    ```
 
 3. **Instalar Dependências**
+
    ```bash
    npm install
    # ou
@@ -76,10 +83,11 @@ Existem várias maneiras de contribuir com o projeto:
    ```
 
 4. **Configurar Ambiente**
+
    ```bash
    # Copie o arquivo de exemplo (quando disponível)
    cp .env.example .env
-   
+
    # Configure as variáveis necessárias
    # Para desenvolvimento, muitas podem ficar vazias
    ```
@@ -122,7 +130,9 @@ interface PaymentRequest {
   method: PaymentMethod;
 }
 
-const processPayment = async (request: PaymentRequest): Promise<PaymentResult> => {
+const processPayment = async (
+  request: PaymentRequest,
+): Promise<PaymentResult> => {
   // implementação
 };
 
@@ -147,14 +157,14 @@ interface ButtonProps {
   onClick?: () => void;
 }
 
-const Button: React.FC<ButtonProps> = ({ 
-  children, 
-  variant = 'primary', 
-  disabled = false, 
-  onClick 
+const Button: React.FC<ButtonProps> = ({
+  children,
+  variant = 'primary',
+  disabled = false,
+  onClick
 }) => {
   return (
-    <button 
+    <button
       className={`btn btn-${variant}`}
       disabled={disabled}
       onClick={onClick}
@@ -190,14 +200,14 @@ const Button: React.FC<ButtonProps> = ({
 
 ```typescript
 // ✅ Bom
-const API_BASE_URL = 'https://api.example.com';
-const userName = 'john_doe';
-const fetchUserData = async (userId: string) => { };
+const API_BASE_URL = "https://api.example.com";
+const userName = "john_doe";
+const fetchUserData = async (userId: string) => {};
 
 // Arquivos
-payment-service.ts
-PaymentButton.tsx
-use-cart.ts
+payment - service.ts;
+PaymentButton.tsx;
+use - cart.ts;
 ```
 
 ## 🔄 Processo de Desenvolvimento
@@ -205,6 +215,7 @@ use-cart.ts
 ### Workflow Git
 
 1. **Sincronizar com Upstream**
+
    ```bash
    git checkout main
    git pull upstream main
@@ -212,6 +223,7 @@ use-cart.ts
    ```
 
 2. **Criar Branch Feature**
+
    ```bash
    git checkout -b feature/payment-integration
    # ou
@@ -221,6 +233,7 @@ use-cart.ts
    ```
 
 3. **Desenvolver e Commitar**
+
    ```bash
    # Fazer mudanças
    git add .
@@ -321,7 +334,7 @@ describe('PaymentButton', () => {
   it('should call onClick when clicked', () => {
     const handleClick = jest.fn();
     render(<PaymentButton onClick={handleClick}>Pagar</PaymentButton>);
-    
+
     fireEvent.click(screen.getByText('Pagar'));
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
@@ -331,34 +344,35 @@ describe('PaymentButton', () => {
 #### Testes de Serviços
 
 ```typescript
-import { PaymentService } from '../paymentService';
-import { PixPaymentProvider } from '../providers/pixPaymentProvider';
+import { PaymentService } from "../paymentService";
+import { PixPaymentProvider } from "../providers/pixPaymentProvider";
 
-jest.mock('../providers/pixPaymentProvider');
+jest.mock("../providers/pixPaymentProvider");
 
-describe('PaymentService', () => {
+describe("PaymentService", () => {
   let paymentService: PaymentService;
   let mockPixProvider: jest.Mocked<PixPaymentProvider>;
 
   beforeEach(() => {
-    mockPixProvider = new PixPaymentProvider() as jest.Mocked<PixPaymentProvider>;
+    mockPixProvider =
+      new PixPaymentProvider() as jest.Mocked<PixPaymentProvider>;
     paymentService = new PaymentService(mockPixProvider);
   });
 
-  it('should process PIX payment successfully', async () => {
+  it("should process PIX payment successfully", async () => {
     mockPixProvider.createPayment.mockResolvedValue({
-      id: 'payment-123',
-      qrCode: 'qr-code-data'
+      id: "payment-123",
+      qrCode: "qr-code-data",
     });
 
     const result = await paymentService.processPayment({
-      method: 'pix',
+      method: "pix",
       amount: 100,
-      currency: 'BRL'
+      currency: "BRL",
     });
 
     expect(result.success).toBe(true);
-    expect(result.qrCode).toBe('qr-code-data');
+    expect(result.qrCode).toBe("qr-code-data");
   });
 });
 ```
@@ -388,13 +402,13 @@ Feature: Payment Processing
 
 ### Documentar Código
 
-```typescript
+````typescript
 /**
  * Processa um pagamento usando o provider apropriado
  * @param request - Dados do pagamento
  * @returns Promise com resultado do pagamento
  * @throws PaymentError quando dados são inválidos
- * 
+ *
  * @example
  * ```typescript
  * const result = await paymentService.processPayment({
@@ -407,35 +421,37 @@ Feature: Payment Processing
 async processPayment(request: PaymentRequest): Promise<PaymentResult> {
   // implementação
 }
-```
+````
 
 ### README de Componentes
 
 Para componentes complexos, adicione README:
 
-```markdown
+````markdown
 # PaymentGateway Component
 
 ## Uso
 
 ```tsx
 <PaymentGateway
-  amount={299.90}
+  amount={299.9}
   currency="BRL"
   onSuccess={handleSuccess}
   onError={handleError}
 />
 ```
+````
 
 ## Props
 
-| Prop | Tipo | Obrigatório | Descrição |
-|------|------|-------------|-----------|
-| amount | number | Sim | Valor do pagamento |
-| currency | string | Sim | Moeda (BRL, USD, etc.) |
-| onSuccess | function | Não | Callback de sucesso |
-| onError | function | Não | Callback de erro |
-```
+| Prop      | Tipo     | Obrigatório | Descrição              |
+| --------- | -------- | ----------- | ---------------------- |
+| amount    | number   | Sim         | Valor do pagamento     |
+| currency  | string   | Sim         | Moeda (BRL, USD, etc.) |
+| onSuccess | function | Não         | Callback de sucesso    |
+| onError   | function | Não         | Callback de erro       |
+
+````
 
 ## 🔀 Pull Requests
 
@@ -471,7 +487,7 @@ Breve descrição das mudanças realizadas.
 - [ ] Build passando
 
 ## Screenshots (se aplicável)
-```
+````
 
 ### Review Process
 
@@ -486,29 +502,36 @@ Breve descrição das mudanças realizadas.
 
 ```markdown
 ## Descrição do Bug
+
 Descrição clara e concisa do bug.
 
 ## Passos para Reproduzir
+
 1. Vá para '...'
 2. Clique em '...'
 3. Role até '...'
 4. Veja o erro
 
 ## Comportamento Esperado
+
 O que deveria acontecer.
 
 ## Comportamento Atual
+
 O que está acontecendo.
 
 ## Screenshots
+
 Se aplicável, adicione screenshots.
 
 ## Ambiente
+
 - OS: [ex: Windows 10]
 - Browser: [ex: Chrome 91]
 - Versão: [ex: 1.2.3]
 
 ## Informações Adicionais
+
 Qualquer outra informação relevante.
 ```
 
@@ -516,18 +539,23 @@ Qualquer outra informação relevante.
 
 ```markdown
 ## Descrição da Funcionalidade
+
 Descrição clara da funcionalidade desejada.
 
 ## Problema Resolvido
+
 Que problema esta funcionalidade resolveria?
 
 ## Solução Proposta
+
 Como você imagina que isso deveria funcionar?
 
 ## Alternativas Consideradas
+
 Outras soluções que você considerou?
 
 ## Informações Adicionais
+
 Qualquer outra informação relevante.
 ```
 
@@ -536,6 +564,7 @@ Qualquer outra informação relevante.
 Usamos as seguintes labels para organizar issues e PRs:
 
 ### Tipo
+
 - `bug` - Correção de bug
 - `enhancement` - Nova funcionalidade
 - `documentation` - Documentação
@@ -543,16 +572,19 @@ Usamos as seguintes labels para organizar issues e PRs:
 - `help wanted` - Ajuda necessária
 
 ### Prioridade
+
 - `priority: high` - Alta prioridade
 - `priority: medium` - Média prioridade
 - `priority: low` - Baixa prioridade
 
 ### Status
+
 - `status: in progress` - Em desenvolvimento
 - `status: needs review` - Precisa de review
 - `status: blocked` - Bloqueado
 
 ### Área
+
 - `area: payments` - Sistema de pagamentos
 - `area: auth` - Autenticação
 - `area: ui` - Interface do usuário
@@ -563,14 +595,17 @@ Usamos as seguintes labels para organizar issues e PRs:
 Contribuidores são reconhecidos de várias formas:
 
 ### Contributors List
+
 - Adicionados automaticamente ao README
 - Baseado em commits e PRs
 
 ### Special Thanks
+
 - Contribuições significativas destacadas
 - Menções em releases
 
 ### Badges
+
 - Contributor badge no perfil
 - Special badges para contribuições específicas
 
@@ -595,6 +630,7 @@ Contribuidores são reconhecidos de várias formas:
 ### Issues para Iniciantes
 
 Procure por issues com as labels:
+
 - `good first issue` - Bom para iniciantes
 - `help wanted` - Ajuda necessária
 - `documentation` - Melhorias na documentação
@@ -614,4 +650,3 @@ Este projeto adere ao [Código de Conduta](CODE_OF_CONDUCT.md). Ao participar, v
 ---
 
 Obrigado por contribuir com a Xperience! Juntos estamos construindo uma plataforma incrível para transformar ideias em negócios de sucesso. 🚀
-

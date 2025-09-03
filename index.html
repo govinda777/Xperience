@@ -1,90 +1,113 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/logo.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#FD9526" />
-    
+
     <!-- Preconnect para melhor performance -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://www.googletagmanager.com">
-    <link rel="preconnect" href="https://www.google-analytics.com">
-    
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://www.google-analytics.com" />
+
     <!-- DNS Prefetch -->
-    <link rel="dns-prefetch" href="//fonts.googleapis.com">
-    <link rel="dns-prefetch" href="//www.googletagmanager.com">
-    
+    <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="//www.googletagmanager.com" />
+
     <!-- Default SEO Meta Tags -->
     <title>Xperience - Mentoria para Empreendedores</title>
-    <meta name="description" content="Transforme sua ideia em um negócio de sucesso com nossa mentoria especializada e IA do Empreendedor gratuita." />
-    <meta name="keywords" content="mentoria empresarial, consultoria para empreendedores, IA do empreendedor, negócios, startup" />
+    <meta
+      name="description"
+      content="Transforme sua ideia em um negócio de sucesso com nossa mentoria especializada e IA do Empreendedor gratuita."
+    />
+    <meta
+      name="keywords"
+      content="mentoria empresarial, consultoria para empreendedores, IA do empreendedor, negócios, startup"
+    />
     <meta name="author" content="Xperience" />
     <meta name="robots" content="index, follow" />
-    
+
     <!-- Open Graph -->
     <meta property="og:site_name" content="Xperience" />
     <meta property="og:locale" content="pt_BR" />
-    
+
     <!-- Twitter Card -->
     <meta name="twitter:site" content="@xperience" />
     <meta name="twitter:creator" content="@xperience" />
-    
+
     <!-- Google Tag Manager -->
     <script>
-      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-      })(window,document,'script','dataLayer','GTM-XXXXXXX');
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != "dataLayer" ? "&l=" + l : "";
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, "script", "dataLayer", "GTM-XXXXXXX");
     </script>
     <!-- End Google Tag Manager -->
-    
+
     <!-- GitHub Pages SPA support -->
     <script type="text/javascript">
       // Single Page Apps for GitHub Pages
       // MIT License
       // https://github.com/rafgraph/spa-github-pages
-      
-      (function(l) {
-        if (l.search[1] === '/' ) {
-          var decoded = l.search.slice(1).split('&').map(function(s) { 
-            return s.replace(/~and~/g, '&')
-          }).join('?');
-          window.history.replaceState(null, null,
-              l.pathname.slice(0, -1) + decoded + l.hash
+
+      (function (l) {
+        if (l.search[1] === "/") {
+          var decoded = l.search
+            .slice(1)
+            .split("&")
+            .map(function (s) {
+              return s.replace(/~and~/g, "&");
+            })
+            .join("?");
+          window.history.replaceState(
+            null,
+            null,
+            l.pathname.slice(0, -1) + decoded + l.hash,
           );
         }
-      }(window.location))
+      })(window.location);
     </script>
-    
+
     <!-- Structured Data -->
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "Xperience",
-      "url": "https://xperience.com.br",
-      "logo": "https://xperience.com.br/logo.svg",
-      "description": "Programa de mentoria para empreendedores que desejam transformar suas ideias em negócios de sucesso",
-      "address": {
-        "@type": "PostalAddress",
-        "addressCountry": "BR"
-      },
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "contactType": "customer service",
-        "url": "https://xperience.com.br/contact"
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Xperience",
+        "url": "https://xperience.com.br",
+        "logo": "https://xperience.com.br/logo.svg",
+        "description": "Programa de mentoria para empreendedores que desejam transformar suas ideias em negócios de sucesso",
+        "address": {
+          "@type": "PostalAddress",
+          "addressCountry": "BR"
+        },
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "customer service",
+          "url": "https://xperience.com.br/contact"
+        }
       }
-    }
     </script>
   </head>
   <body>
     <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <noscript
+      ><iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
+        height="0"
+        width="0"
+        style="display: none; visibility: hidden"
+      ></iframe
+    ></noscript>
     <!-- End Google Tag Manager (noscript) -->
-    
+
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

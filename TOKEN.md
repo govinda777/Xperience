@@ -19,6 +19,7 @@ O Token XP (XPT) é um token utilitário baseado no padrão ERC-20 que funciona 
 ### 1. Governança
 
 Os detentores de tokens XPT participam ativamente nas decisões da DAO através de:
+
 - Votação em propostas estratégicas
 - Criação de novas propostas (requer stake mínimo)
 - Delegação de votos para especialistas
@@ -27,6 +28,7 @@ Os detentores de tokens XPT participam ativamente nas decisões da DAO através 
 ### 2. Recompensas e Incentivos
 
 O token XPT é utilizado para recompensar:
+
 - Contribuições para projetos de consultoria
 - Desenvolvimento da plataforma
 - Compartilhamento de conhecimento e recursos
@@ -35,6 +37,7 @@ O token XPT é utilizado para recompensar:
 ### 3. Acesso a Serviços
 
 Tokens XPT desbloqueiam:
+
 - Consultorias especializadas
 - Recursos premium da plataforma
 - Ferramentas avançadas de análise
@@ -43,6 +46,7 @@ Tokens XPT desbloqueiam:
 ### 4. Staking
 
 Os usuários podem fazer staking de tokens XPT para:
+
 - Obter rendimentos passivos
 - Desbloquear níveis avançados de acesso
 - Participar em pools de liquidez
@@ -92,6 +96,7 @@ O token XPT é totalmente integrado com a infraestrutura ERC-4337 da plataforma,
 ## Segurança e Auditoria
 
 O contrato do token XPT passará por auditorias de segurança rigorosas realizadas por:
+
 - [Nome da empresa de auditoria a ser definida]
 - Revisão de código pela comunidade
 - Programa de bug bounty
@@ -99,6 +104,7 @@ O contrato do token XPT passará por auditorias de segurança rigorosas realizad
 ## Acesso e Aquisição
 
 O token XPT estará disponível para aquisição através de:
+
 - Plataformas de exchange descentralizadas
 - Participação em atividades da DAO
 - Contribuições para o ecossistema

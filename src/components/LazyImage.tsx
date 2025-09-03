@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { useAnalytics } from '../contexts/AnalyticsContext';
+import React, { useState, useRef, useEffect } from "react";
+import { useAnalytics } from "../contexts/AnalyticsContext";
 
 interface LazyImageProps {
   src: string;
@@ -16,13 +16,13 @@ interface LazyImageProps {
 export const LazyImage: React.FC<LazyImageProps> = ({
   src,
   alt,
-  className = '',
+  className = "",
   placeholder,
   onLoad,
   onError,
   priority = false,
   sizes,
-  srcSet
+  srcSet,
 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isInView, setIsInView] = useState(priority); // Se priority=true, carrega imediatamente
@@ -43,8 +43,8 @@ export const LazyImage: React.FC<LazyImageProps> = ({
         });
       },
       {
-        rootMargin: '50px' // Começar a carregar 50px antes da imagem aparecer
-      }
+        rootMargin: "50px", // Começar a carregar 50px antes da imagem aparecer
+      },
     );
 
     if (imgRef.current) {
@@ -56,24 +56,26 @@ export const LazyImage: React.FC<LazyImageProps> = ({
 
   const handleLoad = () => {
     setIsLoaded(true);
-    
+
     // Track successful image load
-    trackEvent('image_loaded', 'performance', alt);
-    
+    trackEvent("image_loaded", "performance", alt);
+
     if (onLoad) onLoad();
   };
 
   const handleError = () => {
     setHasError(true);
-    
+
     // Track image load error
-    trackEvent('image_error', 'performance', alt);
-    
+    trackEvent("image_error", "performance", alt);
+
     if (onError) onError();
   };
 
   // Placeholder enquanto a imagem não carrega
-  const placeholderSrc = placeholder || 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkxvYWRpbmcuLi48L3RleHQ+PC9zdmc+';
+  const placeholderSrc =
+    placeholder ||
+    "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkxvYWRpbmcuLi48L3RleHQ+PC9zdmc+";
 
   return (
     <div className={`relative overflow-hidden ${className}`} ref={imgRef}>
@@ -81,11 +83,11 @@ export const LazyImage: React.FC<LazyImageProps> = ({
       {(!isInView || !isLoaded || hasError) && (
         <img
           src={hasError ? placeholderSrc : placeholderSrc}
-          alt={hasError ? 'Erro ao carregar imagem' : 'Carregando...'}
+          alt={hasError ? "Erro ao carregar imagem" : "Carregando..."}
           className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${
-            isLoaded && !hasError ? 'opacity-0' : 'opacity-100'
+            isLoaded && !hasError ? "opacity-0" : "opacity-100"
           }`}
-          style={{ filter: 'blur(5px)' }}
+          style={{ filter: "blur(5px)" }}
         />
       )}
 
@@ -97,11 +99,11 @@ export const LazyImage: React.FC<LazyImageProps> = ({
           sizes={sizes}
           alt={alt}
           className={`w-full h-full object-cover transition-opacity duration-300 ${
-            isLoaded ? 'opacity-100' : 'opacity-0'
+            isLoaded ? "opacity-100" : "opacity-0"
           }`}
           onLoad={handleLoad}
           onError={handleError}
-          loading={priority ? 'eager' : 'lazy'}
+          loading={priority ? "eager" : "lazy"}
           decoding="async"
         />
       )}

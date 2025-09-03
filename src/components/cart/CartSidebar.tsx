@@ -1,8 +1,8 @@
-import React from 'react';
-import { X, Plus, Minus, Trash2, ShoppingBag } from 'lucide-react';
-import { useCart } from '../../contexts/CartContext';
-import { formatCurrency } from '../../types/cart';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import { X, Plus, Minus, Trash2, ShoppingBag } from "lucide-react";
+import { useCart } from "../../contexts/CartContext";
+import { formatCurrency } from "../../types/cart";
+import { useNavigate } from "react-router-dom";
 
 interface CartSidebarProps {
   isOpen: boolean;
@@ -10,21 +10,21 @@ interface CartSidebarProps {
 }
 
 const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
-  const { 
-    cart, 
-    removeItem, 
-    updateQuantity, 
-    getCartSummary, 
+  const {
+    cart,
+    removeItem,
+    updateQuantity,
+    getCartSummary,
     hasItems,
-    isLoading 
+    isLoading,
   } = useCart();
-  
+
   const navigate = useNavigate();
   const summary = getCartSummary();
 
   const handleCheckout = () => {
     onClose();
-    navigate('/checkout');
+    navigate("/checkout");
   };
 
   const handleQuantityChange = (itemId: string, newQuantity: number) => {
@@ -39,17 +39,19 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
     <>
       {/* Overlay */}
       {isOpen && (
-        <div 
+        <div
           className="fixed inset-0 bg-black bg-opacity-50 z-40"
           onClick={onClose}
         />
       )}
-      
+
       {/* Sidebar */}
-      <div className={`
+      <div
+        className={`
         fixed top-0 right-0 h-full w-96 bg-white shadow-xl z-50 transform transition-transform duration-300 ease-in-out
-        ${isOpen ? 'translate-x-0' : 'translate-x-full'}
-      `}>
+        ${isOpen ? "translate-x-0" : "translate-x-full"}
+      `}
+      >
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b">
           <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
@@ -109,7 +111,9 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <button
-                          onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
+                          onClick={() =>
+                            handleQuantityChange(item.id, item.quantity - 1)
+                          }
                           className="p-1 hover:bg-gray-200 rounded-full transition-colors"
                           disabled={isLoading}
                         >
@@ -119,24 +123,32 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
                           {item.quantity}
                         </span>
                         <button
-                          onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
+                          onClick={() =>
+                            handleQuantityChange(item.id, item.quantity + 1)
+                          }
                           className="p-1 hover:bg-gray-200 rounded-full transition-colors"
                           disabled={isLoading}
                         >
                           <Plus className="w-4 h-4" />
                         </button>
                       </div>
-                      
+
                       <div className="text-right">
                         <div className="font-bold text-gray-900">
-                          {formatCurrency(item.price * item.quantity, item.currency)}
+                          {formatCurrency(
+                            item.price * item.quantity,
+                            item.currency,
+                          )}
                         </div>
                         {item.discount && (
                           <div className="text-xs text-green-600">
-                            -{item.discount.type === 'percentage' 
-                              ? `${item.discount.value}%` 
-                              : formatCurrency(item.discount.value, item.currency)
-                            }
+                            -
+                            {item.discount.type === "percentage"
+                              ? `${item.discount.value}%`
+                              : formatCurrency(
+                                  item.discount.value,
+                                  item.currency,
+                                )}
                           </div>
                         )}
                       </div>
@@ -174,31 +186,36 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
               <div className="space-y-2 mb-4">
                 <div className="flex justify-between text-sm">
                   <span>Subtotal</span>
-                  <span>{formatCurrency(summary.subtotal, summary.currency)}</span>
+                  <span>
+                    {formatCurrency(summary.subtotal, summary.currency)}
+                  </span>
                 </div>
-                
+
                 {summary.discount > 0 && (
                   <div className="flex justify-between text-sm text-green-600">
                     <span>Desconto</span>
-                    <span>-{formatCurrency(summary.discount, summary.currency)}</span>
+                    <span>
+                      -{formatCurrency(summary.discount, summary.currency)}
+                    </span>
                   </div>
                 )}
-                
+
                 {summary.tax > 0 && (
                   <div className="flex justify-between text-sm">
                     <span>Impostos</span>
                     <span>{formatCurrency(summary.tax, summary.currency)}</span>
                   </div>
                 )}
-                
+
                 <div className="flex justify-between font-bold text-lg pt-2 border-t">
                   <span>Total</span>
                   <span>{formatCurrency(summary.total, summary.currency)}</span>
                 </div>
-                
+
                 {summary.savings && summary.savings > 0 && (
                   <div className="text-center text-sm text-green-600">
-                    Você economiza {formatCurrency(summary.savings, summary.currency)}!
+                    Você economiza{" "}
+                    {formatCurrency(summary.savings, summary.currency)}!
                   </div>
                 )}
               </div>
@@ -210,9 +227,9 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
                   disabled={isLoading}
                   className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-semibold py-3 px-4 rounded-lg transition-colors"
                 >
-                  {isLoading ? 'Processando...' : 'Finalizar Compra'}
+                  {isLoading ? "Processando..." : "Finalizar Compra"}
                 </button>
-                
+
                 <button
                   onClick={onClose}
                   className="w-full border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium py-2 px-4 rounded-lg transition-colors"

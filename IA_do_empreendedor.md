@@ -42,4 +42,4 @@ Contribuições são sempre bem-vindas! Envie pull requests ou abra issues para 
 
 ## Contato
 
-Para mais informações, entre em contato com a equipe responsável ou consulte o repositório oficial para detalhes adicionais. 
+Para mais informações, entre em contato com a equipe responsável ou consulte o repositório oficial para detalhes adicionais.
