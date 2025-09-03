@@ -27,7 +27,7 @@ export function useFaucetJettonContract() {
     return {
       address: contract.address,
       async getWalletAddress(owner: Address) {
-        const state = await client.getContractState(contract.address as any);
+        const state = await client.getContractState(contract.address);
         return state.state === "active" ? state.balance.toString() || "" : "";
       },
       async sendMintFromFaucet(via: Sender, to: Address) {
@@ -35,7 +35,10 @@ export function useFaucetJettonContract() {
           .storeUint(2, 32) // op: mint
           .storeAddress(to)
           .endCell();
-        await client.sendExternalMessage(contract as any, message);
+        await client.sendExternalMessage(contract, {
+          body: message,
+          bounce: true,
+        });
       },
     } as unknown as OpenedContract<FaucetJetton>;
   }, [client, wallet]);

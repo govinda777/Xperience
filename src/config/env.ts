@@ -1,36 +1,16 @@
-// Configurações de ambiente para SEO e Analytics
-export const seoConfig = {
-  // Google Analytics
-  gaId: import.meta.env.VITE_GA_MEASUREMENT_ID || "G-XXXXXXXXXX",
-
-  // Google Tag Manager
-  gtmId: import.meta.env.VITE_GTM_ID || "GTM-XXXXXXX",
-
-  // Site Configuration
-  siteUrl:
-    import.meta.env.VITE_SITE_URL || "https://gosouza.github.io/Xperience",
-  siteName: import.meta.env.VITE_SITE_NAME || "Xperience",
-
-  // SEO Defaults
-  defaultTitle:
-    import.meta.env.VITE_DEFAULT_TITLE ||
-    "Xperience - Mentoria para Empreendedores",
-  defaultDescription:
-    import.meta.env.VITE_DEFAULT_DESCRIPTION ||
-    "Transforme sua ideia em um negócio de sucesso com nossa mentoria especializada",
-  defaultKeywords:
-    import.meta.env.VITE_DEFAULT_KEYWORDS ||
-    "mentoria empresarial, consultoria para empreendedores, IA do empreendedor",
-
-  // Feature Flags
-  enableAnalytics: import.meta.env.VITE_ENABLE_ANALYTICS !== "false",
-  enablePWA: import.meta.env.VITE_ENABLE_PWA !== "false",
-  enablePerformanceMonitoring:
-    import.meta.env.VITE_ENABLE_PERFORMANCE_MONITORING !== "false",
-
-  // Development
-  isDev: import.meta.env.DEV,
-  isProd: import.meta.env.PROD,
+// Environment variables with fallbacks for testing
+export const ENV = {
+  VITE_MERCADO_PAGO_PUBLIC_KEY: import.meta.env.VITE_MERCADO_PAGO_PUBLIC_KEY || "test-key",
+  VITE_MERCADO_PAGO_ACCESS_TOKEN: import.meta.env.VITE_MERCADO_PAGO_ACCESS_TOKEN || "test-token",
+  VITE_ENVIRONMENT: import.meta.env.VITE_ENVIRONMENT || "development",
+  VITE_PRIVY_APP_ID: import.meta.env.VITE_PRIVY_APP_ID || "test-app-id",
+  VITE_PRIVY_APP_SECRET: import.meta.env.VITE_PRIVY_APP_SECRET || "test-secret",
+  VITE_WEBHOOK_URL: import.meta.env.VITE_WEBHOOK_URL || "https://your-vercel-app.vercel.app/api/webhooks",
+  VITE_API_URL: import.meta.env.VITE_API_URL || "https://your-vercel-app.vercel.app/api",
+  VITE_ENCRYPTION_KEY: import.meta.env.VITE_ENCRYPTION_KEY || "test-key",
+  VITE_WEBHOOK_SECRET: import.meta.env.VITE_WEBHOOK_SECRET || "test-secret",
+  VITE_USDT_ETHEREUM_CONTRACT: import.meta.env.VITE_USDT_ETHEREUM_CONTRACT || "test-contract",
+  VITE_USDT_POLYGON_CONTRACT: import.meta.env.VITE_USDT_POLYGON_CONTRACT || "test-contract",
+  DEV: import.meta.env.DEV || true,
+  PROD: import.meta.env.PROD || false,
 };
-
-export default seoConfig;

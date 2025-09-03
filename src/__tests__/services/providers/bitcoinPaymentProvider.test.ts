@@ -188,14 +188,17 @@ describe("BitcoinPaymentProvider", () => {
           Promise.resolve([
             {
               txid: "tx-hash-123",
-              status: { confirmed: true, block_height: 800000 },
+              status: { 
+                confirmed: true, 
+                block_height: 800000,
+                block_time: Date.now() / 1000 
+              },
               vout: [
                 {
                   scriptpubkey_address: "1TestAddress123",
                   value: 100000, // 0.001 BTC em satoshis
                 },
               ],
-              status: { block_time: Date.now() / 1000 },
             },
           ]),
       });
@@ -224,14 +227,16 @@ describe("BitcoinPaymentProvider", () => {
           Promise.resolve([
             {
               txid: "tx-hash-123",
-              status: { confirmed: false },
+              status: { 
+                confirmed: false,
+                block_time: Date.now() / 1000 
+              },
               vout: [
                 {
                   scriptpubkey_address: "1TestAddress123",
                   value: 100000,
                 },
               ],
-              status: { block_time: Date.now() / 1000 },
             },
           ]),
       });
@@ -312,14 +317,17 @@ describe("BitcoinPaymentProvider", () => {
           Promise.resolve([
             {
               txid: "tx-hash-123",
-              status: { confirmed: true, block_height: 800000 },
+              status: { 
+                confirmed: true, 
+                block_height: 800000,
+                block_time: (createdAt - 30000) / 1000 // Antes da criação
+              },
               vout: [
                 {
                   scriptpubkey_address: "1TestAddress123",
                   value: 100000,
                 },
               ],
-              status: { block_time: (createdAt - 30000) / 1000 }, // Antes da criação
             },
           ]),
       });
@@ -353,8 +361,8 @@ describe("BitcoinPaymentProvider", () => {
       const result = await provider.process(150000, "plan-1", "user-1");
 
       expect(result.amount).toBeCloseTo(0.5, 5);
-      expect(result.metadata.originalAmount).toBe(150000);
-      expect(result.metadata.originalCurrency).toBe("BRL");
+      expect(result.metadata?.originalAmount).toBe(150000);
+      expect(result.metadata?.originalCurrency).toBe("BRL");
     });
 
     test("should handle missing price data", async () => {
@@ -395,14 +403,17 @@ describe("BitcoinPaymentProvider", () => {
             Promise.resolve([
               {
                 txid: "tx-hash-123",
-                status: { confirmed: true, block_height: 800000 },
-                vout: [
-                  {
-                    scriptpubkey_address: "1TestAddress123",
-                    value: 100000,
-                  },
-                ],
-                status: { block_time: Date.now() / 1000 },
+                              status: { 
+                confirmed: true, 
+                block_height: 800000,
+                block_time: Date.now() / 1000 
+              },
+              vout: [
+                {
+                  scriptpubkey_address: "1TestAddress123",
+                  value: 100000,
+                },
+              ],
               },
             ]),
         });

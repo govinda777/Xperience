@@ -31,14 +31,17 @@ export function useCounterContract() {
     return {
       address: contract.address,
       async getCounter() {
-        const state = await client.getContractState(contract.address as any);
+        const state = await client.getContractState(contract.address);
         return state.state === "active" ? state.balance.toString() || "0" : "0";
       },
       async sendIncrement(via: Sender) {
         const message = beginCell()
           .storeUint(1, 32) // op: increment
           .endCell();
-        await client.sendExternalMessage(contract as any, message);
+        await client.sendExternalMessage(contract, {
+          body: message,
+          bounce: true,
+        });
       },
     } as unknown as OpenedContract<Counter>;
   }, [client]);

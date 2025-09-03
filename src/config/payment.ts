@@ -1,24 +1,22 @@
 import { PaymentConfig } from "../types/payment";
+import { ENV } from "./env";
 
 export const PAYMENT_CONFIG: PaymentConfig = {
   mercadoPago: {
-    publicKey: import.meta.env.VITE_MERCADO_PAGO_PUBLIC_KEY || "",
-    accessToken: import.meta.env.VITE_MERCADO_PAGO_ACCESS_TOKEN || "",
-    sandboxMode: import.meta.env.VITE_ENVIRONMENT !== "production",
+    publicKey: ENV.VITE_MERCADO_PAGO_PUBLIC_KEY,
+    accessToken: ENV.VITE_MERCADO_PAGO_ACCESS_TOKEN,
+    sandboxMode: ENV.VITE_ENVIRONMENT !== "production",
   },
   privy: {
-    appId: import.meta.env.VITE_PRIVY_APP_ID || "",
-    appSecret: import.meta.env.VITE_PRIVY_APP_SECRET || "",
+    appId: ENV.VITE_PRIVY_APP_ID,
+    appSecret: ENV.VITE_PRIVY_APP_SECRET,
     supportedChains: ["ethereum", "bitcoin"],
   },
-  webhookUrl:
-    import.meta.env.VITE_WEBHOOK_URL ||
-    "https://your-vercel-app.vercel.app/api/webhooks",
-  apiUrl:
-    import.meta.env.VITE_API_URL || "https://your-vercel-app.vercel.app/api",
+  webhookUrl: ENV.VITE_WEBHOOK_URL,
+  apiUrl: ENV.VITE_API_URL,
   security: {
-    encryptionKey: import.meta.env.VITE_ENCRYPTION_KEY || "",
-    webhookSecret: import.meta.env.VITE_WEBHOOK_SECRET || "",
+    encryptionKey: ENV.VITE_ENCRYPTION_KEY,
+    webhookSecret: ENV.VITE_WEBHOOK_SECRET,
   },
 };
 
@@ -50,8 +48,8 @@ export const PAYMENT_CONSTANTS = {
 
   // Contratos de criptomoedas
   CONTRACTS: {
-    USDT_ETHEREUM: import.meta.env.VITE_USDT_ETHEREUM_CONTRACT || "",
-    USDT_POLYGON: import.meta.env.VITE_USDT_POLYGON_CONTRACT || "",
+    USDT_ETHEREUM: ENV.VITE_USDT_ETHEREUM_CONTRACT,
+    USDT_POLYGON: ENV.VITE_USDT_POLYGON_CONTRACT,
   },
 
   // Redes blockchain
@@ -89,8 +87,8 @@ export function validatePaymentConfig(): boolean {
 
 // Função para obter configuração específica do ambiente
 export function getEnvironmentConfig() {
-  const isDevelopment = import.meta.env.DEV;
-  const isProduction = import.meta.env.PROD;
+  const isDevelopment = ENV.DEV;
+  const isProduction = ENV.PROD;
 
   return {
     isDevelopment,

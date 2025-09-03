@@ -47,6 +47,58 @@ export class PixPaymentProvider implements PaymentProviderInterface {
   type = "fiat" as const;
   supportedCurrencies: PaymentCurrency[] = ["BRL"];
 
+  validatePaymentData(data: {
+    amount: number;
+    currency: PaymentCurrency;
+    description: string;
+    externalId: string;
+  }) {
+    const errors: string[] = [];
+
+    if (data.amount < 1) {
+      errors.push("Minimum amount is R$ 1,00");
+    }
+
+    if (data.amount > 10000) {
+      errors.push("Maximum amount is R$ 10.000,00");
+    }
+
+    if (!this.supportedCurrencies.includes(data.currency)) {
+      errors.push(`Currency ${data.currency} not supported`);
+    }
+
+    return {
+      isValid: errors.length === 0,
+      errors,
+    };
+  }
+
+  formatAmount(amount: number, currency: PaymentCurrency): string {
+    return new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    }).format(amount);
+  }
+
+  isPaymentExpired(expirationDate: string): boolean {
+    return new Date(expirationDate).getTime() < Date.now();
+  }
+
+  calculateDiscountedAmount(amount: number, currency: PaymentCurrency): number {
+    return amount; // No discount for PIX
+  }
+
+  getSupportedNetworks(): string[] {
+    return []; // PIX doesn't use blockchain networks
+  }
+
+  getEstimatedConfirmationTime(): string {
+    return "Instantâneo";
+  }
+
+  getPaymentInstructions(locale: string): string {
+    return "1. Abra o aplicativo do seu banco\n2. Selecione a opção PIX\n3. Escaneie o QR Code ou copie o código PIX\n4. Confirme o pagamento";
+
   private baseUrl: string;
   private accessToken: string;
 
