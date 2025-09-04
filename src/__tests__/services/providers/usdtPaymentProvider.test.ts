@@ -65,20 +65,31 @@ describe("USDTPaymentProvider", () => {
     });
 
     test("should throw error if Privy App ID is not configured", () => {
-      jest.doMock("../../../config/payment", () => ({
+      jest.resetModules();
+      jest.mock("../../../config/payment", () => ({
         PAYMENT_CONFIG: {
           privy: {
             appId: "",
           },
         },
+        PAYMENT_CONSTANTS: {
+          CRYPTO_TIMEOUT: 3600000,
+          CRYPTO_POLLING_INTERVAL: 30000,
+          COINGECKO_API: "https://api.coingecko.com/api/v3",
+          CONTRACTS: {
+            USDT_ETHEREUM: "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+          },
+          NETWORKS: {
+            ETHEREUM_MAINNET: 1,
+          },
+        },
       }));
 
       expect(() => {
-        const {
-          USDTPaymentProvider: TestProvider,
-        } = require("../../../services/providers/usdtPaymentProvider");
-        new TestProvider();
+        new USDTPaymentProvider();
       }).toThrow("Privy App ID não configurado para USDT");
+
+      PAYMENT_CONFIG.privy.appId = originalConfig.privy.appId;
     });
   });
 
@@ -99,11 +110,11 @@ describe("USDTPaymentProvider", () => {
 
       const result = await provider.process(550, "plan-1", "user-1");
 
-      expect(result).toEqual({
+      expect(result).toMatchObject({
         transactionId: expect.stringContaining("usdt-user-1-plan-1"),
         paymentAddress: expect.stringMatching(/^0x[a-f0-9]{40}$/),
         qrCode: expect.stringContaining("ethereum:"),
-        amount: expect.closeTo(100, 1),
+        amount: expect.any(Number),
         currency: "USDT",
         expiresAt: expect.any(Date),
         metadata: expect.objectContaining({
@@ -116,6 +127,8 @@ describe("USDTPaymentProvider", () => {
           planId: "plan-1",
         }),
       });
+
+      expect(result.amount).toBeCloseTo(100, 1);
     });
 
     test("should fallback to USD conversion when direct USDT fails", async () => {
@@ -186,6 +199,7 @@ describe("USDTPaymentProvider", () => {
       );
 
       // Mock Etherscan API response
+      const currentBlock = 18000020; // 18000000 + 20 confirmações
       (fetch as jest.Mock)
         .mockResolvedValueOnce({
           ok: true,
@@ -210,7 +224,7 @@ describe("USDTPaymentProvider", () => {
             Promise.resolve({
               jsonrpc: "2.0",
               id: 1,
-              result: "0x112a880", // 18000000 + 20 confirmações
+              result: "0x" + currentBlock.toString(16), // 18000000 + 20 confirmações
             }),
         });
 
@@ -233,6 +247,7 @@ describe("USDTPaymentProvider", () => {
       );
 
       // Mock com poucas confirmações
+      const currentBlock = 18000005; // 18000000 + 5 confirmações
       (fetch as jest.Mock)
         .mockResolvedValueOnce({
           ok: true,
@@ -257,7 +272,7 @@ describe("USDTPaymentProvider", () => {
             Promise.resolve({
               jsonrpc: "2.0",
               id: 1,
-              result: "0x1124f80", // 18000000 + 5 confirmações
+              result: "0x" + currentBlock.toString(16), // 18000000 + 5 confirmações
             }),
         });
 

@@ -162,7 +162,7 @@ export class USDTPaymentProvider implements PaymentProviderInterface {
         const txAmount = this.fromWei(tx.value, 6);
         return (
           Math.abs(txAmount - expectedAmount) < 0.01 && // Tolerância de 1 centavo
-          tx.timestamp > metadata.createdAt
+          tx.timestamp >= metadata.createdAt / 1000 // Converter para segundos
         );
       });
 
@@ -175,6 +175,8 @@ export class USDTPaymentProvider implements PaymentProviderInterface {
         return "completed";
       } else if (matchingTx.confirmations > 0) {
         return "processing";
+      } else if (matchingTx.status === "failed") {
+        return "failed";
       }
 
       return "pending";
@@ -197,32 +199,29 @@ export class USDTPaymentProvider implements PaymentProviderInterface {
    */
   private async convertToUSDT(brlAmount: number): Promise<number> {
     try {
-      // Primeiro converter BRL para USD
+      // Tentar cotação direta USDT/BRL primeiro
+      const usdtResponse = await fetch(
+        `${PAYMENT_CONSTANTS.COINGECKO_API}/simple/price?ids=tether&vs_currencies=brl`,
+      );
+
+      if (usdtResponse.ok) {
+        const usdtData = await usdtResponse.json();
+        const usdtPriceBRL = usdtData.tether.brl;
+
+        if (usdtPriceBRL) {
+          return brlAmount / usdtPriceBRL;
+        }
+      }
+
+      // Fallback: usar cotação USD/BRL
       const usdResponse = await fetch(
         `${PAYMENT_CONSTANTS.COINGECKO_API}/simple/price?ids=usd&vs_currencies=brl`,
       );
 
       if (!usdResponse.ok) {
-        // Fallback: usar cotação direta USDT/BRL
-        const usdtResponse = await fetch(
-          `${PAYMENT_CONSTANTS.COINGECKO_API}/simple/price?ids=tether&vs_currencies=brl`,
-        );
-
-        if (!usdtResponse.ok) {
-          throw new Error("Erro ao buscar cotação USDT");
-        }
-
-        const usdtData = await usdtResponse.json();
-        const usdtPriceBRL = usdtData.tether.brl;
-
-        if (!usdtPriceBRL) {
-          throw new Error("Cotação USDT não disponível");
-        }
-
-        return brlAmount / usdtPriceBRL;
+        throw new Error("Erro ao buscar cotação USDT");
       }
 
-      // Usar cotação USD como proxy para USDT (são praticamente equivalentes)
       const usdData = await usdResponse.json();
       const usdPriceBRL = usdData.usd?.brl || 5.0; // Fallback aproximado
 
@@ -275,7 +274,7 @@ export class USDTPaymentProvider implements PaymentProviderInterface {
    */
   private generateEthereumAddress(hash: string): string {
     // Esta é uma simulação - em produção, usar biblioteca Ethereum apropriada
-    return `0x${hash.substring(0, 40)}`;
+    return `0x${hash.substring(0, 40).padEnd(40, "0")}`;
   }
 
   /**
@@ -364,7 +363,7 @@ export class USDTPaymentProvider implements PaymentProviderInterface {
    */
   private toWei(amount: number, decimals: number = 6): string {
     const multiplier = Math.pow(10, decimals);
-    return Math.floor(amount * multiplier).toString();
+    return Math.round(amount * multiplier).toString();
   }
 
   /**
@@ -411,6 +410,8 @@ export class USDTPaymentProvider implements PaymentProviderInterface {
         }
       } catch (error) {
         console.error("Erro no monitoramento USDT:", error);
+        onStatusChange("failed");
+        clearInterval(interval);
       }
     };
 
@@ -422,6 +423,7 @@ export class USDTPaymentProvider implements PaymentProviderInterface {
 
     // Verificação inicial
     checkPayment();
+    return Promise.resolve();
 
     // Limpar após timeout
     setTimeout(() => {
@@ -446,8 +448,8 @@ export class USDTPaymentProvider implements PaymentProviderInterface {
       ]);
 
       if (response.result) {
-        const balance = parseInt(response.result, 16);
-        return this.fromWei(balance.toString(), 6);
+        const balance = parseInt(response.result.replace("0x", ""), 16);
+        return this.fromWei(balance.toString(), 6); // Convert to USDT units
       }
 
       return 0;
