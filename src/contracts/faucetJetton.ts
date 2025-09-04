@@ -3,11 +3,11 @@ import {
   ContractProvider,
   Sender,
   Address as TonCoreAddress,
-  Cell,
+  Cell as TonCoreCell,
   beginCell,
   toNano,
 } from "ton-core";
-import { Contract, ContractSource, Address } from "ton";
+import { Contract, ContractSource, Address, Cell } from "ton";
 
 export default class FaucetJetton implements Contract, TonCoreContract {
   readonly source: ContractSource = {

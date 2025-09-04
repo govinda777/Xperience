@@ -1,16 +1,5 @@
 // Environment variables with fallbacks for testing
-export const seoConfig = {
-  title: "Xperience - Programa de Mentoria",
-  description: "Programa de mentoria para empreendedores",
-  keywords: "mentoria, empreendedorismo, negócios",
-  author: "Xperience",
-  url: "https://xperience.com.br",
-  siteUrl: "https://xperience.com.br",
-  enableAnalytics: true,
-  enablePerformanceMonitoring: true,
-  gaId: "G-XXXXXXXXXX",
-  isDev: ENV.DEV,
-};
+const isDev = import.meta.env.DEV || true;
 
 export const ENV = {
   VITE_MERCADO_PAGO_PUBLIC_KEY: import.meta.env.VITE_MERCADO_PAGO_PUBLIC_KEY || "test-key",
@@ -26,4 +15,17 @@ export const ENV = {
   VITE_USDT_POLYGON_CONTRACT: import.meta.env.VITE_USDT_POLYGON_CONTRACT || "test-contract",
   DEV: import.meta.env.DEV || true,
   PROD: import.meta.env.PROD || false,
+};
+
+export const seoConfig = {
+  title: "Xperience - Programa de Mentoria",
+  description: "Programa de mentoria para empreendedores",
+  keywords: "mentoria, empreendedorismo, negócios",
+  author: "Xperience",
+  url: "https://xperience.com.br",
+  siteUrl: "https://xperience.com.br",
+  enableAnalytics: true,
+  enablePerformanceMonitoring: true,
+  gaId: "G-XXXXXXXXXX",
+  isDev,
 };

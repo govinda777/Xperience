@@ -37,7 +37,7 @@ export function useFaucetJettonContract() {
           .storeAddress(to)
           .endCell();
         await client.sendExternalMessage(contract, {
-          body: message,
+          body: message.toBoc(),
           bounce: true,
         });
       },

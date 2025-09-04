@@ -3,11 +3,11 @@ import {
   ContractProvider,
   Sender,
   Address as TonCoreAddress,
-  Cell,
+  Cell as TonCoreCell,
   contractAddress,
   beginCell,
 } from "ton-core";
-import { Contract, ContractSource, Address } from "ton";
+import { Contract, ContractSource, Address, Cell } from "ton";
 
 export default class Counter implements Contract, TonCoreContract {
   readonly source: ContractSource = {

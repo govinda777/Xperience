@@ -1,10 +1,10 @@
-import { fromNano as _fromNano, Contract, ContractSource, Address } from "ton";
+import { fromNano as _fromNano, Contract, ContractSource, Address, Cell } from "ton";
 import {
   Contract as TonCoreContract,
   ContractProvider,
   Sender as _Sender,
   Address as TonCoreAddress,
-  Cell as _Cell,
+  Cell as TonCoreCell,
   contractAddress as _contractAddress,
   beginCell as _beginCell,
   toNano as _toNano,
@@ -12,8 +12,8 @@ import {
 
 export default class FaucetJettonWallet implements Contract, TonCoreContract {
   readonly source: ContractSource = {
-    initialCode: new _Cell(),
-    initialData: new _Cell(),
+    initialCode: new Cell(),
+    initialData: new Cell(),
     type: "FaucetJettonWallet",
     compiler: "func",
   };
