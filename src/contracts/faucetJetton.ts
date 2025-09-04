@@ -9,7 +9,7 @@ import {
 } from "ton-core";
 import { Contract, ContractSource, Address, Cell } from "ton";
 
-export default class FaucetJetton implements Contract, TonCoreContract {
+export default class FaucetJetton implements Contract {
   readonly source: ContractSource = {
     initialCode: beginCell().endCell() as unknown as Cell,
     initialData: beginCell().endCell() as unknown as Cell,

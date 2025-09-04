@@ -10,7 +10,7 @@ import {
   toNano as _toNano,
 } from "ton-core";
 
-export default class FaucetJettonWallet implements Contract, TonCoreContract {
+export default class FaucetJettonWallet implements Contract {
   readonly source: ContractSource = {
     initialCode: _beginCell().endCell() as unknown as Cell,
     initialData: _beginCell().endCell() as unknown as Cell,
