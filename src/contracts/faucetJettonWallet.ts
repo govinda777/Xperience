@@ -15,6 +15,9 @@ export default class FaucetJettonWallet implements Contract, TonCoreContract {
     initialCode: _beginCell().endCell() as unknown as Cell,
     initialData: _beginCell().endCell() as unknown as Cell,
     type: "FaucetJettonWallet",
+    workchain: 0,
+    backup: () => "",
+    describe: () => "Faucet Jetton Wallet Contract",
   };
   async getBalance(provider: ContractProvider) {
     const { stack } = await provider.get("get_wallet_data", []);

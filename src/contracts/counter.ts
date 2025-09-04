@@ -14,6 +14,9 @@ export default class Counter implements Contract, TonCoreContract {
     initialCode: beginCell().endCell() as unknown as Cell,
     initialData: beginCell().endCell() as unknown as Cell,
     type: "Counter",
+    workchain: 0,
+    backup: () => "",
+    describe: () => "Counter Contract",
   };
   static createForDeploy(code: Cell, initialCounterValue: number): Counter {
     const data = beginCell().storeUint(initialCounterValue, 64).endCell();

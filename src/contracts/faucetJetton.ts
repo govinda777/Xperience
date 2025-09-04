@@ -14,6 +14,9 @@ export default class FaucetJetton implements Contract, TonCoreContract {
     initialCode: beginCell().endCell() as unknown as Cell,
     initialData: beginCell().endCell() as unknown as Cell,
     type: "FaucetJetton",
+    workchain: 0,
+    backup: () => "",
+    describe: () => "Faucet Jetton Contract",
   };
   async sendMintFromFaucet(
     provider: ContractProvider,
