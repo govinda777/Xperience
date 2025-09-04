@@ -1,4 +1,12 @@
 // Environment variables with fallbacks for testing
+export const seoConfig = {
+  title: "Xperience - Programa de Mentoria",
+  description: "Programa de mentoria para empreendedores",
+  keywords: "mentoria, empreendedorismo, negócios",
+  author: "Xperience",
+  url: "https://xperience.com.br",
+};
+
 export const ENV = {
   VITE_MERCADO_PAGO_PUBLIC_KEY: import.meta.env.VITE_MERCADO_PAGO_PUBLIC_KEY || "test-key",
   VITE_MERCADO_PAGO_ACCESS_TOKEN: import.meta.env.VITE_MERCADO_PAGO_ACCESS_TOKEN || "test-token",

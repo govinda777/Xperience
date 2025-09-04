@@ -3,14 +3,15 @@ import { useTonClient } from "./useTonClient";
 import { useTonConnect } from "./useTonConnect";
 import FaucetJetton from "../contracts/faucetJetton";
 import {
-  Address,
+  Address as TonCoreAddress,
   OpenedContract,
   ContractProvider,
   Sender,
-  Contract,
+  Contract as TonCoreContract,
   Cell,
   beginCell,
 } from "ton-core";
+import { Address, Contract } from "ton";
 import FaucetJettonWallet from "../contracts/faucetJettonWallet";
 import { useQuery } from "@tanstack/react-query";
 
@@ -21,7 +22,7 @@ export function useFaucetJettonContract() {
   const faucetJettonContract = useAsyncInitialize(async () => {
     if (!client || !wallet) return;
     const contract = new FaucetJetton(
-      Address.parse("EQB8StgTQXidy32a8xfu7j4HMoWYV0b0cFM8nXsP2cza_b7Y"),
+      Address.parseFriendly("EQB8StgTQXidy32a8xfu7j4HMoWYV0b0cFM8nXsP2cza_b7Y").address,
     );
 
     return {
@@ -40,15 +41,15 @@ export function useFaucetJettonContract() {
           bounce: true,
         });
       },
-    } as unknown as OpenedContract<FaucetJetton>;
+    } as Contract & OpenedContract<FaucetJetton>;
   }, [client, wallet]);
 
   const jwContract = useAsyncInitialize(async () => {
     if (!faucetJettonContract || !client) return;
     const jettonWalletAddress = await faucetJettonContract!.getWalletAddress(
-      Address.parse(wallet!),
+      Address.parseFriendly(wallet!).address,
     );
-    const contract = new FaucetJettonWallet(Address.parse(jettonWalletAddress));
+    const contract = new FaucetJettonWallet(Address.parseFriendly(jettonWalletAddress).address);
 
     return {
       address: contract.address,
@@ -56,7 +57,7 @@ export function useFaucetJettonContract() {
         const state = await client.getContractState(contract.address);
         return state.state === "active" ? state.balance.toString() || "0" : "0";
       },
-    } as unknown as OpenedContract<FaucetJettonWallet>;
+    } as Contract & OpenedContract<FaucetJettonWallet>;
   }, [faucetJettonContract, client]);
 
   const { data, isFetching } = useQuery({
@@ -70,7 +71,7 @@ export function useFaucetJettonContract() {
 
   return {
     mint: () => {
-      faucetJettonContract?.sendMintFromFaucet(sender, Address.parse(wallet!));
+      faucetJettonContract?.sendMintFromFaucet(sender, Address.parseFriendly(wallet!).address);
     },
     jettonWalletAddress: jwContract?.address.toString(),
     balance: isFetching ? null : data,

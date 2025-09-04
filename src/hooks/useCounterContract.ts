@@ -3,14 +3,15 @@ import { useTonClient } from "./useTonClient";
 import { useAsyncInitialize } from "./useAsyncInitialize";
 import { useTonConnect } from "./useTonConnect";
 import {
-  Address,
+  Address as TonCoreAddress,
   OpenedContract,
   ContractProvider,
   Sender,
-  Contract,
+  Contract as TonCoreContract,
   Cell,
   beginCell,
 } from "ton-core";
+import { Address, Contract } from "ton";
 import { useQuery } from "@tanstack/react-query";
 import { CHAIN } from "@tonconnect/protocol";
 
@@ -21,11 +22,11 @@ export function useCounterContract() {
   const counterContract = useAsyncInitialize(async () => {
     if (!client) return;
     const contract = new Counter(
-      Address.parse(
+      Address.parseFriendly(
         network === CHAIN.MAINNET
           ? "EQBPEDbGdwaLv1DKntg9r6SjFIVplSaSJoJ-TVLe_2rqBOmH"
           : "EQBYLTm4nsvoqJRvs_L-IGNKwWs5RKe19HBK_lFadf19FUfb",
-      ),
+      ).address,
     );
 
     return {
@@ -43,7 +44,7 @@ export function useCounterContract() {
           bounce: true,
         });
       },
-    } as unknown as OpenedContract<Counter>;
+    } as Contract & OpenedContract<Counter>;
   }, [client]);
 
   const { data, isFetching } = useQuery({
