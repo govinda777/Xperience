@@ -1,5 +1,5 @@
 // Environment variables with fallbacks for testing
-const isDev = import.meta.env.DEV || true;
+const isDev = process.env.NODE_ENV === 'development' || true;
 
 export const ENV = {
   VITE_MERCADO_PAGO_PUBLIC_KEY: import.meta.env.VITE_MERCADO_PAGO_PUBLIC_KEY || "test-key",

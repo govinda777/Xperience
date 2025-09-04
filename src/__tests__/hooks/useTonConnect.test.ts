@@ -73,6 +73,16 @@ describe('useTonConnect', () => {
     const mockValue = 1000000000n; // 1 TON
     const mockBody = {
       toBoc: () => Buffer.from('test'),
+      type: 'Cell',
+      bits: new Uint8Array(),
+      refs: [],
+      mask: 0,
+      hash: () => Buffer.from('test'),
+      depth: () => 0,
+      level: () => 0,
+      isExotic: false,
+      beginParse: () => ({ type: 'Slice' }),
+      clone: () => mockBody,
     };
 
     await act(async () => {

@@ -102,7 +102,7 @@ describe('useFaucetJettonContract', () => {
     await act(async () => {
       const fn = (useAsyncInitialize as jest.Mock).mock.calls[1][0];
       const contract = await fn();
-      expect(contract.address.toString()).toBe('EQBYLTm4nsvoqJRvs_L-IGNKwWs5RKe19HBK_lFadf19FUfb');
+      expect(contract.address.toFriendly()).toBe('EQBYLTm4nsvoqJRvs_L-IGNKwWs5RKe19HBK_lFadf19FUfb');
       const balance = await contract.getBalance();
       expect(balance).toBe('10');
     });
@@ -128,7 +128,7 @@ describe('useFaucetJettonContract', () => {
     await act(async () => {
       const fn = (useAsyncInitialize as jest.Mock).mock.calls[1][0];
       const contract = await fn();
-      expect(contract.address.toString()).toBe('EQBYLTm4nsvoqJRvs_L-IGNKwWs5RKe19HBK_lFadf19FUfb');
+      expect(contract.address.toFriendly()).toBe('EQBYLTm4nsvoqJRvs_L-IGNKwWs5RKe19HBK_lFadf19FUfb');
       const balance = await contract.getBalance();
       expect(balance).toBe('0');
     });
@@ -154,7 +154,7 @@ describe('useFaucetJettonContract', () => {
     await act(async () => {
       const fn = (useAsyncInitialize as jest.Mock).mock.calls[1][0];
       const contract = await fn();
-      expect(contract.address.toString()).toBe('EQBYLTm4nsvoqJRvs_L-IGNKwWs5RKe19HBK_lFadf19FUfb');
+      expect(contract.address.toFriendly()).toBe('EQBYLTm4nsvoqJRvs_L-IGNKwWs5RKe19HBK_lFadf19FUfb');
       const balance = await contract.getBalance();
       expect(balance).toBe('0');
     });
@@ -219,10 +219,10 @@ describe('useFaucetJettonContract', () => {
     expect(mockFaucetContract.sendMintFromFaucet).toHaveBeenCalledWith(
       mockSender,
       expect.objectContaining({
+        toBuffer: expect.any(Function),
+        toFriendly: expect.any(Function),
+        toFriendlyBuffer: expect.any(Function),
         toString: expect.any(Function),
-        toRaw: expect.any(Function),
-        toRawString: expect.any(Function),
-        toStringBuffer: expect.any(Function),
         workChain: 0,
       })
     );

@@ -40,7 +40,7 @@ export function useCounterContract() {
           .storeUint(1, 32) // op: increment
           .endCell();
         await client.sendExternalMessage(contract, {
-          body: message.toBoc(),
+          body: beginCell().storeBuffer(message.toBoc()).endCell(),
           bounce: true,
         });
       },
