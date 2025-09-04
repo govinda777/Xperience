@@ -1,14 +1,21 @@
 import {
-  Contract,
+  Contract as TonCoreContract,
   ContractProvider,
   Sender,
-  Address,
+  Address as TonCoreAddress,
   Cell,
   contractAddress,
   beginCell,
 } from "ton-core";
+import { Contract, ContractSource, Address } from "ton";
 
-export default class Counter implements Contract {
+export default class Counter implements Contract, TonCoreContract {
+  readonly source: ContractSource = {
+    initialCode: new Cell(),
+    initialData: new Cell(),
+    type: "Counter",
+    compiler: "func",
+  };
   static createForDeploy(code: Cell, initialCounterValue: number): Counter {
     const data = beginCell().storeUint(initialCounterValue, 64).endCell();
     const workchain = 0; // deploy to workchain 0

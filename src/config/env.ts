@@ -5,6 +5,11 @@ export const seoConfig = {
   keywords: "mentoria, empreendedorismo, negócios",
   author: "Xperience",
   url: "https://xperience.com.br",
+  siteUrl: "https://xperience.com.br",
+  enableAnalytics: true,
+  enablePerformanceMonitoring: true,
+  gaId: "G-XXXXXXXXXX",
+  isDev: ENV.DEV,
 };
 
 export const ENV = {

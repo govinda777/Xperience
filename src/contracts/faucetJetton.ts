@@ -1,14 +1,21 @@
 import {
-  Contract,
+  Contract as TonCoreContract,
   ContractProvider,
   Sender,
-  Address,
+  Address as TonCoreAddress,
   Cell,
   beginCell,
   toNano,
 } from "ton-core";
+import { Contract, ContractSource, Address } from "ton";
 
-export default class FaucetJetton implements Contract {
+export default class FaucetJetton implements Contract, TonCoreContract {
+  readonly source: ContractSource = {
+    initialCode: new Cell(),
+    initialData: new Cell(),
+    type: "FaucetJetton",
+    compiler: "func",
+  };
   async sendMintFromFaucet(
     provider: ContractProvider,
     via: Sender,
