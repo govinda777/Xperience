@@ -22,7 +22,7 @@ export default class Counter implements Contract {
     const data = beginCell().storeUint(initialCounterValue, 64).endCell();
     const workchain = 0; // deploy to workchain 0
     const address = contractAddress(workchain, { code: code as unknown as TonCoreCell, data: data as unknown as TonCoreCell });
-    return new Counter(address as unknown as Address, { code: code as unknown as TonCoreCell, data: data as unknown as TonCoreCell });
+    return new Counter(address as unknown as Address, { code: code as unknown as Cell, data: data as unknown as Cell });
   }
 
   async sendDeploy(provider: ContractProvider, via: Sender) {
