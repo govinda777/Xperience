@@ -11,8 +11,8 @@ import { Contract, ContractSource, Address, Cell } from "ton";
 
 export default class FaucetJetton implements Contract, TonCoreContract {
   readonly source: ContractSource = {
-    initialCode: new TonCoreCell(),
-    initialData: new TonCoreCell(),
+    initialCode: beginCell().endCell() as unknown as Cell,
+    initialData: beginCell().endCell() as unknown as Cell,
     type: "FaucetJetton",
   };
   async sendMintFromFaucet(

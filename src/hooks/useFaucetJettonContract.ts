@@ -37,7 +37,7 @@ export function useFaucetJettonContract() {
           .storeAddress(to as unknown as TonCoreAddress)
           .endCell();
         await client.sendExternalMessage(contract, {
-          body: message as unknown as TonCoreCell,
+          body: message,
           bounce: true,
         });
       },

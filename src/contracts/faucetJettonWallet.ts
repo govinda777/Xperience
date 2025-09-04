@@ -12,8 +12,8 @@ import {
 
 export default class FaucetJettonWallet implements Contract, TonCoreContract {
   readonly source: ContractSource = {
-    initialCode: new TonCoreCell(),
-    initialData: new TonCoreCell(),
+    initialCode: _beginCell().endCell() as unknown as Cell,
+    initialData: _beginCell().endCell() as unknown as Cell,
     type: "FaucetJettonWallet",
   };
   async getBalance(provider: ContractProvider) {
