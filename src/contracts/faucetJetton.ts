@@ -11,10 +11,9 @@ import { Contract, ContractSource, Address, Cell } from "ton";
 
 export default class FaucetJetton implements Contract, TonCoreContract {
   readonly source: ContractSource = {
-    initialCode: new Cell(),
-    initialData: new Cell(),
+    initialCode: new TonCoreCell(),
+    initialData: new TonCoreCell(),
     type: "FaucetJetton",
-    compiler: "func",
   };
   async sendMintFromFaucet(
     provider: ContractProvider,
@@ -27,7 +26,7 @@ export default class FaucetJetton implements Contract, TonCoreContract {
     const mintTokensBody = beginCell()
       .storeUint(MINT, 32)
       .storeUint(0, 64) // queryid
-      .storeAddress(receivingAddress)
+      .storeAddress(receivingAddress as unknown as TonCoreAddress)
       .storeCoins(toNano("0.02"))
       .storeRef(
         // internal transfer message
@@ -36,7 +35,7 @@ export default class FaucetJetton implements Contract, TonCoreContract {
           .storeUint(0, 64)
           .storeCoins(toNano(150))
           .storeAddress(null)
-          .storeAddress(receivingAddress) // So we get a notification
+          .storeAddress(receivingAddress as unknown as TonCoreAddress) // So we get a notification
           .storeCoins(toNano("0.001"))
           .storeBit(false) // forward_payload in this slice, not separate cell
           .endCell(),
@@ -51,7 +50,7 @@ export default class FaucetJetton implements Contract, TonCoreContract {
 
   async getWalletAddress(provider: ContractProvider, forAddress: Address) {
     const { stack } = await provider.get("get_wallet_address", [
-      { type: "slice", cell: beginCell().storeAddress(forAddress).endCell() },
+      { type: "slice", cell: beginCell().storeAddress(forAddress as unknown as TonCoreAddress).endCell() },
     ]);
 
     return stack.readAddress().toString();

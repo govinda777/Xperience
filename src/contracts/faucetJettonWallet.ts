@@ -12,10 +12,9 @@ import {
 
 export default class FaucetJettonWallet implements Contract, TonCoreContract {
   readonly source: ContractSource = {
-    initialCode: new Cell(),
-    initialData: new Cell(),
+    initialCode: new TonCoreCell(),
+    initialData: new TonCoreCell(),
     type: "FaucetJettonWallet",
-    compiler: "func",
   };
   async getBalance(provider: ContractProvider) {
     const { stack } = await provider.get("get_wallet_data", []);
@@ -24,6 +23,6 @@ export default class FaucetJettonWallet implements Contract, TonCoreContract {
 
   constructor(
     readonly address: Address,
-    readonly init?: { code: _Cell; data: _Cell },
+    readonly init?: { code: Cell; data: Cell },
   ) {}
 }

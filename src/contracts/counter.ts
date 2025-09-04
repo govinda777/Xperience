@@ -11,16 +11,15 @@ import { Contract, ContractSource, Address, Cell } from "ton";
 
 export default class Counter implements Contract, TonCoreContract {
   readonly source: ContractSource = {
-    initialCode: new Cell(),
-    initialData: new Cell(),
+    initialCode: new TonCoreCell(),
+    initialData: new TonCoreCell(),
     type: "Counter",
-    compiler: "func",
   };
   static createForDeploy(code: Cell, initialCounterValue: number): Counter {
     const data = beginCell().storeUint(initialCounterValue, 64).endCell();
     const workchain = 0; // deploy to workchain 0
-    const address = contractAddress(workchain, { code, data });
-    return new Counter(address, { code, data });
+    const address = contractAddress(workchain, { code: code as TonCoreCell, data: data as TonCoreCell });
+    return new Counter(address as unknown as Address, { code, data });
   }
 
   async sendDeploy(provider: ContractProvider, via: Sender) {

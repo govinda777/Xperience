@@ -34,10 +34,10 @@ export function useFaucetJettonContract() {
       async sendMintFromFaucet(via: Sender, to: Address) {
         const message = beginCell()
           .storeUint(2, 32) // op: mint
-          .storeAddress(to)
+          .storeAddress(to as unknown as TonCoreAddress)
           .endCell();
         await client.sendExternalMessage(contract, {
-          body: message.toBoc(),
+          body: message as unknown as TonCoreCell,
           bounce: true,
         });
       },
