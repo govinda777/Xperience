@@ -190,50 +190,138 @@ export class PaymentService {
    * Carrega taxas de câmbio das APIs
    */
   private async loadExchangeRates(): Promise<void> {
+    const loadWithTimeout = async (from: PaymentCurrency, to: PaymentCurrency, timeout = 5000): Promise<void> => {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), timeout);
+      
+      try {
+        await this.updateExchangeRate(from, to);
+      } finally {
+        clearTimeout(timeoutId);
+      }
+    };
+
     try {
-      // Carregar BTC/BRL
-      await this.updateExchangeRate("BRL", "BTC");
-
-      // Carregar USDT/BRL
-      await this.updateExchangeRate("BRL", "USDT");
-
-      // Carregar BTC/USDT
-      await this.updateExchangeRate("BTC", "USDT");
+      // Tenta carregar cada taxa de câmbio independentemente
+      // para que uma falha não impeça as outras de serem carregadas
+      await Promise.allSettled([
+        loadWithTimeout("BRL", "BTC").catch(error => 
+          console.error("Erro ao carregar taxa BRL/BTC:", error)
+        ),
+        loadWithTimeout("BRL", "USDT").catch(error => 
+          console.error("Erro ao carregar taxa BRL/USDT:", error)
+        ),
+        loadWithTimeout("BTC", "USDT").catch(error => 
+          console.error("Erro ao carregar taxa BTC/USDT:", error)
+        )
+      ]);
+      
+      // Verifica se pelo menos uma taxa de câmbio foi carregada
+      if (this.exchangeRates.size === 0) {
+        throw new Error('Falha ao carregar todas as taxas de câmbio');
+      }
     } catch (error) {
-      console.error("Erro ao carregar taxas de câmbio:", error);
+      console.error("Erro geral ao carregar taxas de câmbio:", error);
+      // Não relançar o erro para não quebrar o fluxo principal
     }
   }
 
   /**
    * Atualiza uma taxa de câmbio específica
    */
+  private async fetchWithRetry(
+    url: string,
+    options: RequestInit = {},
+    maxRetries = 3,
+    retryDelay = 1000
+  ): Promise<any> {
+    let lastError: Error | null = null;
+    
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        const response = await fetch(url, {
+          ...options,
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            ...options.headers
+          }
+        });
+        
+        if (!response.ok) {
+          // Se for erro 429 (Too Many Requests), espera um pouco antes de tentar novamente
+          if (response.status === 429 && attempt < maxRetries) {
+            const retryAfter = parseInt(response.headers.get('Retry-After') || '5');
+            await new Promise(resolve => setTimeout(resolve, retryAfter * 1000 || retryDelay));
+            continue;
+          }
+          throw new Error(`HTTP error! status: ${response.status} ${response.statusText}`);
+        }
+        
+        return await response.json();
+      } catch (error) {
+        lastError = error as Error;
+        if (attempt < maxRetries) {
+          await new Promise(resolve => setTimeout(resolve, retryDelay * attempt));
+        }
+      }
+    }
+    
+    throw lastError || new Error('Falha na requisição após várias tentativas');
+  }
+
   private async updateExchangeRate(
     from: PaymentCurrency,
     to: PaymentCurrency,
   ): Promise<void> {
     try {
       let rate: number;
+      let data: any;
 
       if (from === "BRL" && to === "BTC") {
         // BRL para BTC via CoinGecko
-        const response = await fetch(
-          "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=brl",
+        data = await this.fetchWithRetry(
+          "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=brl"
         );
-        const data = await response.json();
+        
+        if (!data) {
+          throw new Error('Dados não retornados da API');
+        }
+        
+        if (!data?.bitcoin?.brl) {
+          throw new Error('Resposta da API em formato inesperado para BTC/BRL');
+        }
+        
         rate = 1 / data.bitcoin.brl; // Inverter para obter BTC por BRL
       } else if (from === "BRL" && to === "USDT") {
         // BRL para USDT via CoinGecko
-        const response = await fetch(
-          "https://api.coingecko.com/api/v3/simple/price?ids=tether&vs_currencies=brl",
+        data = await this.fetchWithRetry(
+          "https://api.coingecko.com/api/v3/simple/price?ids=tether&vs_currencies=brl"
         );
-        const data = await response.json();
+        
+        if (!data) {
+          throw new Error('Dados não retornados da API');
+        }
+        
+        if (!data?.tether?.brl) {
+          throw new Error('Resposta da API em formato inesperado para USDT/BRL');
+        }
+        
         rate = 1 / data.tether.brl; // Inverter para obter USDT por BRL
       } else if (from === "BTC" && to === "USDT") {
         // BTC para USDT
-        const response = await fetch(
-          "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd",
+        data = await this.fetchWithRetry(
+          "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd"
         );
-        const data = await response.json();
+        
+        if (!data) {
+          throw new Error('Dados não retornados da API');
+        }
+        
+        if (!data?.bitcoin?.usd) {
+          throw new Error('Resposta da API em formato inesperado para BTC/USD');
+        }
+        
         rate = data.bitcoin.usd; // BTC em USD (aproximadamente USDT)
       } else {
         throw new Error(`Conversão não suportada: ${from} -> ${to}`);
