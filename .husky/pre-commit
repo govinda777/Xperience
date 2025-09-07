@@ -10,12 +10,15 @@ NC='\033[0m'
 
 echo -e "${BLUE}🚀 Iniciando verificações de pre-commit...${NC}"
 
-# Verificação básica de segurança
-echo -e "${BLUE}🔒 Verificando código...${NC}"
+# Verificar segredos e informações sensíveis
+echo -e "${BLUE}🔒 Verificando segredos e informações sensíveis...${NC}
 
-# Executar lint-staged
-echo -e "${BLUE}🔍 Executando lint-staged...${NC}"
-npx lint-staged
+# Executar lint-staged (que agora inclui secretlint)
+echo -e "${BLUE}🔍 Executando lint-staged...${NC}
+npx lint-staged || {
+  echo -e "${RED}❌ Erro nas verificações de pre-commit. Verifique as mensagens acima.${NC}"
+  exit 1
+}
 
 # Verificar vulnerabilidades em dependências
 echo -e "${BLUE}🛡️ Verificando vulnerabilidades em dependências...${NC}"
