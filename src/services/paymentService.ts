@@ -170,20 +170,29 @@ export class PaymentService {
     to: PaymentCurrency,
   ): Promise<number> {
     if (from === to) return amount;
+    
+    if (amount <= 0) {
+      throw new Error('O valor para conversão deve ser maior que zero');
+    }
 
     const conversionKey = `${from}_${to}`;
     const conversion = this.exchangeRates.get(conversionKey);
 
-    if (!conversion || this.isExchangeRateExpired(conversion)) {
-      await this.updateExchangeRate(from, to);
-      const updatedConversion = this.exchangeRates.get(conversionKey);
-      if (!updatedConversion) {
-        throw new Error(`Taxa de câmbio não disponível para ${from} -> ${to}`);
+    try {
+      if (!conversion || this.isExchangeRateExpired(conversion)) {
+        await this.updateExchangeRate(from, to);
+        const updatedConversion = this.exchangeRates.get(conversionKey);
+        if (!updatedConversion) {
+          throw new Error(`Taxa de câmbio não disponível para ${from} -> ${to}`);
+        }
+        return amount * updatedConversion.rate;
       }
-      return amount * updatedConversion.rate;
-    }
 
-    return amount * conversion.rate;
+      return amount * conversion.rate;
+    } catch (error) {
+      // Re-throw the error with more context
+      throw new Error(`Falha ao converter ${amount} ${from} para ${to}: ${error instanceof Error ? error.message : String(error)}`);
+    }
   }
 
   /**

@@ -17,12 +17,16 @@ npm run security:check || {
   exit 1
 }
 
-# Verificar se há alterações em arquivos de teste
-if git diff --cached --name-only | grep -E "\.test\.(ts|tsx)$|\.spec\.(ts|tsx)$"; then
+# Verificar se há alterações em arquivos de implementação ou teste
+if git diff --cached --name-only | grep -E "\.(ts|tsx|js|jsx)$" | grep -vE "\.(test|spec)\.(ts|tsx|js|jsx)$"; then
+  echo -e "${YELLOW}⚠️  Detectadas alterações em arquivos de implementação. Executando testes relacionados...${NC}"
+  CHANGED_FILES=$(git diff --cached --name-only | grep -E "\.(ts|tsx|js|jsx)$" | grep -vE "\.(test|spec)\.(ts|tsx|js|jsx)$" | tr '\n' ' ')
+  npm test -- --findRelatedTests $CHANGED_FILES
+elif git diff --cached --name-only | grep -E "\.(test|spec)\.(ts|tsx|js|jsx)$"; then
   echo -e "${YELLOW}⚠️  Detectadas alterações em arquivos de teste. Executando suite de testes completa...${NC}"
   npm run test:unit
 else
-  echo -e "${BLUE}ℹ️  Nenhuma alteração em arquivos de teste. Pulando suite completa.${NC}"
+  echo -e "${BLUE}ℹ️  Nenhuma alteração que afete os testes detectada.${NC}"
 fi
 
 # Executar lint-staged

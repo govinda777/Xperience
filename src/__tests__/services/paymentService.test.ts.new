@@ -1,0 +1,279 @@
+import { PaymentService } from "../../services/paymentService";
+import {
+  PaymentError,
+  PaymentProviderInterface,
+  PaymentResult,
+  PaymentStatus,
+  PaymentState,
+  PaymentProvider,
+  PaymentCurrency,
+} from "../../types/payment";
+
+// Mock console.error to avoid polluting test output
+const mockConsoleError = jest.fn();
+global.console.error = mockConsoleError;
+
+// Mock AbortController
+class MockAbortController {
+  signal = { aborted: false };
+  abort() {
+    this.signal.aborted = true;
+  }
+}
+
+global.AbortController = MockAbortController as any;
+
+// Mock localStorage
+const localStorageMock = {
+  getItem: jest.fn(),
+  setItem: jest.fn(),
+  removeItem: jest.fn(),
+  clear: jest.fn(),
+};
+
+Object.defineProperty(window, "localStorage", {
+  value: localStorageMock,
+});
+
+// Mock fetch
+const mockFetch = jest.fn();
+global.fetch = mockFetch;
+
+// Mock provider for tests
+const mockProvider: PaymentProviderInterface = {
+  id: "pix" as PaymentProvider,
+  name: "PIX Test",
+  type: "fiat",
+  supportedCurrencies: ["BRL"],
+  process: jest.fn(),
+  verify: jest.fn(),
+  cancel: jest.fn(),
+};
+
+describe("PaymentService", () => {
+  let paymentService: PaymentService;
+
+  beforeEach(() => {
+    // Reset all mocks before each test
+    jest.clearAllMocks();
+    
+    // Create a new instance for each test
+    paymentService = new PaymentService();
+    
+    // Default mock implementations
+    localStorageMock.getItem.mockReturnValue(null);
+    mockFetch.mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve({ bitcoin: { brl: 300000 } }),
+    });
+    
+    // Register the mock provider
+    paymentService.registerProvider(mockProvider);
+  });
+
+  describe("Provider Management", () => {
+    test("should register a payment provider", () => {
+      const provider = { ...mockProvider, id: "test-provider" as PaymentProvider };
+      paymentService.registerProvider(provider);
+      
+      const providers = paymentService.getAvailableProviders();
+      expect(providers).toContainEqual(provider);
+    });
+
+    test("should get a specific provider", () => {
+      const provider = paymentService.getProvider("pix");
+      expect(provider).toBe(mockProvider);
+    });
+
+    test("should return undefined for non-existent provider", () => {
+      const provider = paymentService.getProvider("non-existent");
+      expect(provider).toBeUndefined();
+    });
+  });
+
+  describe("Payment Processing", () => {
+    const mockPaymentResult: PaymentResult = {
+      transactionId: "test-tx-123",
+      amount: 100,
+      currency: "BRL",
+      status: "pending",
+      metadata: {},
+    };
+
+    beforeEach(() => {
+      // Setup default mock for process method
+      (mockProvider.process as jest.Mock).mockResolvedValue(mockPaymentResult);
+    });
+
+    test("should process payment successfully", async () => {
+      const result = await paymentService.processPayment(
+        "pix",
+        100,
+        "BRL",
+        "plan-1",
+        "user-1"
+      );
+
+      expect(result).toEqual(mockPaymentResult);
+      expect(mockProvider.process).toHaveBeenCalledWith(100, "plan-1", "user-1");
+    });
+
+    test("should throw error for non-existent provider", async () => {
+      await expect(
+        paymentService.processPayment("non-existent", 100, "BRL", "plan-1", "user-1")
+      ).rejects.toThrow(PaymentError);
+    });
+
+    test("should handle provider processing error", async () => {
+      const error = new Error("Provider error");
+      (mockProvider.process as jest.Mock).mockRejectedValue(error);
+
+      await expect(
+        paymentService.processPayment("pix", 100, "BRL", "plan-1", "user-1")
+      ).rejects.toThrow(PaymentError);
+    });
+  });
+
+  describe("Currency Conversion", () => {
+    test("should return same amount for same currency", async () => {
+      const amount = 100;
+      const result = await paymentService.convertCurrency(amount, "BRL", "BRL");
+      expect(result).toBe(amount);
+    });
+
+    test("should convert between currencies using exchange rates", async () => {
+      // Mock the fetch response for exchange rates
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve({ bitcoin: { brl: 300000 } }),
+      });
+
+      const amount = 300000;
+      const result = await paymentService.convertCurrency(amount, "BRL", "BTC");
+      expect(result).toBeCloseTo(1, 5);
+    });
+
+    test("should handle conversion API error", async () => {
+      mockFetch.mockRejectedValueOnce(new Error("API Error"));
+      
+      await expect(
+        paymentService.convertCurrency(100, "BRL", "BTC")
+      ).rejects.toThrow("API Error");
+    });
+  });
+
+  describe("Payment State Management", () => {
+    const mockPayment: PaymentState = {
+      id: "test-tx-123",
+      planId: "plan-1",
+      userId: "user-1",
+      amount: 100,
+      currency: "BRL",
+      provider: "pix",
+      status: "pending",
+      metadata: {},
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    test("should save payment state to localStorage", async () => {
+      // Mock getItem to return empty object
+      localStorageMock.getItem.mockReturnValueOnce(JSON.stringify({}));
+      
+      await paymentService['savePaymentState'](mockPayment);
+      
+      // Verify localStorage.setItem was called with the correct key and value
+      expect(localStorageMock.setItem).toHaveBeenCalledWith(
+        'xperience_payments',
+        expect.stringContaining(`"${mockPayment.id}"`)
+      );
+    });
+
+    test("should update payment status", async () => {
+      // Mock getItem to return our test payment
+      localStorageMock.getItem.mockReturnValueOnce(
+        JSON.stringify({ [mockPayment.id]: mockPayment })
+      );
+      
+      const newStatus: PaymentStatus = "completed";
+      await paymentService['updatePaymentStatus'](mockPayment.id, newStatus);
+      
+      // Verify the payment was updated in localStorage
+      const updatedPayment = JSON.parse(
+        (localStorageMock.setItem as jest.Mock).mock.calls[0][1]
+      )[mockPayment.id];
+      
+      expect(updatedPayment.status).toBe(newStatus);
+      expect(updatedPayment.updatedAt).not.toBe(mockPayment.updatedAt);
+    });
+
+    test("should return null when updating non-existent payment", async () => {
+      // Mock getItem to return empty object
+      localStorageMock.getItem.mockReturnValueOnce(JSON.stringify({}));
+      
+      const result = await paymentService['updatePaymentStatus']("non-existent", "completed");
+      expect(result).toBeNull();
+    });
+  });
+
+  describe("Get Payment", () => {
+    const mockPayment: PaymentState = {
+      id: "test-tx-123",
+      planId: "plan-1",
+      userId: "user-1",
+      amount: 100,
+      currency: "BRL",
+      provider: "pix",
+      status: "pending",
+      metadata: {},
+      createdAt: new Date("2023-01-01"),
+      updatedAt: new Date("2023-01-01"),
+    };
+
+    test("should get specific payment", async () => {
+      // Mock getItem to return our test payment
+      localStorageMock.getItem.mockReturnValueOnce(
+        JSON.stringify({ [mockPayment.id]: mockPayment })
+      );
+      
+      const result = await paymentService.getPayment(mockPayment.id);
+      
+      // Check that the dates are properly parsed
+      expect(result).toEqual({
+        ...mockPayment,
+        createdAt: expect.any(Date),
+        updatedAt: expect.any(Date),
+      });
+    });
+
+    test("should return null for non-existent payment", async () => {
+      localStorageMock.getItem.mockReturnValueOnce(JSON.stringify({}));
+      
+      const result = await paymentService.getPayment("non-existent");
+      expect(result).toBeNull();
+    });
+  });
+
+  describe("Error Handling", () => {
+    test("should handle provider processing error with details", async () => {
+      const error = new Error("Test error");
+      (mockProvider.process as jest.Mock).mockRejectedValue(error);
+      
+      await expect(
+        paymentService.processPayment("pix", 100, "BRL", "plan-1", "user-1")
+      ).rejects.toThrow(PaymentError);
+    });
+  });
+
+  describe("Edge Cases", () => {
+    test("should handle invalid currency conversion", async () => {
+      await expect(
+        paymentService.convertCurrency(0, "BRL", "BTC")
+      ).rejects.toThrow("O valor para conversão deve ser maior que zero");
+      
+      await expect(
+        paymentService.convertCurrency(-100, "BRL", "BTC")
+      ).rejects.toThrow("O valor para conversão deve ser maior que zero");
+    });
+  });
+});
