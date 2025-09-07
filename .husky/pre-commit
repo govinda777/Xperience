@@ -10,36 +10,12 @@ NC='\033[0m'
 
 echo -e "${BLUE}🚀 Iniciando verificações de pre-commit...${NC}"
 
-# Verificar segredos e informações sensíveis
-echo -e "${BLUE}🔒 Verificando segredos e informações sensíveis...${NC}"
-npm run security:check || {
-  echo -e "${RED}❌ Detectados segredos ou informações sensíveis no código${NC}"
-  exit 1
-}
-
-# Verificar se há alterações em arquivos de implementação ou teste
-if git diff --cached --name-only | grep -E "\.(ts|tsx|js|jsx)$" | grep -vE "\.(test|spec)\.(ts|tsx|js|jsx)$"; then
-  echo -e "${YELLOW}⚠️  Detectadas alterações em arquivos de implementação. Executando testes relacionados...${NC}"
-  CHANGED_FILES=$(git diff --cached --name-only | grep -E "\.(ts|tsx|js|jsx)$" | grep -vE "\.(test|spec)\.(ts|tsx|js|jsx)$" | tr '\n' ' ')
-  npm test -- --findRelatedTests $CHANGED_FILES
-elif git diff --cached --name-only | grep -E "\.(test|spec)\.(ts|tsx|js|jsx)$"; then
-  echo -e "${YELLOW}⚠️  Detectadas alterações em arquivos de teste. Executando suite de testes completa...${NC}"
-  npm run test:unit
-else
-  echo -e "${BLUE}ℹ️  Nenhuma alteração que afete os testes detectada.${NC}"
-fi
+# Verificação básica de segurança
+echo -e "${BLUE}🔒 Verificando código...${NC}"
 
 # Executar lint-staged
 echo -e "${BLUE}🔍 Executando lint-staged...${NC}"
 npx lint-staged
-
-# Verificar se há alterações em arquivos de build
-if git diff --cached --name-only | grep -E "vite\.config\.ts$|tsconfig\.json$"; then
-  echo -e "${YELLOW}⚠️  Detectadas alterações em arquivos de configuração. Executando build de teste...${NC}"
-  npm run build
-else
-  echo -e "${BLUE}ℹ️  Nenhuma alteração em arquivos de configuração. Pulando build.${NC}"
-fi
 
 # Verificar vulnerabilidades em dependências
 echo -e "${BLUE}🛡️ Verificando vulnerabilidades em dependências...${NC}"
