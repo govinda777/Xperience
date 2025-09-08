@@ -2,15 +2,9 @@ import Counter from "../contracts/counter";
 import { useTonClient } from "./useTonClient";
 import { useAsyncInitialize } from "./useAsyncInitialize";
 import { useTonConnect } from "./useTonConnect";
-import {
-  Address,
-  OpenedContract,
-  ContractProvider,
-  Sender,
-  Contract,
-  Cell,
-  beginCell,
-} from "ton-core";
+import { Address, Cell, beginCell, toNano } from "ton-core";
+import { Sender, SenderArguments } from "ton-core";
+import { Contract } from "ton-core";
 import { useQuery } from "@tanstack/react-query";
 import { CHAIN } from "@tonconnect/protocol";
 
@@ -34,16 +28,26 @@ export function useCounterContract() {
         const state = await client.getContractState(contract.address);
         return state.state === "active" ? state.balance.toString() || "0" : "0";
       },
-      async sendIncrement(via: Sender) {
+      async sendIncrement(sender: Sender) {
         const message = beginCell()
           .storeUint(1, 32) // op: increment
           .endCell();
-        await client.sendExternalMessage(contract, {
+
+        const args: SenderArguments = {
+          to: contract.address,
+          value: toNano("0.1"), // 0.1 TON
           body: message,
           bounce: true,
-        });
+          sendMode: 1,
+        };
+
+        await sender.send(args);
       },
-    } as unknown as OpenedContract<Counter>;
+    } as unknown as {
+      address: Address;
+      getCounter: () => Promise<string>;
+      sendIncrement: (sender: Sender) => Promise<void>;
+    };
   }, [client]);
 
   const { data, isFetching } = useQuery({

@@ -1,4 +1,4 @@
-import { seoConfig } from "../config/env";
+import { ENV } from "../config/env";
 import * as testConfig from "../../test-data/test-config.json";
 
 export interface SEOMetrics {
@@ -56,7 +56,7 @@ export class SEOService {
     try {
       // Em produção, isso faria uma chamada real para a API do GA4
       // Por enquanto, retornamos dados mock para desenvolvimento
-      if (seoConfig.isDev) {
+      if (ENV.VITE_ENVIRONMENT !== "production") {
         const mockMetrics: SEOMetrics = {
           organicSessions: Math.floor(Math.random() * 1000) + 500,
           pageViews: Math.floor(Math.random() * 2000) + 1000,
@@ -107,7 +107,7 @@ export class SEOService {
       //   },
       //   body: JSON.stringify({
       //     reportRequests: [{
-      //       viewId: seoConfig.gaViewId,
+      //       viewId: ENV.VITE_GA_VIEW_ID,
       //       dateRanges: [{ startDate: '30daysAgo', endDate: 'today' }],
       //       metrics: [
       //         { expression: 'ga:sessions' },
@@ -136,7 +136,7 @@ export class SEOService {
 
     try {
       // Em desenvolvimento, retornar dados mock
-      if (seoConfig.isDev) {
+      if (ENV.VITE_ENVIRONMENT !== "production") {
         const mockAudit: PerformanceAudit = {
           url,
           score: Math.floor(Math.random() * 30) + 70, // Score entre 70-100
@@ -178,7 +178,7 @@ export class SEOService {
   async checkIndexationStatus(): Promise<any> {
     try {
       // Em desenvolvimento, retornar dados mock
-      if (seoConfig.isDev) {
+      if (ENV.VITE_ENVIRONMENT !== "production") {
         return {
           indexedPages: 6,
           totalPages: 6,
@@ -215,7 +215,7 @@ export class SEOService {
 ${routes
   .map(
     (route) => `  <url>
-    <loc>${seoConfig.siteUrl}${route.path}</loc>
+    <loc>${ENV.VITE_SITE_URL}${route.path}</loc>
     <lastmod>${new Date().toISOString()}</lastmod>
     <changefreq>${route.changefreq}</changefreq>
     <priority>${route.priority}</priority>

@@ -14,28 +14,28 @@ echo -e "${BLUE}🚀 Iniciando verificações de pre-push...${NC}"
 {
   # Verificação de tipos TypeScript
   echo -e "${BLUE}ℹ️  Verificando tipos TypeScript...${NC}"
-  npm run tsc --noEmit
+  yarn type-check
 } &
 typescript_pid=$!
 
 {
-  # Testes unitários com cache
+  # Testes unitários
   echo -e "${BLUE}ℹ️  Executando testes unitários...${NC}"
-  npm run test:unit --cache
+  yarn test:unit
 } &
 tests_pid=$!
 
 {
   # Build do projeto
   echo -e "${BLUE}ℹ️  Realizando build do projeto...${NC}"
-  npm run build
+  yarn build
 } &
 build_pid=$!
 
 {
   # Verificação de segurança
   echo -e "${BLUE}🔒 Executando verificações de segurança...${NC}"
-  npm run security:check && npm run security:audit
+  yarn security:check && yarn security:audit
 } &
 security_pid=$!
 

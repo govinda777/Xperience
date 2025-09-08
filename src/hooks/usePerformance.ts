@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAnalytics } from "../contexts/AnalyticsContext";
-import { seoConfig } from "../config/env";
+import { ENV } from "../config/env";
 
 interface PerformanceMetrics {
   lcp?: number; // Largest Contentful Paint
@@ -15,7 +15,9 @@ export const usePerformance = () => {
   const { trackEvent } = useAnalytics();
 
   useEffect(() => {
-    if (!seoConfig.enablePerformanceMonitoring) return;
+    if (ENV.VITE_ENVIRONMENT !== "production") {
+      return;
+    }
 
     // Função para capturar métricas de performance
     const captureMetrics = () => {
