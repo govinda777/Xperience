@@ -3,6 +3,7 @@ import react from "@vitejs/plugin-react";
 import { nodePolyfills } from "vite-plugin-node-polyfills";
 import { VitePWA } from "vite-plugin-pwa";
 import path from "path";
+import { resolve } from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -51,7 +52,20 @@ export default defineConfig({
       },
     }),
   ],
-  base: "/", // Removido prefixo GitHub Pages
+  base: "/",
+  define: {
+    "process.env": {},
+    "process.platform": JSON.stringify("browser"),
+    "process.version": JSON.stringify(process.version),
+  },
+  resolve: {
+    alias: {
+      "unenv/node/process": "process/browser",
+      "unenv/node/events": "events",
+      "valtio/vanilla": "valtio",
+      "valtio/vanilla/utils": "valtio/utils",
+    },
+  },
   build: {
     rollupOptions: {
       external: [
