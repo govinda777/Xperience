@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Carrega o ambiente do husky
-. "$(dirname "$0")/_/husky.sh"
+# Try to load husky environment if it exists
+if [ -f "$(dirname "$0")/_/husky.sh" ]; then
+    # shellcheck source=/dev/null
+    . "$(dirname "$0")/_/husky.sh"
+fi
 
 # Cores para output
 readonly RED='\033[0;31m'
