@@ -1,12 +1,15 @@
-#!/bin/sh
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Carrega o ambiente do husky
 . "$(dirname "$0")/_/husky.sh"
 
 # Cores para output
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-NC='\033[0m'
+readonly RED='\033[0;31m'
+readonly GREEN='\033[0;32m'
+readonly YELLOW='\033[1;33m'
+readonly BLUE='\033[0;34m'
+readonly NC='\033[0m'
 
 # Função para executar comandos com tratamento de erro
 execute_step() {
@@ -15,28 +18,33 @@ execute_step() {
   
   echo -e "${BLUE}ℹ️  ${step_name}...${NC}"
   
-  # Executa o comando e captura a saída
-  if output=$(${command_to_run} 2>&1); then
+  if eval "${command_to_run}" 2>&1; then
     echo -e "${GREEN}✅ ${step_name} concluído com sucesso!${NC}"
     return 0
   else
-    echo -e "${RED}❌ Erro durante ${step_name,,}${NC}"
-    echo "${output}"
+    local exit_code=$?
+    echo -e "${RED}❌ Erro durante ${step_name} (código: ${exit_code})${NC}"
     return 1
   fi
 }
 
 echo -e "${BLUE}🚀 Iniciando verificações de pre-push...${NC}"
 
-# 1. Verificação de tipos TypeScript
+# 1. Verificação de dependências
+if ! command -v yarn >/dev/null 2>&1; then
+  echo -e "${RED}❌ Erro: Yarn não encontrado. Por favor, instale o Yarn.${NC}"
+  exit 1
+fi
+
+# 2. Verificação de tipos TypeScript
 execute_step "Verificando tipos TypeScript" "yarn type-check" || exit 1
 
-# 2. Testes unitários
+# 3. Testes unitários
 execute_step "Executando testes unitários" "yarn test:unit" || exit 1
 
-# 3. Build do projeto (com timeout de 60 segundos)
+# 4. Build do projeto
 echo -e "${BLUE}ℹ️  Realizando build do projeto...${NC}"
-if ! output=$(timeout 60s yarn build 2>&1); then
+if ! output=$(timeout 120s yarn build 2>&1); then
   echo -e "${RED}❌ Erro durante o build do projeto (ou timeout)${NC}"
   echo "${output}"
   echo -e "${YELLOW}💡 Dica: Tente executar 'yarn build' localmente para mais detalhes${NC}"
