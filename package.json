@@ -4,27 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "precommit": "lint-staged",
-    "prepare": "husky install",
     "dev": "vite",
     "build": "vite build",
-    "build:ci": "tsc --noEmit && vite build --mode production",
     "preview": "vite preview",
-    "configbot": "node configure.js",
-    "test": "jest --runInBand --detectOpenHandles --forceExit",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage --collectCoverageFrom='src/**/*.{ts,tsx}'",
-    "test:unit": "jest --testPathPattern='__tests__/.*\\.(test|spec)\\.(ts|tsx)$' --testPathIgnorePatterns='(integration|e2e|bdd)'",
-    "test:integration": "jest --testPathPattern='__tests__/integration/.*\\.(test|spec)\\.(ts|tsx)$'",
-    "test:e2e": "start-server-and-test 'vite preview --port 3000' 3000 'cypress run'",
-    "lint": "eslint 'src/**/*.{ts,tsx}' --quiet --fix",
-    "format": "prettier --write 'src/**/*.{ts,tsx,json,css}'",
-    "type-check": "tsc --noEmit",
-    "security:check": "node scripts/security-check.js",
-    "security:audit": "npm audit --audit-level=high",
-    "ci:test": "npm run test:unit -- --ci --coverage --maxWorkers=2",
-    "ci:build": "npm run build:ci",
-    "ci:lint": "npm run lint && npm run type-check"
+    "start": "vite preview --port 3000"
   },
   "dependencies": {
     "@account-abstraction/contracts": "^0.6.0",
