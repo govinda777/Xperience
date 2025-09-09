@@ -2,9 +2,16 @@ import Counter from "../contracts/counter";
 import { useTonClient } from "./useTonClient";
 import { useAsyncInitialize } from "./useAsyncInitialize";
 import { useTonConnect } from "./useTonConnect";
-import { Address, Cell, beginCell, toNano } from "ton-core";
-import { Sender, SenderArguments } from "ton-core";
-import { Contract } from "ton-core";
+import { TonClient } from "ton";
+import {
+  Address,
+  Cell,
+  beginCell,
+  toNano,
+  Sender,
+  SenderArguments,
+  Contract,
+} from "ton-core";
 import { useQuery } from "@tanstack/react-query";
 import { CHAIN } from "@tonconnect/protocol";
 

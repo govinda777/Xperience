@@ -2,8 +2,15 @@ import { useAsyncInitialize } from "./useAsyncInitialize";
 import { useTonClient } from "./useTonClient";
 import { useTonConnect } from "./useTonConnect";
 import FaucetJetton from "../contracts/faucetJetton";
-import { Cell, beginCell, toNano, Address } from "ton-core";
-import { Sender, SenderArguments } from "ton-core";
+import { TonClient } from "ton";
+import {
+  Cell,
+  beginCell,
+  toNano,
+  Address,
+  Sender,
+  SenderArguments,
+} from "ton-core";
 
 // Type definitions for contract state and interfaces
 import FaucetJettonWallet from "../contracts/faucetJettonWallet";

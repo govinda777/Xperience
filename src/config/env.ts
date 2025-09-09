@@ -28,6 +28,9 @@ export const ENV = {
 export const seoConfig = {
   title: "Xperience",
   description: "Xperience - Your decentralized experience platform",
+  enableAnalytics: process.env.NODE_ENV === "production",
+  gaId: process.env.VITE_GA_MEASUREMENT_ID || "G-XXXXXXXXXX",
+  isDev: process.env.NODE_ENV !== "production",
   openGraph: {
     type: "website",
     locale: "en_US",
