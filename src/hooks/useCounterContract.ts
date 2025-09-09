@@ -2,16 +2,29 @@ import Counter from "../contracts/counter";
 import { useTonClient } from "./useTonClient";
 import { useAsyncInitialize } from "./useAsyncInitialize";
 import { useTonConnect } from "./useTonConnect";
-import { TonClient } from "ton";
-import {
-  Address,
-  Cell,
-  beginCell,
-  toNano,
-  Sender,
-  SenderArguments,
-  Contract,
-} from "ton-core";
+import { TonClient, Address, Cell, Contract } from "ton";
+import { toNano } from "ton-core";
+
+// Define Sender and SenderArguments interfaces since they're not exported from 'ton'
+interface Sender {
+  send: (args: SenderArguments) => Promise<void>;
+}
+
+interface SenderArguments {
+  to: Address;
+  value: bigint;
+  body?: Cell;
+  bounce?: boolean;
+  sendMode?: number;
+}
+
+// Helper function to convert between Address types if needed
+const toTonAddress = (address: string | Address): Address => {
+  if (typeof address === "string") {
+    return Address.parse(address);
+  }
+  return address;
+};
 import { useQuery } from "@tanstack/react-query";
 import { CHAIN } from "@tonconnect/protocol";
 
@@ -32,7 +45,12 @@ export function useCounterContract() {
     return {
       address: contract.address,
       async getCounter() {
-        const state = await client.getContractState(contract.address);
+        // Convert ton-core Address to ton Address if needed
+        const contractAddress =
+          typeof contract.address.toString === "function"
+            ? contract.address.toString()
+            : contract.address;
+        const state = await client.getContractState(contractAddress);
         return state.state === "active" ? state.balance.toString() || "0" : "0";
       },
       async sendIncrement(sender: Sender) {
