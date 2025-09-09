@@ -3,15 +3,21 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+  workflow_dispatch:  # Permite acionar manualmente
 
+# Tempo máximo de execução: 10 minutos
+timeout-minutes: 10
+
+# Permissões mínimas necessárias
 permissions:
   contents: read
   pages: write
   id-token: write
 
+# Evita execuções concorrentes
 concurrency:
   group: "pages"
-  cancel-in-progress: false
+  cancel-in-progress: true  # Cancela execuções anteriores
 
 jobs:
   deploy:
@@ -23,15 +29,27 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 1  # Otimiza o checkout
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "18"
-          cache: "npm"
+          cache: 'npm'  # Habilita cache de dependências
 
       - name: Install dependencies
-        run: npm ci --production=false
+        run: npm ci --prefer-offline --no-audit --no-fund
+
+      - name: Security check
+        run: |
+          # Verifica dependências vulneráveis sem falhar o build
+          npm audit --audit-level=high || true
+          
+          # Verifica por segredos no código
+          if grep -r "password\|secret\|token\|key" --include="*.{js,ts,json,env}" --exclude-dir=node_modules .; then
+            echo "⚠️  Possível segredo exposto no código"
+          fi
 
       - name: Build
         run: npm run build
