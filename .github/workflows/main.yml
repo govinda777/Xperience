@@ -1,54 +1,47 @@
-name: Build and Deploy
+name: Build and Deploy to GitHub Pages
 
 on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: "20"
-
-      - name: Check Node.js version
-        run: |
-          node --version
-          if [[ "$(node --version)" != "v20."* ]]; then
-            echo "Node.js version must be 20.x.x"
-            exit 1
-          fi
+          cache: 'yarn'
 
       - name: Install dependencies
         run: yarn install
-
-      - name: Lint code
-        run: yarn run lint || echo "Lint warnings detected, but build will continue."
 
       - name: Build project
         run: yarn run build
         env:
           CI: false
 
-      - name: Copy index.html to 404.html for GitHub Pages fallback
-        run: cp dist/index.html dist/404.html
-
-      - name: Deploy 🚀
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        uses: JamesIves/github-pages-deploy-action@4.1.4
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
           folder: dist
-
-permissions:
-  contents: write
