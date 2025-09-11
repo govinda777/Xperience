@@ -57,13 +57,27 @@ export default defineConfig({
     "process.env": {},
     "process.platform": JSON.stringify("browser"),
     "process.version": JSON.stringify(process.version),
+    global: "globalThis",
   },
   resolve: {
     alias: {
-      "unenv/node/process": "process/browser",
+      process: "process/browser",
+      stream: "stream-browserify",
+      util: "util",
+      events: path.resolve(__dirname, "node_modules/events"),
+      "unenv/node/process": path.resolve(
+        __dirname,
+        "node_modules/process/browser.js",
+      ),
       "unenv/node/events": "events",
-      "valtio/vanilla": "valtio",
-      "valtio/vanilla/utils": "valtio/utils",
+      "valtio/vanilla": path.resolve(
+        __dirname,
+        "node_modules/valtio/vanilla.mjs",
+      ),
+      "valtio/vanilla/utils": path.resolve(
+        __dirname,
+        "node_modules/valtio/utils.mjs",
+      ),
     },
   },
   build: {
@@ -122,27 +136,6 @@ export default defineConfig({
     port: 5173,
     host: true,
   },
-  // Resolve configuration to handle Node.js modules
-  resolve: {
-    alias: {
-      process: "process/browser",
-      stream: "stream-browserify",
-      util: "util",
-      events: path.resolve(__dirname, "node_modules/events"),
-      "unenv/node/process": path.resolve(
-        __dirname,
-        "node_modules/process/browser.js",
-      ),
-      "valtio/vanilla": path.resolve(
-        __dirname,
-        "node_modules/valtio/vanilla.mjs",
-      ),
-      "valtio/vanilla/utils": path.resolve(
-        __dirname,
-        "node_modules/valtio/utils.mjs",
-      ),
-    },
-  },
   optimizeDeps: {
     esbuildOptions: {
       define: {
@@ -158,10 +151,5 @@ export default defineConfig({
       "valtio/vanilla",
       "valtio/vanilla/utils",
     ],
-  },
-  // Define global variables
-  define: {
-    global: "globalThis",
-    "process.env": {},
   },
 });
