@@ -1,95 +1,55 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
   <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/Xperience/logo.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#FD9526" />
-    
-    <!-- Preconnect para melhor performance -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://www.googletagmanager.com">
-    <link rel="preconnect" href="https://www.google-analytics.com">
-    
-    <!-- DNS Prefetch -->
-    <link rel="dns-prefetch" href="//fonts.googleapis.com">
-    <link rel="dns-prefetch" href="//www.googletagmanager.com">
-    
-    <!-- Default SEO Meta Tags -->
+    <meta charset="utf-8" />
     <title>Xperience - Mentoria para Empreendedores</title>
-    <meta name="description" content="Transforme sua ideia em um negócio de sucesso com nossa mentoria especializada e IA do Empreendedor gratuita." />
-    <meta name="keywords" content="mentoria empresarial, consultoria para empreendedores, IA do empreendedor, negócios, startup" />
-    <meta name="author" content="Xperience" />
-    <meta name="robots" content="index, follow" />
-    
-    <!-- Open Graph -->
-    <meta property="og:site_name" content="Xperience" />
-    <meta property="og:locale" content="pt_BR" />
-    
-    <!-- Twitter Card -->
-    <meta name="twitter:site" content="@xperience" />
-    <meta name="twitter:creator" content="@xperience" />
-    
-    <!-- Google Tag Manager -->
-    <script>
-      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-      })(window,document,'script','dataLayer','GTM-XXXXXXX');
-    </script>
-    <!-- End Google Tag Manager -->
-    
-    <!-- GitHub Pages SPA support -->
+    <meta
+      name="description"
+      content="Transforme sua ideia em um negócio de sucesso com nossa mentoria especializada"
+    />
+
+    <!-- GitHub Pages SPA redirect script -->
     <script type="text/javascript">
       // Single Page Apps for GitHub Pages
       // MIT License
       // https://github.com/rafgraph/spa-github-pages
-      
-      (function(l) {
-        if (l.search[1] === '/' ) {
-          var decoded = l.search.slice(1).split('&').map(function(s) { 
-            return s.replace(/~and~/g, '&')
-          }).join('?');
-          window.history.replaceState(null, null,
-              l.pathname.slice(0, -1) + decoded + l.hash
-          );
-        }
-      }(window.location))
+
+      // This script takes the current url and converts the path and query
+      // string into just a query string, and then redirects the browser
+      // to the new url with only a query string and hash fragment,
+      // e.g. https://www.foo.tld/one/two?a=b&c=d#qwe, becomes
+      // https://www.foo.tld/?/one/two&a=b~and~c=d#qwe
+
+      var pathSegmentsToKeep = 1;
+
+      var l = window.location;
+      l.replace(
+        l.protocol +
+          "//" +
+          l.hostname +
+          (l.port ? ":" + l.port : "") +
+          l.pathname
+            .split("/")
+            .slice(0, 1 + pathSegmentsToKeep)
+            .join("/") +
+          "/?/" +
+          l.pathname
+            .slice(1)
+            .split("/")
+            .slice(pathSegmentsToKeep)
+            .join("/")
+            .replace(/&/g, "~and~") +
+          (l.search ? "&" + l.search.slice(1).replace(/&/g, "~and~") : "") +
+          l.hash,
+      );
     </script>
-    
-    <!-- Structured Data -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "Xperience",
-      "url": "https://xperience.com.br",
-      "logo": "https://xperience.com.br/logo.svg",
-      "description": "Programa de mentoria para empreendedores que desejam transformar suas ideias em negócios de sucesso",
-      "address": {
-        "@type": "PostalAddress",
-        "addressCountry": "BR"
-      },
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "contactType": "customer service",
-        "url": "https://xperience.com.br/contact"
-      }
-    }
-    </script>
-    <script type="module" crossorigin src="/Xperience/assets/index-D61l5aF6.js"></script>
-    <link rel="modulepreload" crossorigin href="/Xperience/assets/vendor-eVk5PToZ.js">
-    <link rel="modulepreload" crossorigin href="/Xperience/assets/router-Dwlvma3c.js">
-    <link rel="modulepreload" crossorigin href="/Xperience/assets/analytics-BuXrMuvv.js">
-    <link rel="stylesheet" crossorigin href="/Xperience/assets/index-CBCvz0GW.css">
-  <link rel="manifest" href="/Xperience/manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="/Xperience/registerSW.js"></script></head>
+  </head>
   <body>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
-    
-    <div id="root"></div>
+    <div
+      style="font-family: Arial, sans-serif; text-align: center; padding: 50px"
+    >
+      <h1>Redirecionando...</h1>
+      <p>Você será redirecionado automaticamente.</p>
+    </div>
   </body>
 </html>
