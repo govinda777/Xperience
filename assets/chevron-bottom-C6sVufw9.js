@@ -1,0 +1,8 @@
+import{m as o}from"./core-CrsCgPap.js";import"./wallet-oiYumMuh.js";import"./router-BBtlhYrD.js";import"./vendor-BfOSbBEK.js";import"./index-CXsk4O6e.js";import"./analytics-CIB60-R_.js";const r=o`<svg fill="none" viewBox="0 0 16 16">
+  <path
+    fill="currentColor"
+    fill-rule="evenodd"
+    d="M1.46 4.96a1 1 0 0 1 1.41 0L8 10.09l5.13-5.13a1 1 0 1 1 1.41 1.41l-5.83 5.84a1 1 0 0 1-1.42 0L1.46 6.37a1 1 0 0 1 0-1.41Z"
+    clip-rule="evenodd"
+  />
+</svg>`;export{r as chevronBottomSvg};
