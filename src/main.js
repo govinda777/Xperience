@@ -14,26 +14,5 @@ const queryClient = new QueryClient({
 });
 const root = document.getElementById("root");
 if (root) {
-    // Log para debug
-    console.log("Privy App ID:", privyConfig.appId);
-    
-    ReactDOM.createRoot(root).render(
-        _jsx(PrivyProvider, { 
-            appId: "cmdwdbrix009rky0ch4w7hgvm", 
-            config: {
-                loginMethods: ["email", "google", "github"],
-                appearance: {
-                    theme: "dark",
-                    accentColor: "#FD9526",
-                    logo: "/logo.svg",
-                }
-            }, 
-            children: _jsx(QueryClientProvider, { 
-                client: queryClient, 
-                children: _jsx(CartProvider, { 
-                    children: _jsx(App, {}) 
-                }) 
-            }) 
-        })
-    );
+    ReactDOM.createRoot(root).render(_jsx(PrivyProvider, { appId: privyConfig.appId, config: privyConfig.config, children: _jsx(TonConnectUIProvider, { manifestUrl: "https://raw.githubusercontent.com/ton-community/tutorials/main/03-client/test/public/tonconnect-manifest.json", children: _jsx(QueryClientProvider, { client: queryClient, children: _jsx(CartProvider, { children: _jsx(App, {}) }) }) }) }));
 }

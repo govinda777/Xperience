@@ -1,17 +1,23 @@
 // Environment variables with fallbacks for testing
-const isDev = import.meta.env.DEV || process.env.NODE_ENV === 'development' || true;
+const isDev = process.env.NODE_ENV === 'development' || true;
+const getEnvVar = (key, defaultValue) => {
+    if (typeof process !== 'undefined' && process.env) {
+        return process.env[key] || defaultValue;
+    }
+    return defaultValue;
+};
 export const ENV = {
-    // Variáveis essenciais
-    VITE_ENVIRONMENT: import.meta.env.VITE_ENVIRONMENT || "development",
-    VITE_SITE_URL: import.meta.env.VITE_SITE_URL || "https://xperiencehubs.com/",
-    
-    // Configuração do Privy
-    VITE_PRIVY_APP_ID: import.meta.env.VITE_PRIVY_APP_ID || "cmdwdbrix009rky0ch4w7hgvm",
-    
-    // Configuração do Mercado Pago
-    VITE_MERCADO_PAGO_PUBLIC_KEY: import.meta.env.VITE_MERCADO_PAGO_PUBLIC_KEY || "TEST-123456789",
-    
-    // Flags de ambiente
+    VITE_MERCADO_PAGO_PUBLIC_KEY: getEnvVar("VITE_MERCADO_PAGO_PUBLIC_KEY", "test-key"),
+    VITE_MERCADO_PAGO_ACCESS_TOKEN: getEnvVar("VITE_MERCADO_PAGO_ACCESS_TOKEN", "test-token"),
+    VITE_ENVIRONMENT: getEnvVar("VITE_ENVIRONMENT", "development"),
+    VITE_PRIVY_APP_ID: getEnvVar("VITE_PRIVY_APP_ID", "cmdwdbrix009rky0ch4w7hgvm"),
+    VITE_PRIVY_APP_SECRET: getEnvVar("VITE_PRIVY_APP_SECRET", "test-secret"),
+    VITE_WEBHOOK_URL: getEnvVar("VITE_WEBHOOK_URL", "https://your-vercel-app.vercel.app/api/webhooks"),
+    VITE_API_URL: getEnvVar("VITE_API_URL", "https://your-vercel-app.vercel.app/api"),
+    VITE_ENCRYPTION_KEY: getEnvVar("VITE_ENCRYPTION_KEY", "test-key"),
+    VITE_WEBHOOK_SECRET: getEnvVar("VITE_WEBHOOK_SECRET", "test-secret"),
+    VITE_USDT_ETHEREUM_CONTRACT: getEnvVar("VITE_USDT_ETHEREUM_CONTRACT", "test-contract"),
+    VITE_USDT_POLYGON_CONTRACT: getEnvVar("VITE_USDT_POLYGON_CONTRACT", "test-contract"),
     DEV: isDev,
     PROD: !isDev,
 };
@@ -20,21 +26,10 @@ export const seoConfig = {
     description: "Programa de mentoria para empreendedores",
     keywords: "mentoria, empreendedorismo, negócios",
     author: "Xperience",
-    url: "https://xperiencehubs.com/Xperience/",
-    siteUrl: "https://xperiencehubs.com/Xperience/",
-    enableAnalytics: !isDev,
-    enablePerformanceMonitoring: !isDev,
-    gaId: import.meta.env.VITE_GA_MEASUREMENT_ID || "G-XXXXXXXXXX",
+    url: "https://xperiencehubs.com/",
+    siteUrl: "https://xperiencehubs.com/",
+    enableAnalytics: true,
+    enablePerformanceMonitoring: true,
+    gaId: "G-XXXXXXXXXX",
     isDev,
-    openGraph: {
-        type: "website",
-        locale: "pt_BR",
-        url: "https://xperiencehubs.com/Xperience/",
-        site_name: "Xperience",
-    },
-    twitter: {
-        handle: "@xperience",
-        site: "@xperience",
-        cardType: "summary_large_image",
-    },
 };
