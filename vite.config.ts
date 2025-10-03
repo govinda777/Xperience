@@ -104,6 +104,7 @@ export default defineConfig({
   server: {
     port: 5173,
     host: true,
+    strictPort: true, // Falha se a porta já estiver em uso em vez de tentar a próxima porta disponível
   },
   // Resolve configuration to handle Node.js modules
   resolve: {

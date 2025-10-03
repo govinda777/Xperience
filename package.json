@@ -2,7 +2,6 @@
   "name": "ton-starter-twa-vite",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
   "scripts": {
     "precommit": "./pipeline.sh",
     "prepare": "husky install",
@@ -10,6 +9,7 @@
     "dev": "vite",
     "build": "tsc --noEmit false --skipLibCheck true || vite build",
     "build:clean": "./scripts/build.sh",
+    "clean:js": "./scripts/clean-js-duplicates.sh",
     "deploy": "./scripts/deploy-gh-pages.sh",
     "preview": "vite preview",
     "configbot": "node configure.js",

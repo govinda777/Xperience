@@ -1,6 +1,6 @@
 // Configuração do Privy para autenticação e pagamentos
 export const privyConfig = {
-  appId: process.env.VITE_PRIVY_APP_ID || "", // App ID do Privy
+  appId: "cmdwdbrix009rky0ch4w7hgvm", // App ID do Privy (hardcoded)
   config: {
     // Configurações de login
     loginMethods: ["email", "sms", "wallet", "google", "github"] as (

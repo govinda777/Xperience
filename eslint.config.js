@@ -1,6 +1,6 @@
-import securityPlugin from "eslint-plugin-security";
+const securityPlugin = require("eslint-plugin-security");
 
-export default [
+module.exports = [
   {
     plugins: {
       security: securityPlugin,

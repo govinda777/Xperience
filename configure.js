@@ -1,8 +1,8 @@
-import axios from "axios";
-import { createInterface } from "readline";
-import fs from "fs";
+const axios = require("axios");
+const { createInterface } = require("readline");
+const fs = require("fs");
 // 'promisify' não está sendo usado, remova ou use.
-import { promisify as _promisify } from "util";
+const { promisify: _promisify } = require("util");
 
 const rl = createInterface({
   input: process.stdin,
