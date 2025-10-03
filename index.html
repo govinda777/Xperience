@@ -5,6 +5,8 @@
     <link rel="icon" type="image/svg+xml" href="./logo.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#FD9526" />
+    <!-- Content Security Policy para permitir o iframe do Privy -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://www.google-analytics.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://auth.privy.io https://*.privy.io; frame-src 'self' https://auth.privy.io https://*.privy.io;" />
 
     <!-- Preconnect para melhor performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
