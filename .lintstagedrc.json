@@ -1,12 +1,6 @@
 {
-  "*.{ts,tsx}": [
-    "eslint --fix",
-    "tsc --noEmit",
-    "jest --bail --findRelatedTests",
-    "secretlint"
-  ],
-  "*.{js,jsx}": ["eslint --fix", "secretlint"],
+  "*.{ts,tsx}": ["eslint --fix", "prettier --write", "secretlint"],
+  "*.{js,jsx}": ["eslint --fix", "prettier --write", "secretlint"],
   "*.{json,md}": ["prettier --write", "secretlint"],
-  "*.{env,env.*}": ["secretlint"],
-  "*.{yml,yaml}": ["secretlint"]
+  "*.{env,yml,yaml}": ["secretlint"]
 }

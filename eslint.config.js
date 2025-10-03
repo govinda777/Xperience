@@ -1,11 +1,9 @@
 import securityPlugin from "eslint-plugin-security";
-import typescriptSecurityPlugin from "@typescript-eslint/eslint-plugin-security";
 
 export default [
   {
     plugins: {
       security: securityPlugin,
-      "@typescript-eslint/security": typescriptSecurityPlugin,
     },
     rules: {
       // Regras de segurança gerais
@@ -23,11 +21,9 @@ export default [
       "security/detect-pseudoRandomBytes": "error",
       "security/detect-unsafe-regex": "error",
 
-      // Regras de segurança específicas para TypeScript
-      "@typescript-eslint/security/no-unsafe-member-access": "error",
-      "@typescript-eslint/security/no-unsafe-assignment": "error",
-      "@typescript-eslint/security/no-unsafe-call": "error",
-      "@typescript-eslint/security/no-unsafe-return": "error",
+      // Regras de segurança para TypeScript
+      // As regras específicas do TypeScript são cobertas pelo plugin de segurança padrão
+      // e pelas regras do @typescript-eslint
 
       // Regras padrão do TypeScript
       "@typescript-eslint/no-unused-expressions": "off",

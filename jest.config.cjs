@@ -5,6 +5,10 @@ module.exports = {
   moduleNameMapper: {
     "\\.(css|less|scss|sass)$": "identity-obj-proxy",
     "\\.(svg|png|jpg|jpeg|gif)$": "identity-obj-proxy",
+    '^@/config/env$': '<rootDir>/src/__mocks__/env.ts',
+    '^@/config/payment$': '<rootDir>/src/__mocks__/payment.ts',
+    '^@/services/providers/pixPaymentProvider$': '<rootDir>/src/__mocks__/services/providers/pixPaymentProvider.ts',
+    '^@/(.*)$': '<rootDir>/src/$1',
   },
   setupFiles: ["<rootDir>/jest.setup.js"],
   setupFilesAfterEnv: ["<rootDir>/src/setupTests.ts"],

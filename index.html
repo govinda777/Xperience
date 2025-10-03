@@ -2,7 +2,7 @@
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+    <link rel="icon" type="image/svg+xml" href="./logo.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#FD9526" />
 
@@ -71,6 +71,7 @@
             null,
             l.pathname.slice(0, -1) + decoded + l.hash,
           );
+          // Não é mais necessário adicionar prefixo, pois estamos usando domínio personalizado
         }
       })(window.location);
     </script>
@@ -81,8 +82,8 @@
         "@context": "https://schema.org",
         "@type": "Organization",
         "name": "Xperience",
-        "url": "https://xperience.com.br",
-        "logo": "https://xperience.com.br/logo.svg",
+        "url": "https://xperiencehubs.com/",
+        "logo": "https://xperiencehubs.com/logo.svg",
         "description": "Programa de mentoria para empreendedores que desejam transformar suas ideias em negócios de sucesso",
         "address": {
           "@type": "PostalAddress",
@@ -91,7 +92,7 @@
         "contactPoint": {
           "@type": "ContactPoint",
           "contactType": "customer service",
-          "url": "https://xperience.com.br/contact"
+          "url": "https://xperiencehubs.com/contact"
         }
       }
     </script>
@@ -109,6 +110,6 @@
     <!-- End Google Tag Manager (noscript) -->
 
     <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <script type="module" src="./src/main.tsx"></script>
   </body>
 </html>

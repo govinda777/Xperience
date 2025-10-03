@@ -51,14 +51,12 @@ export default defineConfig({
       },
     }),
   ],
-  base: "/", // Removido prefixo GitHub Pages
+  base: "/", // Configurado para domínio personalizado
   build: {
     rollupOptions: {
       external: [
         "unenv/node/process",
         "unenv/node/events",
-        "valtio/vanilla",
-        "valtio/vanilla/utils",
       ],
       output: {
         manualChunks: {
@@ -78,8 +76,7 @@ export default defineConfig({
           warning.code === "UNUSED_EXTERNAL_IMPORT" ||
           warning.code === "EVAL" ||
           warning.message.includes("unenv/node/events") ||
-          warning.message.includes("unenv/node/process") ||
-          warning.message.includes("valtio/vanilla")
+          warning.message.includes("unenv/node/process")
         ) {
           return;
         }
@@ -119,14 +116,7 @@ export default defineConfig({
         __dirname,
         "node_modules/process/browser.js",
       ),
-      "valtio/vanilla": path.resolve(
-        __dirname,
-        "node_modules/valtio/vanilla.mjs",
-      ),
-      "valtio/vanilla/utils": path.resolve(
-        __dirname,
-        "node_modules/valtio/utils.mjs",
-      ),
+      // Removendo aliases problemáticos para valtio
     },
   },
   optimizeDeps: {
@@ -141,8 +131,6 @@ export default defineConfig({
       "events",
       "stream-browserify",
       "util",
-      "valtio/vanilla",
-      "valtio/vanilla/utils",
     ],
   },
   // Define global variables
