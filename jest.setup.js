@@ -108,3 +108,12 @@ global.performance = {
     loadEventEnd: 0,
   },
 };
+
+const React = require("react");
+React.lazy = (importer) => {
+  return class extends React.Component {
+    render() {
+      return <div>LazyComponent</div>;
+    }
+  };
+};

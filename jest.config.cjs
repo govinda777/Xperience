@@ -5,6 +5,8 @@ module.exports = {
   moduleNameMapper: {
     "\\.(css|less|scss|sass)$": "identity-obj-proxy",
     "\\.(svg|png|jpg|jpeg|gif)$": "identity-obj-proxy",
+    "^nationfun/AgentDashboard$": "<rootDir>/src/__mocks__/nationfun/AgentDashboard.tsx",
+    "^nationfun/AgentList$": "<rootDir>/src/__mocks__/nationfun/AgentList.tsx",
     '^@/config/env$': '<rootDir>/src/__mocks__/env.ts',
     '^@/config/payment$': '<rootDir>/src/__mocks__/payment.ts',
     '^@/services/providers/pixPaymentProvider$': '<rootDir>/src/__mocks__/services/providers/pixPaymentProvider.ts',
@@ -13,7 +15,7 @@ module.exports = {
   setupFiles: ["<rootDir>/jest.setup.js"],
   setupFilesAfterEnv: ["<rootDir>/src/setupTests.ts"],
   transform: {
-    "^.+\\.tsx?$": [
+    "^.+\\.(t|j)sx?$": [
       "ts-jest",
       {
         tsconfig: "tsconfig.json",

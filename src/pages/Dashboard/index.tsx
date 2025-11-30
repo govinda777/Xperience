@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { usePrivy } from "@privy-io/react-auth";
 
 const Dashboard = () => {
@@ -138,6 +139,13 @@ const Dashboard = () => {
               <div className="text-purple-700 text-2xl mb-2">🤝</div>
               <div className="text-gray-800 font-medium">Comunidade</div>
             </div>
+            <Link
+              to="/agents"
+              className="bg-blue-100 p-4 rounded-lg text-center cursor-pointer hover:bg-blue-200 transition"
+            >
+              <div className="text-blue-700 text-2xl mb-2">🤖</div>
+              <div className="text-gray-800 font-medium">Agentes</div>
+            </Link>
           </div>
         </div>
       </div>

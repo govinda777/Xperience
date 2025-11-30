@@ -14,8 +14,9 @@ module.exports = {
     tags: "not @skip",
     retry: 1,
     retryTagFilter: "@flaky",
+    world: "features/step_definitions/custom-world.ts",
     worldParameters: {
-      baseUrl: "http://localhost:3000",
+      baseUrl: "http://localhost:5173",
       timeout: 10000,
     },
   },
