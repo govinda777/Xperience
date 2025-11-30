@@ -8,6 +8,7 @@ import Contact from "./pages/Contact";
 import About from "./pages/About";
 import Community from "./pages/Community";
 import Dashboard from "./pages/Dashboard";
+import Agents from "./pages/Agents";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import DefaultLayout from "./layouts/DefaultLayout";
@@ -32,6 +33,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/agents"
+            element={
+              <ProtectedRoute>
+                <Agents />
               </ProtectedRoute>
             }
           />
