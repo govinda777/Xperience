@@ -15,7 +15,7 @@ module.exports = {
   setupFiles: ["<rootDir>/jest.setup.js"],
   setupFilesAfterEnv: ["<rootDir>/src/setupTests.ts"],
   transform: {
-    "^.+\\.tsx?$": [
+    "^.+\\.(t|j)sx?$": [
       "ts-jest",
       {
         tsconfig: "tsconfig.json",

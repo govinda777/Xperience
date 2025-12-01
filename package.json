@@ -92,6 +92,7 @@
     "userop": "^0.3.4",
     "valtio": "^1.13.0",
     "viem": "^2.37.1",
+    "vite-plugin-federation": "^0.0.1",
     "vite-plugin-node-polyfills": "^0.22.0",
     "vite-plugin-pwa": "^1.0.3",
     "ws": "^8.18.3"
