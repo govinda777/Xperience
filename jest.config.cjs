@@ -5,8 +5,8 @@ module.exports = {
   moduleNameMapper: {
     "\\.(css|less|scss|sass)$": "identity-obj-proxy",
     "\\.(svg|png|jpg|jpeg|gif)$": "identity-obj-proxy",
-    "^nationfun/AgentDashboard$": "<rootDir>/src/__mocks__/nationfun/AgentDashboard.ts",
-    "^nationfun/AgentList$": "<rootDir>/src/__mocks__/nationfun/AgentList.ts",
+    "^nationfun/AgentDashboard$": "<rootDir>/src/__mocks__/nationfun/AgentDashboard.tsx",
+    "^nationfun/AgentList$": "<rootDir>/src/__mocks__/nationfun/AgentList.tsx",
     '^@/config/env$': '<rootDir>/src/__mocks__/env.ts',
     '^@/config/payment$': '<rootDir>/src/__mocks__/payment.ts',
     '^@/services/providers/pixPaymentProvider$': '<rootDir>/src/__mocks__/services/providers/pixPaymentProvider.ts',
