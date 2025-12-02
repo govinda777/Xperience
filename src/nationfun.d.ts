@@ -1,2 +1,2 @@
-declare module 'nationfun/AgentDashboard';
-declare module 'nationfun/AgentList';
+declare module "nationfun/AgentDashboard";
+declare module "nationfun/AgentList";
