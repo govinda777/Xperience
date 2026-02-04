@@ -1,0 +1,6 @@
+{
+  "functions": {
+    "api/clientes.js": { "maxDuration": 10 }
+  },
+  "rewrites": [{ "source": "/api/clientes", "destination": "/api/clientes" }]
+}
