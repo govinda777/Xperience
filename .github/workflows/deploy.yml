@@ -1,0 +1,143 @@
+name: Deploy to GitHub Pages
+
+# Trigger do workflow
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+# Permissões necessárias
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+# Cancelar workflows anteriores se houver novo push
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # 1. Checkout do código
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Setup Node.js
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'yarn'
+
+      # 3. Instalar dependências
+      - name: 📦 Install dependencies
+        run: yarn install --frozen-lockfile
+
+      # 4. Build da aplicação
+      - name: 🔨 Build application
+        run: yarn build
+        env:
+          NODE_ENV: production
+
+      # 5. Verificar arquivos críticos de limpeza
+      - name: 🔍 Verify cleanup files exist
+        run: |
+          echo "🔍 Verificando presença dos arquivos de limpeza..."
+          
+          if [ ! -f "dist/sw-cleanup.js" ]; then
+            echo "❌ ERRO: sw-cleanup.js não encontrado em dist/!"
+            echo "Este arquivo é CRÍTICO para resolver o problema de tela branca."
+            exit 1
+          fi
+          echo "✅ sw-cleanup.js encontrado"
+          
+          if [ ! -f "dist/sw.js" ]; then
+            echo "❌ ERRO: sw.js não encontrado em dist/!"
+            echo "Este arquivo é necessário para substituir o Service Worker antigo."
+            exit 1
+          fi
+          echo "✅ sw.js encontrado"
+          
+          if [ ! -f "dist/index.html" ]; then
+            echo "❌ ERRO: index.html não encontrado em dist/!"
+            exit 1
+          fi
+          
+          # Verificar se index.html contém referência ao script de limpeza
+          if ! grep -q "sw-cleanup.js" "dist/index.html"; then
+            echo "⚠️ WARNING: index.html não referencia sw-cleanup.js!"
+            echo "Isso pode causar problemas na limpeza do Service Worker."
+          else
+            echo "✅ index.html contém referência ao sw-cleanup.js"
+          fi
+          
+          echo "✨ Todos os arquivos críticos verificados com sucesso!"
+
+      # 6. Adicionar timestamp de build (cache busting)
+      - name: ⏱️ Add build timestamp
+        run: |
+          BUILD_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          echo "<!-- Build: $BUILD_TIME -->" >> dist/index.html
+          echo "📅 Build timestamp: $BUILD_TIME"
+
+      # 7. Listar arquivos gerados (debug)
+      - name: 📂 List generated files
+        run: |
+          echo "📂 Arquivos em dist/:"
+          ls -lah dist/
+          echo ""
+          echo "📊 Tamanho do dist/:"
+          du -sh dist/
+
+      # 8. Deploy para GitHub Pages
+      - name: 🚀 Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          force_orphan: true
+          cname: xperiencehubs.com
+          commit_message: 'Deploy: ${{ github.event.head_commit.message }}'
+
+      # 9. Sumário do deploy
+      - name: 📝 Deployment summary
+        if: success()
+        run: |
+          echo "✅ ================================"
+          echo "✅ DEPLOY BEM-SUCEDIDO!"
+          echo "✅ ================================"
+          echo ""
+          echo "🌐 Site: https://xperiencehubs.com"
+          echo "🔧 Commit: ${{ github.sha }}"
+          echo "📅 Data: $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
+          echo ""
+          echo "🧹 Arquivos de limpeza incluídos:"
+          echo "   - sw-cleanup.js (remove SWs antigos)"
+          echo "   - sw.js (Service Worker neutro)"
+          echo ""
+          echo "👁️ Para verificar:"
+          echo "   1. Abra https://xperiencehubs.com"
+          echo "   2. Abra DevTools (F12) > Console"
+          echo "   3. Procure por mensagens '🧹 Executando limpeza...'"
+          echo "   4. Verifique Application > Service Workers"
+          echo ""
+          echo "✨ Service Worker antigo será automaticamente removido!"
+
+      # 10. Notificar em caso de falha
+      - name: ❌ Deployment failed
+        if: failure()
+        run: |
+          echo "❌ ================================"
+          echo "❌ DEPLOY FALHOU!"
+          echo "❌ ================================"
+          echo ""
+          echo "Verifique os logs acima para identificar o erro."
+          echo "Problemas comuns:"
+          echo "  - Falta de arquivos no public/"
+          echo "  - Erro no build do Vite"
+          echo "  - Problemas de permissão"
+          exit 1
