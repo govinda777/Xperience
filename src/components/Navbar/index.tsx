@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Menu, X, User } from "lucide-react";
-import { usePrivy } from "@privy-io/react-auth";
+import { useAuth } from "../../contexts/AuthContext";
 import AuthButton from "../AuthButton";
 import CartIcon from "../cart/CartIcon";
 import CartSidebar from "../cart/CartSidebar";
@@ -14,7 +14,7 @@ const Navbar = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const { authenticated, user } = usePrivy(); // Obtém status de login e informações do usuário
+  const { authenticated, user } = useAuth(); // Obtém status de login e informações do usuário
 
   useEffect(() => {
     const handleScroll = () => {

@@ -1,8 +1,8 @@
 import React from "react";
-import { usePrivy } from "@privy-io/react-auth";
+import { useAuth } from "../../contexts/AuthContext";
 
 const AuthButton = () => {
-  const { login, logout, authenticated, user } = usePrivy();
+  const { login, logout, authenticated, user } = useAuth();
 
   // Obtém apenas o primeiro nome do usuário
   const firstName =

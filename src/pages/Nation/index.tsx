@@ -1,11 +1,11 @@
 import * as React from "react";
-import { useAppAuth } from "../../contexts/AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 
 // Define a type for our dynamically imported components
 type NationComponentType = React.ComponentType<{ userId: string }>;
 
 const Nation = () => {
-  const { user } = useAppAuth();
+  const { user } = useAuth();
   const [AgentDashboard, setAgentDashboard] = React.useState<NationComponentType | null>(null);
   const [AgentList, setAgentList] = React.useState<NationComponentType | null>(null);
 

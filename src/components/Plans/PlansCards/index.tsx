@@ -1,7 +1,7 @@
 import React from "react";
 import Check from "../../../../assets/svg/check.svg";
 import { Link, useNavigate } from "react-router-dom";
-import { usePrivy } from "@privy-io/react-auth";
+import { useAuth } from "../../../contexts/AuthContext";
 import Crown from "../../../../assets/svg/crown.svg";
 
 interface PlansCardsProps {
@@ -119,7 +119,7 @@ const PlanButton: React.FC<{ link: string; isRecomendad: boolean }> = ({
   link,
   isRecomendad,
 }) => {
-  const { login } = usePrivy();
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   const handlePlanSelection = (e: React.MouseEvent) => {

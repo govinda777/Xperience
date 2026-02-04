@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { usePrivy } from "@privy-io/react-auth";
+import { useAuth } from "../../contexts/AuthContext";
 import { useCart } from "../../contexts/CartContext";
 import { PrivyPaymentProvider } from "../../services/providers/privyPaymentProvider";
 import { PaymentResult, PaymentStatus } from "../../types/payment";
@@ -32,7 +32,7 @@ const PaymentProcessor: React.FC<PaymentProcessorProps> = ({
   onError,
   onCancel,
 }) => {
-  const { user } = usePrivy();
+  const { user } = useAuth();
   const { cart, getCartSummary } = useCart();
   const summary = getCartSummary();
 

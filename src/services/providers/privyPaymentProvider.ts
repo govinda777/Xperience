@@ -5,7 +5,7 @@ import {
   PaymentStatus,
   PaymentCurrency,
 } from "../../types/payment";
-import { paymentConfig } from "../../config/privy";
+import { paymentConfig } from "../../config/paymentMethods";
 
 export class PrivyPaymentProvider implements PaymentProviderInterface {
   id = "pix" as const; // Using PIX as the primary method
