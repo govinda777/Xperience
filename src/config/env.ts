@@ -9,13 +9,17 @@ const getEnvVar = (key: string, defaultValue: string) => {
 };
 
 export const ENV = {
+  //env
   VITE_ENVIRONMENT: getEnvVar("VITE_ENVIRONMENT", "development"),
   
+  //llm
   VITE_OPENAI_API_KEY: getEnvVar("VITE_OPENAI_API_KEY", "test-key"),
 
+  //auth
   VITE_PRIVY_APP_SECRET: getEnvVar("VITE_PRIVY_APP_SECRET", "test-secret"),
   VITE_PRIVY_APP_ID: getEnvVar("VITE_PRIVY_APP_ID","cmdwdbrix009rky0ch4w7hgvm"),
 
+  //domains
   VITE_WEBHOOK_URL: getEnvVar("VITE_WEBHOOK_URL", "https://xperience-hazel-three.vercel.app/api/webhooks"),
   VITE_SITE_URL: getEnvVar("VITE_SITE_URL", "https://xperience.com.br"),
   VITE_API_URL: getEnvVar("VITE_API_URL", "https://xperience-hazel-three.vercel.app/api"),
