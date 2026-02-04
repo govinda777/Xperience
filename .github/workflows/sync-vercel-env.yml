@@ -1,0 +1,32 @@
+# .github/workflows/sync-vercel-env.yml
+name: Sync to Vercel
+
+on:
+  push:
+    paths:
+      - '.env.example'
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  sync-env:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Install Vercel CLI
+        run: npm i -g vercel
+      
+      - name: Pull Vercel Environment
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+      
+      - name: Sync Environment Variables
+        run: |
+          while IFS='=' read -r key value; do
+            if [[ ! $key =~ ^# && -n $key ]]; then
+              key=$(echo $key | xargs)
+              value=$(echo $value | xargs | tr -d '"')
+              echo "$value" | vercel env add $key production --force --token=${{ secrets.VERCEL_TOKEN }}
+            fi
+          done < .env.example
