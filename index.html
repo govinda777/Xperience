@@ -22,7 +22,25 @@
     <meta http-equiv="Expires" content="0" />
     
     <!-- Content Security Policy para permitir o iframe do Privy -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://www.google-analytics.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://auth.privy.io https://*.privy.io; frame-src 'self' https://auth.privy.io https://*.privy.io;" />
+    <meta http-equiv="Content-Security-Policy" content="
+      default-src 'self';
+      script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://challenges.cloudflare.com;
+      style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+      img-src 'self' data: https: blob:;
+      font-src 'self' https://fonts.gstatic.com;
+      connect-src 'self'
+        https://auth.privy.io
+        https://*.privy.io
+        https://raw.githubusercontent.com
+        https://explorer-api.walletconnect.com
+        https://challenges.cloudflare.com
+        https://*.walletconnect.com
+        https://*.walletconnect.org;
+      frame-src 'self'
+        https://auth.privy.io
+        https://*.privy.io
+        https://challenges.cloudflare.com;
+    " />
 
     <!-- Preconnect para melhor performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
