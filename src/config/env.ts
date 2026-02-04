@@ -14,7 +14,7 @@ export const ENV = {
   VITE_OPENAI_API_KEY: getEnvVar("VITE_OPENAI_API_KEY", "test-key"),
 
   VITE_PRIVY_APP_SECRET: getEnvVar("VITE_PRIVY_APP_SECRET", "test-secret"),
-  VITE_PRIVY_APP_ID: "cmdwdbrix009rky0ch4w7hgvm",
+  VITE_PRIVY_APP_ID: getEnvVar("VITE_PRIVY_APP_ID","cmdwdbrix009rky0ch4w7hgvm"),
 
   VITE_WEBHOOK_URL: getEnvVar("VITE_WEBHOOK_URL", "https://xperience-hazel-three.vercel.app/api/webhooks"),
   VITE_SITE_URL: getEnvVar("VITE_SITE_URL", "https://xperience.com.br"),
