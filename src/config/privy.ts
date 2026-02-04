@@ -3,7 +3,7 @@ export const privyConfig = {
   appId: "cmdwdbrix009rky0ch4w7hgvm", // App ID do Privy (hardcoded)
   config: {
     // Configurações de login
-    loginMethods: ["email", "sms", "wallet", "google", "github"] as (
+    loginMethods: ["email", "wallet"] as (
       | "email"
       | "github"
       | "google"
