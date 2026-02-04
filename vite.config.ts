@@ -61,6 +61,7 @@ export default defineConfig({
   ],
   base: "/", // Configurado para domínio personalizado
   build: {
+    chunkSizeWarningLimit: 1000,
     rollupOptions: {
       external: [
         "unenv/node/process",
@@ -75,6 +76,14 @@ export default defineConfig({
             "@walletconnect/ethereum-provider",
             "@walletconnect/universal-provider",
           ],
+          ton: [
+            "ton",
+            "ton-core",
+            "ton-crypto",
+            "@orbs-network/ton-access",
+            "@tonconnect/ui-react",
+          ],
+          ui: ["styled-components", "lucide-react"],
         },
       },
       onwarn(warning, warn) {
