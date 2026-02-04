@@ -7,6 +7,18 @@ import { CartProvider } from "./contexts/CartContext";
 import { AppAuthProvider } from "./contexts/AuthContext";
 import "./index.css";
 
+if (typeof window !== 'undefined') {
+  // Suprime avisos conhecidos da MetaMask
+  const originalWarn = console.warn;
+  console.warn = (...args: any[]) => {
+    const message = args[0]?.toString() || '';
+    if (message.includes('web3') && message.includes('MetaMask')) {
+      return; // Ignora aviso do web3
+    }
+    originalWarn.apply(console, args);
+  };
+}
+
 const queryClient = new QueryClient({
   defaultOptions: { queries: { refetchOnWindowFocus: false } },
 });
