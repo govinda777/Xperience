@@ -42,7 +42,7 @@ export function useCounterContract() {
         await client.sendExternalMessage(contract, {
           body: beginCell().storeBuffer(message.toBoc()).endCell(),
           bounce: true,
-        });
+        } as any);
       },
     } as Contract & OpenedContract<Counter>;
   }, [client]);
