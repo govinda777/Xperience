@@ -1,4 +1,3 @@
-# .github/workflows/sync-vercel-env.yml
 name: Sync to Vercel
 
 on:
@@ -12,21 +11,37 @@ on:
 jobs:
   sync-env:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Install Vercel CLI
         run: npm i -g vercel
-      
-      - name: Pull Vercel Environment
-        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-      
+
       - name: Sync Environment Variables
         run: |
           while IFS='=' read -r key value; do
-            if [[ ! $key =~ ^# && -n $key ]]; then
-              key=$(echo $key | xargs)
-              value=$(echo $value | xargs | tr -d '"')
-              echo "$value" | vercel env add $key production --force --token=${{ secrets.VERCEL_TOKEN }}
+            # Skip comments and empty lines
+            if [[ $key =~ ^# || -z $key ]]; then
+              continue
+            fi
+
+            # Trim whitespace from key
+            key=$(echo "$key" | xargs)
+
+            # Trim whitespace from value using sed to avoid xargs quote parsing issues
+            value=$(echo "$value" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+
+            # Remove surrounding quotes if present
+            value=$(echo "$value" | sed -e 's/^"//' -e 's/"$//' -e "s/^'//" -e "s/'$//")
+
+            if [[ -n $key ]]; then
+              echo "Syncing $key..."
+              printf "%s" "$value" | vercel env add "$key" production --force
             fi
           done < .env.example
