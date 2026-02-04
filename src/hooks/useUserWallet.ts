@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { usePrivy } from "@privy-io/react-auth";
+import { useAuth } from "../contexts/AuthContext";
 import { UserWalletService } from "../services/userWalletService";
 import { WalletService } from "../services/walletService";
 
@@ -21,7 +21,7 @@ interface WalletData {
  * Hook to interact with user's ERC-4337 wallet
  */
 export const useUserWallet = () => {
-  const { user, authenticated } = usePrivy();
+  const { user, authenticated } = useAuth();
   const [walletData, setWalletData] = useState<WalletData | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);

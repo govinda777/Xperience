@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useCart } from "../../contexts/CartContext";
-import { usePrivy } from "@privy-io/react-auth";
+import { useAuth } from "../../contexts/AuthContext";
 import { CustomerInfo, Address } from "../../types/cart";
 import { formatCurrency } from "../../types/cart";
 import { CreditCard, User, MapPin, Phone, Mail, FileText } from "lucide-react";
@@ -15,7 +15,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({
   isLoading = false,
 }) => {
   const { cart, getCartSummary } = useCart();
-  const { user } = usePrivy();
+  const { user } = useAuth();
   const summary = getCartSummary();
 
   const [customerInfo, setCustomerInfo] = useState<CustomerInfo>({

@@ -6,7 +6,7 @@ import {
   DollarSign,
   Github,
 } from "lucide-react";
-import { availablePaymentMethods } from "../../config/privy";
+import { availablePaymentMethods } from "../../config/paymentMethods";
 import { formatCurrency } from "../../types/cart";
 import { useCart } from "../../contexts/CartContext";
 

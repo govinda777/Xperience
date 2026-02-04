@@ -1,10 +1,10 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import Nation from "../../pages/Nation";
-import { useAppAuth } from "../../contexts/AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 
 jest.mock("../../contexts/AuthContext", () => ({
-  useAppAuth: jest.fn(),
+  useAuth: jest.fn(),
 }));
 
 // Mock the components using the standard jest.mock
@@ -19,7 +19,7 @@ jest.mock("nationfun/AgentList", () => ({
 
 describe("Nation Page", () => {
   it("renders the page title and mocked components", async () => {
-    (useAppAuth as jest.Mock).mockReturnValue({
+    (useAuth as jest.Mock).mockReturnValue({
       user: { id: "test-user-id" },
       authenticated: true,
       ready: true,
