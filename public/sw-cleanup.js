@@ -13,22 +13,22 @@
   const lastCleanup = localStorage.getItem(CLEANUP_KEY);
   
   if (lastCleanup === CLEANUP_VERSION) {
-    console.log('✅ Limpeza já executada para esta versão');
+    console.debug('✅ Limpeza já executada para esta versão');
     return;
   }
   
-  console.log('🧹 Executando limpeza de Service Workers...');
+  console.debug('🧹 Executando limpeza de Service Workers...');
   
   // Remove todos os service workers
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.getRegistrations()
       .then(function(registrations) {
         if (registrations.length > 0) {
-          console.log('🗑️ Removendo ' + registrations.length + ' service worker(s)');
+          console.debug('🗑️ Removendo ' + registrations.length + ' service worker(s)');
           return Promise.all(
             registrations.map(function(reg) {
               return reg.unregister().then(function() {
-                console.log('✅ SW removido:', reg.scope);
+                console.debug('✅ SW removido:', reg.scope);
               });
             })
           );
@@ -39,11 +39,11 @@
         if ('caches' in window) {
           return caches.keys().then(function(names) {
             if (names.length > 0) {
-              console.log('🗑️ Limpando ' + names.length + ' cache(s)');
+              console.debug('🗑️ Limpando ' + names.length + ' cache(s)');
               return Promise.all(
                 names.map(function(name) {
                   return caches.delete(name).then(function() {
-                    console.log('✅ Cache removido:', name);
+                    console.debug('✅ Cache removido:', name);
                   });
                 })
               );
@@ -54,7 +54,7 @@
       .then(function() {
         // Marca como executado
         localStorage.setItem(CLEANUP_KEY, CLEANUP_VERSION);
-        console.log('✨ Limpeza concluída com sucesso!');
+        console.debug('✨ Limpeza concluída com sucesso!');
       })
       .catch(function(err) {
         console.error('❌ Erro durante limpeza:', err);
