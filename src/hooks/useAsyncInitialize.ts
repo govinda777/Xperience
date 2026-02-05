@@ -6,14 +6,23 @@ export function useAsyncInitialize<T>(
 ) {
   const [state, setState] = useState<T | undefined>();
   useEffect(() => {
+    let isMounted = true;
     (async () => {
       try {
-        setState(await func());
+        const result = await func();
+        if (isMounted) {
+          setState(result);
+        }
       } catch (error) {
-        console.error('Error in useAsyncInitialize:', error);
-        setState(undefined);
+        if (isMounted) {
+          console.error('Error in useAsyncInitialize:', error);
+          setState(undefined);
+        }
       }
     })();
+    return () => {
+      isMounted = false;
+    };
   }, deps);
 
   return state;
