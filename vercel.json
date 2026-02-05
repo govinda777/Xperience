@@ -2,7 +2,10 @@
   "functions": {
     "api/clientes.js": { "maxDuration": 10 }
   },
-  "rewrites": [{ "source": "/api/clientes", "destination": "/api/clientes" }],
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/$1" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ],
   "headers": [
     {
       "source": "/index.html",
