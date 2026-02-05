@@ -191,8 +191,17 @@ export class SEOService {
         };
       }
 
-      // TODO: Implementar integração com Google Search Console API
-      return null;
+      const siteUrl = ENV.VITE_SITE_URL;
+      const response = await fetch(`${ENV.VITE_API_URL}/search-console?siteUrl=${encodeURIComponent(siteUrl)}`);
+
+      if (!response.ok) {
+        // Fallback to null silently in case of error, logging it
+        console.warn(`Failed to fetch search console data: ${response.status} ${response.statusText}`);
+        return null;
+      }
+
+      const data = await response.json();
+      return data;
     } catch (error) {
       console.error("Erro ao verificar indexação:", error);
       return null;
