@@ -23,7 +23,8 @@ export default async function handler(
     return response.status(405).json({ error: 'Method not allowed' });
   }
 
-  const apiKey = process.env.OPENAI_API_KEY;
+  // Trim the API key to remove accidental whitespace from copy-pasting
+  const apiKey = process.env.OPENAI_API_KEY ? process.env.OPENAI_API_KEY.trim() : undefined;
 
   if (!apiKey) {
     console.error('OPENAI_API_KEY is missing');
@@ -47,8 +48,16 @@ export default async function handler(
     return response.status(200).json({
       message: completion.choices[0].message
     });
-  } catch (error) {
-    console.error('OpenAI Error:', error);
+  } catch (error: any) {
+    // Sanitize error message to avoid logging the full API key if it's included in the error message
+    let errorMessage = error.message || 'Unknown error';
+
+    // Simple heuristic to mask potential API keys (sk-...) in the error log
+    if (errorMessage.includes('sk-')) {
+       errorMessage = errorMessage.replace(/sk-[a-zA-Z0-9\-_]{10,}/g, 'sk-***');
+    }
+
+    console.error('OpenAI Error:', errorMessage, error.code ? `(Code: ${error.code})` : '');
     return response.status(500).json({ error: 'Failed to fetch response from OpenAI' });
   }
 }
