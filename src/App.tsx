@@ -12,6 +12,7 @@ import Agents from "./pages/Agents";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import LeadsManager from "./pages/LeadsManager";
+import Transparencia from "./pages/Transparencia";
 import DefaultLayout from "./layouts/DefaultLayout";
 import ProtectedRoute from "./components/ProtectedRoute";
 import "@twa-dev/sdk";
@@ -30,6 +31,7 @@ function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/leads" element={<LeadsManager />} />
+          <Route path="/transparencia" element={<Transparencia />} />
           <Route
             path="/dashboard"
             element={
