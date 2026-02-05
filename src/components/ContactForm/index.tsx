@@ -30,6 +30,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isPageContact }) => {
   const [characterCount, setCharacterCount] = useState(0);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [successId, setSuccessId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const handlePreferenceToggle = (preference: string) => {
@@ -59,8 +60,11 @@ const ContactForm: React.FC<ContactFormProps> = ({ isPageContact }) => {
     setLoading(true);
 
     try {
-      await submitContactForm(formData);
+      const response = await submitContactForm(formData);
       setSuccess(true);
+      if (response && response.id) {
+        setSuccessId(response.id);
+      }
       setFormData({
         name: "",
         email: "",
@@ -71,7 +75,10 @@ const ContactForm: React.FC<ContactFormProps> = ({ isPageContact }) => {
         agreeToTerms: false,
       });
       setCharacterCount(0);
-      setTimeout(() => setSuccess(false), 5000);
+      setTimeout(() => {
+        setSuccess(false);
+        setSuccessId(null);
+      }, 5000);
     } catch (err) {
       console.error(err);
       setError("Ocorreu um erro ao enviar. Tente novamente.");
@@ -227,7 +234,10 @@ const ContactForm: React.FC<ContactFormProps> = ({ isPageContact }) => {
             )}
 
             {success && (
-                <div className="text-green-600 text-sm font-medium">Mensagem enviada com sucesso!</div>
+                <div className="text-green-600 text-sm font-medium">
+                  Mensagem enviada com sucesso!
+                  {successId && <span className="block text-xs mt-1">ID Público: {successId}</span>}
+                </div>
             )}
 
             <div className="pb-10">
