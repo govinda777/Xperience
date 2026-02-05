@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { kv } from '@vercel/kv';
+import { kv } from './lib/kv.js';
 
 export default async function handler(
   request: VercelRequest,
@@ -17,6 +17,17 @@ export default async function handler(
   if (request.method === 'OPTIONS') {
     response.status(200).end();
     return;
+  }
+
+  if (request.method === 'GET') {
+    try {
+      const rawLeads = await kv.lrange('leads:contact', 0, 49);
+      const leads = rawLeads.map((l: any) => (typeof l === 'string' ? JSON.parse(l) : l));
+      return response.status(200).json(leads);
+    } catch (error) {
+      console.error('KV Error (GET):', error);
+      return response.status(500).json({ error: 'Internal Server Error' });
+    }
   }
 
   if (request.method !== 'POST') {

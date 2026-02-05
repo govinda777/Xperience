@@ -32,6 +32,7 @@ const Navbar = () => {
     { name: "Comunidade", path: "/community" },
     { name: "Blog", path: "/blog" },
     { name: "Planos", path: "/plans" },
+    { name: "Transparência", path: "/transparencia" },
     {
       name: "IA do Empreendedor",
       path: "https://ai-entrepreneur-connect.replit.app",

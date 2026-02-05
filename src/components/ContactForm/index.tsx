@@ -10,6 +10,7 @@ interface ContactFormState {
   businessSegment: string;
   needs: string;
   agreeToTerms: boolean;
+  allowPublic: boolean;
 }
 
 interface ContactFormProps {
@@ -25,6 +26,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isPageContact }) => {
     businessSegment: "",
     needs: "",
     agreeToTerms: false,
+    allowPublic: false,
   });
 
   const [characterCount, setCharacterCount] = useState(0);
@@ -59,7 +61,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isPageContact }) => {
     setLoading(true);
 
     try {
-      await submitContactForm(formData);
+      await submitContactForm(formData, formData.allowPublic);
       setSuccess(true);
       setFormData({
         name: "",
@@ -69,6 +71,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isPageContact }) => {
         businessSegment: "",
         needs: "",
         agreeToTerms: false,
+        allowPublic: false,
       });
       setCharacterCount(0);
       setTimeout(() => setSuccess(false), 5000);
@@ -206,21 +209,39 @@ const ContactForm: React.FC<ContactFormProps> = ({ isPageContact }) => {
               </span>
             </div>
 
-            <label className="flex items-center gap-2 text-gray-600">
-              <input
-                type="checkbox"
-                checked={formData.agreeToTerms}
-                onChange={(e) =>
-                  setFormData((prev) => ({
-                    ...prev,
-                    agreeToTerms: e.target.checked,
-                  }))
-                }
-                disabled={loading}
-                className="rounded border-gray-300"
-              />
-              <span>Concordo em receber informações</span>
-            </label>
+            <div className="flex flex-col gap-2">
+              <label className="flex items-center gap-2 text-gray-600">
+                <input
+                  type="checkbox"
+                  checked={formData.agreeToTerms}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      agreeToTerms: e.target.checked,
+                    }))
+                  }
+                  disabled={loading}
+                  className="rounded border-gray-300"
+                />
+                <span>Concordo em receber informações</span>
+              </label>
+
+              <label className="flex items-center gap-2 text-gray-600">
+                <input
+                  type="checkbox"
+                  checked={formData.allowPublic}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      allowPublic: e.target.checked,
+                    }))
+                  }
+                  disabled={loading}
+                  className="rounded border-gray-300"
+                />
+                <span className="text-sm">Aceito exibição pública anonimizada (primeiros chars + máscara)</span>
+              </label>
+            </div>
 
             {error && (
                 <div className="text-red-500 text-sm font-medium">{error}</div>
