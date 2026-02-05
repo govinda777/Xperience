@@ -30,8 +30,8 @@ export default async function handler(
     return response.status(500).json({ error: 'Server configuration error' });
   }
 
-  // Log success (masked) for debugging purposes
-  console.log(`OpenAI API Key found (starts with: ${apiKey.substring(0, 3)}...)`);
+  // Log success without exposing the API key
+  console.log('OpenAI API Key is configured.');
 
   const openai = new OpenAI({ apiKey });
 
