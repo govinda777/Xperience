@@ -1,180 +1,120 @@
-# Xperience
+# 🚀 Xperience
 
-## Configuração das Variáveis de Ambiente
+**Xperience** é uma plataforma inovadora de mentoria empresarial e educação que aplica a **Estratégia do Oceano Azul** (Blue Ocean Strategy) para criar novos espaços de mercado. A plataforma combina o melhor da Web2 e Web3, oferecendo mentorias, planos de assinatura e integração com Inteligência Artificial, tudo acessível via web e Telegram.
+
+---
+
+## ✨ Funcionalidades Principais
+
+- **🎓 Plataforma de Mentoria**: Sistema completo para venda e gestão de planos de mentoria.
+- **🤖 Integração com IA**: Chatbots e Agentes inteligentes baseados em OpenAI para suporte e coaching.
+- **💳 Pagamentos Híbridos**:
+  - **Fiat**: PIX e Cartão de Crédito (via MercadoPago).
+  - **Cripto**: Bitcoin, USDT e TON (The Open Network).
+- **🔐 Autenticação Flexível**:
+  - Login social e email via **Auth0**.
+  - Login Web3 (WalletConnect) e social via **Privy**.
+- **📱 Telegram Web App (TWA)**: Otimizado para rodar diretamente dentro do Telegram.
+- **🛒 E-commerce**: Carrinho de compras, checkout transparente e gestão de leads.
+- **🌐 Arquitetura Moderna**: Micro-frontends (preparado), Componentização e Clean Architecture.
+
+---
+
+## 🛠️ Tech Stack
+
+- **Core**: [React](https://react.dev/), [TypeScript](https://www.typescriptlang.org/), [Vite](https://vitejs.dev/)
+- **Estilização**: [TailwindCSS](https://tailwindcss.com/), [Styled Components](https://styled-components.com/)
+- **Web3 & Blockchain**:
+  - [TON SDK](https://github.com/ton-community/ton-sdk) & [TON Connect](https://docs.ton.org/develop/dapps/ton-connect/)
+  - [Wagmi](https://wagmi.sh/) & [Viem](https://viem.sh/) (Ethereum/EVM)
+  - [Privy](https://www.privy.io/) (Auth & Embedded Wallets)
+- **Backend & Serverless**: [Vercel Serverless Functions](https://vercel.com/docs/functions)
+- **IA**: [OpenAI API](https://openai.com/)
+- **Testes**: [Jest](https://jestjs.io/), [Cypress](https://www.cypress.io/), [Cucumber](https://cucumber.io/) (BDD)
+
+---
+
+## 📚 Documentação
+
+Para detalhes aprofundados sobre partes específicas do projeto, consulte os documentos abaixo:
+
+- [📐 Arquitetura do Sistema](ARCHITECTURE.md)
+- [🌊 Estratégia Blue Ocean](BLUE_OCEAN.md)
+- [💰 Sistema de Pagamentos](PAYMENT.md)
+- [🔒 Segurança](SECURITY.md)
+- [🤝 Contribuindo](CONTRIBUTING.md)
+
+---
+
+## 🚀 Começando
+
+Siga os passos abaixo para rodar o projeto localmente.
 
 ### Pré-requisitos
 
-Antes de iniciar, você precisará configurar as variáveis de ambiente do projeto. O arquivo `.env.example` contém todas as variáveis necessárias.
+- **Node.js** (versão 18 ou superior recomendada)
+- **Yarn** (gerenciador de pacotes)
 
-### Passo a Passo
+### Instalação
 
-1. **Copie o arquivo de exemplo:**
+Utilize o comando de instalação rápida para configurar as dependências:
+
+```bash
+yarn fast-install
+```
+
+### ⚙️ Configuração de Variáveis de Ambiente
+
+O projeto depende de diversas chaves de API. Copie o arquivo de exemplo e configure suas chaves:
 
 ```bash
 cp .env.example .env
 ```
 
-2. **Configure as variáveis de acordo com seu ambiente:**
+#### Variáveis Necessárias
 
-#### Configuração Ethereum/Blockchain
+Edite o arquivo `.env` com suas credenciais. Abaixo estão as principais seções:
 
-- `VITE_RPC_URL`: URL do provedor RPC da rede Ethereum (ex: Alchemy, Infura)
-  - Para Sepolia testnet: `https://eth-sepolia.g.alchemy.com/v2/SEU-API-KEY`
-  - Obtenha sua chave API em: [Alchemy](https://www.alchemy.com/)
+**1. Blockchain & Web3**
+- `VITE_RPC_URL`: URL do provedor RPC da rede Ethereum (ex: Alchemy, Infura).
+- `VITE_CHAIN_ID`: ID da rede blockchain (1 para Mainnet, 11155111 para Sepolia).
+- `VITE_PRIVY_APP_ID`: ID da aplicação Privy (obtenha em [Privy Dashboard](https://dashboard.privy.io/)).
 
-- `VITE_CHAIN_ID`: ID da rede blockchain
-  - Sepolia: `11155111`
-  - Mainnet: `1`
+**2. Account Abstraction (ERC-4337)**
+- `VITE_ENTRYPOINT_ADDRESS`: Endereço do contrato EntryPoint.
+- `VITE_BUNDLER_URL`: URL do serviço bundler.
+- `VITE_PAYMASTER_URL`: URL do serviço paymaster.
 
-#### Configuração ERC-4337 (Account Abstraction)
+**3. Autenticação (Opcional)**
+- Credenciais do Auth0 (`VITE_AUTH0_DOMAIN`, etc.) se for utilizar login social tradicional.
 
-- `VITE_ENTRYPOINT_ADDRESS`: Endereço do contrato EntryPoint
-  - Padrão: `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789`
+**4. Aplicação**
+- `VITE_APP_NAME`: Nome da aplicação.
+- `VITE_API_BASE_URL`: URL da API backend (dev: `http://localhost:3000/api`).
 
-- `VITE_BUNDLER_URL`: URL do serviço bundler para transações
-  - Exemplo: `https://api.stackup.sh/v1/bundler/SEU-API-KEY`
-  - Obtenha em: [Stackup](https://www.stackup.sh/)
+> **Nota de Segurança**: Nunca commite o arquivo `.env`. Mantenha suas chaves privadas seguras.
 
-- `VITE_PAYMASTER_URL`: URL do serviço paymaster (paga gas fees)
-  - Exemplo: `https://api.stackup.sh/v1/paymaster/SEU-API-KEY`
+### Rodando o Projeto
 
-- `VITE_FACTORY_ADDRESS`: Endereço do contrato factory de Account Abstraction
-  - Padrão: `0x9406Cc6185a346906296840746125a0E44976454`
-
-#### Configuração Auth0 (Autenticação - Opcional)
-
-- `VITE_AUTH0_DOMAIN`: Domínio da sua aplicação Auth0
-  - Exemplo: `dev-example.us.auth0.com`
-  - Configure em: [Auth0 Dashboard](https://manage.auth0.com/)
-
-- `VITE_AUTH0_CLIENT_ID`: ID do cliente Auth0
-  - Obtenha no dashboard do Auth0
-
-- `VITE_AUTH0_REDIRECT_URI`: URL de redirecionamento após autenticação
-  - Desenvolvimento: `http://localhost:5173`
-  - Produção: `https://seu-dominio.com`
-
-#### Configuração Privy (Autenticação Web3)
-
-- `VITE_PRIVY_APP_ID`: ID da aplicação Privy
-  - Obtenha em: [Privy Dashboard](https://dashboard.privy.io/)
-  - Exemplo: `cmdwdbrix009rky0ch4w7hgvm`
-
-#### Configuração da Aplicação
-
-- `VITE_APP_NAME`: Nome da aplicação
-  - Padrão: `Xperience`
-
-- `VITE_API_BASE_URL`: URL base da API backend
-  - Desenvolvimento: `http://localhost:3000/api`
-  - Produção: `https://api.seu-dominio.com`
-
-### Exemplo de Arquivo .env Completo
+Inicie o servidor de desenvolvimento:
 
 ```bash
-# Ethereum Network Configuration
-VITE_RPC_URL=https://eth-sepolia.g.alchemy.com/v2/sua-chave-aqui
-VITE_CHAIN_ID=11155111
-
-# ERC-4337 Configuration
-VITE_ENTRYPOINT_ADDRESS=0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789
-VITE_BUNDLER_URL=https://api.stackup.sh/v1/bundler/sua-chave-aqui
-VITE_PAYMASTER_URL=https://api.stackup.sh/v1/paymaster/sua-chave-aqui
-VITE_FACTORY_ADDRESS=0x9406Cc6185a346906296840746125a0E44976454
-
-# Auth0 Configuration (Opcional)
-VITE_AUTH0_DOMAIN=dev-seu-dominio.us.auth0.com
-VITE_AUTH0_CLIENT_ID=seu-client-id-aqui
-VITE_AUTH0_REDIRECT_URI=http://localhost:5173
-
-# Privy Configuration
-VITE_PRIVY_APP_ID=seu-app-id-aqui
-
-# Application Configuration
-VITE_APP_NAME=Xperience
-VITE_API_BASE_URL=http://localhost:3000/api
-```
-
-### Segurança
-
-⚠️ **IMPORTANTE:**
-
-- **NUNCA** commite o arquivo `.env` no repositório
-- O arquivo `.env` está incluído no `.gitignore`
-- Use o `.env.example` como referência
-- Mantenha suas chaves API seguras e privadas
-- Para produção, use variáveis de ambiente do sistema ou serviços como AWS Secrets Manager, Vercel Environment Variables, etc.
-
-### Verificação
-
-Após configurar, você pode verificar se as variáveis estão carregadas corretamente:
-
-```bash
-# Inicie o servidor de desenvolvimento
 yarn dev
-
-# Ou use o comando de instalação rápida
-yarn fast-install
 ```
+
+O app estará disponível em `http://localhost:5173`.
 
 ---
 
-## Configuração SSH (Não versionado)
+## 🔧 Scripts Úteis
 
-Para evitar digitar a senha SSH repetidamente, crie um script local:
+- `yarn dev`: Inicia o servidor de desenvolvimento.
+- `yarn build`: Compila o projeto para produção.
+- `yarn test`: Roda os testes unitários.
+- `yarn test:e2e`: Roda os testes end-to-end com Cypress.
 
-```bash
-# Crie um script local não versionado
-mkdir -p scripts
-touch scripts/local-ssh-setup.sh
-chmod +x scripts/local-ssh-setup.sh
-```
+---
 
-Adicione o seguinte conteúdo ao arquivo `scripts/local-ssh-setup.sh`:
+## 📄 Licença
 
-```bash
-#!/bin/bash
-
-# Script para configurar o SSH Agent e adicionar chaves automaticamente
-
-# Iniciar o SSH Agent se ainda não estiver rodando
-if [ -z "$SSH_AUTH_SOCK" ]; then
-  echo "🔑 Iniciando SSH Agent..."
-  eval "$(ssh-agent -s)"
-fi
-
-# Verificar se a chave já está adicionada
-ssh-add -l | grep -q "SUA_CHAVE_SSH"
-if [ $? -ne 0 ]; then
-  echo "🔐 Adicionando chave SSH ao agent..."
-  ssh-add ~/.ssh/SUA_CHAVE_SSH
-else
-  echo "✅ Chave SSH já está adicionada ao agent."
-fi
-
-echo "🚀 Configuração SSH concluída!"
-```
-
-Substitua `SUA_CHAVE_SSH` pelo nome do seu arquivo de chave SSH.
-
-## Configuração permanente (opcional)
-
-Para configurar o SSH Agent permanentemente, adicione ao seu arquivo de perfil (~/.bashrc, ~/.zshrc, etc.):
-
-```bash
-# Configuração do SSH Agent
-if [ -z "$SSH_AUTH_SOCK" ]; then
-  eval "$(ssh-agent -s)" > /dev/null
-  ssh-add -q ~/.ssh/SUA_CHAVE_SSH 2>/dev/null
-fi
-```
-
-## Instalação rápida
-
-Para instalar as dependências rapidamente:
-
-```bash
-yarn fast-install
-```
-
-Este comando usa configurações otimizadas para acelerar o processo de instalação.
+Este projeto é privado. Todos os direitos reservados.
