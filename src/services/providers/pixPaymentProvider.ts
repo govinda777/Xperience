@@ -50,17 +50,13 @@ export class PixPaymentProvider implements PaymentProviderInterface {
 
   // Private properties
   private baseUrl: string;
-  private accessToken: string;
+  // private accessToken: string; // Removed for security
 
   constructor() {
-    this.accessToken = PAYMENT_CONFIG.mercadoPago.accessToken;
+    // Access token removed from frontend config for security
     this.baseUrl = PAYMENT_CONFIG.mercadoPago.sandboxMode
       ? "https://api.mercadopago.com/sandbox"
       : "https://api.mercadopago.com";
-
-    if (!this.accessToken) {
-      throw new Error("Token de acesso do Mercado Pago não configurado");
-    }
   }
 
   // Public methods
@@ -237,21 +233,10 @@ export class PixPaymentProvider implements PaymentProviderInterface {
   private async createPreference(
     preference: MercadoPagoPreference,
   ): Promise<MercadoPagoResponse> {
-    const response = await fetch(`${this.baseUrl}/checkout/preferences`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${this.accessToken}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(preference),
-    });
-
-    if (!response.ok) {
-      const error = await response.text();
-      throw new Error(`Erro ao criar preferência: ${error}`);
-    }
-
-    return await response.json();
+    console.error("SECURITY ALERT: Attempting to create PIX preference from frontend using secrets.");
+    throw new Error(
+      "Security Update: PIX payments must be processed via backend API to protect credentials. Frontend direct access to MercadoPago API has been disabled."
+    );
   }
 
   private async generatePixQRCode(
@@ -261,49 +246,16 @@ export class PixPaymentProvider implements PaymentProviderInterface {
     qr_code: string;
     qr_code_base64: string;
   }> {
-    try {
-      // Buscar dados PIX da preferência
-      const response = await fetch(
-        `${this.baseUrl}/checkout/preferences/${preferenceId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${this.accessToken}`,
-          },
-        },
-      );
-
-      if (!response.ok) {
-        throw new Error("Erro ao buscar dados PIX");
-      }
-
-      const preferenceData = await response.json();
-
-      // Se o Mercado Pago já forneceu o QR Code, usar ele
-      if (preferenceData.qr_code && preferenceData.qr_code_base64) {
-        return {
-          qr_code: preferenceData.qr_code,
-          qr_code_base64: preferenceData.qr_code_base64,
-        };
-      }
-
-      // Caso contrário, gerar QR Code com a URL de pagamento
-      const qrCode = await this.generateQRCodeFromUrl(
-        preferenceData.init_point,
-      );
-
-      return {
-        qr_code: preferenceData.init_point,
-        qr_code_base64: qrCode,
-      };
-    } catch (error) {
-      console.error("Erro ao gerar QR Code PIX:", error);
-      throw error;
-    }
+    console.error("SECURITY ALERT: Attempting to get PIX data from frontend using secrets.");
+    throw new Error(
+      "Security Update: PIX data retrieval must be processed via backend API."
+    );
   }
 
   private async generateQRCodeFromUrl(url: string): Promise<string> {
-    try {
-      // Usar biblioteca QRCode para gerar o código
+     // This method is safe, but unused if the above methods throw error.
+     // Kept for future backend integration reference or utility.
+      try {
       const QRCode = await import("qrcode");
       const qrCodeDataUrl = await QRCode.toDataURL(url, {
         width: 256,
@@ -313,8 +265,6 @@ export class PixPaymentProvider implements PaymentProviderInterface {
           light: "#FFFFFF",
         },
       });
-
-      // Extrair apenas a parte base64
       return qrCodeDataUrl.split(",")[1];
     } catch (error) {
       console.error("Erro ao gerar QR Code:", error);
@@ -325,26 +275,10 @@ export class PixPaymentProvider implements PaymentProviderInterface {
   private async getPaymentsByPreference(
     preferenceId: string,
   ): Promise<MercadoPagoPayment[]> {
-    try {
-      const response = await fetch(
-        `${this.baseUrl}/v1/payments/search?preference_id=${preferenceId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${this.accessToken}`,
-          },
-        },
-      );
-
-      if (!response.ok) {
-        throw new Error("Erro ao buscar pagamentos");
-      }
-
-      const data = await response.json();
-      return data.results || [];
-    } catch (error) {
-      console.error("Erro ao buscar pagamentos:", error);
-      return [];
-    }
+    console.error("SECURITY ALERT: Attempting to search payments from frontend using secrets.");
+    throw new Error(
+      "Security Update: Payment verification must be processed via backend API."
+    );
   }
 
   private mapMercadoPagoStatus(mpStatus: string): PaymentStatus {
@@ -375,16 +309,9 @@ export class PixPaymentProvider implements PaymentProviderInterface {
   private async getPaymentDetails(
     paymentId: string,
   ): Promise<MercadoPagoPayment> {
-    const response = await fetch(`${this.baseUrl}/v1/payments/${paymentId}`, {
-      headers: {
-        Authorization: `Bearer ${this.accessToken}`,
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error("Erro ao buscar detalhes do pagamento");
-    }
-
-    return await response.json();
+     console.error("SECURITY ALERT: Attempting to get payment details from frontend using secrets.");
+    throw new Error(
+      "Security Update: Payment details retrieval must be processed via backend API."
+    );
   }
 }
