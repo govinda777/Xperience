@@ -2,5 +2,25 @@
   "functions": {
     "api/clientes.js": { "maxDuration": 10 }
   },
-  "rewrites": [{ "source": "/api/clientes", "destination": "/api/clientes" }]
+  "rewrites": [{ "source": "/api/clientes", "destination": "/api/clientes" }],
+  "headers": [
+    {
+      "source": "/index.html",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    }
+  ]
 }
