@@ -26,9 +26,12 @@ export default async function handler(
   const apiKey = process.env.OPENAI_API_KEY;
 
   if (!apiKey) {
-    console.error('OPENAI_API_KEY is missing');
+    console.error('CRITICAL ERROR: OPENAI_API_KEY is missing in environment variables.');
     return response.status(500).json({ error: 'Server configuration error' });
   }
+
+  // Log success (masked) for debugging purposes
+  console.log(`OpenAI API Key found (starts with: ${apiKey.substring(0, 3)}...)`);
 
   const openai = new OpenAI({ apiKey });
 
