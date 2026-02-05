@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="./logo.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#FD9526" />
+    
+    <!-- ============================================ -->
+    <!-- CRITICAL: Service Worker Cleanup             -->
+    <!-- MUST execute BEFORE any other scripts        -->
+    <!-- Removes old cached SWs automatically         -->
+    <!-- ============================================ -->
+    <script src="/sw-cleanup.js"></script>
+    
+    <!-- ============================================ -->
+    <!-- HTTP Cache Prevention                        -->
+    <!-- Forces browsers to always fetch fresh        -->
+    <!-- ============================================ -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    
+    <!-- Content Security Policy para permitir o iframe do Privy -->
+    <meta http-equiv="Content-Security-Policy" content="
+      default-src 'self';
+      script-src 'self' 'unsafe-inline' 'unsafe-eval'
+        https://www.googletagmanager.com
+        https://www.google-analytics.com
+        https://challenges.cloudflare.com
+        https://*.privy.io
+        https://auth.privy.io;
+      style-src 'self' 'unsafe-inline'
+        https://fonts.googleapis.com;
+      img-src 'self' data: https: blob:;
+      font-src 'self'
+        https://fonts.gstatic.com;
+      connect-src 'self'
+        https://auth.privy.io
+        https://*.privy.io
+        https://raw.githubusercontent.com
+        https://explorer-api.walletconnect.com
+        https://challenges.cloudflare.com
+        https://*.walletconnect.com
+        https://*.walletconnect.org
+        https://www.google-analytics.com
+        https://www.googletagmanager.com
+        https://www.xperiencehubs.com
+        https://xperiencehubs.com;
+      frame-src 'self'
+        https://auth.privy.io
+        https://*.privy.io
+        https://challenges.cloudflare.com;
+    " />
+
+    <!-- Preconnect para melhor performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://www.google-analytics.com" />
+
+    <!-- DNS Prefetch -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="//www.googletagmanager.com" />
+
+    <!-- Default SEO Meta Tags -->
+    <title>Xperience - Mentoria para Empreendedores</title>
+    <meta
+      name="description"
+      content="Transforme sua ideia em um negócio de sucesso com nossa mentoria especializada e IA do Empreendedor gratuita."
+    />
+    <meta
+      name="keywords"
+      content="mentoria empresarial, consultoria para empreendedores, IA do empreendedor, negócios, startup"
+    />
+    <meta name="author" content="Xperience" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph -->
+    <meta property="og:site_name" content="Xperience" />
+    <meta property="og:locale" content="pt_BR" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:site" content="@xperience" />
+    <meta name="twitter:creator" content="@xperience" />
+
+    <!-- Google Tag Manager -->
+    <script>
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != "dataLayer" ? "&l=" + l : "";
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, "script", "dataLayer", "GTM-XXXXXXX");
+    </script>
+    <!-- End Google Tag Manager -->
+
+    <!-- GitHub Pages SPA support -->
+    <script type="text/javascript">
+      // Single Page Apps for GitHub Pages
+      // MIT License
+      // https://github.com/rafgraph/spa-github-pages
+
+      (function (l) {
+        if (l.search[1] === "/") {
+          var decoded = l.search
+            .slice(1)
+            .split("&")
+            .map(function (s) {
+              return s.replace(/~and~/g, "&");
+            })
+            .join("?");
+          window.history.replaceState(
+            null,
+            null,
+            l.pathname.slice(0, -1) + decoded + l.hash,
+          );
+          // Não é mais necessário adicionar prefixo, pois estamos usando domínio personalizado
+        }
+      })(window.location);
+    </script>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Xperience",
+        "url": "https://xperiencehubs.com/",
+        "logo": "https://xperiencehubs.com/logo.svg",
+        "description": "Programa de mentoria para empreendedores que desejam transformar suas ideias em negócios de sucesso",
+        "address": {
+          "@type": "PostalAddress",
+          "addressCountry": "BR"
+        },
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "customer service",
+          "url": "https://xperiencehubs.com/contact"
+        }
+      }
+    </script>
+    <script type="module" crossorigin src="/assets/index.mreEMI_a.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/router.B9Wt-69n.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor.BH0yKt5g.js">
+    <link rel="modulepreload" crossorigin href="/assets/wallet.BRxiaYOA.js">
+    <link rel="modulepreload" crossorigin href="/assets/ton.BJ3_JspX.js">
+    <link rel="modulepreload" crossorigin href="/assets/analytics.3midQUAv.js">
+    <link rel="modulepreload" crossorigin href="/assets/ui.CiY_Dn60.js">
+    <link rel="stylesheet" crossorigin href="/assets/index.CtjAOMPN.css">
+  <link rel="manifest" href="/manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="/registerSW.js"></script></head>
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript
+      ><iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
+        height="0"
+        width="0"
+        style="display: none; visibility: hidden"
+      ></iframe
+    ></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <div id="root"></div>
+  </body>
+</html><!-- Build: 2026-02-05T21:02:50Z -->
