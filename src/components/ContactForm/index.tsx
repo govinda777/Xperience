@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Peoples from "../../../assets/peoples.png";
+import { submitContactForm } from "../../services/leadsService";
 
 interface ContactFormState {
   name: string;
@@ -27,6 +28,9 @@ const ContactForm: React.FC<ContactFormProps> = ({ isPageContact }) => {
   });
 
   const [characterCount, setCharacterCount] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handlePreferenceToggle = (preference: string) => {
     setFormData((prev) => ({
@@ -37,9 +41,43 @@ const ContactForm: React.FC<ContactFormProps> = ({ isPageContact }) => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(formData);
+    setError(null);
+    setSuccess(false);
+
+    if (!formData.name || !formData.email || !formData.phone) {
+        setError("Por favor, preencha nome, email e telefone.");
+        return;
+    }
+
+    if (!formData.agreeToTerms) {
+        setError("Por favor, concorde em receber informações.");
+        return;
+    }
+
+    setLoading(true);
+
+    try {
+      await submitContactForm(formData);
+      setSuccess(true);
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        contactPreference: [],
+        businessSegment: "",
+        needs: "",
+        agreeToTerms: false,
+      });
+      setCharacterCount(0);
+      setTimeout(() => setSuccess(false), 5000);
+    } catch (err) {
+      console.error(err);
+      setError("Ocorreu um erro ao enviar. Tente novamente.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const img = new URL("/public/home/contact-form.png", import.meta.url).href;
@@ -78,6 +116,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isPageContact }) => {
               onChange={(e) =>
                 setFormData((prev) => ({ ...prev, name: e.target.value }))
               }
+              disabled={loading}
             />
 
             <input
@@ -88,6 +127,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isPageContact }) => {
               onChange={(e) =>
                 setFormData((prev) => ({ ...prev, email: e.target.value }))
               }
+              disabled={loading}
             />
 
             <input
@@ -98,6 +138,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isPageContact }) => {
               onChange={(e) =>
                 setFormData((prev) => ({ ...prev, phone: e.target.value }))
               }
+              disabled={loading}
             />
 
             <div className="space-y-2">
@@ -115,6 +156,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isPageContact }) => {
                     key={value}
                     type="button"
                     onClick={() => handlePreferenceToggle(value)}
+                    disabled={loading}
                     className={`px-4 py-2 rounded-full border-2 transition-colors font-bold
                       ${
                         formData.contactPreference.includes(value)
@@ -137,6 +179,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isPageContact }) => {
                   businessSegment: e.target.value,
                 }))
               }
+              disabled={loading}
             >
               <option value="">Segmento do seu negócio</option>
               <option value="retail">Varejo</option>
@@ -156,6 +199,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isPageContact }) => {
                     setCharacterCount(text.length);
                   }
                 }}
+                disabled={loading}
               />
               <span className="absolute bottom-3 right-4 text-sm text-gray-400">
                 {characterCount}/100
@@ -172,16 +216,27 @@ const ContactForm: React.FC<ContactFormProps> = ({ isPageContact }) => {
                     agreeToTerms: e.target.checked,
                   }))
                 }
+                disabled={loading}
                 className="rounded border-gray-300"
               />
               <span>Concordo em receber informações</span>
             </label>
+
+            {error && (
+                <div className="text-red-500 text-sm font-medium">{error}</div>
+            )}
+
+            {success && (
+                <div className="text-green-600 text-sm font-medium">Mensagem enviada com sucesso!</div>
+            )}
+
             <div className="pb-10">
               <button
                 type="submit"
-                className="w-full bg-black text-white rounded-2xl py-4  font-bold hover:bg-opacity-90 transition-colors"
+                disabled={loading}
+                className="w-full bg-black text-white rounded-2xl py-4  font-bold hover:bg-opacity-90 transition-colors disabled:opacity-50"
               >
-                Enviar mensagem
+                {loading ? "Enviando..." : "Enviar mensagem"}
               </button>
             </div>
           </form>
