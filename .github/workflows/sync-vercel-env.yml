@@ -2,9 +2,6 @@ name: Sync to Vercel
 
 on:
   push:
-    paths:
-      - '.env.example'
-      - '.github/workflows/sync-vercel-env.yml'
     branches:
       - main
   workflow_dispatch:
