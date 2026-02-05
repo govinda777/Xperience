@@ -79,4 +79,31 @@ describe('useAsyncInitialize', () => {
     rerender();
     expect(asyncFunc).toHaveBeenCalledTimes(1);
   });
+
+  it('should not update state or log error when unmounted (prevent memory leak)', async () => {
+    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+    let rejectFunc: ((reason?: any) => void) | undefined;
+    const asyncFunc = jest.fn().mockImplementation(() => {
+      return new Promise<string>((_, reject) => {
+        rejectFunc = reject;
+      });
+    });
+
+    const { unmount } = renderHook(() => useAsyncInitialize(asyncFunc));
+
+    // Unmount before promise rejects
+    unmount();
+
+    // Reject promise
+    await act(async () => {
+      if (rejectFunc) rejectFunc(new Error('test-error'));
+      // Wait a tick
+      await new Promise(r => setTimeout(r, 0));
+    });
+
+    expect(consoleErrorSpy).not.toHaveBeenCalled();
+
+    consoleErrorSpy.mockRestore();
+  });
 });
