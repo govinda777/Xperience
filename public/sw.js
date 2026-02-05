@@ -4,7 +4,7 @@
  * Versão: 2026.02.04
  */
 
-const VERSION = '2026.02.04';
+const VERSION = '2026.02.05.1506';
 const CACHE_NAME = 'xperience-cache-' + VERSION;
 
 // Assets estáticos conhecidos que devem ser cacheados

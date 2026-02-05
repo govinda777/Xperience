@@ -7,7 +7,7 @@
     "prepare": "husky install",
     "fast-install": "./scripts/fast-install.sh",
     "dev": "vite",
-    "build": "NODE_OPTIONS=\"--max-old-space-size=4096\" tsc --noEmit && vite build",
+    "build": "node scripts/update-sw-version.js && NODE_OPTIONS=\"--max-old-space-size=4096\" tsc --noEmit && NODE_OPTIONS=\"--max-old-space-size=4096\" vite build",
     "build:clean": "./scripts/build.sh",
     "clean:js": "./scripts/clean-js-duplicates.sh",
     "deploy": "./scripts/deploy-gh-pages.sh",
