@@ -6,7 +6,7 @@
 (function() {
   'use strict';
   
-  const CLEANUP_VERSION = '2026.02.05'; // Atualizar a cada mudança significativa
+  const CLEANUP_VERSION = '2026.02.05.1439'; // Atualizar a cada mudança significativa
   const CLEANUP_KEY = 'sw_cleanup_version';
   
   // Verifica se já executou esta versão da limpeza
