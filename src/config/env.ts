@@ -32,6 +32,10 @@ export const ENV = {
   VITE_WEBHOOK_SECRET: getEnvVar("VITE_WEBHOOK_SECRET", "test-secret"),
   VITE_USDT_ETHEREUM_CONTRACT: getEnvVar("VITE_USDT_ETHEREUM_CONTRACT", "test-contract"),
   VITE_USDT_POLYGON_CONTRACT: getEnvVar("VITE_USDT_POLYGON_CONTRACT", "test-contract"),
+
+  //seo
+  VITE_PAGESPEED_API_KEY: getEnvVar("VITE_PAGESPEED_API_KEY", ""),
+
   DEV: isDev,
   PROD: !isDev,
 };

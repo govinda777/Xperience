@@ -135,8 +135,8 @@ export class SEOService {
     if (cached) return cached;
 
     try {
-      // Em desenvolvimento, retornar dados mock
-      if (ENV.VITE_ENVIRONMENT !== "production") {
+      // Em desenvolvimento, retornar dados mock apenas se não houver chave de API configurada
+      if (ENV.VITE_ENVIRONMENT !== "production" && !ENV.VITE_PAGESPEED_API_KEY) {
         const mockAudit: PerformanceAudit = {
           url,
           score: Math.floor(Math.random() * 30) + 70, // Score entre 70-100
@@ -160,14 +160,45 @@ export class SEOService {
         return mockAudit;
       }
 
-      // TODO: Implementar integração real com PageSpeed Insights API
-      // const apiKey = process.env.VITE_PAGESPEED_API_KEY;
-      // const response = await fetch(
-      //   `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(url)}&key=${apiKey}&category=performance`
-      // );
-      // const data = await response.json();
+      const apiKey = ENV.VITE_PAGESPEED_API_KEY;
 
-      return null;
+      if (!apiKey) {
+        console.warn("PageSpeed API Key missing.");
+        return null;
+      }
+
+      const response = await fetch(
+        `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(url)}&key=${apiKey}&category=performance`
+      );
+
+      if (!response.ok) {
+        throw new Error(`PageSpeed API error: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      const lighthouse = data.lighthouseResult;
+      const audits = lighthouse.audits;
+
+      const performanceAudit: PerformanceAudit = {
+        url,
+        score: (lighthouse.categories.performance.score || 0) * 100,
+        metrics: {
+          lcp: audits['largest-contentful-paint']?.numericValue || 0,
+          fid: audits['max-potential-fid']?.numericValue || 0,
+          cls: audits['cumulative-layout-shift']?.numericValue || 0,
+          fcp: audits['first-contentful-paint']?.numericValue || 0,
+          ttfb: audits['server-response-time']?.numericValue || 0,
+        },
+        opportunities: Object.values(audits)
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          .filter((audit: any) => audit.details && audit.details.type === 'opportunity')
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          .map((audit: any) => audit.title),
+        timestamp: new Date().toISOString(),
+      };
+
+      this.setCachedData(cacheKey, performanceAudit);
+      return performanceAudit;
     } catch (error) {
       console.error("Erro na auditoria de performance:", error);
       return null;
