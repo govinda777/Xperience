@@ -76,13 +76,5 @@ ${routes
 };
 
 export const generateSitemapFile = async (): Promise<void> => {
-  const sitemap = generateSitemap();
-
-  // Em produção, isso seria salvo no servidor
-  // Para desenvolvimento, podemos usar localStorage ou uma API
-  if (typeof window !== "undefined") {
-    console.log("Generated sitemap:", sitemap);
-  }
-
   return Promise.resolve();
 };

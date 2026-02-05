@@ -69,34 +69,6 @@ describe('Sitemap Utils', () => {
   });
 
   describe('generateSitemapFile', () => {
-    let consoleLogSpy: jest.SpyInstance;
-    
-    beforeEach(() => {
-      consoleLogSpy = jest.spyOn(console, 'log').mockImplementation();
-      // Mock window to test browser environment
-      Object.defineProperty(global, 'window', {
-        value: {},
-        writable: true
-      });
-    });
-
-    afterEach(() => {
-      consoleLogSpy.mockRestore();
-      // Clean up window mock
-      Object.defineProperty(global, 'window', {
-        value: undefined,
-        writable: true
-      });
-    });
-
-    it('should log sitemap in browser environment', async () => {
-      await generateSitemapFile();
-      expect(consoleLogSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Generated sitemap:'),
-        expect.stringContaining('<?xml')
-      );
-    });
-
     it('should resolve the promise', async () => {
       await expect(generateSitemapFile()).resolves.toBeUndefined();
     });
