@@ -3,7 +3,8 @@ export const privyConfig = {
   appId: "cmdwdbrix009rky0ch4w7hgvm", // App ID do Privy (hardcoded)
   config: {
     // Configurações de login
-    loginMethods: ["email", "wallet"] as (
+    // loginMethods removido para usar a configuração do dashboard
+    /* loginMethods: ["email", "wallet"] as (
       | "email"
       | "github"
       | "google"
@@ -18,7 +19,7 @@ export const privyConfig = {
       | "apple"
       | "farcaster"
       | "telegram"
-    )[],
+    )[], */
 
     // Configurações de aparência
     appearance: {
