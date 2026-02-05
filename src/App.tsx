@@ -9,7 +9,6 @@ import About from "./pages/About";
 import Community from "./pages/Community";
 import Dashboard from "./pages/Dashboard";
 import Agents from "./pages/Agents";
-import Nation from "./pages/Nation";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import LeadsManager from "./pages/LeadsManager";
@@ -44,14 +43,6 @@ function App() {
             element={
               <ProtectedRoute>
                 <Agents />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/nation"
-            element={
-              <ProtectedRoute>
-                <Nation />
               </ProtectedRoute>
             }
           />

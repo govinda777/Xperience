@@ -11,9 +11,7 @@ export default defineConfig({
     react(),
     federation({
       name: "xperience",
-      remotes: {
-        nationfun: "nationfun@https://nationfun.vercel.app/assets/remoteEntry.js",
-      },
+      remotes: {},
       shared: ["react", "react-dom"],
     }),
     nodePolyfills({
