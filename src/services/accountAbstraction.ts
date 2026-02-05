@@ -9,7 +9,7 @@ import {
   createAlchemySmartAccountClient,
   type AlchemySmartAccountClient,
 } from "@alchemy/aa-alchemy";
-import { http, createPublicClient } from "viem";
+import { http, createPublicClient, toHex } from "viem";
 import { createLightAccount } from "@alchemy/aa-accounts";
 
 // First declare the variables
@@ -398,16 +398,16 @@ class AccountAbstractionService {
           : targets.map((_, i) => values[i] || BigInt(0));
 
       // Create batch transaction objects
-      const transactions = targets.map((target, i) => ({
+      const requests = targets.map((target, i) => ({
         to: target as `0x${string}`,
         data: datas[i] as `0x${string}`,
-        value: paddedValues[i],
+        value: toHex(paddedValues[i]),
       }));
 
       // Fix: Use the correct typing for batch transactions
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const hash = await (this.alchemyClient as any).sendBatchTransaction({
-        transactions: transactions,
+      const hash = await this.alchemyClient.sendTransactions({
+        requests,
+        account: this.alchemyClient.account,
       });
 
       // Wait for the transaction to be included in a block
