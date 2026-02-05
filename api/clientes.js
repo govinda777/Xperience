@@ -1,32 +1,26 @@
-import { writeFile, readFile } from 'fs/promises';
-import { join } from 'path';
-
-const dbPath = join(process.cwd(), 'public/db.json');
-
-async function readDB() {
-  try {
-    // Optimized: Use async I/O to prevent event loop blocking
-    const data = await readFile(dbPath, 'utf8');
-    return JSON.parse(data);
-  } catch {
-    return { clientes: [] };
-  }
-}
-
-async function writeDB(data) {
-  await writeFile(dbPath, JSON.stringify(data, null, 2));
-}
+import client from './_lib/redis.js';
 
 export default async function handler(req, res) {
-  if (req.method === 'POST') {
-    const db = await readDB();
-    const lead = { ...req.body, id: Date.now(), status: 'Enviado' };
-    db.clientes.push(lead);
-    db.clientes = db.clientes.slice(-50); // Limita 50 últimos
-    await writeDB(db);
-    res.status(200).json({ success: true });
-  } else {
-    const db = await readDB();
-    res.status(200).json(db.clientes.slice(-10)); // 10 últimos
+  try {
+    if (req.method === 'POST') {
+      const lead = { ...req.body, id: Date.now(), status: 'Enviado' };
+
+      // Use RPUSH to append to the end (mimics array.push)
+      await client.rPush('clientes', JSON.stringify(lead));
+
+      // Keep only the last 50
+      await client.lTrim('clientes', -50, -1);
+
+      res.status(200).json({ success: true });
+    } else {
+      // Get the last 10 (mimics slice(-10))
+      const leads = await client.lRange('clientes', -10, -1);
+      const parsedLeads = leads.map(l => JSON.parse(l));
+
+      res.status(200).json(parsedLeads);
+    }
+  } catch (error) {
+    console.error('Redis error:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 }
