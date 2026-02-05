@@ -1,30 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { useAuth } from "../../contexts/AuthContext";
-import AgentList from '../../components/dashboard/AgentList';
-import AgentCreator from '../../components/dashboard/AgentCreator';
-import AgentChat from '../../components/dashboard/AgentChat';
-import { Agent } from '../../types/agent';
+import { useNavigate } from "react-router-dom";
+import { Bot, BarChart3, Folder, Settings } from "lucide-react";
 
 const Dashboard = () => {
   const { user, logout, ready } = useAuth();
-  const [view, setView] = useState<'list' | 'create' | 'chat'>('list');
-  const [selectedAgent, setSelectedAgent] = useState<Agent | null>(null);
-  const [refreshTrigger, setRefreshTrigger] = useState(0);
-
-  const handleAgentSelect = (agent: Agent) => {
-    setSelectedAgent(agent);
-    setView('chat');
-  };
-
-  const handleAgentCreated = () => {
-    setView('list');
-    setRefreshTrigger(prev => prev + 1);
-  };
-
-  const handleBackToList = () => {
-    setView('list');
-    setSelectedAgent(null);
-  };
+  const navigate = useNavigate();
 
   if (!ready) {
     return (
@@ -56,7 +37,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* User Profile Summary - Simplified */}
+        {/* User Profile Summary */}
         <div className="bg-gray-50 border-b px-6 py-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-orange-200 flex items-center justify-center text-orange-700 font-bold">
@@ -67,44 +48,63 @@ const Dashboard = () => {
                     <p className="text-gray-500 text-xs">ID: {user?.id.slice(0, 8)}...</p>
                 </div>
             </div>
-            {view !== 'list' && (
-                <button
-                    onClick={handleBackToList}
-                    className="text-orange-600 text-sm hover:underline"
-                >
-                    Voltar para lista
-                </button>
-            )}
         </div>
 
-        {/* Content Area */}
+        {/* Content Area - Dashboard Hub */}
         <div className="p-6 bg-[#F9F9F9] min-h-[600px]">
-            {view === 'list' && (
-                <div className="space-y-6">
-                    <div className="flex justify-between items-center">
-                        <h2 className="text-2xl font-bold text-gray-800">Meus Agentes de IA</h2>
+            <h2 className="text-2xl font-bold text-gray-800 mb-6">Visão Geral</h2>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {/* Agentes - Link Ativo */}
+                <div
+                    onClick={() => navigate('/agents')}
+                    className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition cursor-pointer border border-gray-100 group"
+                >
+                    <div className="flex items-center gap-4 mb-4">
+                        <div className="p-3 bg-blue-100 text-blue-600 rounded-lg group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                            <Bot size={24} />
+                        </div>
+                        <h3 className="text-xl font-bold text-gray-800">Agentes</h3>
                     </div>
-                    <AgentList
-                        onSelectAgent={handleAgentSelect}
-                        onCreateNew={() => setView('create')}
-                        refreshTrigger={refreshTrigger}
-                    />
+                    <p className="text-gray-600">Crie e gerencie seus assistentes de IA personalizados.</p>
                 </div>
-            )}
 
-            {view === 'create' && (
-                <AgentCreator
-                    onAgentCreated={handleAgentCreated}
-                    onCancel={handleBackToList}
-                />
-            )}
+                {/* Relatórios - Placeholder */}
+                <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 opacity-60 cursor-not-allowed relative">
+                    <span className="absolute top-4 right-4 text-xs font-bold bg-gray-200 text-gray-600 px-2 py-1 rounded">Em breve</span>
+                    <div className="flex items-center gap-4 mb-4">
+                        <div className="p-3 bg-green-100 text-green-600 rounded-lg">
+                            <BarChart3 size={24} />
+                        </div>
+                        <h3 className="text-xl font-bold text-gray-800">Relatórios</h3>
+                    </div>
+                    <p className="text-gray-600">Visualize métricas e desempenho dos seus agentes.</p>
+                </div>
 
-            {view === 'chat' && selectedAgent && (
-                <AgentChat
-                    agent={selectedAgent}
-                    onBack={handleBackToList}
-                />
-            )}
+                {/* Projetos - Placeholder */}
+                <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 opacity-60 cursor-not-allowed relative">
+                    <span className="absolute top-4 right-4 text-xs font-bold bg-gray-200 text-gray-600 px-2 py-1 rounded">Em breve</span>
+                    <div className="flex items-center gap-4 mb-4">
+                        <div className="p-3 bg-purple-100 text-purple-600 rounded-lg">
+                            <Folder size={24} />
+                        </div>
+                        <h3 className="text-xl font-bold text-gray-800">Projetos</h3>
+                    </div>
+                    <p className="text-gray-600">Organize seus recursos e arquivos em projetos.</p>
+                </div>
+
+                {/* Configurações - Placeholder */}
+                <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 opacity-60 cursor-not-allowed relative">
+                    <span className="absolute top-4 right-4 text-xs font-bold bg-gray-200 text-gray-600 px-2 py-1 rounded">Em breve</span>
+                    <div className="flex items-center gap-4 mb-4">
+                        <div className="p-3 bg-gray-100 text-gray-600 rounded-lg">
+                            <Settings size={24} />
+                        </div>
+                        <h3 className="text-xl font-bold text-gray-800">Configurações</h3>
+                    </div>
+                    <p className="text-gray-600">Gerencie preferências da conta e integrações.</p>
+                </div>
+            </div>
         </div>
       </div>
     </div>
