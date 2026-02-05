@@ -64,20 +64,17 @@ export interface Plan {
 export interface PaymentConfig {
   mercadoPago: {
     publicKey: string;
-    accessToken: string;
+    // accessToken removed for security
     sandboxMode: boolean;
   };
   privy: {
     appId: string;
-    appSecret: string;
+    // appSecret removed for security
     supportedChains: string[];
   };
   webhookUrl: string;
   apiUrl: string;
-  security: {
-    encryptionKey: string;
-    webhookSecret: string;
-  };
+  // security object removed for security
 }
 
 export interface PaymentAnalytics {

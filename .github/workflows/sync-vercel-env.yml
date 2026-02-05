@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - '.env.example'
+      - '.github/workflows/sync-vercel-env.yml'
     branches:
       - main
   workflow_dispatch:
@@ -17,6 +18,21 @@ jobs:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+
+      # Secrets
+      GOOGLE_CLIENT_EMAIL: ${{ secrets.GOOGLE_CLIENT_EMAIL }}
+      GOOGLE_PRIVATE_KEY: ${{ secrets.GOOGLE_PRIVATE_KEY }}
+      GOOGLE_PRIVATE_KEY_PASSPHRASE: ${{ secrets.GOOGLE_PRIVATE_KEY_PASSPHRASE }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      PRIVY_APP_SECRET: ${{ secrets.PRIVY_APP_SECRET }}
+
+      # Variables
+      VITE_API_URL: ${{ vars.VITE_API_URL }}
+      VITE_PAGESPEED_API_KEY: ${{ vars.VITE_PAGESPEED_API_KEY }}
+      VITE_PRIVY_APP_ID: ${{ vars.VITE_PRIVY_APP_ID }}
+      VITE_SITE_URL: ${{ vars.VITE_SITE_URL }}
+      VITE_WEBHOOK_URL: ${{ vars.VITE_WEBHOOK_URL }}
+
     steps:
       - uses: actions/checkout@v4
 
@@ -25,23 +41,30 @@ jobs:
 
       - name: Sync Environment Variables
         run: |
-          while IFS='=' read -r key value; do
-            # Skip comments and empty lines
-            if [[ $key =~ ^# || -z $key ]]; then
-              continue
-            fi
+          # List of keys to sync
+          KEYS=(
+            "GOOGLE_CLIENT_EMAIL"
+            "GOOGLE_PRIVATE_KEY"
+            "GOOGLE_PRIVATE_KEY_PASSPHRASE"
+            "OPENAI_API_KEY"
+            "PRIVY_APP_SECRET"
+            "VITE_API_URL"
+            "VITE_PAGESPEED_API_KEY"
+            "VITE_PRIVY_APP_ID"
+            "VITE_SITE_URL"
+            "VITE_WEBHOOK_URL"
+          )
 
-            # Trim whitespace from key
-            key=$(echo "$key" | xargs)
+          for key in "${KEYS[@]}"; do
+            # Get value from environment
+            value="${!key}"
 
-            # Trim whitespace from value using sed to avoid xargs quote parsing issues
-            value=$(echo "$value" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
-
-            # Remove surrounding quotes if present
-            value=$(echo "$value" | sed -e 's/^"//' -e 's/"$//' -e "s/^'//" -e "s/'$//")
-
-            if [[ -n $key ]]; then
+            if [[ -n "$value" ]]; then
               echo "Syncing $key..."
+              # Use printenv to avoid issues with special characters when passing to vercel
+              # We use the value from the current shell environment which is populated by the 'env' block above
               printf "%s" "$value" | vercel env add "$key" production --force
+            else
+              echo "Warning: Value for $key is empty, skipping."
             fi
-          done < .env.example
+          done
