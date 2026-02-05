@@ -5,6 +5,7 @@ const dbPath = join(process.cwd(), 'public/db.json');
 
 async function readDB() {
   try {
+    // Optimized: Use async I/O to prevent event loop blocking
     const data = await readFile(dbPath, 'utf8');
     return JSON.parse(data);
   } catch {
