@@ -1,10 +1,3 @@
 {
-  "clientes": [
-    {
-      "name": "Test Client",
-      "email": "test@example.com",
-      "id": 1770262799691,
-      "status": "Enviado"
-    }
-  ]
+  "clientes": []
 }
