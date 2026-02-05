@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { ArrowUp } from "lucide-react";
 import FooterCredits from "../FooterCredits";
 import LogoWhite from "../../../assets/logoWhite.svg";
@@ -6,10 +6,32 @@ import Right from "../../../assets/svg/right.svg";
 import Facebook from "../../../assets/svg/social/facebook.svg";
 import Instagram from "../../../assets/svg/social/instagram.svg";
 import Linkedin from "../../../assets/svg/social/linkedin.svg";
+import { submitNewsletter } from "../../services/leadsService";
 
 const Footer = () => {
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleNewsletterSubmit = async () => {
+    if (!email) return;
+    setLoading(true);
+    setMessage(null);
+    try {
+      await submitNewsletter(email);
+      setMessage({ type: 'success', text: 'Inscrição realizada com sucesso!' });
+      setEmail("");
+      setTimeout(() => setMessage(null), 3000);
+    } catch (e) {
+      console.error(e);
+      setMessage({ type: 'error', text: 'Erro ao realizar inscrição.' });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -53,21 +75,35 @@ const Footer = () => {
               </a>
             </div>
 
-            <div>
-              <h3 className="md:text-3xl text-xl mb-4 font-bold">
+            <div className="max-w-md w-full">
+              <h3 className="md:text-3xl text-xl mb-4 font-bold text-center md:text-left">
                 Receba promoções e novidades
               </h3>
               <div className="flex gap-4 flex-col md:flex-row">
                 <input
                   type="email"
                   placeholder="E-mail"
-                  className="px-4 py-4 rounded-2xl w-full bg-white text-black border-2 border-[#A3A3A3]"
+                  className="px-4 py-4 rounded-2xl w-full bg-white text-black border-2 border-[#A3A3A3] focus:outline-none focus:border-[#E85D04]"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  disabled={loading}
                 />
-                <button className="md:w-auto w-full bg-[#E85D04] text-white px-8 mx-auto py-4 rounded-2xl hover:bg-opacity-90 transition-colors flex items-center  justify-center gap-2">
-                  <p className="font-bold text-lg md:text-base">Enviar</p>{" "}
-                  <img src={Right} alt="right" className="w-6 h-6" />
+                <button
+                  onClick={handleNewsletterSubmit}
+                  disabled={loading}
+                  className="md:w-auto w-full bg-[#E85D04] text-white px-8 mx-auto py-4 rounded-2xl hover:bg-opacity-90 transition-colors flex items-center justify-center gap-2 disabled:opacity-70"
+                >
+                  <p className="font-bold text-lg md:text-base">
+                    {loading ? 'Enviando...' : 'Enviar'}
+                  </p>{" "}
+                  {!loading && <img src={Right} alt="right" className="w-6 h-6" />}
                 </button>
               </div>
+              {message && (
+                <p className={`mt-2 text-center md:text-left text-sm ${message.type === 'success' ? 'text-green-400' : 'text-red-400'}`}>
+                    {message.text}
+                </p>
+              )}
             </div>
           </div>
 
