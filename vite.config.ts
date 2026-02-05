@@ -1,6 +1,5 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import federation from "@originjs/vite-plugin-federation";
 import { nodePolyfills } from "vite-plugin-node-polyfills";
 import { VitePWA } from "vite-plugin-pwa";
 import path from "path";
@@ -9,11 +8,6 @@ import path from "path";
 export default defineConfig({
   plugins: [
     react(),
-    federation({
-      name: "xperience",
-      remotes: {},
-      shared: ["react", "react-dom"],
-    }),
     nodePolyfills({
       // Whether to polyfill specific globals
       globals: {
