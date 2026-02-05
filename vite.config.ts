@@ -73,7 +73,14 @@ export default defineConfig({
           vendor: ["react", "react-dom"],
           router: ["react-router-dom"],
           analytics: ["react-ga4", "react-helmet-async"],
-          wallet: [
+          privy: ["@privy-io/react-auth"],
+          web3: [
+            "viem",
+            "ethers",
+            "@wagmi/core",
+            "@wagmi/connectors",
+            "@alchemy/aa-alchemy",
+            "@alchemy/aa-core",
             "@walletconnect/ethereum-provider",
             "@walletconnect/universal-provider",
           ],
@@ -85,11 +92,13 @@ export default defineConfig({
             "@tonconnect/ui-react",
           ],
           ui: ["styled-components", "lucide-react"],
+          query: ["@tanstack/react-query"],
         },
       },
       onwarn(warning, warn) {
         if (
           warning.code === "ANNOTATION_POSITION" ||
+          warning.code === "INVALID_ANNOTATION" ||
           warning.code === "MODULE_LEVEL_DIRECTIVE" ||
           warning.code === "UNUSED_EXTERNAL_IMPORT" ||
           warning.code === "EVAL" ||
