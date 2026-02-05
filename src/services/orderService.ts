@@ -4,6 +4,7 @@ import { PaymentStatus } from "../types/payment";
 
 export class OrderService {
   private apiUrl = process.env.VITE_API_URL || "http://localhost:3001/api";
+  private _ordersCache: Order[] | null = null;
 
   // Criar um novo pedido
   async createOrder(
@@ -325,6 +326,7 @@ export class OrderService {
         orders.push(order);
       }
 
+      this._ordersCache = orders;
       localStorage.setItem("xperience_orders", JSON.stringify(orders));
     } catch (error) {
       console.error("Erro ao salvar pedido localmente:", error);
@@ -353,12 +355,16 @@ export class OrderService {
 
   private getAllOrdersLocally(): Order[] {
     try {
+      if (this._ordersCache) {
+        return this._ordersCache;
+      }
+
       const ordersJson = localStorage.getItem("xperience_orders");
       if (!ordersJson) return [];
 
       const orders = JSON.parse(ordersJson);
       // Converter strings de data de volta para objetos Date
-      return orders.map((order: any) => ({
+      const parsedOrders = orders.map((order: any) => ({
         ...order,
         createdAt: new Date(order.createdAt),
         updatedAt: new Date(order.updatedAt),
@@ -366,6 +372,9 @@ export class OrderService {
           ? new Date(order.completedAt)
           : undefined,
       }));
+
+      this._ordersCache = parsedOrders;
+      return parsedOrders;
     } catch (error) {
       console.error("Erro ao obter todos os pedidos localmente:", error);
       return [];
@@ -375,6 +384,7 @@ export class OrderService {
   // Limpar dados locais (para desenvolvimento)
   clearLocalData(): void {
     localStorage.removeItem("xperience_orders");
+    this._ordersCache = null;
   }
 }
 
