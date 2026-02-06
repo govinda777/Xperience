@@ -3,7 +3,7 @@ import { sendEmailTool } from "../../lib/tools/email";
 import { sendXDMTool } from "../../lib/tools/x";
 import { sendWhatsAppTool } from "../../lib/tools/whatsapp";
 import { sendTelegramTool } from "../../lib/tools/telegram";
-import { webSearchTool, xperienceApiTool } from "./tools-mock";
+import { webSearchTool, xperienceApiTool } from "./tools-mock"; // Keeping existing mocks for now if needed
 
 export const agentTools = [
   scheduleMeetingTool,
@@ -11,7 +11,7 @@ export const agentTools = [
   sendXDMTool,
   sendWhatsAppTool,
   sendTelegramTool,
-  webSearchTool,
+  webSearchTool, // Keeping web search as it's useful
   xperienceApiTool
 ];
 

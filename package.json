@@ -76,7 +76,7 @@
     "esbuild": "^0.25.9",
     "ethers": "^5.7.2",
     "glob": "^10.5.0",
-    "googleapis": "^171.2.0",
+    "googleapis": "^171.4.0",
     "is-mobile": "^5.0.0",
     "jest-cli": "^29.7.0",
     "lucide-react": "^0.461.0",

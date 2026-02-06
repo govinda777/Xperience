@@ -3,7 +3,7 @@ import { ChatOpenAI } from "@langchain/openai";
 import { HumanMessage, SystemMessage, AIMessage } from "@langchain/core/messages";
 import { ToolNode } from "@langchain/langgraph/prebuilt";
 import { AgentState } from "./state";
-import { tools } from "./tools";
+import { agentTools } from "./tools";
 
 // Initialize the model
 const model = new ChatOpenAI({
@@ -12,7 +12,7 @@ const model = new ChatOpenAI({
 });
 
 // Bind tools to the model
-const modelWithTools = model.bindTools(tools);
+const modelWithTools = model.bindTools(agentTools);
 
 // --- Nodes ---
 
@@ -107,7 +107,7 @@ const workflow = new StateGraph(AgentState)
   .addNode("perception", perceptionNode)
   .addNode("retrieval", retrievalNode)
   .addNode("reasoning", reasoningNode)
-  .addNode("tools", new ToolNode(tools))
+  .addNode("tools", new ToolNode(agentTools))
   .addNode("response", responseNode)
   .addNode("stateUpdate", stateUpdateNode)
 
