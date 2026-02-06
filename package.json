@@ -46,6 +46,9 @@
     "@auth0/auth0-react": "^2.3.0",
     "@babel/core": "^7.0.0",
     "@babel/traverse": "7.25.7",
+    "@langchain/core": "^1.1.19",
+    "@langchain/langgraph": "^1.1.3",
+    "@langchain/openai": "^1.2.5",
     "@orbs-network/ton-access": "^2.2.2",
     "@originjs/vite-plugin-federation": "^1.4.1",
     "@playwright/test": "^1.57.0",
@@ -63,6 +66,7 @@
     "@types/mercadopago": "^1.5.11",
     "@types/qrcode": "^1.5.5",
     "@vercel/kv": "^3.0.0",
+    "@vercel/postgres": "^0.10.0",
     "@wagmi/connectors": "^5.9.9",
     "@wagmi/core": "^2.20.3",
     "axios": "^1.12.0",
@@ -72,7 +76,7 @@
     "esbuild": "^0.25.9",
     "ethers": "^5.7.2",
     "glob": "^10.5.0",
-    "googleapis": "^171.2.0",
+    "googleapis": "^171.4.0",
     "is-mobile": "^5.0.0",
     "jest-cli": "^29.7.0",
     "lucide-react": "^0.461.0",
@@ -99,7 +103,8 @@
     "viem": "^2.37.1",
     "vite-plugin-federation": "^0.0.1",
     "vite-plugin-node-polyfills": "^0.22.0",
-    "ws": "^8.18.3"
+    "ws": "^8.18.3",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@cucumber/cucumber": "^11.3.0",
