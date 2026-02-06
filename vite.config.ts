@@ -2,7 +2,6 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import federation from "@originjs/vite-plugin-federation";
 import { nodePolyfills } from "vite-plugin-node-polyfills";
-import { VitePWA } from "vite-plugin-pwa";
 import path from "path";
 
 // https://vitejs.dev/config/
@@ -24,37 +23,6 @@ export default defineConfig({
       },
       // Whether to polyfill `global`
       protocolImports: true,
-    }),
-    VitePWA({
-      registerType: "autoUpdate",
-      workbox: {
-        globPatterns: ["**/*.{js,css,html,ico,png,svg,jpg,jpeg,webp}"],
-        maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // 5MB
-      },
-      manifest: {
-        name: "Xperience - Mentoria para Empreendedores",
-        short_name: "Xperience",
-        description:
-          "Programa de mentoria para empreendedores que desejam transformar suas ideias em negócios de sucesso",
-        theme_color: "#FD9526",
-        background_color: "#ffffff",
-        display: "standalone",
-        orientation: "portrait",
-        scope: "/",
-        start_url: "/",
-        icons: [
-          {
-            src: "/logo.svg",
-            sizes: "192x192",
-            type: "image/svg+xml",
-          },
-          {
-            src: "/logo.svg",
-            sizes: "512x512",
-            type: "image/svg+xml",
-          },
-        ],
-      },
     }),
   ],
   base: "/", // Configurado para domínio personalizado

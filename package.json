@@ -7,7 +7,7 @@
     "prepare": "husky install",
     "fast-install": "./scripts/fast-install.sh",
     "dev": "vite",
-    "build": "node scripts/update-sw-version.js && tsc --noEmit && vite build",
+    "build": "tsc --noEmit && vite build",
     "build:clean": "./scripts/build.sh",
     "clean:js": "./scripts/clean-js-duplicates.sh",
     "deploy": "./scripts/deploy-gh-pages.sh",
@@ -99,7 +99,6 @@
     "viem": "^2.37.1",
     "vite-plugin-federation": "^0.0.1",
     "vite-plugin-node-polyfills": "^0.22.0",
-    "vite-plugin-pwa": "^1.0.3",
     "ws": "^8.18.3"
   },
   "devDependencies": {
