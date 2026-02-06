@@ -7,7 +7,10 @@
     {
       "source": "/(.*)",
       "headers": [
-        {"key": "Cache-Control", "value": "s-maxage=0, stale-while-revalidate"}
+        {
+          "key": "Cache-Control",
+          "value": "no-store, no-cache, must-revalidate, proxy-revalidate"
+        }
       ]
     },
     {

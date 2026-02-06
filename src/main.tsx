@@ -7,6 +7,15 @@ import { CartProvider } from "./contexts/CartContext";
 import { AppAuthProvider } from "./contexts/AuthContext";
 import "./index.css";
 
+// Unregister any legacy service workers to prevent stale cache issues
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistrations().then((registrations) => {
+    for (const registration of registrations) {
+      registration.unregister();
+    }
+  });
+}
+
 if (typeof window !== 'undefined') {
   // Suprime avisos conhecidos da MetaMask
   const originalWarn = console.warn;
