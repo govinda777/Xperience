@@ -1,1 +1,24 @@
-{"name":"Xperience - Mentoria para Empreendedores","short_name":"Xperience","description":"Programa de mentoria para empreendedores que desejam transformar suas ideias em negócios de sucesso","start_url":"/","display":"standalone","background_color":"#ffffff","theme_color":"#FD9526","lang":"en","scope":"/","orientation":"portrait","icons":[{"src":"/logo.svg","sizes":"192x192","type":"image/svg+xml"},{"src":"/logo.svg","sizes":"512x512","type":"image/svg+xml"}]}
+{
+  "name": "Xperience - Mentoria para Empreendedores",
+  "short_name": "Xperience",
+  "description": "Programa de mentoria para empreendedores que desejam transformar suas ideias em negócios de sucesso",
+  "theme_color": "#FD9526",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "orientation": "portrait",
+  "scope": "/Xperience/",
+  "start_url": "/Xperience/",
+  "icons": [
+    {
+      "src": "/Xperience/logo.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/Xperience/logo.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}
+
