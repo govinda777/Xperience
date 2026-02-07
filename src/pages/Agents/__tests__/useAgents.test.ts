@@ -3,7 +3,7 @@ import { useAgents } from '../useAgents';
 
 describe('useAgents Hook', () => {
   beforeEach(() => {
-    sessionStorage.clear();
+    localStorage.clear();
   });
 
   it('should initialize with empty agents', () => {
@@ -18,13 +18,16 @@ describe('useAgents Hook', () => {
       result.current.addAgent({
         name: 'Test Agent',
         role: 'Tester',
-        description: 'Testing'
+        description: 'Testing',
+        commandKey: 'custom',
+        systemPrompt: 'You are a tester'
       });
     });
 
     expect(result.current.agents).toHaveLength(1);
     expect(result.current.agents[0].name).toBe('Test Agent');
     expect(result.current.agents[0].id).toBeDefined();
+    expect(result.current.agents[0].commandKey).toBe('custom');
   });
 
   it('should delete an agent', () => {
@@ -64,7 +67,7 @@ describe('useAgents Hook', () => {
     expect(result.current.getMessages(agentId)[0].content).toBe('Hello');
   });
 
-  it('should persist data to sessionStorage', () => {
+  it('should persist data to localStorage', () => {
     const { result } = renderHook(() => useAgents());
 
     act(() => {
@@ -75,7 +78,7 @@ describe('useAgents Hook', () => {
       });
     });
 
-    const storedAgents = JSON.parse(sessionStorage.getItem('xperience_agents') || '[]');
+    const storedAgents = JSON.parse(localStorage.getItem('xperience_agents_v1') || '[]');
     expect(storedAgents).toHaveLength(1);
     expect(storedAgents[0].name).toBe('Persisted Agent');
   });

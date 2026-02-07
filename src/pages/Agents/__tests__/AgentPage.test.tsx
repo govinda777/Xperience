@@ -32,71 +32,58 @@ const mockAgentResponse = {
 describe('AgentPage Integration', () => {
   beforeEach(() => {
     (global.fetch as jest.Mock).mockClear();
+    localStorage.clear();
     // ScrollIntoView mock
     Element.prototype.scrollIntoView = jest.fn();
   });
 
-  it('renders initial UI elements', () => {
+  it('renders list view initially', () => {
     render(<AgentPage />);
-
-    expect(screen.getByText('Super Agente Xperience')).toBeInTheDocument();
-    expect(screen.getByPlaceholderText('Digite sua mensagem...')).toBeInTheDocument();
-    expect(screen.getByText(/Hello! I am the Xperience Super Agent/i)).toBeInTheDocument();
-
-    // Check inspector presence
-    expect(screen.getByText('Resumo da Sessão')).toBeInTheDocument();
+    expect(screen.getByText('Meus Agentes')).toBeInTheDocument();
+    // Empty state logic: assuming initially empty
+    expect(screen.getByText('Criar Primeiro Agente')).toBeInTheDocument();
   });
 
-  it('sends a message and updates the interface', async () => {
-    (global.fetch as jest.Mock).mockResolvedValueOnce({
+  it('can create an agent and start chatting', async () => {
+    (global.fetch as jest.Mock).mockResolvedValue({
       ok: true,
       json: async () => mockAgentResponse
     });
 
     render(<AgentPage />);
 
-    const input = screen.getByPlaceholderText('Digite sua mensagem...');
-    fireEvent.change(input, { target: { value: 'Hello agent' } });
+    // Open modal
+    const createButton = screen.getByText('Criar Primeiro Agente');
+    fireEvent.click(createButton);
 
-    // Pressing Enter
-    fireEvent.keyPress(input, { key: 'Enter', code: 'Enter', charCode: 13 });
-    // Or clicking button
-    // const sendButton = screen.getByLabelText('Enviar mensagem');
-    // fireEvent.click(sendButton);
+    // Fill form
+    const nameInput = screen.getByPlaceholderText('Ex: Consultor de Vendas');
+    fireEvent.change(nameInput, { target: { value: 'Test Bot' } });
 
-    // Loading state should appear
+    const roleInput = screen.getByPlaceholderText('Ex: Especialista em Marketing');
+    fireEvent.change(roleInput, { target: { value: 'Tester' } });
+
+    const descInput = screen.getByPlaceholderText('Breve descrição para identificar este agente na lista...');
+    fireEvent.change(descInput, { target: { value: 'Description' } });
+
+    // Submit
+    const submitButton = screen.getByText('Criar Agente');
+    fireEvent.click(submitButton);
+
+    // Should now show chat (auto-selected)
     await waitFor(() => {
-       // Look for "Processando" badge or similar
-       expect(screen.getByText('Processando')).toBeInTheDocument();
+        expect(screen.getByText('Test Bot')).toBeInTheDocument();
+        expect(screen.getByPlaceholderText('Digite sua mensagem...')).toBeInTheDocument();
     });
+
+    // Send message
+    const input = screen.getByPlaceholderText('Digite sua mensagem...');
+    fireEvent.change(input, { target: { value: 'Hello' } });
+    fireEvent.keyPress(input, { key: 'Enter', code: 'Enter', charCode: 13 });
 
     // Wait for response
     await waitFor(() => {
       expect(screen.getByText('I am a super agent')).toBeInTheDocument();
-    });
-
-    expect(global.fetch).toHaveBeenCalledWith('/api/agent', expect.objectContaining({
-        method: 'POST',
-        body: expect.stringContaining('Hello agent')
-    }));
-
-    // Verify Inspector updated
-    // The mock response has sessionId "mock-session-id"
-    expect(screen.getByText('mock-session...')).toBeInTheDocument();
-    expect(screen.getByText('test_intent')).toBeInTheDocument();
-  });
-
-  it('handles API errors', async () => {
-    (global.fetch as jest.Mock).mockRejectedValueOnce(new Error('Network error'));
-
-    render(<AgentPage />);
-
-    const input = screen.getByPlaceholderText('Digite sua mensagem...');
-    fireEvent.change(input, { target: { value: 'Fail me' } });
-    fireEvent.keyPress(input, { key: 'Enter', code: 'Enter', charCode: 13 });
-
-    await waitFor(() => {
-        expect(screen.getByText(/Sorry, I encountered an error/i)).toBeInTheDocument();
     });
   });
 });

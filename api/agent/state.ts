@@ -34,4 +34,9 @@ export const AgentState = Annotation.Root({
     reducer: (x, y) => y ?? x,
     default: () => [],
   }),
+  // The system instructions/persona for the agent
+  instructions: Annotation<string>({
+    reducer: (x, y) => y ?? x,
+    default: () => "You are the Xperience Super Agent. Use the available tools if needed.",
+  }),
 });

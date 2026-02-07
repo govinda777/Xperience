@@ -1,73 +1,167 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import { Card, Button, Input } from '../../components/styled/styled';
+import { AgentInspectorPanel } from '../../components/agent/AgentInspectorPanel';
+import { Button, Input } from '../../components/styled/styled';
 import { Agent, Message } from './types';
-import { Send, ArrowLeft, Bot, User } from 'lucide-react';
+import { Send, Bot, User, Cpu, Circle, ArrowLeft } from 'lucide-react';
 
-const ChatContainer = styled(Card)`
-  display: flex;
-  flex-direction: column;
-  height: calc(100vh - 140px);
-  min-height: 500px;
-  padding: 0;
+const PageContainer = styled.div`
+  display: grid;
+  grid-template-columns: 70% 30%;
+  height: calc(100vh - 70px);
+  background-color: #f1f3f5;
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+
+  @media (max-width: 1024px) {
+    grid-template-columns: 60% 40%;
+  }
+
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    overflow-y: auto;
+  }
 `;
 
-const ChatHeader = styled.div`
-  padding: 15px 20px;
-  border-bottom: 1px solid #eee;
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  background-color: #fff;
-  z-index: 10;
-`;
-
-const MessagesArea = styled.div`
-  flex-grow: 1;
-  padding: 20px;
-  overflow-y: auto;
+const ChatArea = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  background-color: #fafafa;
+  padding: 1rem;
+  background: white;
+  border-right: 1px solid #dee2e6;
+  height: 100%;
+  overflow: hidden;
+
+  @media (max-width: 768px) {
+    height: 600px;
+    border-right: none;
+    border-bottom: 1px solid #dee2e6;
+  }
 `;
 
-const InputArea = styled.div`
-  padding: 20px;
-  border-top: 1px solid #eee;
+const MessagesContainer = styled.div`
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
   display: flex;
-  gap: 12px;
-  background-color: #fff;
+  flex-direction: column;
+  gap: 1rem;
 `;
 
 const MessageBubble = styled.div<{ $isUser: boolean }>`
   max-width: 80%;
-  padding: 12px 18px;
-  border-radius: 16px;
-  align-self: ${(props) => (props.$isUser ? 'flex-end' : 'flex-start')};
-  background-color: ${(props) => (props.$isUser ? 'var(--tg-theme-button-color, #FD9526)' : '#fff')};
-  color: ${(props) => (props.$isUser ? 'var(--tg-theme-button-text-color, #fff)' : '#333')};
-  border-bottom-right-radius: ${(props) => (props.$isUser ? '4px' : '16px')};
-  border-bottom-left-radius: ${(props) => (!props.$isUser ? '4px' : '16px')};
-  line-height: 1.5;
-  box-shadow: ${(props) => (props.$isUser ? 'none' : '0 2px 5px rgba(0,0,0,0.05)')};
-  white-space: pre-wrap;
+  padding: 1rem;
+  border-radius: 12px;
+  background-color: ${props => props.$isUser ? '#007bff' : '#f8f9fa'};
+  color: ${props => props.$isUser ? 'white' : '#212529'};
+  align-self: ${props => props.$isUser ? 'flex-end' : 'flex-start'};
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  border-bottom-right-radius: ${props => props.$isUser ? '2px' : '12px'};
+  border-bottom-left-radius: ${props => props.$isUser ? '12px' : '2px'};
+  border: 1px solid ${props => props.$isUser ? '#007bff' : '#dee2e6'};
+`;
+
+const MessageTools = styled.div`
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(0,0,0,0.1);
+  font-size: 0.7rem;
+  color: #666;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+`;
+
+const InputContainer = styled.div`
+  padding: 1rem;
+  background: white;
+  border-top: 1px solid #f1f3f5;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+`;
+
+const StyledInput = styled(Input)`
+  flex: 1;
+  border: 1px solid #dee2e6;
+  &:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+`;
+
+const Header = styled.div`
+  padding: 0.75rem 1.5rem;
+  background: white;
+  border-bottom: 1px solid #dee2e6;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const HeaderLeft = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+`;
+
+const HeaderRight = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.85rem;
+    color: #495057;
+`;
+
+const Title = styled.h1`
+  font-size: 1.1rem;
+  margin: 0;
+  color: #343a40;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+`;
+
+const StatusBadge = styled.div<{ status: 'idle' | 'processing' | 'error' }>`
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: ${props => {
+        switch(props.status) {
+            case 'processing': return '#f08c00';
+            case 'error': return '#c92a2a';
+            default: return '#2b8a3e';
+        }
+    }};
+`;
+
+const ChannelSelect = styled.select`
+    border: 1px solid #dee2e6;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    background: white;
+    color: #495057;
 `;
 
 interface Props {
   agent: Agent;
   messages: Message[];
-  onSendMessage: (content: string) => Promise<void>;
+  onAddMessage: (message: Omit<Message, 'timestamp'>) => void;
   onBack: () => void;
 }
 
-const ChatInterface: React.FC<Props> = ({ agent, messages, onSendMessage, onBack }) => {
+const AgentChat: React.FC<Props> = ({ agent, messages, onAddMessage, onBack }) => {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [agentState, setAgentState] = useState<any>(null);
+  const [channel, setChannel] = useState('web');
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -75,113 +169,142 @@ const ChatInterface: React.FC<Props> = ({ agent, messages, onSendMessage, onBack
 
   useEffect(() => {
     scrollToBottom();
-    // Focus input on mount
-    inputRef.current?.focus();
   }, [messages, isLoading]);
 
-  const handleSend = async () => {
+  const handleSubmit = async () => {
     if (!input.trim() || isLoading) return;
 
-    const messageContent = input;
+    const userMessageContent = input;
     setInput('');
     setIsLoading(true);
 
+    // Optimistically add user message
+    onAddMessage({ role: 'user', content: userMessageContent });
+
+    const startTime = Date.now();
+
     try {
-      await onSendMessage(messageContent);
+      const response = await fetch('/api/agent', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            message: userMessageContent,
+            sessionId: agentState?.sessionId,
+            instructions: agent.systemPrompt,
+            history: messages.map(m => ({ role: m.role, content: m.content })) // Send history for context
+        }),
+      });
+
+      if (!response.ok) throw new Error('Failed to fetch response');
+
+      const data = await response.json();
+      const endTime = Date.now();
+
+      onAddMessage({
+          role: 'assistant',
+          content: data.message,
+          // We could add timeMs to metadata if supported by Message type, but for now just content
+      });
+
+      setAgentState(data.state); // Update inspector
     } catch (error) {
-      console.error('Failed to send message:', error);
-      // Could add error handling UI here
+      console.error('Error:', error);
+      onAddMessage({ role: 'assistant', content: 'Sorry, I encountered an error. Please try again.' });
     } finally {
       setIsLoading(false);
-      // Re-focus input after sending
-      setTimeout(() => inputRef.current?.focus(), 100);
-    }
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      handleSend();
     }
   };
 
   return (
-    <ChatContainer>
-      <ChatHeader>
-        <button onClick={onBack} className="p-2 hover:bg-gray-100 rounded-full transition-colors mr-2">
-          <ArrowLeft size={20} className="text-gray-600" />
-        </button>
-        <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 shadow-sm border border-indigo-50">
-          <Bot size={24} />
-        </div>
-        <div>
-          <h3 className="font-bold text-lg leading-tight">{agent.name}</h3>
-          <p className="text-xs text-gray-500 font-medium">{agent.role}</p>
-        </div>
-      </ChatHeader>
-
-      <MessagesArea>
-        {messages.length === 0 && (
-            <div className="flex flex-col items-center justify-center h-full text-center text-gray-400">
-                <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                  <Bot size={40} className="text-gray-400" />
+    <div style={{
+      display: 'flex',
+      flexDirection: 'column',
+      height: '100vh',
+      overflow: 'hidden',
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      width: '100vw',
+      zIndex: 1000,
+      backgroundColor: '#f1f3f5'
+    }}>
+      <Header>
+        <HeaderLeft>
+            <Button onClick={onBack} style={{ padding: '4px 8px', minWidth: 'auto', marginRight: '8px' }} aria-label="Voltar">
+                <ArrowLeft size={16} />
+            </Button>
+            <Cpu size={24} color="#007bff" />
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <Title>{agent.name}</Title>
+                <div style={{ fontSize: '0.75rem', color: '#868e96', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <span>{agent.role}</span>
+                    <span style={{ color: '#dee2e6' }}>|</span>
+                    <StatusBadge status={isLoading ? 'processing' : 'idle'}>
+                        <Circle size={8} fill="currentColor" />
+                        {isLoading ? 'Processando' : 'Ocioso'}
+                    </StatusBadge>
                 </div>
-                <h4 className="text-lg font-semibold text-gray-600 mb-2">Comece uma conversa com {agent.name}</h4>
-                <p className="text-sm opacity-70 max-w-xs">{agent.description}</p>
             </div>
-        )}
+        </HeaderLeft>
+        <HeaderRight>
+            <label>Canal:</label>
+            <ChannelSelect value={channel} onChange={(e) => setChannel(e.target.value)}>
+                <option value="web">Web</option>
+                <option value="whatsapp">WhatsApp</option>
+                <option value="telegram">Telegram</option>
+            </ChannelSelect>
+        </HeaderRight>
+      </Header>
 
-        {messages.map((msg, idx) => (
-          <div key={idx} className={`flex gap-3 ${msg.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
-            <div className={`w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center shadow-sm ${msg.role === 'user' ? 'bg-orange-100 text-orange-600' : 'bg-indigo-100 text-indigo-600'}`}>
-              {msg.role === 'user' ? <User size={16} /> : <Bot size={16} />}
-            </div>
-            <MessageBubble $isUser={msg.role === 'user'}>
-              {msg.content}
-            </MessageBubble>
-          </div>
-        ))}
+      <PageContainer>
+        <ChatArea>
+          <MessagesContainer>
+            {messages.length === 0 && (
+                <div style={{ textAlign: 'center', padding: '2rem', color: '#adb5bd' }}>
+                    <Bot size={48} style={{ marginBottom: '1rem', opacity: 0.5 }} />
+                    <p>Inicie a conversa com {agent.name}</p>
+                    <small>{agent.description}</small>
+                </div>
+            )}
+            {messages.map((msg, idx) => (
+              <MessageBubble key={idx} $isUser={msg.role === 'user'}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem', opacity: 0.8, fontSize: '0.75rem' }}>
+                  {msg.role === 'user' ? <User size={12} /> : <Bot size={12} />}
+                  <span>{msg.role === 'user' ? 'Você' : agent.name}</span>
+                </div>
+                <div style={{ whiteSpace: 'pre-wrap' }}>{msg.content}</div>
+              </MessageBubble>
+            ))}
+            {isLoading && (
+               <MessageBubble $isUser={false}>
+                  <div style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
+                    <span className="dot" style={{ animation: 'pulse 1s infinite' }}>●</span>
+                    <span className="dot" style={{ animation: 'pulse 1s infinite', animationDelay: '0.2s' }}>●</span>
+                    <span className="dot" style={{ animation: 'pulse 1s infinite', animationDelay: '0.4s' }}>●</span>
+                  </div>
+               </MessageBubble>
+            )}
+            <div ref={messagesEndRef} />
+          </MessagesContainer>
 
-        {isLoading && (
-           <div className="flex gap-3">
-             <div className="w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex-shrink-0 flex items-center justify-center shadow-sm">
-               <Bot size={16} />
-             </div>
-             <MessageBubble $isUser={false}>
-               <div className="flex gap-1 py-1">
-                 <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0s' }}></div>
-                 <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                 <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
-               </div>
-             </MessageBubble>
-           </div>
-        )}
-        <div ref={messagesEndRef} />
-      </MessagesArea>
+          <InputContainer>
+            <StyledInput
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyPress={(e) => e.key === 'Enter' && handleSubmit()}
+              placeholder="Digite sua mensagem..."
+              disabled={isLoading}
+            />
+            <Button onClick={handleSubmit} disabled={isLoading || !input.trim()} aria-label="Enviar mensagem">
+              <Send size={18} />
+            </Button>
+          </InputContainer>
+        </ChatArea>
 
-      <InputArea>
-        <div className="relative flex-grow">
-          <Input
-            ref={inputRef} // Fix: use ref here
-            as="input" // Ensure it renders as input if styled component is generic
-            value={input}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInput(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder="Digite sua mensagem..."
-            disabled={isLoading}
-            style={{ paddingRight: '50px' }}
-          />
-        </div>
-        <Button
-          onClick={handleSend}
-          disabled={isLoading || !input.trim()}
-          style={{ padding: '0 20px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-        >
-          <Send size={20} />
-        </Button>
-      </InputArea>
-    </ChatContainer>
+        <AgentInspectorPanel state={agentState} isLoading={isLoading} />
+      </PageContainer>
+    </div>
   );
 };
 
-export default ChatInterface;
+export default AgentChat;
