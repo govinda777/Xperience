@@ -42,7 +42,11 @@ function App() {
           />
           <Route
             path="/agents"
-            element={<Agents />}
+            element={
+              <ProtectedRoute>
+                <Agents />
+              </ProtectedRoute>
+            }
           />
         </Routes>
       </DefaultLayout>
