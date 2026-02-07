@@ -56,6 +56,30 @@ const StyledSelect = styled.select`
   background-position: right .7em top 50%;
   background-size: .65em auto;
 
+  &[multiple] {
+    height: auto;
+    min-height: 120px;
+    background-image: none;
+    padding: 10px;
+
+    option {
+      padding: 8px;
+      margin-bottom: 2px;
+      border-radius: 4px;
+      cursor: pointer;
+      &:checked {
+         background-color: #007cb2;
+         color: white;
+      }
+      &:hover {
+         background-color: #f0f0f0;
+      }
+      &:checked:hover {
+         background-color: #006c9e;
+      }
+    }
+  }
+
   @media (prefers-color-scheme: dark) {
     border: 1px solid #fefefe;
     background-color: #222;
@@ -88,32 +112,43 @@ const CreateAgentModal: React.FC<Props> = ({ isOpen, onClose, onCreate }) => {
   const [name, setName] = useState('');
   const [role, setRole] = useState('');
   const [description, setDescription] = useState('');
-  const [commandKey, setCommandKey] = useState<AgentCommandKey>('new_report');
+  const [commandKeys, setCommandKeys] = useState<AgentCommandKey[]>(['new_report']);
   const [customInstructions, setCustomInstructions] = useState('');
 
   if (!isOpen) return null;
 
+  const handleCommandChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+      const options = Array.from(e.target.selectedOptions, option => option.value as AgentCommandKey);
+      setCommandKeys(options);
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    let systemPrompt = COMMAND_TEMPLATES[commandKey].baseSystemPrompt;
-    if (commandKey === 'custom') {
-        systemPrompt = customInstructions;
-    }
+    let systemPrompt = '';
+
+    commandKeys.forEach((key, index) => {
+        if (key === 'custom') {
+            systemPrompt += (index > 0 ? '\n\n' : '') + customInstructions;
+        } else {
+            systemPrompt += (index > 0 ? '\n\n' : '') + COMMAND_TEMPLATES[key].baseSystemPrompt;
+        }
+    });
 
     onCreate({
         name,
         role,
         description,
-        commandKey,
-        systemPrompt
+        commandKeys,
+        commandKey: commandKeys[0], // Fallback for backward compatibility
+        systemPrompt: systemPrompt.trim()
     });
 
     // Reset form
     setName('');
     setRole('');
     setDescription('');
-    setCommandKey('new_report');
+    setCommandKeys(['new_report']);
     setCustomInstructions('');
     onClose();
   };
@@ -147,8 +182,9 @@ const CreateAgentModal: React.FC<Props> = ({ isOpen, onClose, onCreate }) => {
             <div>
               <Label>Comando / Template</Label>
               <StyledSelect
-                value={commandKey}
-                onChange={(e) => setCommandKey(e.target.value as AgentCommandKey)}
+                multiple
+                value={commandKeys}
+                onChange={handleCommandChange}
               >
                 {Object.entries(COMMAND_TEMPLATES).map(([key, template]) => (
                     <option key={key} value={key}>
@@ -156,12 +192,20 @@ const CreateAgentModal: React.FC<Props> = ({ isOpen, onClose, onCreate }) => {
                     </option>
                 ))}
               </StyledSelect>
-              <HelperText>
-                  {COMMAND_TEMPLATES[commandKey].description}
+              <HelperText style={{ fontStyle: 'italic', fontSize: '0.75rem', marginTop: '2px' }}>
+                  Segure Ctrl/Cmd para selecionar múltiplos comandos.
               </HelperText>
+
+              <div style={{ marginTop: '8px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                  {commandKeys.map(key => (
+                      <HelperText key={key} style={{ margin: 0 }}>
+                          <strong>{COMMAND_TEMPLATES[key].label}:</strong> {COMMAND_TEMPLATES[key].description}
+                      </HelperText>
+                  ))}
+              </div>
             </div>
 
-            {commandKey === 'custom' && (
+            {commandKeys.includes('custom') && (
                 <div>
                   <Label>Instruções Personalizadas</Label>
                   <TextArea
