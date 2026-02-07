@@ -6,6 +6,7 @@ export interface Agent {
   role: string;
   description: string;
   commandKey?: AgentCommandKey;
+  commandKeys?: AgentCommandKey[];
   systemPrompt?: string;
   createdAt: string;
 }
