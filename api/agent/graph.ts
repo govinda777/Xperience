@@ -58,11 +58,11 @@ const retrievalNode = async (state: typeof AgentState.State) => {
 
 // 4. Reasoning: Decide on actions (call LLM)
 const reasoningNode = async (state: typeof AgentState.State) => {
-  const { messages, context } = state;
+  const { messages, context, instructions } = state;
 
   // Construct system prompt with context
   const systemMessage = new SystemMessage(
-    `You are the Xperience Super Agent. Use the available tools if needed.
+    `${instructions}
     Context: ${JSON.stringify(context)}`
   );
 

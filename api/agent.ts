@@ -1,22 +1,30 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { agentGraph } from './agent/graph';
-import { HumanMessage } from '@langchain/core/messages';
+import { HumanMessage, AIMessage, SystemMessage } from '@langchain/core/messages';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method Not Allowed' });
   }
 
-  const { message, sessionId } = req.body;
+  const { message, sessionId, instructions, history } = req.body;
 
   if (!message) {
     return res.status(400).json({ error: 'Message is required' });
   }
 
   try {
+    // Map history to LangChain messages
+    const historyMessages = (history || []).map((m: any) => {
+      if (m.role === 'user') return new HumanMessage(m.content);
+      if (m.role === 'assistant') return new AIMessage(m.content);
+      return new SystemMessage(m.content);
+    });
+
     const input = {
-      messages: [new HumanMessage(message)],
+      messages: [...historyMessages, new HumanMessage(message)],
       sessionId: sessionId || `session_${Date.now()}`,
+      instructions: instructions
     };
 
     // Invoke the graph

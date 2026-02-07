@@ -1,8 +1,12 @@
+export type AgentCommandKey = 'new_report' | 'new_project' | 'custom';
+
 export interface Agent {
   id: string;
   name: string;
   role: string;
   description: string;
+  commandKey?: AgentCommandKey;
+  systemPrompt?: string;
   createdAt: string;
 }
 
