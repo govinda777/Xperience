@@ -41,6 +41,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     });
   } catch (error: any) {
     console.error('Agent Error:', error);
+    if (error.stack) {
+      console.error('Stack Trace:', error.stack);
+    }
     res.status(500).json({ error: error.message || 'Internal Server Error' });
   }
 }

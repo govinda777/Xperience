@@ -104,7 +104,7 @@
     "vite-plugin-federation": "^0.0.1",
     "vite-plugin-node-polyfills": "^0.22.0",
     "ws": "^8.18.3",
-    "zod": "^4.3.6"
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@cucumber/cucumber": "^11.3.0",

@@ -5,14 +5,19 @@ import { ToolNode } from "@langchain/langgraph/prebuilt";
 import { AgentState } from "./state";
 import { agentTools } from "./tools";
 
-// Initialize the model
-const model = new ChatOpenAI({
-  modelName: "gpt-4o-mini", // Efficient model for this task
-  temperature: 0,
-});
+// Initialize the model lazily to avoid top-level side effects
+let modelWithTools: any;
 
-// Bind tools to the model
-const modelWithTools = model.bindTools(agentTools);
+const getModel = () => {
+  if (!modelWithTools) {
+    const model = new ChatOpenAI({
+      modelName: "gpt-4o-mini", // Efficient model for this task
+      temperature: 0,
+    });
+    modelWithTools = model.bindTools(agentTools);
+  }
+  return modelWithTools;
+};
 
 // --- Nodes ---
 
@@ -66,7 +71,8 @@ const reasoningNode = async (state: typeof AgentState.State) => {
     Context: ${JSON.stringify(context)}`
   );
 
-  const response = await modelWithTools.invoke([systemMessage, ...messages]);
+  const model = getModel();
+  const response = await model.invoke([systemMessage, ...messages]);
 
   const auditEntry = {
     step: "Reasoning",

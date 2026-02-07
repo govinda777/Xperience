@@ -1,18 +1,30 @@
-import { scheduleMeetingTool } from "../../lib/tools/googleCalendar";
-import { sendEmailTool } from "../../lib/tools/email";
-import { sendXDMTool } from "../../lib/tools/x";
-import { sendWhatsAppTool } from "../../lib/tools/whatsapp";
-import { sendTelegramTool } from "../../lib/tools/telegram";
-import { webSearchTool, xperienceApiTool } from "./tools-mock"; // Keeping existing mocks for now if needed
+import { tool } from "@langchain/core/tools";
+import { z } from "zod";
 
-export const agentTools = [
-  scheduleMeetingTool,
-  sendEmailTool,
-  sendXDMTool,
-  sendWhatsAppTool,
-  sendTelegramTool,
-  webSearchTool, // Keeping web search as it's useful
-  xperienceApiTool
-];
+export const webSearchTool = tool(
+  async ({ query }: { query: string }) => {
+    return `[Mock] Web search results for: ${query}`;
+  },
+  {
+    name: "web_search",
+    description: "Search the web for information.",
+    schema: z.object({
+      query: z.string().describe("The search query"),
+    }),
+  }
+);
 
-export type AgentToolName = (typeof agentTools)[number]["name"];
+export const xperienceApiTool = tool(
+  async ({ endpoint, method, body }: { endpoint: string, method: string, body?: any }) => {
+    return `[Mock] API response from ${endpoint}`;
+  },
+  {
+    name: "xperience_api",
+    description: "Call the Xperience platform API.",
+    schema: z.object({
+      endpoint: z.string().describe("The API endpoint path"),
+      method: z.string().describe("HTTP method"),
+      body: z.any().optional().describe("Request body"),
+    }),
+  }
+);
