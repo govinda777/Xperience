@@ -10,10 +10,10 @@ const FilterContainer = styled.div`
   flex-wrap: wrap;
 `;
 
-const FilterBadge = styled.button<{ active: boolean, type: string }>`
+const FilterBadge = styled.button<{ $active: boolean, type: string }>`
   border: 1px solid #dee2e6;
-  background: ${props => props.active ? getBgColor(props.type) : 'white'};
-  color: ${props => props.active ? getColor(props.type) : '#495057'};
+  background: ${props => props.$active ? getBgColor(props.type) : 'white'};
+  color: ${props => props.$active ? getColor(props.type) : '#495057'};
   border-radius: 12px;
   padding: 2px 8px;
   font-size: 0.65rem;
@@ -22,7 +22,7 @@ const FilterBadge = styled.button<{ active: boolean, type: string }>`
   font-weight: 600;
 
   &:hover {
-    background: ${props => props.active ? getBgColor(props.type) : '#f8f9fa'};
+    background: ${props => props.$active ? getBgColor(props.type) : '#f8f9fa'};
   }
 `;
 
@@ -104,7 +104,7 @@ export const LogsPanelCard: React.FC<Props> = ({ state }) => {
           <FilterBadge
             key={type}
             type={type}
-            active={filters[type]}
+            $active={filters[type]}
             onClick={() => toggleFilter(type)}
           >
             {type}

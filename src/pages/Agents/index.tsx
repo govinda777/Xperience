@@ -48,17 +48,17 @@ const MessagesContainer = styled.div`
   gap: 1rem;
 `;
 
-const MessageBubble = styled.div<{ isUser: boolean }>`
+const MessageBubble = styled.div<{ $isUser: boolean }>`
   max-width: 80%;
   padding: 1rem;
   border-radius: 12px;
-  background-color: ${props => props.isUser ? '#007bff' : '#f8f9fa'};
-  color: ${props => props.isUser ? 'white' : '#212529'};
-  align-self: ${props => props.isUser ? 'flex-end' : 'flex-start'};
+  background-color: ${props => props.$isUser ? '#007bff' : '#f8f9fa'};
+  color: ${props => props.$isUser ? 'white' : '#212529'};
+  align-self: ${props => props.$isUser ? 'flex-end' : 'flex-start'};
   box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-  border-bottom-right-radius: ${props => props.isUser ? '2px' : '12px'};
-  border-bottom-left-radius: ${props => props.isUser ? '12px' : '2px'};
-  border: 1px solid ${props => props.isUser ? '#007bff' : '#dee2e6'};
+  border-bottom-right-radius: ${props => props.$isUser ? '2px' : '12px'};
+  border-bottom-left-radius: ${props => props.$isUser ? '12px' : '2px'};
+  border: 1px solid ${props => props.$isUser ? '#007bff' : '#dee2e6'};
 `;
 
 const MessageTools = styled.div`
@@ -282,7 +282,7 @@ const AgentPage: React.FC = () => {
         <ChatArea>
           <MessagesContainer>
             {messages.map((msg, idx) => (
-              <MessageBubble key={idx} isUser={msg.role === 'user'}>
+              <MessageBubble key={idx} $isUser={msg.role === 'user'}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem', opacity: 0.8, fontSize: '0.75rem' }}>
                   {msg.role === 'user' ? <User size={12} /> : <Bot size={12} />}
                   <span>{msg.role === 'user' ? 'Você' : 'Agente'}</span>
@@ -297,7 +297,7 @@ const AgentPage: React.FC = () => {
               </MessageBubble>
             ))}
             {isLoading && (
-               <MessageBubble isUser={false}>
+               <MessageBubble $isUser={false}>
                   <div style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
                     <span className="dot" style={{ animation: 'pulse 1s infinite' }}>●</span>
                     <span className="dot" style={{ animation: 'pulse 1s infinite', animationDelay: '0.2s' }}>●</span>
@@ -316,7 +316,7 @@ const AgentPage: React.FC = () => {
               placeholder="Digite sua mensagem..."
               disabled={isLoading}
             />
-            <Button onClick={handleSubmit} disabled={isLoading || !input.trim()}>
+            <Button onClick={handleSubmit} disabled={isLoading || !input.trim()} aria-label="Enviar mensagem">
               <Send size={18} />
             </Button>
           </InputContainer>

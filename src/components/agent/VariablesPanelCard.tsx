@@ -9,15 +9,15 @@ const TabContainer = styled.div`
   margin-bottom: 0.5rem;
 `;
 
-const Tab = styled.button<{ active: boolean }>`
+const Tab = styled.button<{ $active: boolean }>`
   background: none;
   border: none;
   padding: 0.5rem 0.75rem;
   font-size: 0.75rem;
   cursor: pointer;
-  color: ${props => props.active ? '#007bff' : '#6c757d'};
-  font-weight: ${props => props.active ? '600' : '400'};
-  border-bottom: 2px solid ${props => props.active ? '#007bff' : 'transparent'};
+  color: ${props => props.$active ? '#007bff' : '#6c757d'};
+  font-weight: ${props => props.$active ? '600' : '400'};
+  border-bottom: 2px solid ${props => props.$active ? '#007bff' : 'transparent'};
 
   &:hover {
     color: #007bff;
@@ -52,9 +52,9 @@ export const VariablesPanelCard: React.FC<Props> = ({ state }) => {
     <InspectorCard>
       <CardTitle>Variáveis & Contexto</CardTitle>
       <TabContainer>
-        <Tab active={activeTab === 'intent'} onClick={() => setActiveTab('intent')}>Intent/Slots</Tab>
-        <Tab active={activeTab === 'context'} onClick={() => setActiveTab('context')}>RAG Context</Tab>
-        <Tab active={activeTab === 'raw'} onClick={() => setActiveTab('raw')}>JSON Raw</Tab>
+        <Tab $active={activeTab === 'intent'} onClick={() => setActiveTab('intent')}>Intent/Slots</Tab>
+        <Tab $active={activeTab === 'context'} onClick={() => setActiveTab('context')}>RAG Context</Tab>
+        <Tab $active={activeTab === 'raw'} onClick={() => setActiveTab('raw')}>JSON Raw</Tab>
       </TabContainer>
 
       <TabContent>
