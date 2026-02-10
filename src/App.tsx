@@ -13,6 +13,7 @@ import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import LeadsManager from "./pages/LeadsManager";
 import Transparencia from "./pages/Transparencia";
+import HealthDashboard from "./pages/Health";
 import DefaultLayout from "./layouts/DefaultLayout";
 import ProtectedRoute from "./components/ProtectedRoute";
 import "@twa-dev/sdk";
@@ -45,6 +46,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <Agents />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/health"
+            element={
+              <ProtectedRoute>
+                <HealthDashboard />
               </ProtectedRoute>
             }
           />

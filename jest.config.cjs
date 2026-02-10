@@ -9,6 +9,7 @@ module.exports = {
     '^@/config/payment$': '<rootDir>/src/__mocks__/payment.ts',
     '^@/services/providers/pixPaymentProvider$': '<rootDir>/src/__mocks__/services/providers/pixPaymentProvider.ts',
     '^@/(.*)$': '<rootDir>/src/$1',
+    '^(\\.{1,2}/.*)\\.js$': '$1',
   },
   setupFiles: ["<rootDir>/jest.setup.js"],
   setupFilesAfterEnv: ["<rootDir>/src/setupTests.ts"],
