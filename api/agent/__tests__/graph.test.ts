@@ -1,6 +1,9 @@
+/**
+ * @jest-environment node
+ */
 import { describe, expect, it, jest } from '@jest/globals';
 import { HumanMessage, AIMessage } from "@langchain/core/messages";
-import { AgentState } from "../state";
+import { AgentState } from "../state.js";
 // We will test the graph nodes individually as mocking the entire graph compilation is complex in this environment
 
 describe('Agent Graph Logic', () => {

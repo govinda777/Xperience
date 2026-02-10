@@ -2,8 +2,8 @@ import { StateGraph, END } from "@langchain/langgraph";
 import { ChatOpenAI } from "@langchain/openai";
 import { HumanMessage, SystemMessage, AIMessage } from "@langchain/core/messages";
 import { ToolNode } from "@langchain/langgraph/prebuilt";
-import { AgentState } from "./state";
-import { agentTools } from "./tools";
+import { AgentState } from "./state.js";
+import { agentTools } from "./tools.js";
 
 // Initialize the model lazily to avoid top-level side effects
 let modelWithTools: any;

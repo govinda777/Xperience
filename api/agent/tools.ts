@@ -1,9 +1,9 @@
-import { scheduleMeetingTool } from "../../lib/tools/googleCalendar";
-import { sendEmailTool } from "../../lib/tools/email";
-import { sendXDMTool } from "../../lib/tools/x";
-import { sendWhatsAppTool } from "../../lib/tools/whatsapp";
-import { sendTelegramTool } from "../../lib/tools/telegram";
-import { webSearchTool, xperienceApiTool } from "./tools-mock";
+import { scheduleMeetingTool } from "../../lib/tools/googleCalendar.js";
+import { sendEmailTool } from "../../lib/tools/email.js";
+import { sendXDMTool } from "../../lib/tools/x.js";
+import { sendWhatsAppTool } from "../../lib/tools/whatsapp.js";
+import { sendTelegramTool } from "../../lib/tools/telegram.js";
+import { webSearchTool, xperienceApiTool } from "./tools-mock.js";
 
 export const agentTools = [
   scheduleMeetingTool,

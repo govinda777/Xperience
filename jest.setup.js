@@ -42,22 +42,24 @@ global.crypto = {
 };
 
 // Mock window.location
-delete window.location;
-window.location = {
-  href: '',
-  hash: '',
-  host: '',
-  hostname: '',
-  origin: '',
-  pathname: '',
-  port: '',
-  protocol: '',
-  search: '',
-  assign: jest.fn(),
-  reload: jest.fn(),
-  replace: jest.fn(),
-  toString: jest.fn(),
-};
+if (typeof window !== 'undefined') {
+  delete window.location;
+  window.location = {
+    href: '',
+    hash: '',
+    host: '',
+    hostname: '',
+    origin: '',
+    pathname: '',
+    port: '',
+    protocol: '',
+    search: '',
+    assign: jest.fn(),
+    reload: jest.fn(),
+    replace: jest.fn(),
+    toString: jest.fn(),
+  };
+}
 
 // Mock TextEncoder/TextDecoder
 global.TextEncoder = require('util').TextEncoder;
