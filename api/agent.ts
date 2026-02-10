@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { agentGraph } from './agent/graph';
+import { agentGraph } from './agent/graph.js';
 import { HumanMessage, AIMessage, SystemMessage } from '@langchain/core/messages';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {

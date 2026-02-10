@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { kv } from './lib/kv';
+import { kv } from './lib/kv.js';
 
 export default async function handler(
   request: VercelRequest,
