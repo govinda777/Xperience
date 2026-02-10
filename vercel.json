@@ -3,6 +3,13 @@
   "outputDirectory": "dist",
   "framework": null,
 
+  "functions": {
+    "api/**/*.ts": {
+      "maxDuration": 60,
+      "memory": 1024
+    }
+  },
+
   "headers": [
     {
       "source": "/(.*)",
