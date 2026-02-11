@@ -2,6 +2,9 @@
   "name": "ton-starter-twa-vite",
   "private": true,
   "version": "0.0.0",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "precommit": "./pipeline.sh",
     "prepare": "husky install",
