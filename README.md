@@ -115,24 +115,6 @@ O app estará disponível em `http://localhost:5173`.
 
 ---
 
-## 🚀 Deploy e GitHub Pages
-
-O deploy para o GitHub Pages é automatizado via **GitHub Actions**.
-
-- **Workflow**: `.github/workflows/deploy.yml`
-- **Branch de Destino**: `gh-pages`
-
-### Recuperação Automática
-Se a branch `gh-pages` for deletada acidentalmente, **não se preocupe**. O workflow de deploy está configurado (`force_orphan: true`) para recriar a branch automaticamente na próxima execução.
-
-### Verificação
-Para garantir que o site está no ar após um deploy:
-1. Vá em **Settings > Pages** no repositório.
-2. Verifique se **Source** está como "Deploy from a branch".
-3. Verifique se a branch selecionada é `gh-pages` e a pasta é `/ (root)`.
-
----
-
 ## 📄 Licença
 
 Este projeto é privado. Todos os direitos reservados.
