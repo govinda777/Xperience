@@ -14,7 +14,7 @@ const getModel = () => {
       modelName: "gpt-4o-mini", // Efficient model for this task
       temperature: 0,
     });
-    modelWithTools = model.bindTools(agentTools);
+    modelWithTools = model.bindTools(agentTools as any);
   }
   return modelWithTools;
 };
@@ -22,7 +22,7 @@ const getModel = () => {
 // --- Nodes ---
 
 // 1. Hydration: Resolve user identity and load session
-const hydrationNode = async (state: typeof AgentState.State) => {
+const hydrationNode = async (state: any) => {
   const auditEntry = {
     step: "Hydration",
     timestamp: new Date().toISOString(),
@@ -32,7 +32,7 @@ const hydrationNode = async (state: typeof AgentState.State) => {
 };
 
 // 2. Perception: Detect intent and extract entities
-const perceptionNode = async (state: typeof AgentState.State) => {
+const perceptionNode = async (state: any) => {
   const lastMessage = state.messages[state.messages.length - 1];
   const content = lastMessage.content as string;
 
@@ -51,7 +51,7 @@ const perceptionNode = async (state: typeof AgentState.State) => {
 };
 
 // 3. Retrieval: Fetch relevant context
-const retrievalNode = async (state: typeof AgentState.State) => {
+const retrievalNode = async (state: any) => {
   // Mock retrieval logic
   const auditEntry = {
     step: "Retrieval",
@@ -62,7 +62,7 @@ const retrievalNode = async (state: typeof AgentState.State) => {
 };
 
 // 4. Reasoning: Decide on actions (call LLM)
-const reasoningNode = async (state: typeof AgentState.State) => {
+const reasoningNode = async (state: any) => {
   const { messages, context, instructions } = state;
 
   // Construct system prompt with context
@@ -86,7 +86,7 @@ const reasoningNode = async (state: typeof AgentState.State) => {
 // 5. Tool Execution is handled by ToolNode
 
 // 6. Response: Final formatting (if needed, otherwise Reasoning output is enough)
-const responseNode = async (state: typeof AgentState.State) => {
+const responseNode = async (state: any) => {
    const auditEntry = {
     step: "Response",
     timestamp: new Date().toISOString(),
@@ -96,7 +96,7 @@ const responseNode = async (state: typeof AgentState.State) => {
 };
 
 // 7. State Update: Persist state (mock for now)
-const stateUpdateNode = async (state: typeof AgentState.State) => {
+const stateUpdateNode = async (state: any) => {
   // In a real app, save to DB here
   const auditEntry = {
     step: "StateUpdate",
@@ -108,32 +108,35 @@ const stateUpdateNode = async (state: typeof AgentState.State) => {
 
 // --- Graph Construction ---
 
-const workflow = new StateGraph(AgentState)
-  .addNode("hydration", hydrationNode)
-  .addNode("perception", perceptionNode)
-  .addNode("retrieval", retrievalNode)
-  .addNode("reasoning", reasoningNode)
-  .addNode("tools", new ToolNode(agentTools))
-  .addNode("response", responseNode)
-  .addNode("stateUpdate", stateUpdateNode)
+const workflow = new StateGraph<any>(AgentState as any);
 
-  // Edges
-  .addEdge("__start__", "hydration")
-  .addEdge("hydration", "perception")
-  .addEdge("perception", "retrieval")
-  .addEdge("retrieval", "reasoning")
-  .addConditionalEdges(
-    "reasoning",
-    (state) => {
-      const lastMessage = state.messages[state.messages.length - 1] as AIMessage;
-      if (lastMessage.tool_calls && lastMessage.tool_calls.length > 0) {
-        return "tools";
-      }
-      return "response";
+workflow.addNode("hydration", hydrationNode);
+workflow.addNode("perception", perceptionNode);
+workflow.addNode("retrieval", retrievalNode);
+workflow.addNode("reasoning", reasoningNode);
+workflow.addNode("tools", new ToolNode(agentTools as any));
+workflow.addNode("response", responseNode);
+workflow.addNode("stateUpdate", stateUpdateNode);
+
+// Edges
+workflow.addEdge("__start__", "hydration");
+workflow.addEdge("hydration", "perception");
+workflow.addEdge("perception", "retrieval");
+workflow.addEdge("retrieval", "reasoning");
+
+workflow.addConditionalEdges(
+  "reasoning",
+  (state: any) => {
+    const lastMessage = state.messages[state.messages.length - 1] as AIMessage;
+    if (lastMessage.tool_calls && lastMessage.tool_calls.length > 0) {
+      return "tools";
     }
-  )
-  .addEdge("tools", "reasoning") // Loop back to reasoning after tools
-  .addEdge("response", "stateUpdate")
-  .addEdge("stateUpdate", END);
+    return "response";
+  }
+);
+
+workflow.addEdge("tools", "reasoning"); // Loop back to reasoning after tools
+workflow.addEdge("response", "stateUpdate");
+workflow.addEdge("stateUpdate", END);
 
 export const agentGraph = workflow.compile();
