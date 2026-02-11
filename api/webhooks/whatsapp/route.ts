@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { handleInboundMessage } from '../../../lib/agent/inboundHandler';
+import { handleInboundMessage } from '../../../lib/agent/inboundHandler.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // WhatsApp Cloud API Verification
