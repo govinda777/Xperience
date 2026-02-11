@@ -1,5 +1,5 @@
-import { sql } from "../../db/postgres";
-import { agentGraph } from "../../../api/agent/graph";
+import { kv } from "../../api/lib/kv";
+import { agentGraph } from "../../api/agent/graph";
 import { HumanMessage } from "@langchain/core/messages";
 
 export type InboundMessage = {
@@ -15,16 +15,15 @@ export type InboundMessage = {
 export async function handleInboundMessage(inbound: InboundMessage) {
   try {
     // 1) Persist raw message for audit/reprocessing
-    await sql`
-      INSERT INTO inbound_messages (provider, external_id, from_id, to_id, payload)
-      VALUES (
-        ${inbound.provider},
-        ${inbound.externalId},
-        ${inbound.from},
-        ${inbound.to || null},
-        ${JSON.stringify(inbound.raw)}
-      )
-    `;
+    const msg = {
+      provider: inbound.provider,
+      externalId: inbound.externalId,
+      fromId: inbound.from,
+      toId: inbound.to || null,
+      payload: inbound.raw,
+      timestamp: new Date().toISOString()
+    };
+    await kv.lpush('inbound_messages', JSON.stringify(msg));
 
     // 2) Resolve sessionId (e.g., provider:from)
     const sessionId = inbound.sessionId || `${inbound.provider}:${inbound.from}`;
