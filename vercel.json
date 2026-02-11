@@ -1,4 +1,12 @@
 {
+  "git": {
+    "deploymentEnabled": {
+      "main": false
+    }
+  },
+  "github": {
+    "enabled": false
+  },
   "buildCommand": "yarn install && yarn build",
   "outputDirectory": "dist",
   "framework": null,
