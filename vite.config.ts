@@ -1,6 +1,5 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import federation from "@originjs/vite-plugin-federation";
 import { nodePolyfills } from "vite-plugin-node-polyfills";
 import path from "path";
 
@@ -8,11 +7,6 @@ import path from "path";
 export default defineConfig({
   plugins: [
     react(),
-    federation({
-      name: "xperience",
-      remotes: {},
-      shared: ["react", "react-dom"],
-    }),
     nodePolyfills({
       // Whether to polyfill specific globals
       globals: {
@@ -71,17 +65,7 @@ export default defineConfig({
       },
     },
     // Otimizações de performance
-    minify: "terser",
-    terserOptions: {
-      compress: {
-        drop_console: true,
-        drop_debugger: true,
-        pure_funcs: ["console.log", "console.info", "console.debug"],
-      },
-      format: {
-        comments: false,
-      },
-    },
+    // minify default is "esbuild", which is much faster than terser
     commonjsOptions: {
       transformMixedEsModules: true,
       include: [/node_modules/],
