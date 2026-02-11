@@ -18,14 +18,6 @@ export default async function handler(
     return res.status(200).end();
   }
 
-  // Authentication
-  const authHeader = req.headers.authorization;
-  const configuredToken = process.env.HEALTH_CHECK_TOKEN;
-
-  if (!configuredToken || !authHeader || authHeader !== `Bearer ${configuredToken}`) {
-    return res.status(401).json({ error: 'Unauthorized' });
-  }
-
   // GET: Return current configuration
   if (req.method === 'GET') {
     const config = await getHealthConfig();
@@ -34,6 +26,14 @@ export default async function handler(
 
   // POST: Update configuration
   if (req.method === 'POST') {
+    // Check for authorization only on POST
+    const authHeader = req.headers.authorization;
+    const configuredToken = process.env.HEALTH_CHECK_TOKEN;
+
+    if (!configuredToken || !authHeader || authHeader !== `Bearer ${configuredToken}`) {
+        return res.status(401).json({ error: 'Unauthorized' });
+    }
+
     const { service, enabled, thresholds } = req.body;
 
     if (!service) {

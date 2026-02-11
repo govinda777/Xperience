@@ -28,15 +28,6 @@ export default async function handler(
     return res.status(200).end();
   }
 
-  // Authentication
-  const authHeader = req.headers.authorization;
-  // If no token configured, fail closed.
-  const configuredToken = process.env.HEALTH_CHECK_TOKEN;
-
-  if (!configuredToken || !authHeader || authHeader !== `Bearer ${configuredToken}`) {
-    return res.status(401).json({ error: 'Unauthorized' });
-  }
-
   const startTime = Date.now();
 
   // Fetch configuration

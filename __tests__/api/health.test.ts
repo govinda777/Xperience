@@ -75,12 +75,6 @@ describe('Health Check API', () => {
     process.env = originalEnv;
   });
 
-  it('should return 401 if unauthorized', async () => {
-    req.headers.authorization = 'Bearer wrong-token';
-    await handler(req, res);
-    expect(res.status).toHaveBeenCalledWith(401);
-  });
-
   it('should return healthy status when all checks pass', async () => {
     await handler(req, res);
 

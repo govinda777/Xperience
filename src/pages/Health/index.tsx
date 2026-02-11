@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Shield, AlertCircle, CheckCircle2, Clock, Settings, RefreshCw, Save } from 'lucide-react';
+import { Shield, AlertCircle, CheckCircle2, Clock, Settings, RefreshCw } from 'lucide-react';
 import styled from 'styled-components';
 
 // --- Interfaces ---
@@ -180,40 +180,29 @@ function formatUptime(seconds: number): string {
 }
 
 export default function HealthDashboard() {
-  const [token, setToken] = useState(() => localStorage.getItem('health_token') || '');
   const [showConfig, setShowConfig] = useState(false);
+  const [adminToken, setAdminToken] = useState('');
   const queryClient = useQueryClient();
 
-  const saveToken = (newToken: string) => {
-    setToken(newToken);
-    localStorage.setItem('health_token', newToken);
-  };
-
   const { data, isLoading, error, refetch } = useQuery<HealthResponse>({
-    queryKey: ['health', token],
+    queryKey: ['health'],
     queryFn: async () => {
-      const res = await fetch('/api/health', {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      if (res.status === 401) throw new Error('Unauthorized');
+      const res = await fetch('/api/health');
       if (!res.ok) throw new Error('Failed to fetch health status');
       return res.json();
     },
-    enabled: !!token,
     refetchInterval: 30000,
     retry: false
   });
 
   const { data: configData } = useQuery<Record<string, ServiceConfig>>({
-      queryKey: ['health-config', token],
+      queryKey: ['health-config'],
       queryFn: async () => {
-          const res = await fetch('/api/health-config', {
-              headers: { 'Authorization': `Bearer ${token}` }
-          });
+          const res = await fetch('/api/health-config');
           if (!res.ok) throw new Error('Failed to fetch config');
           return res.json();
       },
-      enabled: !!token && showConfig
+      enabled: showConfig
   });
 
   const updateConfigMutation = useMutation({
@@ -221,8 +210,8 @@ export default function HealthDashboard() {
           const res = await fetch('/api/health-config', {
               method: 'POST',
               headers: {
-                  'Authorization': `Bearer ${token}`,
-                  'Content-Type': 'application/json'
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${adminToken}`
               },
               body: JSON.stringify({ service, enabled })
           });
@@ -234,43 +223,6 @@ export default function HealthDashboard() {
           queryClient.invalidateQueries({ queryKey: ['health-config'] });
       }
   });
-
-  if (!token) {
-    return (
-      <Container>
-        <div className="max-w-md mx-auto bg-white p-6 rounded shadow mt-20">
-          <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
-            <Shield className="text-blue-600" /> Acesso Restrito
-          </h2>
-          <p className="mb-4 text-gray-600">Insira o token de acesso ao dashboard de saúde.</p>
-          <Input
-            type="password"
-            placeholder="Health Check Token"
-            onChange={(e) => saveToken(e.target.value)}
-          />
-        </div>
-      </Container>
-    );
-  }
-
-  if (error && (error as Error).message === 'Unauthorized') {
-      return (
-        <Container>
-            <div className="max-w-md mx-auto bg-white p-6 rounded shadow mt-20 border-l-4 border-red-500">
-                <h2 className="text-xl font-bold mb-4 text-red-600 flex items-center gap-2">
-                    <AlertCircle /> Acesso Negado
-                </h2>
-                <p className="mb-4 text-gray-600">O token fornecido é inválido. Por favor, insira o token correto.</p>
-                <Input
-                    type="password"
-                    placeholder="Novo Token"
-                    onChange={(e) => saveToken(e.target.value)}
-                />
-                <Button className="mt-4" onClick={() => refetch()}>Tentar Novamente</Button>
-            </div>
-        </Container>
-      );
-  }
 
   if (isLoading && !data) {
     return (
@@ -330,9 +282,21 @@ export default function HealthDashboard() {
 
         {showConfig && configData && (
             <ConfigPanel>
-                <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-                    <Settings className="h-5 w-5" /> Configuração de Serviços
-                </h3>
+                <div className="flex justify-between items-center mb-4">
+                    <h3 className="text-xl font-bold flex items-center gap-2">
+                        <Settings className="h-5 w-5" /> Configuração de Serviços
+                    </h3>
+                     <div className="flex items-center gap-2">
+                        <span className="text-sm text-gray-600">Token de Admin:</span>
+                        <Input
+                            type="password"
+                            placeholder="Token para salvar"
+                            value={adminToken}
+                            onChange={(e) => setAdminToken(e.target.value)}
+                            style={{ maxWidth: '200px', marginTop: 0 }}
+                        />
+                    </div>
+                </div>
                 <div className="overflow-x-auto">
                     <table className="min-w-full divide-y divide-gray-200">
                         <thead className="bg-gray-50">

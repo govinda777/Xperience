@@ -41,12 +41,6 @@ describe('Health Config API', () => {
     process.env = originalEnv;
   });
 
-  it('should return 401 if unauthorized', async () => {
-    req.headers.authorization = 'Bearer wrong-token';
-    await handler(req, res);
-    expect(res.status).toHaveBeenCalledWith(401);
-  });
-
   it('should return current config on GET', async () => {
     // Mock kv.get to return a config
     const mockConfig = { postgres: { name: 'Postgres', enabled: true } };
@@ -72,12 +66,22 @@ describe('Health Config API', () => {
     expect(kv.set).toHaveBeenCalledWith('health:config', expect.any(Object));
   });
 
-  it('should update config on POST', async () => {
+  it('should return 401 on POST without valid token', async () => {
+    req.method = 'POST';
+    req.body = { service: 'postgres', enabled: false };
+    req.headers.authorization = 'Bearer wrong-token';
+
+    await handler(req, res);
+    expect(res.status).toHaveBeenCalledWith(401);
+  });
+
+  it('should update config on POST with valid token', async () => {
     req.method = 'POST';
     req.body = {
       service: 'postgres',
       enabled: false
     };
+    req.headers.authorization = 'Bearer test-token';
 
     // Mock initial get
     const mockConfig = { postgres: { name: 'Postgres', enabled: true } };
@@ -94,6 +98,7 @@ describe('Health Config API', () => {
   });
 
   it('should return 400 if service not found', async () => {
+    req.headers.authorization = 'Bearer test-token'; // Add token
     req.method = 'POST';
     req.body = {
         service: 'unknown_service',
