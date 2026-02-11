@@ -27,7 +27,7 @@ export default defineConfig({
   ],
   base: "/", // Configurado para domínio personalizado
   build: {
-    chunkSizeWarningLimit: 1000,
+    chunkSizeWarningLimit: 4000,
     rollupOptions: {
       external: [
         "unenv/node/process",
@@ -58,6 +58,7 @@ export default defineConfig({
       onwarn(warning, warn) {
         if (
           warning.code === "ANNOTATION_POSITION" ||
+          warning.code === "INVALID_ANNOTATION" ||
           warning.code === "MODULE_LEVEL_DIRECTIVE" ||
           warning.code === "UNUSED_EXTERNAL_IMPORT" ||
           warning.code === "EVAL" ||
