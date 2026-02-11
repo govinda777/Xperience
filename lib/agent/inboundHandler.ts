@@ -1,5 +1,5 @@
-import { kv } from "../../api/lib/kv";
-import { agentGraph } from "../../api/agent/graph";
+import { kv } from "../../api/lib/kv.js";
+import { agentGraph } from "../../api/agent/graph.js";
 import { HumanMessage } from "@langchain/core/messages";
 
 export type InboundMessage = {
@@ -32,7 +32,7 @@ export async function handleInboundMessage(inbound: InboundMessage) {
     // We pass the message and session ID.
     // The graph logic (Hydration) could be enhanced to load user profile based on this session ID.
     const result = await agentGraph.invoke({
-      messages: [new HumanMessage(inbound.text ?? "")],
+      messages: [new HumanMessage(inbound.text ?? "") as any],
       sessionId,
       // We can pass metadata via state or config if needed,
       // but strictly speaking invoke takes the State object.
