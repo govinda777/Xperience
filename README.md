@@ -115,6 +115,30 @@ O app estará disponível em `http://localhost:5173`.
 
 ---
 
+## 🚀 Deployment
+
+O projeto está otimizado para deploy na [Vercel](https://vercel.com).
+
+### Reutilizando Builds (Deploy Prebuilt)
+
+Para realizar o deploy sem rebuildar nos servidores da Vercel (reaproveitando builds locais ou de CI), utilize a Vercel CLI:
+
+1.  **Build do Projeto**:
+    ```bash
+    vercel build --prod
+    ```
+    Este comando gera o diretório `.vercel/output`, contendo tanto o frontend estático (via `yarn build`) quanto as serverless functions (de `api/`).
+
+2.  **Deploy do Artefato**:
+    ```bash
+    vercel deploy --prebuilt --prod
+    ```
+    Este comando envia a pasta `.vercel/output` diretamente para a Vercel.
+
+> **Nota**: O comando padrão `yarn build` gera apenas os arquivos estáticos do frontend em `dist/`. Para um deploy completo incluindo as rotas de API, você deve utilizar `vercel build` ou deixar a Vercel gerenciar o processo de build.
+
+---
+
 ## 📄 Licença
 
 Este projeto é privado. Todos os direitos reservados.
