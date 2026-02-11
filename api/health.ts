@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { createClient } from '@vercel/postgres';
 import { createClient as createKVClient } from '@vercel/kv';
-import { HEALTH_CONFIG } from './lib/health-config.js';
+import { getHealthConfig, ServiceConfig } from './lib/health-config.js';
 
 interface HealthCheck {
   name: string;
@@ -39,16 +39,19 @@ export default async function handler(
 
   const startTime = Date.now();
 
+  // Fetch configuration
+  const config = await getHealthConfig();
+
   // Execute checks in parallel
   const checks: HealthCheck[] = await Promise.all([
-    checkPostgres(),
-    checkRedis(),
-    checkOpenAI(),
-    checkMercadoPago(),
-    checkAuth0(),
-    checkPrivy(),
-    checkGoogleAPIs(),
-    checkVercelAPI(),
+    checkPostgres(config.postgres),
+    checkRedis(config.redis),
+    checkOpenAI(config.openai),
+    checkMercadoPago(config.mercadopago),
+    checkAuth0(config.auth0),
+    checkPrivy(config.privy),
+    checkGoogleAPIs(config.google_apis),
+    checkVercelAPI(config.vercel_api),
   ]);
 
   // Calculate global status
@@ -88,8 +91,8 @@ const fetchWithTimeout = async (url: string, options: RequestInit = {}, timeoutM
 };
 
 // Postgres Check
-async function checkPostgres(): Promise<HealthCheck> {
-  const config = HEALTH_CONFIG.postgres;
+async function checkPostgres(config: ServiceConfig): Promise<HealthCheck> {
+  if (!config) return createMissingConfigCheck('PostgreSQL');
   if (!config.enabled) return createDisabledCheck(config);
 
   const start = Date.now();
@@ -124,8 +127,8 @@ async function checkPostgres(): Promise<HealthCheck> {
 }
 
 // Redis Check (Vercel KV)
-async function checkRedis(): Promise<HealthCheck> {
-  const config = HEALTH_CONFIG.redis;
+async function checkRedis(config: ServiceConfig): Promise<HealthCheck> {
+  if (!config) return createMissingConfigCheck('Redis');
   if (!config.enabled) return createDisabledCheck(config);
 
   const start = Date.now();
@@ -167,8 +170,8 @@ async function checkRedis(): Promise<HealthCheck> {
 }
 
 // OpenAI Check
-async function checkOpenAI(): Promise<HealthCheck> {
-  const config = HEALTH_CONFIG.openai;
+async function checkOpenAI(config: ServiceConfig): Promise<HealthCheck> {
+  if (!config) return createMissingConfigCheck('OpenAI');
   if (!config.enabled) return createDisabledCheck(config);
 
   const start = Date.now();
@@ -204,8 +207,8 @@ async function checkOpenAI(): Promise<HealthCheck> {
 }
 
 // MercadoPago Check
-async function checkMercadoPago(): Promise<HealthCheck> {
-  const config = HEALTH_CONFIG.mercadopago;
+async function checkMercadoPago(config: ServiceConfig): Promise<HealthCheck> {
+  if (!config) return createMissingConfigCheck('MercadoPago');
   if (!config.enabled) return createDisabledCheck(config);
 
   const start = Date.now();
@@ -240,8 +243,8 @@ async function checkMercadoPago(): Promise<HealthCheck> {
 }
 
 // Auth0 Check
-async function checkAuth0(): Promise<HealthCheck> {
-  const config = HEALTH_CONFIG.auth0;
+async function checkAuth0(config: ServiceConfig): Promise<HealthCheck> {
+  if (!config) return createMissingConfigCheck('Auth0');
   if (!config.enabled) return createDisabledCheck(config);
 
   const start = Date.now();
@@ -274,8 +277,8 @@ async function checkAuth0(): Promise<HealthCheck> {
 }
 
 // Privy Check
-async function checkPrivy(): Promise<HealthCheck> {
-  const config = HEALTH_CONFIG.privy;
+async function checkPrivy(config: ServiceConfig): Promise<HealthCheck> {
+  if (!config) return createMissingConfigCheck('Privy');
   if (!config.enabled) return createDisabledCheck(config);
 
   const start = Date.now();
@@ -302,8 +305,8 @@ async function checkPrivy(): Promise<HealthCheck> {
 }
 
 // Google APIs Check
-async function checkGoogleAPIs(): Promise<HealthCheck> {
-  const config = HEALTH_CONFIG.google_apis;
+async function checkGoogleAPIs(config: ServiceConfig): Promise<HealthCheck> {
+  if (!config) return createMissingConfigCheck('Google APIs');
   if (!config.enabled) return createDisabledCheck(config);
 
   const start = Date.now();
@@ -330,27 +333,41 @@ async function checkGoogleAPIs(): Promise<HealthCheck> {
 }
 
 // Vercel API Check (self-check)
-async function checkVercelAPI(): Promise<HealthCheck> {
-  const config = HEALTH_CONFIG.vercel_api || { name: 'Vercel API', critical: true };
+async function checkVercelAPI(config: ServiceConfig): Promise<HealthCheck> {
+  const fallbackConfig = { name: 'Vercel API', critical: true, enabled: true };
+  const finalConfig = config || fallbackConfig;
+
+  // Explicitly check enabled property if config is provided
+  if (config && !config.enabled) return createDisabledCheck(config);
 
   const start = Date.now();
   // Since this code is running inside the Vercel Function, it implies the compute is working.
   const latency = Date.now() - start;
   return {
-    name: config.name,
+    name: finalConfig.name,
     status: 'healthy',
     latency_ms: latency,
     message: 'Serverless function operacional',
-    critical: config.critical,
+    critical: finalConfig.critical,
   };
 }
 
-function createDisabledCheck(config: any): HealthCheck {
+function createDisabledCheck(config: ServiceConfig): HealthCheck {
     return {
         name: config.name,
         status: 'healthy', // Disabled checks are considered healthy so they don't alarm
         latency_ms: 0,
         message: 'Disabled',
         critical: config.critical
+    };
+}
+
+function createMissingConfigCheck(name: string): HealthCheck {
+    return {
+        name: name,
+        status: 'unhealthy',
+        latency_ms: 0,
+        message: 'Configuration missing',
+        critical: true
     };
 }

@@ -1,5 +1,4 @@
 import handler from '../../api/health';
-import { HEALTH_CONFIG } from '../../api/lib/health-config';
 
 // Mock dependencies
 jest.mock('@vercel/postgres', () => ({
@@ -17,6 +16,21 @@ jest.mock('@vercel/kv', () => ({
   })),
 }));
 
+// Mock configuration service
+jest.mock('../../api/lib/health-config', () => ({
+  getHealthConfig: jest.fn().mockResolvedValue({
+      postgres: { name: 'PostgreSQL (Vercel)', enabled: true, critical: true, timeout: 5000, thresholds: { healthy: 100, degraded: 500 } },
+      redis: { name: 'Redis (Vercel KV)', enabled: true, critical: true, timeout: 3000, thresholds: { healthy: 50, degraded: 200 } },
+      openai: { name: 'OpenAI API', enabled: true, critical: false, timeout: 3000, thresholds: { healthy: 1000, degraded: 2000 } },
+      mercadopago: { name: 'MercadoPago', enabled: true, critical: false, timeout: 3000, thresholds: { healthy: 500, degraded: 1000 } },
+      auth0: { name: 'Auth0', enabled: true, critical: false, timeout: 2000, thresholds: { healthy: 300, degraded: 800 } },
+      privy: { name: 'Privy Auth', enabled: true, critical: false, timeout: 2000, thresholds: { healthy: 300, degraded: 800 } },
+      google_apis: { name: 'Google APIs', enabled: true, critical: false, timeout: 2000, thresholds: { healthy: 400, degraded: 1000 } },
+      vercel_api: { name: 'Vercel API', enabled: true, critical: true, timeout: 1000, thresholds: { healthy: 100, degraded: 300 } }
+  }),
+}));
+
+
 // Mock fetch
 const fetchMock = jest.fn();
 global.fetch = fetchMock;
@@ -29,7 +43,7 @@ describe('Health Check API', () => {
   let res: any;
 
   beforeEach(() => {
-    jest.resetModules();
+    jest.clearAllMocks(); // Use clearAllMocks instead of resetModules to keep mocks
     process.env = { ...originalEnv };
     process.env.HEALTH_CHECK_TOKEN = 'test-token';
     process.env.POSTGRES_URL = 'postgres://test';

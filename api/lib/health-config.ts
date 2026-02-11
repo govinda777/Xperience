@@ -1,3 +1,5 @@
+import { kv } from './kv.js';
+
 export interface ServiceConfig {
   name: string;
   enabled: boolean;
@@ -9,7 +11,7 @@ export interface ServiceConfig {
   };
 }
 
-export const HEALTH_CONFIG: Record<string, ServiceConfig> = {
+const DEFAULT_HEALTH_CONFIG: Record<string, ServiceConfig> = {
   postgres: {
     name: 'PostgreSQL (Vercel)',
     enabled: true,
@@ -68,19 +70,49 @@ export const HEALTH_CONFIG: Record<string, ServiceConfig> = {
   }
 };
 
-// Function to dynamically toggle service checks
-export function toggleService(serviceName: string, enabled: boolean) {
-  if (HEALTH_CONFIG[serviceName]) {
-    HEALTH_CONFIG[serviceName].enabled = enabled;
+const CONFIG_KEY = 'health:config';
+
+export async function getHealthConfig(): Promise<Record<string, ServiceConfig>> {
+  try {
+    const config = await kv.get<Record<string, ServiceConfig>>(CONFIG_KEY);
+    if (config && Object.keys(config).length > 0) {
+      // Merge with default config to ensure new keys exist if schema changes
+      return { ...DEFAULT_HEALTH_CONFIG, ...config };
+    }
+
+    // If no config found, initialize with defaults
+    console.log('Initializing Health Config in KV');
+    await kv.set(CONFIG_KEY, DEFAULT_HEALTH_CONFIG);
+    return { ...DEFAULT_HEALTH_CONFIG };
+  } catch (error) {
+    console.error('Failed to fetch health config from KV:', error);
+    return { ...DEFAULT_HEALTH_CONFIG };
   }
 }
 
-// Function to update thresholds
-export function updateThresholds(
+export async function updateServiceConfig(
   serviceName: string,
-  thresholds: { healthy: number; degraded: number }
-) {
-  if (HEALTH_CONFIG[serviceName]) {
-    HEALTH_CONFIG[serviceName].thresholds = thresholds;
+  updates: Partial<ServiceConfig>
+): Promise<ServiceConfig | null> {
+  try {
+    const currentConfig = await getHealthConfig();
+
+    if (!currentConfig[serviceName]) {
+      return null;
+    }
+
+    const updatedServiceConfig = {
+      ...currentConfig[serviceName],
+      ...updates
+    };
+
+    currentConfig[serviceName] = updatedServiceConfig;
+
+    await kv.set(CONFIG_KEY, currentConfig);
+
+    return updatedServiceConfig;
+  } catch (error) {
+    console.error(`Failed to update service config for ${serviceName}:`, error);
+    throw error;
   }
 }

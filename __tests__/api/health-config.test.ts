@@ -1,5 +1,13 @@
 import handler from '../../api/health-config';
-import { HEALTH_CONFIG } from '../../api/lib/health-config';
+import { kv } from '../../api/lib/kv';
+
+// Mock kv
+jest.mock('../../api/lib/kv', () => ({
+  kv: {
+    get: jest.fn(),
+    set: jest.fn(),
+  },
+}));
 
 // Mock environment variables
 const originalEnv = process.env;
@@ -9,7 +17,7 @@ describe('Health Config API', () => {
   let res: any;
 
   beforeEach(() => {
-    jest.resetModules();
+    jest.clearAllMocks();
     process.env = { ...originalEnv };
     process.env.HEALTH_CHECK_TOKEN = 'test-token';
 
@@ -40,9 +48,28 @@ describe('Health Config API', () => {
   });
 
   it('should return current config on GET', async () => {
+    // Mock kv.get to return a config
+    const mockConfig = { postgres: { name: 'Postgres', enabled: true } };
+    (kv.get as jest.Mock).mockResolvedValue(mockConfig);
+
     await handler(req, res);
     expect(res.status).toHaveBeenCalledWith(200);
-    expect(res.json).toHaveBeenCalledWith(HEALTH_CONFIG);
+
+    expect(kv.get).toHaveBeenCalledWith('health:config');
+    const response = res.json.mock.calls[0][0];
+    // Check if the response contains the mocked config
+    expect(response.postgres.enabled).toBe(true);
+  });
+
+  it('should initialize config on GET if empty', async () => {
+    // Mock kv.get to return null
+    (kv.get as jest.Mock).mockResolvedValue(null);
+
+    await handler(req, res);
+    expect(res.status).toHaveBeenCalledWith(200);
+
+    // Should have called set with default config
+    expect(kv.set).toHaveBeenCalledWith('health:config', expect.any(Object));
   });
 
   it('should update config on POST', async () => {
@@ -52,11 +79,31 @@ describe('Health Config API', () => {
       enabled: false
     };
 
-    await handler(req, res);
-    expect(res.status).toHaveBeenCalledWith(200);
-    expect(HEALTH_CONFIG.postgres.enabled).toBe(false);
+    // Mock initial get
+    const mockConfig = { postgres: { name: 'Postgres', enabled: true } };
+    (kv.get as jest.Mock).mockResolvedValue(mockConfig);
 
-    // Reset for other tests
-    HEALTH_CONFIG.postgres.enabled = true;
+    await handler(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(200);
+
+    // Expect kv.set to have been called with updated config
+    expect(kv.set).toHaveBeenCalledWith('health:config', expect.objectContaining({
+        postgres: expect.objectContaining({ enabled: false })
+    }));
+  });
+
+  it('should return 400 if service not found', async () => {
+    req.method = 'POST';
+    req.body = {
+        service: 'unknown_service',
+        enabled: false
+    };
+
+    const mockConfig = { postgres: { name: 'Postgres', enabled: true } };
+    (kv.get as jest.Mock).mockResolvedValue(mockConfig);
+
+    await handler(req, res);
+    expect(res.status).toHaveBeenCalledWith(400);
   });
 });
