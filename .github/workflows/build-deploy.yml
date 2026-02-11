@@ -33,11 +33,26 @@ jobs:
       - name: Install Vercel CLI
         run: npm i -g vercel@latest
 
+      - name: Check Vercel Secrets
+        run: |
+          if [ -z "$VERCEL_ORG_ID" ]; then
+            echo "::error::VERCEL_ORG_ID secret is missing! Please add it to your repository secrets."
+            exit 1
+          fi
+          if [ -z "$VERCEL_PROJECT_ID" ]; then
+            echo "::error::VERCEL_PROJECT_ID secret is missing! Please add it to your repository secrets."
+            exit 1
+          fi
+          if [ -z "$VERCEL_TOKEN" ]; then
+            echo "::error::VERCEL_TOKEN secret is missing! Please add it to your repository secrets."
+            exit 1
+          fi
+
       - name: Pull Vercel Environment Information
-        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel pull --yes --environment=production
 
       - name: Build Project Artifacts
-        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel build --prod
 
       - name: Deploy to Vercel Production
-        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel deploy --prebuilt --prod
