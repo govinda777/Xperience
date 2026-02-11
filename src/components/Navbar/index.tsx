@@ -40,6 +40,10 @@ const Navbar = () => {
     },
   ];
 
+  if (authenticated) {
+    navItems.push({ name: "Health", path: "/health", external: undefined });
+  }
+
   return (
     <header
       className={`w-full px-4 md:px-6 py-6 bg-white transition-all duration-300 ${
