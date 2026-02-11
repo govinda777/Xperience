@@ -14,6 +14,7 @@ import Checkout from "./pages/Checkout";
 import LeadsManager from "./pages/LeadsManager";
 import Transparencia from "./pages/Transparencia";
 import HealthDashboard from "./pages/Health";
+import TestSessionPage from "./pages/TestSession";
 import DefaultLayout from "./layouts/DefaultLayout";
 import ProtectedRoute from "./components/ProtectedRoute";
 import "@twa-dev/sdk";
@@ -57,6 +58,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route path="/test-session" element={<TestSessionPage />} />
         </Routes>
       </DefaultLayout>
     </BrowserRouter>
