@@ -13,24 +13,40 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(400).json({ error: 'Message is required' });
   }
 
+  // Basic validation for environment variables
+  if (!process.env.OPENAI_API_KEY) {
+      console.error("CRITICAL: OPENAI_API_KEY is missing from environment variables.");
+      // We continue, as the graph might handle it gracefully or fail later,
+      // but logging it is crucial for debugging.
+  }
+
   try {
+    console.log(`[Agent API] Processing request. Session: ${sessionId || 'new'}, Message length: ${message.length}`);
+
     // Map history to LangChain messages
-    const historyMessages = (history || []).map((m: any) => {
-      if (m.role === 'user') return new HumanMessage(m.content);
-      if (m.role === 'assistant') return new AIMessage(m.content);
-      return new SystemMessage(m.content);
-    });
+    let historyMessages: any[] = [];
+    try {
+        historyMessages = (history || []).map((m: any) => {
+        if (m.role === 'user') return new HumanMessage(m.content);
+        if (m.role === 'assistant') return new AIMessage(m.content);
+        return new SystemMessage(m.content);
+        });
+    } catch (err) {
+        console.error('[Agent API] Error parsing history:', err);
+        // Fallback to empty history if parsing fails
+        historyMessages = [];
+    }
 
     const input = {
       messages: [...historyMessages, new HumanMessage(message)],
       sessionId: sessionId || `session_${Date.now()}`,
-      instructions: instructions
+      instructions: instructions || "You are a helpful assistant."
     };
 
     // Invoke the graph
-    // For a real-time streaming experience, we would use .stream() and SSE
-    // For this MVP, we'll use .invoke() and return the final state
+    console.log('[Agent API] Invoking agent graph...');
     const result = await agentGraph.invoke(input);
+    console.log('[Agent API] Graph invocation complete.');
 
     const lastMessage = result.messages[result.messages.length - 1];
     const responseContent = lastMessage.content;
@@ -40,10 +56,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       state: result // Return the full state for the Inspector
     });
   } catch (error: any) {
-    console.error('Agent Error:', error);
+    console.error('[Agent API] Unhandled Error:', error);
     if (error.stack) {
-      console.error('Stack Trace:', error.stack);
+      console.error('[Agent API] Stack Trace:', error.stack);
     }
-    res.status(500).json({ error: error.message || 'Internal Server Error' });
+
+    // Check for specific OpenAI errors
+    if (error.message?.includes("401")) {
+        console.error("[Agent API] OpenAI Authentication Error (401). Check API Key.");
+    }
+
+    res.status(500).json({
+        error: error.message || 'Internal Server Error',
+        details: process.env.NODE_ENV === 'development' ? error.stack : undefined
+    });
   }
 }

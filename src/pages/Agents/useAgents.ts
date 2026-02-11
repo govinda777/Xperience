@@ -38,22 +38,29 @@ export const useAgents = () => {
       createdAt: new Date().toISOString(),
     };
 
-    const updatedAgents = [...agents, newAgent];
-    setAgents(updatedAgents);
-    localStorage.setItem(AGENTS_STORAGE_KEY, JSON.stringify(updatedAgents));
+    setAgents(prevAgents => {
+      const updatedAgents = [...prevAgents, newAgent];
+      localStorage.setItem(AGENTS_STORAGE_KEY, JSON.stringify(updatedAgents));
+      return updatedAgents;
+    });
+
     return newAgent;
   };
 
   const deleteAgent = (id: string) => {
-    const updatedAgents = agents.filter(a => a.id !== id);
-    setAgents(updatedAgents);
-    localStorage.setItem(AGENTS_STORAGE_KEY, JSON.stringify(updatedAgents));
+    setAgents(prevAgents => {
+      const updatedAgents = prevAgents.filter(a => a.id !== id);
+      localStorage.setItem(AGENTS_STORAGE_KEY, JSON.stringify(updatedAgents));
+      return updatedAgents;
+    });
 
     // Also delete chat history
-    const updatedChats = { ...chats };
-    delete updatedChats[id];
-    setChats(updatedChats);
-    localStorage.setItem(CHATS_STORAGE_KEY, JSON.stringify(updatedChats));
+    setChats(prevChats => {
+      const updatedChats = { ...prevChats };
+      delete updatedChats[id];
+      localStorage.setItem(CHATS_STORAGE_KEY, JSON.stringify(updatedChats));
+      return updatedChats;
+    });
   };
 
   const addMessage = (agentId: string, message: Omit<Message, 'timestamp'>) => {
@@ -62,16 +69,16 @@ export const useAgents = () => {
       timestamp: Date.now(),
     };
 
-    const currentMessages = chats[agentId] || [];
-    const updatedMessages = [...currentMessages, newMessage];
-
-    const updatedChats = {
-      ...chats,
-      [agentId]: updatedMessages
-    };
-
-    setChats(updatedChats);
-    localStorage.setItem(CHATS_STORAGE_KEY, JSON.stringify(updatedChats));
+    setChats(prevChats => {
+      const currentMessages = prevChats[agentId] || [];
+      const updatedMessages = [...currentMessages, newMessage];
+      const updatedChats = {
+        ...prevChats,
+        [agentId]: updatedMessages
+      };
+      localStorage.setItem(CHATS_STORAGE_KEY, JSON.stringify(updatedChats));
+      return updatedChats;
+    });
   };
 
   const getMessages = (agentId: string) => {
