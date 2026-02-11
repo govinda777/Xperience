@@ -10,7 +10,6 @@
     "build": "tsc --noEmit && vite build",
     "build:clean": "./scripts/build.sh",
     "clean:js": "./scripts/clean-js-duplicates.sh",
-    "deploy": "./scripts/deploy-gh-pages.sh",
     "preview": "vite preview",
     "configbot": "node configure.js",
     "test": "jest",
