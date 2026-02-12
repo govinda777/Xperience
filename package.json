@@ -12,6 +12,7 @@
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "build:clean": "./scripts/build.sh",
+    "build:report": "node scripts/build-report.js",
     "clean:js": "./scripts/clean-js-duplicates.sh",
     "preview": "vite preview",
     "configbot": "node configure.js",
