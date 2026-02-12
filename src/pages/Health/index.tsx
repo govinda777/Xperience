@@ -3,6 +3,8 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Shield, AlertCircle, CheckCircle2, Clock, Settings, RefreshCw } from 'lucide-react';
 import styled from 'styled-components';
 
+// Dashboard is public for authenticated users
+
 // --- Interfaces ---
 
 interface HealthCheck {
@@ -228,6 +230,21 @@ export default function HealthDashboard() {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <Clock className="animate-spin h-12 w-12 text-blue-500" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gray-50">
+        <div className="text-center p-8 bg-white rounded-lg shadow-lg border border-red-100 max-w-md w-full">
+          <AlertCircle className="h-16 w-16 text-red-500 mx-auto mb-4" />
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">Erro ao carregar dashboard</h2>
+          <p className="text-gray-600 mb-6">{(error as Error).message || 'Ocorreu um erro inesperado.'}</p>
+          <Button onClick={() => refetch()} className="w-full justify-center text-lg py-3">
+            <RefreshCw className="h-5 w-5 mr-2 inline" /> Tentar novamente
+          </Button>
+        </div>
       </div>
     );
   }
