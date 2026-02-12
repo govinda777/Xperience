@@ -137,6 +137,29 @@ Para realizar o deploy sem rebuildar nos servidores da Vercel (reaproveitando bu
 
 > **Nota**: O comando padrão `yarn build` gera apenas os arquivos estáticos do frontend em `dist/`. Para um deploy completo incluindo as rotas de API, você deve utilizar `vercel build` ou deixar a Vercel gerenciar o processo de build.
 
+### 🤖 Configuração de CI/CD (GitHub Actions)
+
+O projeto possui um workflow configurado para deploy automático na Vercel (`.github/workflows/build-deploy.yml`). Para que ele funcione, você precisa adicionar os seguintes segredos no repositório GitHub:
+
+1.  **Obtenha as Credenciais do Projeto**:
+    Certifique-se de que o projeto está linkado localmente (`vercel link`) e rode o script auxiliar:
+
+    ```bash
+    node scripts/get-vercel-config.js
+    ```
+
+    Este comando exibirá o `VERCEL_ORG_ID` e `VERCEL_PROJECT_ID`.
+
+2.  **Gere um Token da Vercel**:
+    - Acesse [Vercel Tokens](https://vercel.com/account/tokens) e crie um token.
+
+3.  **Adicione os Segredos no GitHub**:
+    - Vá em `Settings` > `Secrets and variables` > `Actions` no repositório.
+    - Adicione:
+        - `VERCEL_ORG_ID`
+        - `VERCEL_PROJECT_ID`
+        - `VERCEL_TOKEN`
+
 ---
 
 ## 📄 Licença
