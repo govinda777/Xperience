@@ -21,18 +21,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'yarn'
-
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-
-      - name: Install Vercel CLI
-        run: npm i -g vercel@latest
-
       - name: Check Vercel Secrets
         run: |
           if [ -z "$VERCEL_ORG_ID" ]; then
@@ -47,6 +35,18 @@ jobs:
             echo "::error::VERCEL_TOKEN secret is missing! Please add it to your repository secrets."
             exit 1
           fi
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Install Vercel CLI
+        run: npm i -g vercel@latest
 
       - name: Pull Vercel Environment Information
         run: vercel pull --yes --environment=production
