@@ -12,6 +12,6 @@
     "esModuleInterop": true,
     "resolveJsonModule": true
   },
-  "include": ["**/*", "../lib/**/*", "../src/types/**/*"],
+  "include": ["**/*", "../src/types/**/*"],
   "exclude": ["node_modules", "../node_modules", "**/node_modules", "**/*.test.ts", "**/*.spec.ts"]
 }
