@@ -42,7 +42,16 @@ Para detalhes aprofundados sobre partes específicas do projeto, consulte os doc
 - [🌊 Estratégia Blue Ocean](BLUE_OCEAN.md)
 - [💰 Sistema de Pagamentos](PAYMENT.md)
 - [🔒 Segurança](SECURITY.md)
+- [🏗️ Infraestrutura & Health Check](docs/INFRASTRUCTURE.md)
 - [🤝 Contribuindo](CONTRIBUTING.md)
+
+---
+
+## 🏥 Health Check
+
+A aplicação possui um sistema completo de monitoramento de saúde dos serviços.
+- **Dashboard**: Acesse `/health` para visualizar o status em tempo real.
+- **Configuração**: Consulte a [documentação de infraestrutura](docs/INFRASTRUCTURE.md) para aprender a configurar o token de administração e gerenciar os serviços.
 
 ---
 
