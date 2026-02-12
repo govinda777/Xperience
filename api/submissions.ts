@@ -24,8 +24,11 @@ export default async function handler(
   }
 
   try {
-    // Fetch last 100 submissions
-    const rawSubs = await kv.lrange('submissions_list', 0, 99);
+    // Parallelize fetching submissions and total count
+    const [rawSubs, totalVal] = await Promise.all([
+      kv.lrange('submissions_list', 0, 99),
+      kv.get('total_submissions')
+    ]);
 
     // Parse JSON strings. Handle potential parsing errors safely.
     const submissions = rawSubs.map((s) => {
@@ -39,7 +42,7 @@ export default async function handler(
       return s;
     }).filter(Boolean); // Remove nulls
 
-    const total = await kv.get('total_submissions') || 0;
+    const total = totalVal || 0;
 
     return response.status(200).json({
       submissions,
