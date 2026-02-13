@@ -10,6 +10,9 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     environment: Production
+    permissions:
+      pull-requests: write
+      issues: write
 
     env:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
