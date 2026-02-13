@@ -6,13 +6,18 @@ on:
       - main
       - develop
 
-env:
-  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: Production
+    permissions:
+      pull-requests: write
+      issues: write
+
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
 
     steps:
       - name: 📥 Checkout Code
