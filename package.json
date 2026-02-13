@@ -39,7 +39,8 @@
     "test:ci": "npm run test:setup && npm run test:unit && npm run test:bdd:ci",
     "security:check": "node scripts/security-check.js",
     "security:audit": "npm audit --audit-level=high",
-    "tsc": "tsc --noEmit"
+    "tsc": "tsc --noEmit",
+    "check:api": "tsc -p api/tsconfig.check.json --noEmit"
   },
   "dependencies": {
     "@account-abstraction/contracts": "^0.6.0",

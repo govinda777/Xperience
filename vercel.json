@@ -6,8 +6,9 @@
     "enabled": false
   },
   "buildCommand": "yarn build",
+  "installCommand": "yarn install",
   "outputDirectory": "dist",
-  "framework": null,
+  "framework": "vite",
 
   "functions": {
     "api/**/*.ts": {

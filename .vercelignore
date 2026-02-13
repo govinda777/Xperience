@@ -9,3 +9,19 @@ node_modules
 __tests__
 coverage
 scripts
+
+# API build artifacts/configs we don't want Vercel to use
+api/tsconfig.check.json
+api/package.json.disabled
+
+# Tests and docs
+docs/
+test-data/
+cypress/
+features/
+verification/
+
+# Package manager
+.yarn/
+.yarnrc
+package.json.backup
