@@ -6,14 +6,15 @@ on:
       - main
       - develop
 
-env:
-  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
     environment: Production
+
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
 
     steps:
       - name: 📥 Checkout Code
@@ -32,15 +33,15 @@ jobs:
         run: npm install --global vercel@latest
 
       - name: 🔗 Pull Vercel Environment
-        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel pull --yes --environment=preview
 
       - name: 🏗️ Build Project
-        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel build
 
       - name: 🚢 Deploy to Vercel (Preview)
         id: deploy
         run: |
-          URL=$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})
+          URL=$(vercel deploy --prebuilt)
           echo "url=$URL" >> $GITHUB_OUTPUT
 
       - name: 💬 Comment PR with Preview URL
