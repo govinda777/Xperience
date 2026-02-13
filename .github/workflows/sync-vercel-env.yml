@@ -60,7 +60,7 @@ jobs:
               echo "Syncing $key..."
               # Use printenv to avoid issues with special characters when passing to vercel
               # We use the value from the current shell environment which is populated by the 'env' block above
-              printf "%s" "$value" | vercel env add "$key" production --force
+              printf "%s" "$value" | vercel env add "$key" production --force --token=${{ secrets.VERCEL_TOKEN }}
             else
               echo "Warning: Value for $key is empty, skipping."
             fi
