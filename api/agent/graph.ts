@@ -119,13 +119,13 @@ workflow.addNode("response", responseNode);
 workflow.addNode("stateUpdate", stateUpdateNode);
 
 // Edges
-workflow.addEdge("__start__", "hydration");
-workflow.addEdge("hydration", "perception");
-workflow.addEdge("perception", "retrieval");
-workflow.addEdge("retrieval", "reasoning");
+workflow.addEdge("__start__" as any, "hydration" as any);
+workflow.addEdge("hydration" as any, "perception" as any);
+workflow.addEdge("perception" as any, "retrieval" as any);
+workflow.addEdge("retrieval" as any, "reasoning" as any);
 
 workflow.addConditionalEdges(
-  "reasoning",
+  "reasoning" as any,
   (state: any) => {
     const lastMessage = state.messages[state.messages.length - 1] as AIMessage;
     if (lastMessage.tool_calls && lastMessage.tool_calls.length > 0) {
@@ -135,8 +135,8 @@ workflow.addConditionalEdges(
   }
 );
 
-workflow.addEdge("tools", "reasoning"); // Loop back to reasoning after tools
-workflow.addEdge("response", "stateUpdate");
-workflow.addEdge("stateUpdate", END);
+workflow.addEdge("tools" as any, "reasoning" as any); // Loop back to reasoning after tools
+workflow.addEdge("response" as any, "stateUpdate" as any);
+workflow.addEdge("stateUpdate" as any, END as any);
 
 export const agentGraph = workflow.compile();
