@@ -16,8 +16,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Basic validation for environment variables
   if (!process.env.OPENAI_API_KEY) {
       console.error("CRITICAL: OPENAI_API_KEY is missing from environment variables.");
-      // We continue, as the graph might handle it gracefully or fail later,
-      // but logging it is crucial for debugging.
+      return res.status(500).json({ error: "Service Misconfigured: Missing API Key" });
   }
 
   try {
@@ -27,9 +26,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     let historyMessages: any[] = [];
     try {
         historyMessages = (history || []).map((m: any) => {
-        if (m.role === 'user') return new HumanMessage(m.content);
-        if (m.role === 'assistant') return new AIMessage(m.content);
-        return new SystemMessage(m.content);
+        const content = m.content || "";
+        if (m.role === 'user') return new HumanMessage(content);
+        if (m.role === 'assistant') return new AIMessage(content);
+        return new SystemMessage(content);
         });
     } catch (err) {
         console.error('[Agent API] Error parsing history:', err);
