@@ -63,6 +63,9 @@ describe('AgentPage Integration', () => {
     const roleInput = screen.getByPlaceholderText('Ex: Especialista em Marketing');
     fireEvent.change(roleInput, { target: { value: 'Tester' } });
 
+    const instructionsInput = screen.getByPlaceholderText('Descreva como o agente deve se comportar, o que ele sabe e como deve responder...');
+    fireEvent.change(instructionsInput, { target: { value: 'Be a helpful assistant' } });
+
     const descInput = screen.getByPlaceholderText('Breve descrição para identificar este agente na lista...');
     fireEvent.change(descInput, { target: { value: 'Description' } });
 
