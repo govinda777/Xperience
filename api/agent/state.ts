@@ -1,40 +1,42 @@
-// Define the state schema for our agent using simple object definition
-// instead of Annotation.Root to avoid excessive stack depth errors in TypeScript
+import { Annotation } from "@langchain/langgraph";
 
-export const AgentState = {
+// Define the state schema for our agent using Annotation.Root
+// Replaced object definition with Annotation API to resolve StateGraph initialization error
+
+export const AgentState = Annotation.Root({
   // The conversation history
-  messages: {
-    value: (x: any[], y: any[]) => x.concat(y),
+  messages: Annotation<any[]>({
+    reducer: (x, y) => x.concat(y),
     default: () => [],
-  },
+  }),
   // The detected intent of the user
-  intent: {
-    value: (x: string | undefined, y: string | undefined) => y ?? x,
+  intent: Annotation<string | undefined>({
+    reducer: (x, y) => y ?? x,
     default: () => undefined,
-  },
+  }),
   // The security level of the conversation (0-5)
-  securityLevel: {
-    value: (x: number, y: number) => y ?? x,
+  securityLevel: Annotation<number>({
+    reducer: (x, y) => y ?? x,
     default: () => 0,
-  },
+  }),
   // The session ID
-  sessionId: {
-    value: (x: string, y: string) => y ?? x,
+  sessionId: Annotation<string>({
+    reducer: (x, y) => y ?? x,
     default: () => "",
-  },
+  }),
   // Audit logs for tracking agent actions
-  auditLog: {
-    value: (x: any[], y: any[]) => x.concat(y),
+  auditLog: Annotation<any[]>({
+    reducer: (x, y) => x.concat(y),
     default: () => [],
-  },
+  }),
   // Context retrieved from knowledge base
-  context: {
-    value: (x: string[], y: string[]) => y ?? x,
+  context: Annotation<string[]>({
+    reducer: (x, y) => y ?? x,
     default: () => [],
-  },
+  }),
   // The system instructions/persona for the agent
-  instructions: {
-    value: (x: string, y: string) => y ?? x,
+  instructions: Annotation<string>({
+    reducer: (x, y) => y ?? x,
     default: () => "You are the Xperience Super Agent. Use the available tools if needed.",
-  },
-};
+  }),
+});
