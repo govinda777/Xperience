@@ -107,7 +107,7 @@ const stateUpdateNode = async (state: any) => {
 };
 
 // --- Graph Construction ---
-
+// Using chained methods to support @langchain/langgraph immutable builder pattern
 const workflow = new StateGraph<any>(AgentState as any)
   .addNode("hydration", hydrationNode)
   .addNode("perception", perceptionNode)
