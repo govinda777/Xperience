@@ -108,35 +108,30 @@ const stateUpdateNode = async (state: any) => {
 
 // --- Graph Construction ---
 
-const workflow = new StateGraph<any>(AgentState as any);
-
-workflow.addNode("hydration", hydrationNode);
-workflow.addNode("perception", perceptionNode);
-workflow.addNode("retrieval", retrievalNode);
-workflow.addNode("reasoning", reasoningNode);
-workflow.addNode("tools", new ToolNode(agentTools as any));
-workflow.addNode("response", responseNode);
-workflow.addNode("stateUpdate", stateUpdateNode);
-
-// Edges
-workflow.addEdge("__start__", "hydration");
-workflow.addEdge("hydration", "perception");
-workflow.addEdge("perception", "retrieval");
-workflow.addEdge("retrieval", "reasoning");
-
-workflow.addConditionalEdges(
-  "reasoning",
-  (state: any) => {
-    const lastMessage = state.messages[state.messages.length - 1] as AIMessage;
-    if (lastMessage.tool_calls && lastMessage.tool_calls.length > 0) {
-      return "tools";
+const workflow = new StateGraph<any>(AgentState as any)
+  .addNode("hydration", hydrationNode)
+  .addNode("perception", perceptionNode)
+  .addNode("retrieval", retrievalNode)
+  .addNode("reasoning", reasoningNode)
+  .addNode("tools", new ToolNode(agentTools as any))
+  .addNode("response", responseNode)
+  .addNode("stateUpdate", stateUpdateNode)
+  .addEdge("__start__", "hydration")
+  .addEdge("hydration", "perception")
+  .addEdge("perception", "retrieval")
+  .addEdge("retrieval", "reasoning")
+  .addConditionalEdges(
+    "reasoning",
+    (state: any) => {
+      const lastMessage = state.messages[state.messages.length - 1] as AIMessage;
+      if (lastMessage.tool_calls && lastMessage.tool_calls.length > 0) {
+        return "tools";
+      }
+      return "response";
     }
-    return "response";
-  }
-);
-
-workflow.addEdge("tools", "reasoning"); // Loop back to reasoning after tools
-workflow.addEdge("response", "stateUpdate");
-workflow.addEdge("stateUpdate", END);
+  )
+  .addEdge("tools", "reasoning") // Loop back to reasoning after tools
+  .addEdge("response", "stateUpdate")
+  .addEdge("stateUpdate", END);
 
 export const agentGraph = workflow.compile();
