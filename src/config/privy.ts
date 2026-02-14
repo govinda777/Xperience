@@ -61,14 +61,18 @@ export const privyConfig = {
         rpcUrls: {
           default: {
             http: [
-              "https://eth-mainnet.g.alchemy.com/v2/" +
-                (process.env.VITE_ALCHEMY_API_KEY || ""),
+              import.meta.env.VITE_ALCHEMY_API_KEY
+                ? "https://eth-mainnet.g.alchemy.com/v2/" +
+                  import.meta.env.VITE_ALCHEMY_API_KEY
+                : "https://cloudflare-eth.com",
             ],
           },
           public: {
             http: [
-              "https://eth-mainnet.g.alchemy.com/v2/" +
-                (process.env.VITE_ALCHEMY_API_KEY || ""),
+              import.meta.env.VITE_ALCHEMY_API_KEY
+                ? "https://eth-mainnet.g.alchemy.com/v2/" +
+                  import.meta.env.VITE_ALCHEMY_API_KEY
+                : "https://cloudflare-eth.com",
             ],
           },
         },
@@ -91,14 +95,18 @@ export const privyConfig = {
         rpcUrls: {
           default: {
             http: [
-              "https://polygon-mainnet.g.alchemy.com/v2/" +
-                (process.env.VITE_ALCHEMY_API_KEY || ""),
+              import.meta.env.VITE_ALCHEMY_API_KEY
+                ? "https://polygon-mainnet.g.alchemy.com/v2/" +
+                  import.meta.env.VITE_ALCHEMY_API_KEY
+                : "https://polygon-rpc.com",
             ],
           },
           public: {
             http: [
-              "https://polygon-mainnet.g.alchemy.com/v2/" +
-                (process.env.VITE_ALCHEMY_API_KEY || ""),
+              import.meta.env.VITE_ALCHEMY_API_KEY
+                ? "https://polygon-mainnet.g.alchemy.com/v2/" +
+                  import.meta.env.VITE_ALCHEMY_API_KEY
+                : "https://polygon-rpc.com",
             ],
           },
         },
