@@ -40,7 +40,7 @@
     "security:check": "node scripts/security-check.js",
     "security:audit": "npm audit --audit-level=high",
     "tsc": "tsc --noEmit",
-    "check:api": "tsc -p api/tsconfig.check.json --noEmit"
+    "check:api": "tsc -p api/tsconfig.json --noEmit"
   },
   "dependencies": {
     "@account-abstraction/contracts": "^0.6.0",
