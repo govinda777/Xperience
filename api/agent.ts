@@ -45,6 +45,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     // Invoke the graph
     console.log('[Agent API] Invoking agent graph...');
+    if (!agentGraph) {
+       throw new Error("Agent Graph failed to initialize.");
+    }
     const result = await agentGraph.invoke(input);
     console.log('[Agent API] Graph invocation complete.');
 
@@ -56,7 +59,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       state: result // Return the full state for the Inspector
     });
   } catch (error: any) {
-    console.error('[Agent API] Unhandled Error:', error);
+    console.error('[Agent API] Critical Error in Agent execution:', error);
     if (error.stack) {
       console.error('[Agent API] Stack Trace:', error.stack);
     }
@@ -66,8 +69,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         console.error("[Agent API] OpenAI Authentication Error (401). Check API Key.");
     }
 
+    // Check for Rate Limits
+    if (error.status === 429) {
+         console.error("[Agent API] OpenAI Rate limit exceeded.");
+    }
+
     res.status(500).json({
         error: error.message || 'Internal Server Error',
+        code: error.code || 'UNKNOWN_ERROR',
         details: process.env.NODE_ENV === 'development' ? error.stack : undefined
     });
   }
