@@ -171,24 +171,20 @@ const AgentChat: React.FC<Props> = ({ agent, messages, onAddMessage, onBack }) =
     scrollToBottom();
   }, [messages, isLoading]);
 
-  const handleSubmit = async () => {
-    if (!input.trim() || isLoading) return;
+  const sendMessage = async (content: string) => {
+    if (!content.trim() || isLoading) return;
 
-    const userMessageContent = input;
-    setInput('');
     setIsLoading(true);
 
     // Optimistically add user message
-    onAddMessage({ role: 'user', content: userMessageContent });
-
-    const startTime = Date.now();
+    onAddMessage({ role: 'user', content: content });
 
     try {
       const response = await fetch('/api/agent', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            message: userMessageContent,
+            message: content,
             sessionId: agentState?.sessionId,
             instructions: agent.systemPrompt,
             history: messages.map(m => ({ role: m.role, content: m.content })) // Send history for context
@@ -198,12 +194,10 @@ const AgentChat: React.FC<Props> = ({ agent, messages, onAddMessage, onBack }) =
       if (!response.ok) throw new Error('Failed to fetch response');
 
       const data = await response.json();
-      const endTime = Date.now();
 
       onAddMessage({
           role: 'assistant',
           content: data.message,
-          // We could add timeMs to metadata if supported by Message type, but for now just content
       });
 
       setAgentState(data.state); // Update inspector
@@ -213,6 +207,13 @@ const AgentChat: React.FC<Props> = ({ agent, messages, onAddMessage, onBack }) =
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleSubmit = async () => {
+    if (!input.trim()) return;
+    const userMessageContent = input;
+    setInput('');
+    await sendMessage(userMessageContent);
   };
 
   return (
@@ -301,7 +302,11 @@ const AgentChat: React.FC<Props> = ({ agent, messages, onAddMessage, onBack }) =
           </InputContainer>
         </ChatArea>
 
-        <AgentInspectorPanel state={agentState} isLoading={isLoading} />
+        <AgentInspectorPanel
+            state={agentState}
+            isLoading={isLoading}
+            onSendMessage={sendMessage}
+        />
       </PageContainer>
     </div>
   );

@@ -1,18 +1,24 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { AgentPanelContainer } from './AgentStyles';
 import { SessionSummaryCard } from './SessionSummaryCard';
 import { AgentStatesCard } from './AgentStatesCard';
 import { VariablesPanelCard } from './VariablesPanelCard';
 import { ToolsTraceCard } from './ToolsTraceCard';
 import { LogsPanelCard } from './LogsPanelCard';
+import { KnowledgeUploader } from './KnowledgeUploader';
+import { CommandInput } from './CommandInput';
 import { transformStateToInspector } from '../../utils/agentMapper';
+import { CommandProcessor } from '../../services/agent/CommandProcessor';
 
 interface Props {
   state: any; // Raw backend state
   isLoading?: boolean;
+  onSendMessage?: (message: string) => void;
 }
 
-export const AgentInspectorPanel: React.FC<Props> = ({ state, isLoading }) => {
+export const AgentInspectorPanel: React.FC<Props> = ({ state, isLoading, onSendMessage }) => {
+  const [conversationHistory, setConversationHistory] = useState<string[]>([]);
+
   // Memoize transformation to avoid recalculating on every render unless state changes
   const inspectorState = useMemo(() => {
     return transformStateToInspector(state);
@@ -29,8 +35,30 @@ export const AgentInspectorPanel: React.FC<Props> = ({ state, isLoading }) => {
       }
   }
 
+  const handleCommand = async (command: string, message: string) => {
+    // Processa comando com contexto preservado
+    const contextualPrompt = await CommandProcessor.process(
+      command,
+      message,
+      conversationHistory
+    );
+
+    // Adiciona à história (simplificado, idealmente viria do backend)
+    setConversationHistory(prev => [...prev, `User: ${message}`, `Command: ${command}`]);
+
+    // Envia para o agente se a função estiver disponível
+    if (onSendMessage) {
+      onSendMessage(contextualPrompt);
+    } else {
+      console.log('Prompt contextual (não enviado):', contextualPrompt);
+    }
+  };
+
   return (
     <AgentPanelContainer>
+      <KnowledgeUploader />
+      <CommandInput onCommand={handleCommand} disabled={isLoading} />
+
       <SessionSummaryCard state={inspectorState} />
       <AgentStatesCard state={inspectorState} />
       <VariablesPanelCard state={inspectorState} />
