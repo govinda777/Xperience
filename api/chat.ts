@@ -1,66 +1,73 @@
+// api/chat.ts
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import OpenAI from 'openai';
+import { OpenAI } from 'openai';
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY
+});
 
 export default async function handler(
-  request: VercelRequest,
-  response: VercelResponse
+  req: VercelRequest,
+  res: VercelResponse
 ) {
-  // Enable CORS
-  response.setHeader('Access-Control-Allow-Credentials', 'true');
-  response.setHeader('Access-Control-Allow-Origin', '*');
-  response.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
-  response.setHeader(
-    'Access-Control-Allow-Headers',
-    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
-  );
-
-  if (request.method === 'OPTIONS') {
-    response.status(200).end();
-    return;
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  if (request.method !== 'POST') {
-    return response.status(405).json({ error: 'Method not allowed' });
-  }
-
-  // Trim the API key to remove accidental whitespace from copy-pasting
-  const apiKey = process.env.OPENAI_API_KEY ? process.env.OPENAI_API_KEY.trim() : undefined;
-
-  if (!apiKey) {
-    console.error('CRITICAL ERROR: OPENAI_API_KEY is missing in environment variables.');
-    return response.status(500).json({ error: 'Server configuration error' });
-  }
-
-  // Log success without exposing the API key
-  console.log('OpenAI API Key is configured.');
-
-  const openai = new OpenAI({ apiKey });
+  const { messages, ragMetadata } = req.body;
 
   try {
-    const { messages } = request.body;
+    console.log('\n🔵 ═══ REQUISIÇÃO DA API ═══');
+    console.log('📊 RAG Metadata:', ragMetadata);
+    console.log('💬 Total de mensagens:', messages?.length);
 
-    if (!messages || !Array.isArray(messages)) {
-      return response.status(400).json({ error: 'Messages array is required' });
+    if (!process.env.OPENAI_API_KEY) {
+        console.error("CRITICAL: OPENAI_API_KEY is missing from environment variables.");
+        return res.status(500).json({ error: "Service Misconfigured: Missing API Key" });
     }
 
+    const startTime = Date.now();
+
+    // ═══════════════════════════════════════════════════════
+    // ENVIA PARA O LLM
+    // O contexto RAG já está embutido no system message
+    // ═══════════════════════════════════════════════════════
     const completion = await openai.chat.completions.create({
-      model: 'gpt-3.5-turbo',
+      model: 'gpt-4o', // Using gpt-4o as it is generally available and performant
       messages: messages,
+      temperature: 0.7,
+      max_tokens: 1000
     });
 
-    return response.status(200).json({
-      message: completion.choices[0].message
+    const processingTime = Date.now() - startTime;
+    const response = completion.choices[0].message.content;
+
+    console.log('✅ Resposta gerada em', processingTime, 'ms');
+    console.log('🔵 ═══ FIM DA REQUISIÇÃO ═══\n');
+
+    // Retorna resposta
+    res.status(200).json({
+      response,
+      processingTime,
+      ragMetadata,
+      usage: completion.usage
     });
+
   } catch (error: any) {
-    // Sanitize error message to avoid logging the full API key if it's included in the error message
-    let errorMessage = error.message || 'Unknown error';
+    console.error('❌ Erro na API:', error);
 
-    // Simple heuristic to mask potential API keys (sk-...) in the error log
-    if (errorMessage.includes('sk-')) {
-       errorMessage = errorMessage.replace(/sk-[a-zA-Z0-9\-_]{10,}/g, 'sk-***');
+    // Check for specific OpenAI errors
+    if (error.status === 401) {
+        console.error("❌ OpenAI Authentication Error (401). Check API Key.");
+    }
+    if (error.status === 429) {
+         console.error("❌ OpenAI Rate limit exceeded.");
     }
 
-    console.error('OpenAI Error:', errorMessage, error.code ? `(Code: ${error.code})` : '');
-    return response.status(500).json({ error: 'Failed to fetch response from OpenAI' });
+    res.status(500).json({
+      error: 'Failed to generate response',
+      details: process.env.NODE_ENV === 'development' ? error.message : 'Internal Server Error',
+      code: error.code || 'UNKNOWN_ERROR'
+    });
   }
 }
