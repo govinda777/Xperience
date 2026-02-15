@@ -15,6 +15,12 @@ export interface Message {
   role: 'user' | 'assistant' | 'system';
   content: string;
   timestamp: number;
+  timeMs?: number;
+  ragContext?: {
+    title: string;
+    score: number;
+    source: string;
+  }[];
 }
 
 export interface ChatSession {

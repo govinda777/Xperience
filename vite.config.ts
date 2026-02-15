@@ -47,6 +47,10 @@ export default defineConfig({
             "@tonconnect/ui-react",
           ],
           ui: ["styled-components", "lucide-react"],
+          tensorflow: [
+            "@tensorflow/tfjs",
+            "@tensorflow-models/universal-sentence-encoder",
+          ],
         },
       },
       onwarn(warning, warn) {

@@ -43,6 +43,7 @@ Para detalhes aprofundados sobre partes específicas do projeto, consulte os doc
 - [💰 Sistema de Pagamentos](PAYMENT.md)
 - [🔒 Segurança](SECURITY.md)
 - [🏗️ Infraestrutura & Health Check](docs/INFRASTRUCTURE.md)
+- [🧠 RAG Local (Docs & Chat)](docs/RAG_LOCAL.md)
 - [🤝 Contribuindo](CONTRIBUTING.md)
 
 ---
