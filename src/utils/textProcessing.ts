@@ -32,9 +32,9 @@ export const chunkText = (
 
   let start = 0;
 
-  // Se o texto for menor que o tamanho do chunk, retorna o texto inteiro
+  // Se o texto for menor que o tamanho do chunk, retorna o texto inteiro (se não vazio)
   if (text.length <= chunkSize) {
-    return [text];
+    return text.trim().length > 0 ? [text.trim()] : [];
   }
 
   while (start < text.length) {

@@ -4,9 +4,8 @@ import { useAgents } from './useAgents';
 import AgentList from './AgentList';
 import CreateAgentModal from './CreateAgentModal';
 import ChatInterface from './ChatInterface';
-import { ChatWithRAG } from '../../components/ChatWithRAG';
 import { Button } from '../../components/styled/styled';
-import { Plus, Users, BookOpen } from 'lucide-react';
+import { Plus, Users } from 'lucide-react';
 import { Agent, Message } from './types';
 
 const Container = styled.div`
@@ -35,7 +34,6 @@ const AgentsPage: React.FC = () => {
   const { agents, addAgent, deleteAgent, getMessages, addMessage } = useAgents();
   const [selectedAgent, setSelectedAgent] = useState<Agent | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isRagMode, setIsRagMode] = useState(false);
 
   const handleCreateAgent = (agentData: Omit<Agent, 'id' | 'createdAt'>) => {
     const newAgent = addAgent(agentData);
@@ -59,16 +57,6 @@ const AgentsPage: React.FC = () => {
 
   // If an agent is selected, show the chat interface
   if (selectedAgent) {
-    if (isRagMode) {
-      return (
-        <ChatWithRAG
-          agentId={selectedAgent.id}
-          agentName={selectedAgent.name}
-          onBack={() => setSelectedAgent(null)}
-        />
-      );
-    }
-
     return (
       <ChatInterface
         agent={selectedAgent}
@@ -88,20 +76,6 @@ const AgentsPage: React.FC = () => {
             Meus Agentes
         </Title>
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-            <Button
-                onClick={() => setIsRagMode(!isRagMode)}
-                style={{
-                    backgroundColor: isRagMode ? '#007bff' : '#f8f9fa',
-                    color: isRagMode ? 'white' : '#495057',
-                    border: '1px solid #dee2e6'
-                }}
-            >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    <BookOpen size={18} />
-                    {isRagMode ? 'Modo RAG Ativo' : 'Ativar RAG'}
-                </div>
-            </Button>
-
             <Button onClick={() => setIsModalOpen(true)}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                     <Plus size={18} />

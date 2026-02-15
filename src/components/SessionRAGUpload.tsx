@@ -15,10 +15,12 @@ export const SessionRAGUpload: React.FC<Props> = ({ sessionRAG }) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Valida tipo de arquivo
-    const validTypes = ['text/plain'];
-    if (!validTypes.includes(file.type)) {
-      alert('Tipo de arquivo não suportado. Use apenas .txt');
+    // Valida tipo de arquivo (extensões permitidas)
+    const allowedExtensions = ['.txt', '.md', '.json', '.csv', '.xml', '.yml', '.yaml'];
+    const fileExtension = '.' + file.name.split('.').pop()?.toLowerCase();
+
+    if (!allowedExtensions.includes(fileExtension)) {
+      alert(`Tipo de arquivo não suportado. Use: ${allowedExtensions.join(', ')}`);
       return;
     }
 
@@ -48,14 +50,14 @@ export const SessionRAGUpload: React.FC<Props> = ({ sessionRAG }) => {
           <input
             type="file"
             onChange={handleFileSelect}
-            accept=".txt"
+            accept=".txt,.md,.json,.csv,.xml,.yml,.yaml"
             disabled={uploading}
           />
-          {uploading ? '⏳ Processando...' : '📎 Upload Documento (.txt)'}
+          {uploading ? '⏳ Processando...' : '📎 Upload Documento'}
         </UploadButton>
 
         <HelpText>
-          Formatos: .txt • Máximo: 10MB
+          Formatos: txt, md, json, csv, xml, yml • Máx: 10MB
         </HelpText>
       </UploadArea>
 
