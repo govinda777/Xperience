@@ -1,8 +1,5 @@
-import { SessionKnowledge } from './SessionKnowledge';
-
 interface CommandContext {
   conversationHistory: string[];
-  knowledgeBase: string;
 }
 
 export class CommandProcessor {
@@ -14,25 +11,21 @@ export class CommandProcessor {
     conversationHistory: string[]
   ): Promise<string> {
 
-    // 1. Coleta conhecimento da sessão
-    const knowledgeContext = SessionKnowledge.getContext();
-
-    // 2. Monta contexto completo
-    const fullContext: CommandContext = {
-      conversationHistory,
-      knowledgeBase: knowledgeContext
+    // 1. Monta contexto parcial (histórico)
+    const context: CommandContext = {
+      conversationHistory
     };
 
-    // 3. Processa comando específico
+    // 2. Processa comando específico
     switch (command.toLowerCase()) {
       case 'report':
-        return this.generateReport(userMessage, fullContext);
+        return this.generateReport(userMessage, context);
 
       case 'projeto':
-        return this.analyzeProject(userMessage, fullContext);
+        return this.analyzeProject(userMessage, context);
 
       default:
-        return this.handleCustomCommand(command, userMessage, fullContext);
+        return this.handleCustomCommand(command, userMessage, context);
     }
   }
 
@@ -40,18 +33,12 @@ export class CommandProcessor {
     message: string,
     context: CommandContext
   ): string {
-    // Monta prompt contextual para o agente
     return `
-      # CONTEXTO DA SESSÃO
-      ${context.knowledgeBase}
-
       # HISTÓRICO DA CONVERSA
       ${context.conversationHistory.join('\n')}
 
       # SOLICITAÇÃO
       Gere um relatório sobre: ${message}
-
-      Use APENAS as informações do contexto acima.
     `;
   }
 
@@ -60,16 +47,11 @@ export class CommandProcessor {
     context: CommandContext
   ): string {
     return `
-      # CONTEXTO DA SESSÃO
-      ${context.knowledgeBase}
-
       # HISTÓRICO DA CONVERSA
       ${context.conversationHistory.join('\n')}
 
       # SOLICITAÇÃO
       Analise o projeto considerando: ${message}
-
-      Use APENAS as informações do contexto acima.
     `;
   }
 
@@ -79,16 +61,11 @@ export class CommandProcessor {
     context: CommandContext
   ): string {
     return `
-      # CONTEXTO DA SESSÃO
-      ${context.knowledgeBase}
-
       # HISTÓRICO DA CONVERSA
       ${context.conversationHistory.join('\n')}
 
       # COMANDO: ${command}
       ${message}
-
-      Use o contexto fornecido para responder adequadamente.
     `;
   }
 }

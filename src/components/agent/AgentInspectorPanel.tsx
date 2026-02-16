@@ -5,7 +5,6 @@ import { AgentStatesCard } from './AgentStatesCard';
 import { VariablesPanelCard } from './VariablesPanelCard';
 import { ToolsTraceCard } from './ToolsTraceCard';
 import { LogsPanelCard } from './LogsPanelCard';
-import { KnowledgeUploader } from './KnowledgeUploader';
 import { CommandInput } from './CommandInput';
 import { transformStateToInspector } from '../../utils/agentMapper';
 import { CommandProcessor } from '../../services/agent/CommandProcessor';
@@ -56,7 +55,6 @@ export const AgentInspectorPanel: React.FC<Props> = ({ state, isLoading, onSendM
 
   return (
     <AgentPanelContainer>
-      <KnowledgeUploader />
       <CommandInput onCommand={handleCommand} disabled={isLoading} />
 
       <SessionSummaryCard state={inspectorState} />
