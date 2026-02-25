@@ -53,3 +53,12 @@ Como escalar sem perder qualidade:
 ### 5. Conclusão
 
 Ao adotar o modelo híbrido, um personal que antes atendia no máximo 10 alunos por dia (exaustivamente) passa a gerir uma carteira de 50 a 100 alunos com qualidade superior de acompanhamento e liberdade geográfica. O aluno paga menos do que pagaria por 3x/semana presenciais, mas recebe um suporte diário muito mais efetivo para seus objetivos reais. O "Blue Ocean" aqui é a **liberdade** (para o personal) e a **autonomia com suporte** (para o aluno).
+
+### 6. Veja Também (Outros Estudos de Caso)
+
+*   [Turismo de Compras Têxtil](./turismo-compras-textil.md)
+*   [Pousadas e Campings](./pousadas-campings.md)
+*   [Academia de Escalada](./academia-escalada.md)
+*   [Consultoria Empreendedora](./consultoria-empreendedora.md)
+*   [Barbearia](./barbearia.md)
+*   [Clínica de Estética](./clinica-estetica.md)

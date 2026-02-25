@@ -52,3 +52,12 @@ Como transformar uma parede de escalada em um hub social:
 ### 5. Conclusão
 
 Ao focar na **comunidade** e no **estilo de vida**, a academia deixa de competir com o "crossfit da esquina" ou o "muro de pedra do parque". Ela se torna o local onde o cliente passa 3 a 4 horas do seu dia (treina, trabalha um pouco, toma um café, encontra amigos). O ticket médio sobe não só pela mensalidade mais cara, mas pelo consumo secundário (café, loja, eventos), criando múltiplas fontes de receita.
+
+### 6. Veja Também (Outros Estudos de Caso)
+
+*   [Turismo de Compras Têxtil](./turismo-compras-textil.md)
+*   [Pousadas e Campings](./pousadas-campings.md)
+*   [Personal Trainer](./personal-trainer.md)
+*   [Consultoria Empreendedora](./consultoria-empreendedora.md)
+*   [Barbearia](./barbearia.md)
+*   [Clínica de Estética](./clinica-estetica.md)

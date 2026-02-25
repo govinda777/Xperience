@@ -53,3 +53,12 @@ Para criar este novo mercado, devemos aplicar as quatro ações:
 ### 5. Conclusão
 
 Ao migrar do modelo de transporte de massa para o modelo de consultoria e experiência, a empresa sai da guerra de preços das passagens de ônibus (onde a margem é ínfima) e entra no mercado de serviços de alto valor agregado. O cliente não paga apenas pelo assento, mas pelo **acesso privilegiado** e pela **inteligência de compra** que a empresa oferece.
+
+### 6. Veja Também (Outros Estudos de Caso)
+
+*   [Pousadas e Campings](./pousadas-campings.md)
+*   [Academia de Escalada](./academia-escalada.md)
+*   [Personal Trainer](./personal-trainer.md)
+*   [Consultoria Empreendedora](./consultoria-empreendedora.md)
+*   [Barbearia](./barbearia.md)
+*   [Clínica de Estética](./clinica-estetica.md)

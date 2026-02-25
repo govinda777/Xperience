@@ -54,3 +54,12 @@ Como criar uma oferta de valor única neste setor:
 ### 5. Conclusão
 
 Ao adotar essa estratégia, o empreendedor foge da guerra de preços das plataformas de reserva (Booking/Airbnb genéricos). O produto deixa de ser "uma diária" para ser "uma vivência". A redução de custos fixos com pessoal (Recepção/Serviço) permite investir pesado na estrutura física (Cabana) e cobrar um ticket médio elevado, atraindo um público qualificado que busca refúgio e não apenas teto.
+
+### 6. Veja Também (Outros Estudos de Caso)
+
+*   [Turismo de Compras Têxtil](./turismo-compras-textil.md)
+*   [Academia de Escalada](./academia-escalada.md)
+*   [Personal Trainer](./personal-trainer.md)
+*   [Consultoria Empreendedora](./consultoria-empreendedora.md)
+*   [Barbearia](./barbearia.md)
+*   [Clínica de Estética](./clinica-estetica.md)

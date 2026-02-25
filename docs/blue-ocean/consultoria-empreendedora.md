@@ -52,3 +52,12 @@ Como transformar conselhos em produtos digitais:
 ### 5. Conclusão
 
 Ao produtizar a consultoria (transformando serviços em pacotes claros com entregáveis tangíveis), o consultor escala seu negócio e se diferencia absurdamente no mercado. O cliente percebe valor imediato ("paguei e recebi um sistema/site/app"), reduzindo o atrito de venda e aumentando a fidelização.
+
+### 6. Veja Também (Outros Estudos de Caso)
+
+*   [Turismo de Compras Têxtil](./turismo-compras-textil.md)
+*   [Pousadas e Campings](./pousadas-campings.md)
+*   [Academia de Escalada](./academia-escalada.md)
+*   [Personal Trainer](./personal-trainer.md)
+*   [Barbearia](./barbearia.md)
+*   [Clínica de Estética](./clinica-estetica.md)
