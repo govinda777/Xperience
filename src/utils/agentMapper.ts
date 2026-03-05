@@ -100,11 +100,17 @@ const mapStepToNodeName = (step: string): AgentNodeState['name'] => {
 const processNodes = (auditLog: any[]): AgentNodeState[] => {
   const nodes = JSON.parse(JSON.stringify(INITIAL_NODES)); // Deep copy
 
+  // Optimization: Pre-map node names to indices to avoid O(M) lookup inside O(N) loop
+  const nodeIndexMap: Record<string, number> = {};
+  nodes.forEach((node: any, idx: number) => {
+    nodeIndexMap[node.name] = idx;
+  });
+
   auditLog.forEach((entry, index) => {
     const nodeName = mapStepToNodeName(entry.step);
-    const nodeIndex = nodes.findIndex((n: any) => n.name === nodeName);
+    const nodeIndex = nodeIndexMap[nodeName];
 
-    if (nodeIndex !== -1) {
+    if (nodeIndex !== undefined) {
       nodes[nodeIndex].status = 'done';
 
       // Calculate duration
