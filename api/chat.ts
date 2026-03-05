@@ -54,6 +54,15 @@ export default async function handler(
     });
 
   } catch (error: any) {
+    // Sanitize error message to avoid logging API keys while preserving stack trace
+    if (error && typeof error === 'object' && error.message) {
+      try {
+        error.message = error.message.replace(/sk-[a-zA-Z0-9]{20,}/g, 'sk-***');
+      } catch (e) {
+        // Fallback if message is read-only
+      }
+    }
+
     console.error('❌ Erro na API:', error);
 
     // Check for specific OpenAI errors

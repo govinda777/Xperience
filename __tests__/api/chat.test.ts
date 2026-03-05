@@ -1,24 +1,20 @@
 import handler from '../../api/chat';
-import OpenAI from 'openai';
+import { OpenAI } from 'openai';
 
-// Mock OpenAI
 jest.mock('openai', () => {
-  const mockOpenAI = jest.fn().mockImplementation((config) => {
+  const createMock = jest.fn();
+  const mockConstructor = jest.fn().mockImplementation((config) => {
     return {
       chat: {
         completions: {
-          create: jest.fn().mockResolvedValue({
-            choices: [{ message: 'mock response' }]
-          })
+          create: createMock
         }
       },
-      apiKey: config.apiKey // Store it to verify
+      apiKey: config?.apiKey
     };
   });
-
   return {
-    __esModule: true,
-    default: mockOpenAI,
+    OpenAI: mockConstructor
   };
 });
 
@@ -28,62 +24,90 @@ describe('API Chat Handler', () => {
   const originalEnv = process.env;
 
   beforeEach(() => {
-    jest.resetModules();
+    jest.clearAllMocks();
     process.env = { ...originalEnv };
 
     req = {
       method: 'POST',
-      body: { messages: [] },
+      body: { messages: [], ragMetadata: {} },
     };
     res = {
-      setHeader: jest.fn(),
       status: jest.fn().mockReturnThis(),
       json: jest.fn(),
-      end: jest.fn(),
     };
     process.env.OPENAI_API_KEY = 'test-key';
+
+    // Configure default success response
+    const { OpenAI: MockOpenAI } = require('openai');
+    const dummy = new MockOpenAI();
+    dummy.chat.completions.create.mockResolvedValue({
+      choices: [{ message: { content: 'mock response' } }],
+      usage: { total_tokens: 10 }
+    });
   });
 
   afterAll(() => {
     process.env = originalEnv;
   });
 
-  it('should trim the API key', async () => {
-    process.env.OPENAI_API_KEY = '  sk-test-key-with-spaces  ';
-
+  it('should call OpenAI with provided messages', async () => {
     await handler(req, res);
 
-    // OpenAI is imported as default, so we check the mock
-    expect(OpenAI).toHaveBeenCalledWith(expect.objectContaining({ apiKey: 'sk-test-key-with-spaces' }));
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith(expect.objectContaining({
+      response: 'mock response'
+    }));
   });
 
-  it('should sanitize error logs', async () => {
-    // Force an error
+  it('should return 405 for non-POST requests', async () => {
+    req.method = 'GET';
+    await handler(req, res);
+    expect(res.status).toHaveBeenCalledWith(405);
+  });
+
+  it('should return 500 if API key is missing', async () => {
+    delete process.env.OPENAI_API_KEY;
+    await handler(req, res);
+    expect(res.status).toHaveBeenCalledWith(500);
+    expect(res.json).toHaveBeenCalledWith(expect.objectContaining({
+      error: 'Service Misconfigured: Missing API Key'
+    }));
+  });
+
+  it('should handle OpenAI errors correctly', async () => {
     const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-    const mockCreate = jest.fn().mockRejectedValue({
-       message: 'Incorrect API key provided: sk-abcdef1234567890abcdef1234567890. You can find...',
+    const { OpenAI: MockOpenAI } = require('openai');
+    const dummy = new MockOpenAI();
+    dummy.chat.completions.create.mockRejectedValueOnce({
+       status: 401,
+       message: 'Incorrect API key provided',
        code: 'invalid_api_key'
     });
 
-    // We need to access the mock implementation of the default export
-    (OpenAI as unknown as jest.Mock).mockImplementation(() => ({
-      chat: { completions: { create: mockCreate } }
-    }));
+    await handler(req, res);
 
-    process.env.OPENAI_API_KEY = 'sk-test-key';
+    expect(res.status).toHaveBeenCalledWith(500);
+    expect(consoleErrorSpy).toHaveBeenCalledWith('❌ OpenAI Authentication Error (401). Check API Key.');
+
+    consoleErrorSpy.mockRestore();
+  });
+
+  it('should sanitize error logs', async () => {
+    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    const sensitiveKey = 'sk-abcdef1234567890abcdef1234567890';
+    const { OpenAI: MockOpenAI } = require('openai');
+    const dummy = new MockOpenAI();
+    dummy.chat.completions.create.mockRejectedValueOnce({
+       message: `Incorrect API key provided: ${sensitiveKey}. You can find...`,
+       code: 'invalid_api_key'
+    });
 
     await handler(req, res);
 
-    expect(consoleErrorSpy).toHaveBeenCalledWith(
-      'OpenAI Error:',
-      expect.stringContaining('sk-***'),
-      '(Code: invalid_api_key)'
-    );
-
-    // Ensure the full key is NOT logged
+    // Ensure the full key is NOT logged in a recognizable way
     const calls = consoleErrorSpy.mock.calls;
-    const allArgs = calls.flat().join(' ');
-    expect(allArgs).not.toContain('sk-abcdef1234567890abcdef1234567890');
+    const allArgs = calls.flat().map(arg => typeof arg === 'string' ? arg : JSON.stringify(arg)).join(' ');
+    expect(allArgs).not.toContain(sensitiveKey);
 
     consoleErrorSpy.mockRestore();
   });

@@ -8,7 +8,7 @@ const LeadsManager: React.FC = () => {
   const loadData = async () => {
     try {
       const data = await getSubmissions();
-      setSubmissions(data.submissions);
+      setSubmissions(data.submissions || []);
     } catch (error) {
       console.error('Error loading submissions', error);
     } finally {
