@@ -8,35 +8,35 @@ global.fetch = jest.fn();
 
 describe('LeadsManager', () => {
   beforeEach(() => {
-    (global.fetch as jest.Mock).mockClear();
+    jest.clearAllMocks();
   });
 
   it('renders and fetches leads', async () => {
-    const mockLeads = [
-      { id: 1, nome: 'João Silva', telefone: '11999999999', empresa: 'Empresa X', status: 'Enviado' }
-    ];
+    const mockData = {
+      submissions: [
+        { id: '1', nomeAnon: 'J*****', emailAnon: 'j*****@example.com', mensagem: 'Empresa X', data: '2023-10-27T10:00:00Z' }
+      ]
+    };
 
     (global.fetch as jest.Mock).mockResolvedValueOnce({
       ok: true,
-      json: async () => mockLeads,
+      json: async () => mockData,
     });
 
     render(<LeadsManager />);
 
     await waitFor(() => {
       expect(screen.getByText('J*****')).toBeInTheDocument();
-      expect(screen.getByText('9999')).toBeInTheDocument();
       expect(screen.getByText('Empresa X')).toBeInTheDocument();
-      expect(screen.getByText('Enviado')).toBeInTheDocument();
     });
 
-    expect(global.fetch).toHaveBeenCalledWith('/api/clientes');
+    expect(global.fetch).toHaveBeenCalledWith('/api/submissions');
   });
 
   it('submits a new lead', async () => {
     (global.fetch as jest.Mock).mockResolvedValueOnce({
       ok: true,
-      json: async () => [], // Initial empty list
+      json: async () => ({ submissions: [] }), // Initial empty list
     });
 
     render(<LeadsManager />);
@@ -51,15 +51,17 @@ describe('LeadsManager', () => {
       .mockResolvedValueOnce({ ok: true, json: async () => ({ success: true }) }) // POST response
       .mockResolvedValueOnce({ // GET response after submit
         ok: true,
-        json: async () => [
-            { id: 2, nome: 'Maria', telefone: '11888888888', empresa: 'Empresa Y', status: 'Enviado' }
-        ],
+        json: async () => ({
+          submissions: [
+            { id: '2', nomeAnon: 'M*****', emailAnon: 'm*****@example.com', mensagem: 'Empresa Y', data: '2023-10-27T11:00:00Z' }
+          ]
+        }),
       });
 
     fireEvent.click(screen.getByText('Enviar Lead'));
 
     await waitFor(() => {
-      expect(global.fetch).toHaveBeenCalledWith('/api/clientes', expect.objectContaining({
+      expect(global.fetch).toHaveBeenCalledWith('/api/leads', expect.objectContaining({
         method: 'POST',
         body: expect.stringContaining('Maria'),
       }));
