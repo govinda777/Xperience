@@ -146,29 +146,27 @@ export class CartService {
       };
     }
 
-    const subtotal = this.cart.items.reduce((sum, item) => {
-      return sum + item.price * item.quantity;
-    }, 0);
-
+    let subtotal = 0;
     let totalDiscount = 0;
+    let itemCount = 0;
 
-    // Calculate item-level discounts
-    this.cart.items.forEach((item) => {
+    for (let i = 0; i < this.cart.items.length; i++) {
+      const item = this.cart.items[i];
+      const itemTotal = item.price * item.quantity;
+
+      subtotal += itemTotal;
+      itemCount += item.quantity;
+
       if (item.discount) {
-        const itemTotal = item.price * item.quantity;
         if (item.discount.type === "percentage") {
           totalDiscount += itemTotal * (item.discount.value / 100);
         } else if (item.discount.type === "fixed") {
           totalDiscount += item.discount.value;
         }
       }
-    });
+    }
 
     const total = subtotal - totalDiscount;
-    const itemCount = this.cart.items.reduce(
-      (sum, item) => sum + item.quantity,
-      0,
-    );
 
     return {
       subtotal,
