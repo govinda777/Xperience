@@ -164,6 +164,9 @@
   },
   "resolutions": {
     "fast-xml-parser": "^4.5.4",
+    "devalue": "^5.6.3",
+    "diff": "^4.0.4",
+    "@tootallnate/once": "^3.0.1",
     "minimatch": "^9.0.7",
     "rollup": "^4.59.0",
     "preact": "^10.28.4",
