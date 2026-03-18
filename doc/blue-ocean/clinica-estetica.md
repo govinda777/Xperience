@@ -62,3 +62,7 @@ Ao migrar do modelo "médico-paciente" para o modelo "membro-clube", a clínica 
 *   [Personal Trainer](./personal-trainer.md)
 *   [Consultoria Empreendedora](./consultoria-empreendedora.md)
 *   [Barbearia](./barbearia.md)
+*   [Pet Shop](./pet-shop.md)
+*   [Cafeteria](./cafeteria.md)
+*   [Oficina Mecânica](./oficina-mecanica.md)
+*   [Escola de Idiomas](./escola-idiomas.md)

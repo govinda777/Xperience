@@ -61,3 +61,7 @@ Ao focar na **experiência masculina** e na **recorrência (assinatura)**, a bar
 *   [Personal Trainer](./personal-trainer.md)
 *   [Consultoria Empreendedora](./consultoria-empreendedora.md)
 *   [Clínica de Estética](./clinica-estetica.md)
+*   [Pet Shop](./pet-shop.md)
+*   [Cafeteria](./cafeteria.md)
+*   [Oficina Mecânica](./oficina-mecanica.md)
+*   [Escola de Idiomas](./escola-idiomas.md)
