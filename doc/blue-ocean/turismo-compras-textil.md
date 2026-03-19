@@ -62,3 +62,7 @@ Ao migrar do modelo de transporte de massa para o modelo de consultoria e experi
 *   [Consultoria Empreendedora](./consultoria-empreendedora.md)
 *   [Barbearia](./barbearia.md)
 *   [Clínica de Estética](./clinica-estetica.md)
+*   [Pet Shop](./pet-shop.md)
+*   [Cafeteria](./cafeteria.md)
+*   [Oficina Mecânica](./oficina-mecanica.md)
+*   [Escola de Idiomas](./escola-idiomas.md)
