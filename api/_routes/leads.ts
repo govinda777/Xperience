@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { kv } from './lib/kv.js';
+import { kv } from '../lib/kv.js';
 
 const anonimizarNome = (str?: string) => str && str.length > 4 ? str.slice(0,4) + '...' : str || 'Anônimo';
 const anonimizarEmail = (email?: string) => email ? email.replace(/(.{1,3}).+@(.{1,3}).+/, '$1***@$2***') : '***@***';

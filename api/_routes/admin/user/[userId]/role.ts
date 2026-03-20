@@ -1,7 +1,7 @@
 import { VercelResponse } from '@vercel/node';
-import { withAuth, AuthenticatedRequest } from '../../../lib/auth-middleware';
-import { RoleService } from '../../../../lib/services/role-service';
-import { UserRole } from '../../../../src/types/session';
+import { withAuth, AuthenticatedRequest } from '../../../../lib/auth-middleware';
+import { RoleService } from '../../../../../lib/services/role-service';
+import { UserRole } from '../../../../../src/types/session';
 
 async function handler(req: AuthenticatedRequest, res: VercelResponse) {
   const { userId } = req.query;

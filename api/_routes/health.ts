@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { createClient } from '@vercel/postgres';
 import { createClient as createKVClient } from '@vercel/kv';
-import { getHealthConfig, ServiceConfig } from './lib/health-config.js';
+import { getHealthConfig, ServiceConfig } from '../lib/health-config.js';
 
 interface HealthCheck {
   name: string;
