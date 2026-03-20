@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { getHealthConfig, updateServiceConfig, ServiceConfig } from './lib/health-config.js';
+import { getHealthConfig, updateServiceConfig, ServiceConfig } from '../lib/health-config.js';
 
 export default async function handler(
   req: VercelRequest,

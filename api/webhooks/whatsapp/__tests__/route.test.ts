@@ -1,6 +1,6 @@
 import { describe, expect, it, jest } from '@jest/globals';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import handler from '../route';
+import handler from '../../../_routes/webhooks/whatsapp/route';
 
 // Mock the dependencies
 jest.mock('../../../../lib/agent/inboundHandler', () => ({
