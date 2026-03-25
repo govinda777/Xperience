@@ -1,4 +1,4 @@
-import handler from '../../api/chat';
+import handler from '../../api/_routes/chat';
 import { OpenAI } from 'openai';
 
 jest.mock('openai', () => {

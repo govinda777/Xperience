@@ -1,4 +1,4 @@
-import handler from '../../api/health';
+import handler from '../../api/_routes/health';
 
 // Mock dependencies
 jest.mock('@vercel/postgres', () => ({

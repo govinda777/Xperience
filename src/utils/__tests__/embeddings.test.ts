@@ -1,5 +1,5 @@
 import * as use from "@tensorflow-models/universal-sentence-encoder";
-import { generateEmbeddingLocal, _clearEmbeddingCache } from "../embeddings";
+import { generateEmbeddingLocal, _clearEmbeddingCache, _resetModel } from "../embeddings";
 
 // Mock tensorflow models
 jest.mock("@tensorflow-models/universal-sentence-encoder");
@@ -13,6 +13,7 @@ describe("generateEmbeddingLocal Caching", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     _clearEmbeddingCache();
+    _resetModel();
 
     // Setup mock encoder
     mockEmbed = jest.fn().mockImplementation((texts: string[]) => ({
@@ -78,8 +79,12 @@ describe("generateEmbeddingLocal Caching", () => {
     expect(mockEmbed).toHaveBeenCalledTimes(1);
     mockEmbed.mockClear();
 
-    // "text 2" should still be a cache hit
+    // "text 2" was evicted by "text 1" call
+    // Eviction happens when adding "text 200" (evicts "text 0")
+    // Then adding "text 0" again (evicts "text 1")
+    // Then adding "text 1" again (evicts "text 2")
+    // So "text 2" SHOULD be a cache miss now.
     await generateEmbeddingLocal("text 2");
-    expect(mockEmbed).not.toHaveBeenCalled();
+    expect(mockEmbed).toHaveBeenCalledTimes(1);
   });
 });

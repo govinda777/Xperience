@@ -163,7 +163,10 @@
     "wait-on": "^8.0.1"
   },
   "resolutions": {
-    "fast-xml-parser": "^4.5.4",
+    "fast-xml-parser": "^5.5.7",
+    "flatted": "^3.4.2",
+    "h3": "^1.15.9",
+    "socket.io-parser": "^4.2.6",
     "devalue": "^5.6.3",
     "diff": "^4.0.4",
     "@tootallnate/once": "^3.0.1",
