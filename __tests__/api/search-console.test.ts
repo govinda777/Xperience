@@ -1,4 +1,4 @@
-import handler from '../../api/search-console';
+import handler from '../../api/_routes/search-console';
 import { google } from 'googleapis';
 
 jest.mock('googleapis', () => {

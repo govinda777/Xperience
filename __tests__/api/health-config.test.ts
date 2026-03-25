@@ -1,4 +1,4 @@
-import handler from '../../api/health-config';
+import handler from '../../api/_routes/health-config';
 import { kv } from '../../api/lib/kv';
 
 // Mock kv

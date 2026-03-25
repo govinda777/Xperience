@@ -17,6 +17,14 @@ export const _clearEmbeddingCache = (): void => {
 };
 
 /**
+ * Reseta o modelo (útil para testes)
+ * @internal
+ */
+export const _resetModel = (): void => {
+  model = null;
+};
+
+/**
  * Carrega o modelo de embeddings (apenas uma vez)
  */
 export const loadEmbeddingModel =
@@ -42,8 +50,8 @@ export const generateEmbeddingLocal = async (
   }
 
   const encoder = await loadEmbeddingModel();
-  const embeddings = await encoder.embed([text]);
-  const embeddingArray = await embeddings.array();
+  const embeddings = await (encoder as any).embed([text]);
+  const embeddingArray = await (embeddings as any).array();
   const result = embeddingArray[0];
 
   // Store in cache
