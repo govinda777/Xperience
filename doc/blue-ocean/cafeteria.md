@@ -1,4 +1,5 @@
 # Estudo de Caso Blue Ocean: Cafeteria
+
 ## Do "Café Rápido" à "Experiência de Cafés Especiais e Coworking"
 
 ### 1. O Cenário Atual (Oceano Vermelho)
@@ -15,9 +16,10 @@ A competição se dá na venda de conveniência e lanches rápidos.
 A proposta da "Slow Coffee Shop" é vender tempo, espaço e degustação. O cliente não quer apenas a cafeína, ele busca um ambiente inspirador para trabalhar, ler ou ter reuniões, acompanhado de grãos de origem.
 
 **A Nova Proposta de Valor:**
-*   **Foco:** Profissionais autônomos, nômades digitais e amantes do café especial (geeks de café).
-*   **Ambiente:** Mesas compartilhadas (coworking feel), poltronas confortáveis, iluminação de estudo, tomadas em todas as mesas, Wi-Fi ultrarrápido sem limites.
-*   **Produto:** Grãos de micro-lotes, métodos de extração manuais (V60, Chemex, Aeropress), baristas que contam a história do café.
+
+- **Foco:** Profissionais autônomos, nômades digitais e amantes do café especial (geeks de café).
+- **Ambiente:** Mesas compartilhadas (coworking feel), poltronas confortáveis, iluminação de estudo, tomadas em todas as mesas, Wi-Fi ultrarrápido sem limites.
+- **Produto:** Grãos de micro-lotes, métodos de extração manuais (V60, Chemex, Aeropress), baristas que contam a história do café.
 
 ### 3. Strategy Canvas (Tela Estratégica)
 
@@ -33,21 +35,22 @@ xychart-beta
 ```
 
 **Legenda:**
-*   **Linha 1:** Cafeteria Tradicional
-*   **Linha 2:** Slow Coffee Shop (Blue Ocean)
 
-> **Nota:** A Slow Coffee Shop *elimina* a pressa e reduz o foco em *Lanches Comuns* (que exigem cozinha pesada), enquanto aumenta drasticamente o *Ambiente de Trabalho* e a oferta de *Cafés Especiais*, criando um espaço de *Comunidade*.
+- **Linha 1:** Cafeteria Tradicional
+- **Linha 2:** Slow Coffee Shop (Blue Ocean)
+
+> **Nota:** A Slow Coffee Shop _elimina_ a pressa e reduz o foco em _Lanches Comuns_ (que exigem cozinha pesada), enquanto aumenta drasticamente o _Ambiente de Trabalho_ e a oferta de _Cafés Especiais_, criando um espaço de _Comunidade_.
 
 ### 4. Framework das Quatro Ações (ERRC Grid)
 
 Como transformar uma xícara em uma estação de trabalho:
 
-| Ação | O que fazer |
-| :--- | :--- |
-| **ELIMINAR** | **O "balcão da pressa":** O objetivo não é girar o cliente rápido, mas mantê-lo consumindo durante horas.<br>**Bebidas excessivamente doces/industrializadas:** Focar no sabor real do grão. |
-| **REDUZIR** | **Cardápio de comida complexa:** Menos pratos quentes (que cheiram forte) e mais confeitaria/sanduíches frios de alta qualidade.<br>**Ruído:** Controlar a acústica para permitir reuniões e foco. |
-| **AUMENTAR** | **Educação do cliente:** Baristas que explicam notas sensoriais e métodos.<br>**Infraestrutura para trabalho:** Mesas com tomadas, internet corporativa.<br>**Ticket Médio:** Venda de grãos em pacote para levar para casa, acessórios de café. |
-| **CRIAR** | **Assinaturas de Café Mensais (Grãos):** Receita recorrente.<br>**Workshops de Barista/Degustação:** Eventos noturnos que geram receita extra e fidelização.<br>**Passes de Coworking (Opcional):** Cobrar pelo espaço + café livre para nômades fixos. |
+| Ação         | O que fazer                                                                                                                                                                                                                                             |
+| :----------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **ELIMINAR** | **O "balcão da pressa":** O objetivo não é girar o cliente rápido, mas mantê-lo consumindo durante horas.<br>**Bebidas excessivamente doces/industrializadas:** Focar no sabor real do grão.                                                            |
+| **REDUZIR**  | **Cardápio de comida complexa:** Menos pratos quentes (que cheiram forte) e mais confeitaria/sanduíches frios de alta qualidade.<br>**Ruído:** Controlar a acústica para permitir reuniões e foco.                                                      |
+| **AUMENTAR** | **Educação do cliente:** Baristas que explicam notas sensoriais e métodos.<br>**Infraestrutura para trabalho:** Mesas com tomadas, internet corporativa.<br>**Ticket Médio:** Venda de grãos em pacote para levar para casa, acessórios de café.        |
+| **CRIAR**    | **Assinaturas de Café Mensais (Grãos):** Receita recorrente.<br>**Workshops de Barista/Degustação:** Eventos noturnos que geram receita extra e fidelização.<br>**Passes de Coworking (Opcional):** Cobrar pelo espaço + café livre para nômades fixos. |
 
 ### 5. Conclusão
 
@@ -55,13 +58,13 @@ Ao convidar o cliente para ficar, em vez de apressá-lo para sair, a cafeteria s
 
 ### 6. Veja Também (Outros Estudos de Caso)
 
-*   [Turismo de Compras Têxtil](./turismo-compras-textil.md)
-*   [Pousadas e Campings](./pousadas-campings.md)
-*   [Academia de Escalada](./academia-escalada.md)
-*   [Personal Trainer](./personal-trainer.md)
-*   [Consultoria Empreendedora](./consultoria-empreendedora.md)
-*   [Barbearia](./barbearia.md)
-*   [Clínica de Estética](./clinica-estetica.md)
-*   [Pet Shop](./pet-shop.md)
-*   [Oficina Mecânica](./oficina-mecanica.md)
-*   [Escola de Idiomas](./escola-idiomas.md)
+- [Turismo de Compras Têxtil](./turismo-compras-textil.md)
+- [Pousadas e Campings](./pousadas-campings.md)
+- [Academia de Escalada](./academia-escalada.md)
+- [Personal Trainer](./personal-trainer.md)
+- [Consultoria Empreendedora](./consultoria-empreendedora.md)
+- [Barbearia](./barbearia.md)
+- [Clínica de Estética](./clinica-estetica.md)
+- [Pet Shop](./pet-shop.md)
+- [Oficina Mecânica](./oficina-mecanica.md)
+- [Escola de Idiomas](./escola-idiomas.md)
