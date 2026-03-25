@@ -1,4 +1,5 @@
 # Estudo de Caso Blue Ocean: Clínica de Estética
+
 ## Da "Beleza Dolorosa" ao "Spa de Autoestima e Bem-Estar"
 
 ### 1. O Cenário Atual (Oceano Vermelho)
@@ -16,9 +17,10 @@ A competição é por quem tem a "máquina da moda" ou o botox mais barato.
 A proposta é democratizar a alta tecnologia estética em um ambiente de **Spa Urbano**, focado em **Planos de Tratamento** (recorrência) e não em sessões avulsas. O cliente busca resultado sem o trauma do ambiente médico.
 
 **A Nova Proposta de Valor:**
-*   **Foco:** Mulheres e homens que querem se cuidar preventivamente sem cirurgia.
-*   **Ambiente:** Acolhedor, aromaterapia, chás, design de interiores quente (foge do branco hospitalar).
-*   **Modelo:** Planos de assinatura ou pacotes fechados com acompanhamento nutricional integrado.
+
+- **Foco:** Mulheres e homens que querem se cuidar preventivamente sem cirurgia.
+- **Ambiente:** Acolhedor, aromaterapia, chás, design de interiores quente (foge do branco hospitalar).
+- **Modelo:** Planos de assinatura ou pacotes fechados com acompanhamento nutricional integrado.
 
 ### 3. Strategy Canvas (Tela Estratégica)
 
@@ -34,21 +36,22 @@ xychart-beta
 ```
 
 **Legenda:**
-*   **Linha 1:** Clínica Médica Tradicional
-*   **Linha 2:** Spa de Estética (Blue Ocean)
 
-> **Nota:** O Spa de Estética *elimina* o ambiente hospitalar e *reduz* a dor (focando em procedimentos não-cirúrgicos), enquanto *aumenta* drasticamente o *Bem-Estar* e cria *Planos de Assinatura* que tornam o tratamento acessível e contínuo.
+- **Linha 1:** Clínica Médica Tradicional
+- **Linha 2:** Spa de Estética (Blue Ocean)
+
+> **Nota:** O Spa de Estética _elimina_ o ambiente hospitalar e _reduz_ a dor (focando em procedimentos não-cirúrgicos), enquanto _aumenta_ drasticamente o _Bem-Estar_ e cria _Planos de Assinatura_ que tornam o tratamento acessível e contínuo.
 
 ### 4. Framework das Quatro Ações (ERRC Grid)
 
 Como transformar pacientes em membros de um clube de beleza:
 
-| Ação | O que fazer |
-| :--- | :--- |
-| **ELIMINAR** | **Ambiente frio e intimidante:** O design deve lembrar uma sala de estar chique, não um hospital.<br>**Procedimentos ultra-invasivos:** Focar em tratamentos que não exigem tempo de recuperação (downtime). |
-| **REDUZIR** | **Tempo de espera na recepção:** Agendamento preciso.<br>**Dor durante o tratamento:** Investir em tecnologias indolores (ex: laser frio, criofrequência). |
-| **AUMENTAR** | **Tecnologia de ponta:** Equipamentos modernos são o grande diferencial de resultado.<br>**Acolhimento:** Chá, café especial, massagem nas mãos/pés durante a espera/procedimento. |
-| **CRIAR** | **Planos de Assinatura (Beleza Recorrente):** "Botox Club" ou "Detox Mensal".<br>**Avaliação Holística:** Incluir bioimpedância e dicas nutricionais no pacote.<br>**App de Acompanhamento:** Fotos de "antes e depois" acessíveis ao cliente. |
+| Ação         | O que fazer                                                                                                                                                                                                                                    |
+| :----------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **ELIMINAR** | **Ambiente frio e intimidante:** O design deve lembrar uma sala de estar chique, não um hospital.<br>**Procedimentos ultra-invasivos:** Focar em tratamentos que não exigem tempo de recuperação (downtime).                                   |
+| **REDUZIR**  | **Tempo de espera na recepção:** Agendamento preciso.<br>**Dor durante o tratamento:** Investir em tecnologias indolores (ex: laser frio, criofrequência).                                                                                     |
+| **AUMENTAR** | **Tecnologia de ponta:** Equipamentos modernos são o grande diferencial de resultado.<br>**Acolhimento:** Chá, café especial, massagem nas mãos/pés durante a espera/procedimento.                                                             |
+| **CRIAR**    | **Planos de Assinatura (Beleza Recorrente):** "Botox Club" ou "Detox Mensal".<br>**Avaliação Holística:** Incluir bioimpedância e dicas nutricionais no pacote.<br>**App de Acompanhamento:** Fotos de "antes e depois" acessíveis ao cliente. |
 
 ### 5. Conclusão
 
@@ -56,13 +59,13 @@ Ao migrar do modelo "médico-paciente" para o modelo "membro-clube", a clínica 
 
 ### 6. Veja Também (Outros Estudos de Caso)
 
-*   [Turismo de Compras Têxtil](./turismo-compras-textil.md)
-*   [Pousadas e Campings](./pousadas-campings.md)
-*   [Academia de Escalada](./academia-escalada.md)
-*   [Personal Trainer](./personal-trainer.md)
-*   [Consultoria Empreendedora](./consultoria-empreendedora.md)
-*   [Barbearia](./barbearia.md)
-*   [Pet Shop](./pet-shop.md)
-*   [Cafeteria](./cafeteria.md)
-*   [Oficina Mecânica](./oficina-mecanica.md)
-*   [Escola de Idiomas](./escola-idiomas.md)
+- [Turismo de Compras Têxtil](./turismo-compras-textil.md)
+- [Pousadas e Campings](./pousadas-campings.md)
+- [Academia de Escalada](./academia-escalada.md)
+- [Personal Trainer](./personal-trainer.md)
+- [Consultoria Empreendedora](./consultoria-empreendedora.md)
+- [Barbearia](./barbearia.md)
+- [Pet Shop](./pet-shop.md)
+- [Cafeteria](./cafeteria.md)
+- [Oficina Mecânica](./oficina-mecanica.md)
+- [Escola de Idiomas](./escola-idiomas.md)
