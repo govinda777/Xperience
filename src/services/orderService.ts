@@ -302,15 +302,26 @@ export class OrderService {
 
       // Fallback: calcular localmente
       const orders = this.getUserOrdersLocally(userId);
-      return {
-        totalOrders: orders.length,
-        completedOrders: orders.filter((o) => o.status === "completed").length,
-        pendingOrders: orders.filter((o) => o.status === "pending").length,
-        cancelledOrders: orders.filter((o) => o.status === "cancelled").length,
-        totalSpent: orders
-          .filter((o) => o.status === "completed")
-          .reduce((sum, o) => sum + o.total, 0),
-      };
+      return orders.reduce(
+        (acc, o) => {
+          if (o.status === "completed") {
+            acc.completedOrders++;
+            acc.totalSpent += o.total;
+          } else if (o.status === "pending") {
+            acc.pendingOrders++;
+          } else if (o.status === "cancelled") {
+            acc.cancelledOrders++;
+          }
+          return acc;
+        },
+        {
+          totalOrders: orders.length,
+          completedOrders: 0,
+          pendingOrders: 0,
+          cancelledOrders: 0,
+          totalSpent: 0,
+        },
+      );
     }
   }
 
