@@ -1,9 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import OpenAI from 'openai';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') {
@@ -17,7 +15,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    console.log(`[Report API] Generating report for agent ${agentName} (${agentId})`);
+    console.log(`[Report API] Generating Gemini 1.5 Pro report for agent ${agentName} (${agentId})`);
+
+    if (!process.env.GEMINI_API_KEY) {
+        throw new Error("Missing GEMINI_API_KEY environment variable");
+    }
 
     // Prepare history for context
     const conversationHistory = (history || [])
@@ -25,39 +27,44 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       .join('\n');
 
     const systemPrompt = `
-      Você é um motor de síntese analítica especializado em gerar relatórios estruturados, agindo como o NotebookLM.
-      Sua tarefa é analisar o contexto e o histórico da conversa e gerar um relatório profissional.
+      Você é um motor de síntese analítica especializado em gerar relatórios estruturados de alta densidade informativa, agindo como o NotebookLM.
+      Sua tarefa é analisar o contexto e o histórico completo da conversa para gerar um "Dossiê" profissional.
 
-      REGRAS:
-      1. Use Markdown para formatar o relatório.
-      2. Seja objetivo, analítico e profissional.
-      3. O relatório deve ter um título claro e seções bem definidas.
-      4. Focado apenas nas informações fornecidas no histórico e contexto.
+      DIRETRIZES DE ESTRUTURA (Markdown):
+      1. Título do Relatório: Chamativo e Profissional.
+      2. Sumário Executivo: Resumo de 2 parágrafos sobre os principais tópicos.
+      3. Análise de Correlações: Conecte os pontos discutidos na sessão.
+      4. Recomendações Acionáveis: Lista de próximos passos baseados nos dados.
+      5. Conclusão Analítica.
 
-      CONTEXTO DO AGENTE:
-      ${context || 'Nenhum contexto adicional fornecido.'}
+      REGRAS TÉCNICAS:
+      - Seja objetivo e use tom de consultoria.
+      - Utilize apenas os fatos presentes no histórico.
+      - Retorne estritamente um objeto JSON com os campos "title" e "content".
 
-      HISTÓRICO DA CONVERSA:
-      ${conversationHistory || 'Nenhuma conversa anterior.'}
+      <context>
+      ${context || 'Nenhum contexto específico do agente fornecido.'}
+      </context>
+
+      HISTÓRICO DA SESSÃO:
+      ${conversationHistory || 'Histórico vazio.'}
     `;
 
-    const userPrompt = `Comando: ${instruction}\n\nGere o relatório solicitado em formato JSON com os campos "title" e "content" (Markdown).`;
-
-    const response = await openai.chat.completions.create({
-      model: 'gpt-4o-mini', // Using a fast, cheap model for reports as an orchestrator
-      messages: [
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: userPrompt }
-      ],
-      response_format: { type: 'json_object' }
+    const model = genAI.getGenerativeModel({
+        model: "gemini-1.5-pro",
+        generationConfig: {
+            responseMimeType: "application/json",
+        }
     });
 
-    const result = JSON.parse(response.choices[0].message.content || '{}');
+    const result = await model.generateContent(`${systemPrompt}\n\nSOLICITAÇÃO DO USUÁRIO: ${instruction}`);
+    const responseText = result.response.text();
+    const parsed = JSON.parse(responseText || '{}');
 
     return res.status(200).json({
       id: `rep_${Date.now()}`,
-      title: result.title || `Relatório ${agentName}`,
-      content: result.content || 'Erro ao gerar conteúdo do relatório.',
+      title: parsed.title || `Dossiê Analítico: ${agentName}`,
+      content: parsed.content || 'Erro ao sintetizar o relatório.',
       agentId,
       agentName
     });

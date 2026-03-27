@@ -59,7 +59,6 @@ export interface AgentLogEvent {
 export interface AgentVariables {
   intent?: string;
   slots: Record<string, any>;
-  ragContext: { title: string; score: number; source?: string }[];
   rawState: unknown;
 }
 

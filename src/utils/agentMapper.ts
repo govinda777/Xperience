@@ -33,11 +33,6 @@ export const transformStateToInspector = (backendState: any): AgentInspectorStat
   const variables: AgentVariables = {
     intent: intent || 'unknown',
     slots: {}, // Backend doesn't return slots yet, keep empty
-    ragContext: Array.isArray(context) ? context.map((c: any) => ({
-      title: c.title || 'Untitled',
-      score: c.score || 0,
-      source: c.source
-    })) : [],
     rawState: backendState
   };
 
@@ -68,7 +63,7 @@ const getEmptyState = (): AgentInspectorState => ({
   messageCount: 0,
   toolCount: 0,
   nodes: INITIAL_NODES.map(n => ({ ...n, status: 'pending' })),
-  variables: { slots: {}, ragContext: [], rawState: null },
+  variables: { slots: {}, rawState: null },
   toolRuns: [],
   logs: []
 });
