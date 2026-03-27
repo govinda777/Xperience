@@ -47,6 +47,14 @@ export const useAgents = () => {
     return newAgent;
   };
 
+  const updateAgent = (id: string, updates: Partial<Agent>) => {
+    setAgents(prevAgents => {
+      const updatedAgents = prevAgents.map(a => a.id === id ? { ...a, ...updates } : a);
+      localStorage.setItem(AGENTS_STORAGE_KEY, JSON.stringify(updatedAgents));
+      return updatedAgents;
+    });
+  };
+
   const deleteAgent = (id: string) => {
     setAgents(prevAgents => {
       const updatedAgents = prevAgents.filter(a => a.id !== id);
@@ -95,6 +103,7 @@ export const useAgents = () => {
   return {
     agents,
     addAgent,
+    updateAgent,
     deleteAgent,
     addMessage,
     getMessages,

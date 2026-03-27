@@ -3,10 +3,8 @@ import styled from 'styled-components';
 import { AgentInspectorPanel } from '../../components/agent/AgentInspectorPanel';
 import { Button, Input } from '../../components/styled/styled';
 import { Agent, Message } from './types';
-import { Send, Bot, User, Cpu, Circle, ArrowLeft, BookOpen, Paperclip } from 'lucide-react';
-import { useSessionRAG } from '../../hooks/useSessionRAG';
-import { SessionRAGUpload } from '../../components/SessionRAGUpload';
-import type { RAGSearchResult } from '../../types/sessionRAG';
+import { Send, Bot, User, Cpu, Circle, ArrowLeft, BookOpen, Save } from 'lucide-react';
+import { ReportSessionService } from '../../services/reportSessionService';
 
 const PageContainer = styled.div`
   display: grid;
@@ -92,26 +90,6 @@ const MessageBubble = styled.div<{ $isUser: boolean }>`
   border: 1px solid ${props => props.$isUser ? '#007bff' : '#dee2e6'};
 `;
 
-const RagContextInfo = styled.div`
-  margin-top: 0.75rem;
-  padding-top: 0.75rem;
-  border-top: 1px solid rgba(0,0,0,0.1);
-  font-size: 0.75rem;
-`;
-
-const SourceBadge = styled.span`
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  background: rgba(0,0,0,0.05);
-  padding: 2px 6px;
-  border-radius: 4px;
-  margin-right: 4px;
-  margin-bottom: 4px;
-  font-size: 0.7rem;
-  color: inherit;
-  opacity: 0.9;
-`;
 
 const InputContainer = styled.div`
   padding: 1rem;
@@ -192,19 +170,18 @@ interface Props {
   agent: Agent;
   messages: Message[];
   onAddMessage: (message: Omit<Message, 'timestamp'>) => void;
+  onUpdateAgent: (updates: Partial<Agent>) => void;
   onBack: () => void;
 }
 
-const AgentChat: React.FC<Props> = ({ agent, messages, onAddMessage, onBack }) => {
+const AgentChat: React.FC<Props> = ({ agent, messages, onAddMessage, onUpdateAgent, onBack }) => {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [agentState, setAgentState] = useState<any>(null);
   const [channel, setChannel] = useState('web');
+  const [context, setContext] = useState(agent.context || '');
+  const [isSavingContext, setIsSavingContext] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  // RAG Hook integration
-  const sessionRAG = useSessionRAG();
-  const { ragContext } = sessionRAG;
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -214,7 +191,7 @@ const AgentChat: React.FC<Props> = ({ agent, messages, onAddMessage, onBack }) =
     scrollToBottom();
   }, [messages, isLoading]);
 
-  const sendMessage = async (content: string) => {
+  const sendMessage = async (content: string, isCommand: boolean = false) => {
     if (!content.trim() || isLoading) return;
 
     setIsLoading(true);
@@ -223,60 +200,69 @@ const AgentChat: React.FC<Props> = ({ agent, messages, onAddMessage, onBack }) =
     onAddMessage({ role: 'user', content: content });
 
     try {
-      // 1. Search for relevant context if files are present
+      // 1. Prepare instructions with context if available
       let augmentedInstructions = agent.systemPrompt || "You are a helpful assistant.";
-      let ragResults: RAGSearchResult[] = [];
 
-      if (ragContext.files.length > 0) {
-        console.log('🔍 Searching local knowledge base...');
-        ragResults = await sessionRAG.searchSimilar(content, {
-          topK: 3,
-          threshold: 0.4
-        });
-
-        if (ragResults.length > 0) {
-           console.log(`✅ Found ${ragResults.length} relevant chunks`);
-           const contextText = ragResults.map((r, i) =>
-             `[SOURCE ${i+1}: ${r.fileName}]\n${r.text}`
-           ).join('\n\n');
-
-           augmentedInstructions += `\n\n═══════════════════════════════════════════════════════════
-CONTEXTO RELEVANTE (RAG):
-═══════════════════════════════════════════════════════════
-${contextText}
-═══════════════════════════════════════════════════════════
-INSTRUÇÕES: Use o contexto acima para responder a pergunta do usuário se relevante. Cite a fonte.`;
-        }
+      if (context) {
+        augmentedInstructions += `\n\n<context>\n${context}\n</context>`;
       }
 
-      // 2. Call Agent API
-      const response = await fetch('/api/agent', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            message: content,
-            sessionId: agentState?.sessionId,
-            instructions: augmentedInstructions,
-            history: messages.map(m => ({ role: m.role, content: m.content }))
-        }),
-      });
+      // Check if it's a REPORT command
+      if (content.startsWith('/REPORT')) {
+        const response = await fetch('/api/report', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+              instruction: content.replace('/REPORT', '').trim(),
+              agentId: agent.id,
+              agentName: agent.name,
+              context: context,
+              history: messages.map(m => ({ role: m.role, content: m.content }))
+          }),
+        });
 
-      if (!response.ok) throw new Error('Failed to fetch response');
+        if (!response.ok) throw new Error('Failed to generate report');
+        const data = await response.json();
 
-      const data = await response.json();
+        // Save report to session storage
+        ReportSessionService.addReport({
+          id: data.id,
+          agentId: agent.id,
+          agentName: agent.name,
+          title: data.title,
+          content: data.content,
+          timestamp: Date.now()
+        });
 
-      // 3. Add assistant message with RAG context metadata
-      onAddMessage({
-          role: 'assistant',
-          content: data.message,
-          ragContext: ragResults.map(r => ({
-            title: r.fileName,
-            score: r.score,
-            source: `chunk_${r.index}`
-          }))
-      });
+        onAddMessage({
+            role: 'assistant',
+            content: `✅ Relatório "${data.title}" gerado com sucesso! Você pode visualizá-lo no seu Dashboard.`
+        });
+      } else {
+        // 2. Call Regular Agent API
+        const response = await fetch('/api/agent', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+              message: content,
+              sessionId: agentState?.sessionId,
+              instructions: augmentedInstructions,
+              history: messages.map(m => ({ role: m.role, content: m.content }))
+          }),
+        });
 
-      setAgentState(data.state); // Update inspector
+        if (!response.ok) throw new Error('Failed to fetch response');
+
+        const data = await response.json();
+
+        // 3. Add assistant message
+        onAddMessage({
+            role: 'assistant',
+            content: data.message
+        });
+
+        setAgentState(data.state); // Update inspector
+      }
     } catch (error) {
       console.error('Error:', error);
       onAddMessage({ role: 'assistant', content: 'Sorry, I encountered an error. Please try again.' });
@@ -290,6 +276,12 @@ INSTRUÇÕES: Use o contexto acima para responder a pergunta do usuário se rele
     const userMessageContent = input;
     setInput('');
     await sendMessage(userMessageContent);
+  };
+
+  const handleSaveContext = () => {
+    setIsSavingContext(true);
+    onUpdateAgent({ context });
+    setTimeout(() => setIsSavingContext(false), 500);
   };
 
   return (
@@ -334,13 +326,58 @@ INSTRUÇÕES: Use o contexto acima para responder a pergunta do usuário se rele
       </Header>
 
       <PageContainer>
-        {/* Files Sidebar */}
+        {/* Sidebar for Context */}
         <SidebarContainer>
             <SidebarHeader>
                 <BookOpen size={18} />
-                Base de Conhecimento
+                Contexto do Agente
             </SidebarHeader>
-            <SessionRAGUpload sessionRAG={sessionRAG} />
+            <div style={{ padding: '1rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <div style={{ position: 'relative' }}>
+                <textarea
+                  value={context}
+                  onChange={(e) => setContext(e.target.value.slice(0, 250))}
+                  placeholder="Insira as diretrizes mestras do agente (máx. 250 caracteres)..."
+                  style={{
+                    width: '100%',
+                    height: '150px',
+                    padding: '0.75rem',
+                    borderRadius: '8px',
+                    border: '1px solid #dee2e6',
+                    fontSize: '0.875rem',
+                    resize: 'none',
+                    fontFamily: 'inherit'
+                  }}
+                />
+                <div style={{
+                  position: 'absolute',
+                  bottom: '8px',
+                  right: '8px',
+                  fontSize: '0.7rem',
+                  color: context.length >= 250 ? '#dc3545' : '#868e96'
+                }}>
+                  {250 - context.length}
+                </div>
+              </div>
+              <Button
+                onClick={handleSaveContext}
+                disabled={isSavingContext}
+                style={{
+                  padding: '6px 12px',
+                  fontSize: '0.8rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '6px'
+                }}
+              >
+                <Save size={14} />
+                {isSavingContext ? 'Salvando...' : 'Salvar Contexto'}
+              </Button>
+              <p style={{ fontSize: '0.75rem', color: '#6c757d', marginTop: '0.5rem', lineHeight: '1.4' }}>
+                Este texto define o comportamento e o conhecimento base do agente para a conversa atual.
+              </p>
+            </div>
         </SidebarContainer>
 
         {/* Chat Area */}
@@ -350,9 +387,6 @@ INSTRUÇÕES: Use o contexto acima para responder a pergunta do usuário se rele
                 <div style={{ textAlign: 'center', padding: '2rem', color: '#adb5bd' }}>
                     <Bot size={48} style={{ marginBottom: '1rem', opacity: 0.5 }} />
                     <p>Inicie a conversa com {agent.name}</p>
-                    {ragContext.files.length === 0 && (
-                        <small>Faça upload de documentos na barra lateral para dar contexto ao agente.</small>
-                    )}
                 </div>
             )}
             {messages.map((msg, idx) => (
@@ -362,21 +396,6 @@ INSTRUÇÕES: Use o contexto acima para responder a pergunta do usuário se rele
                   <span>{msg.role === 'user' ? 'Você' : agent.name}</span>
                 </div>
                 <div style={{ whiteSpace: 'pre-wrap' }}>{msg.content}</div>
-
-                {/* RAG Context Display */}
-                {msg.ragContext && msg.ragContext.length > 0 && (
-                    <RagContextInfo>
-                        <div style={{ marginBottom: '4px', fontWeight: 600 }}>Fontes Consultadas:</div>
-                        <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                            {msg.ragContext.map((ctx, i) => (
-                                <SourceBadge key={i} title={`Score: ${(ctx.score * 100).toFixed(0)}%`}>
-                                    <Paperclip size={10} />
-                                    {ctx.title}
-                                </SourceBadge>
-                            ))}
-                        </div>
-                    </RagContextInfo>
-                )}
               </MessageBubble>
             ))}
             {isLoading && (
@@ -396,7 +415,7 @@ INSTRUÇÕES: Use o contexto acima para responder a pergunta do usuário se rele
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && handleSubmit()}
-              placeholder={ragContext.files.length > 0 ? "Faça uma pergunta sobre os documentos..." : "Digite sua mensagem..."}
+              placeholder="Digite sua mensagem..."
               disabled={isLoading}
             />
             <Button onClick={handleSubmit} disabled={isLoading || !input.trim()} aria-label="Enviar mensagem">
@@ -409,7 +428,7 @@ INSTRUÇÕES: Use o contexto acima para responder a pergunta do usuário se rele
         <AgentInspectorPanel
             state={agentState}
             isLoading={isLoading}
-            onSendMessage={sendMessage}
+            onSendMessage={(msg) => sendMessage(msg, true)}
         />
       </PageContainer>
     </div>

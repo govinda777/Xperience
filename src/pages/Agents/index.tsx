@@ -31,7 +31,7 @@ const Title = styled.h1`
 `;
 
 const AgentsPage: React.FC = () => {
-  const { agents, addAgent, deleteAgent, getMessages, addMessage } = useAgents();
+  const { agents, addAgent, updateAgent, deleteAgent, getMessages, addMessage } = useAgents();
   const [selectedAgent, setSelectedAgent] = useState<Agent | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -57,11 +57,15 @@ const AgentsPage: React.FC = () => {
 
   // If an agent is selected, show the chat interface
   if (selectedAgent) {
+    // Sync the selected agent from the list to ensure we have the latest data (e.g. updated context)
+    const currentAgent = agents.find(a => a.id === selectedAgent.id) || selectedAgent;
+
     return (
       <ChatInterface
-        agent={selectedAgent}
-        messages={getMessages(selectedAgent.id)}
-        onAddMessage={(msg) => addMessage(selectedAgent.id, msg)}
+        agent={currentAgent}
+        messages={getMessages(currentAgent.id)}
+        onAddMessage={(msg) => addMessage(currentAgent.id, msg)}
+        onUpdateAgent={(updates) => updateAgent(currentAgent.id, updates)}
         onBack={() => setSelectedAgent(null)}
       />
     );

@@ -6,7 +6,7 @@ interface Props {
 }
 
 export const CommandInput: React.FC<Props> = ({ onCommand, disabled }) => {
-  const [command, setCommand] = useState('Report');
+  const [command, setCommand] = useState('REPORT');
   const [message, setMessage] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -36,9 +36,9 @@ export const CommandInput: React.FC<Props> = ({ onCommand, disabled }) => {
             disabled={disabled}
             style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #ddd' }}
           >
-            <option value="Report">Report</option>
-            <option value="Projeto">Analise de Projeto</option>
-            <option value="Custom">Customizado</option>
+            <option value="REPORT">Report (NotebookLM)</option>
+            <option value="PROJECT">Analise de Projeto</option>
+            <option value="CUSTOM">Customizado</option>
           </select>
         </div>
 

@@ -8,6 +8,7 @@ export interface Agent {
   commandKey?: AgentCommandKey;
   commandKeys?: AgentCommandKey[];
   systemPrompt?: string;
+  context?: string;
   createdAt: string;
 }
 
@@ -16,11 +17,6 @@ export interface Message {
   content: string;
   timestamp: number;
   timeMs?: number;
-  ragContext?: {
-    title: string;
-    score: number;
-    source: string;
-  }[];
 }
 
 export interface ChatSession {

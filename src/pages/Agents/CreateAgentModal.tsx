@@ -58,6 +58,7 @@ interface Props {
 const CreateAgentModal: React.FC<Props> = ({ isOpen, onClose, onCreate }) => {
   const [name, setName] = useState('');
   const [role, setRole] = useState('');
+  const [context, setContext] = useState('');
   const [description, setDescription] = useState('');
   const [commandKeys, setCommandKeys] = useState<AgentCommandKey[]>(['custom']);
   const [customInstructions, setCustomInstructions] = useState('');
@@ -70,6 +71,7 @@ const CreateAgentModal: React.FC<Props> = ({ isOpen, onClose, onCreate }) => {
     onCreate({
         name,
         role,
+        context: context.trim(),
         description,
         commandKeys: ['custom'],
         commandKey: 'custom',
@@ -79,6 +81,7 @@ const CreateAgentModal: React.FC<Props> = ({ isOpen, onClose, onCreate }) => {
     // Reset form
     setName('');
     setRole('');
+    setContext('');
     setDescription('');
     setCommandKeys(['custom']);
     setCustomInstructions('');
@@ -112,7 +115,28 @@ const CreateAgentModal: React.FC<Props> = ({ isOpen, onClose, onCreate }) => {
             </div>
 
             <div>
-              <Label>Instruções do Agente</Label>
+              <Label>Contexto do Agente (Máx. 250 caracteres)</Label>
+              <div style={{ position: 'relative' }}>
+                <TextArea
+                  value={context}
+                  onChange={(e) => setContext(e.target.value.slice(0, 250))}
+                  placeholder="Diretrizes mestras e conhecimentos específicos..."
+                  style={{ minHeight: '80px' }}
+                />
+                <div style={{
+                  position: 'absolute',
+                  bottom: '8px',
+                  right: '12px',
+                  fontSize: '0.75rem',
+                  color: context.length >= 250 ? '#dc3545' : '#868e96'
+                }}>
+                  {250 - context.length}
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <Label>Instruções do Agente (Regras de Negócio e Tom)</Label>
               <TextArea
                 value={customInstructions}
                 onChange={(e) => setCustomInstructions(e.target.value)}
