@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import agentHandler from './_routes/agent.js';
+import reportHandler from './_routes/report.js';
 import chatHandler from './_routes/chat.js';
 import healthHandler from './_routes/health.js';
 import healthConfigHandler from './_routes/health-config.js';
@@ -33,6 +34,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     // Simple Router
     if (path === '/api/agent') return await agentHandler(req, res);
+    if (path === '/api/report') return await reportHandler(req, res);
     if (path === '/api/chat') return await chatHandler(req, res);
     if (path === '/api/health') return await healthHandler(req, res);
     if (path === '/api/health-config') return await healthConfigHandler(req, res);

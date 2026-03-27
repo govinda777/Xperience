@@ -8,6 +8,7 @@ export interface Agent {
   commandKey?: AgentCommandKey;
   commandKeys?: AgentCommandKey[];
   systemPrompt?: string;
+  context?: string;
   createdAt: string;
 }
 

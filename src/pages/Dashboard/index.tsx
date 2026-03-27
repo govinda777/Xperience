@@ -1,11 +1,25 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { Bot, BarChart3, Folder, Settings } from "lucide-react";
+import { Bot, BarChart3, Folder, Settings, FileText, Trash2, Clock, AlertCircle, X } from "lucide-react";
+import { ReportSessionService, Report } from "../../services/reportSessionService";
 
 const Dashboard = () => {
   const { user, logout, ready } = useAuth();
   const navigate = useNavigate();
+  const [reports, setReports] = useState<Report[]>([]);
+  const [selectedReport, setSelectedReport] = useState<Report | null>(null);
+
+  useEffect(() => {
+    setReports(ReportSessionService.getReports());
+  }, []);
+
+  const handleClearReports = () => {
+    if (window.confirm("Tem certeza que deseja excluir todos os relatórios desta sessão?")) {
+      ReportSessionService.clearReports();
+      setReports([]);
+    }
+  };
 
   if (!ready) {
     return (
@@ -52,13 +66,24 @@ const Dashboard = () => {
 
         {/* Content Area - Dashboard Hub */}
         <div className="p-6 bg-[#F9F9F9] min-h-[600px]">
-            <h2 className="text-2xl font-bold text-gray-800 mb-6">Visão Geral</h2>
+            <div className="flex justify-between items-center mb-6">
+                <h2 className="text-2xl font-bold text-gray-800">Visão Geral</h2>
+                {reports.length > 0 && (
+                    <button
+                        onClick={handleClearReports}
+                        className="flex items-center gap-2 text-red-600 hover:text-red-700 text-sm font-medium transition-colors"
+                    >
+                        <Trash2 size={16} />
+                        Limpar Sessão
+                    </button>
+                )}
+            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 {/* Agentes - Link Ativo */}
                 <div
                     onClick={() => navigate('/agents')}
-                    className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition cursor-pointer border border-gray-100 group"
+                    className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition cursor-pointer border border-gray-100 group lg:col-span-1"
                 >
                     <div className="flex items-center gap-4 mb-4">
                         <div className="p-3 bg-blue-100 text-blue-600 rounded-lg group-hover:bg-blue-600 group-hover:text-white transition-colors">
@@ -69,16 +94,52 @@ const Dashboard = () => {
                     <p className="text-gray-600">Crie e gerencie seus assistentes de IA personalizados.</p>
                 </div>
 
-                {/* Relatórios - Placeholder */}
-                <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 opacity-60 cursor-not-allowed relative">
-                    <span className="absolute top-4 right-4 text-xs font-bold bg-gray-200 text-gray-600 px-2 py-1 rounded">Em breve</span>
-                    <div className="flex items-center gap-4 mb-4">
+                {/* Relatórios de Sessão */}
+                <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 lg:col-span-2">
+                    <div className="flex items-center gap-4 mb-6">
                         <div className="p-3 bg-green-100 text-green-600 rounded-lg">
                             <BarChart3 size={24} />
                         </div>
-                        <h3 className="text-xl font-bold text-gray-800">Relatórios</h3>
+                        <h3 className="text-xl font-bold text-gray-800">Relatórios de Sessão</h3>
                     </div>
-                    <p className="text-gray-600">Visualize métricas e desempenho dos seus agentes.</p>
+
+                    {reports.length === 0 ? (
+                        <div className="flex flex-col items-center justify-center py-12 text-gray-500 bg-gray-50 rounded-lg border border-dashed border-gray-200">
+                            <FileText size={48} className="mb-4 opacity-20" />
+                            <p className="font-medium">Nenhum relatório gerado nesta sessão.</p>
+                            <p className="text-sm mt-1">Use o comando /REPORT no chat do agente.</p>
+                        </div>
+                    ) : (
+                        <div className="space-y-4">
+                            <div className="flex items-start gap-3 p-3 bg-amber-50 rounded-lg text-amber-800 text-sm mb-4">
+                                <AlertCircle size={18} className="mt-0.5 shrink-0" />
+                                <p><strong>Atenção:</strong> Estes relatórios são efêmeros e serão removidos ao fechar o navegador. Exporte os dados importantes.</p>
+                            </div>
+                            <div className="grid grid-cols-1 gap-4">
+                                {reports.map((report) => (
+                                    <div
+                                        key={report.id}
+                                        onClick={() => setSelectedReport(report)}
+                                        className="flex items-center justify-between p-4 bg-white border border-gray-200 rounded-lg hover:border-blue-400 hover:shadow-sm transition cursor-pointer group"
+                                    >
+                                        <div className="flex items-center gap-4">
+                                            <div className="p-2 bg-gray-100 text-gray-600 rounded group-hover:bg-blue-100 group-hover:text-blue-600 transition-colors">
+                                                <FileText size={20} />
+                                            </div>
+                                            <div>
+                                                <h4 className="font-bold text-gray-800">{report.title}</h4>
+                                                <div className="flex items-center gap-3 text-xs text-gray-500 mt-1">
+                                                    <span className="flex items-center gap-1"><Bot size={12} /> {report.agentName}</span>
+                                                    <span className="flex items-center gap-1"><Clock size={12} /> {new Date(report.timestamp).toLocaleTimeString()}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button className="text-blue-600 text-sm font-bold opacity-0 group-hover:opacity-100 transition-opacity">Visualizar</button>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
                 </div>
 
                 {/* Projetos - Placeholder */}
@@ -107,6 +168,47 @@ const Dashboard = () => {
             </div>
         </div>
       </div>
+
+      {/* Report Modal */}
+      {selectedReport && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+              <div className="bg-white w-full max-w-4xl max-h-[90vh] rounded-xl shadow-2xl overflow-hidden flex flex-col">
+                  <div className="flex justify-between items-center p-6 border-b bg-gray-50">
+                      <div>
+                          <h3 className="text-2xl font-bold text-gray-800">{selectedReport.title}</h3>
+                          <p className="text-sm text-gray-500 mt-1">Gerado por {selectedReport.agentName} em {new Date(selectedReport.timestamp).toLocaleString()}</p>
+                      </div>
+                      <button
+                          onClick={() => setSelectedReport(null)}
+                          className="p-2 hover:bg-gray-200 rounded-full transition-colors"
+                      >
+                          <X size={24} className="text-gray-500" />
+                      </button>
+                  </div>
+                  <div className="p-8 overflow-y-auto bg-white flex-1">
+                      <div className="prose prose-blue max-w-none">
+                          <div className="whitespace-pre-wrap font-sans text-gray-800 leading-relaxed">
+                              {selectedReport.content}
+                          </div>
+                      </div>
+                  </div>
+                  <div className="p-6 border-t bg-gray-50 flex justify-end gap-4">
+                      <button
+                          onClick={() => window.print()}
+                          className="px-6 py-2 bg-white border border-gray-300 rounded-lg font-bold text-gray-700 hover:bg-gray-100 transition-colors"
+                      >
+                          Imprimir / PDF
+                      </button>
+                      <button
+                          onClick={() => setSelectedReport(null)}
+                          className="px-6 py-2 bg-blue-600 rounded-lg font-bold text-white hover:bg-blue-700 transition-colors shadow-md"
+                      >
+                          Fechar
+                      </button>
+                  </div>
+              </div>
+          </div>
+      )}
     </div>
   );
 };

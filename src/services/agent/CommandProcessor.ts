@@ -17,11 +17,11 @@ export class CommandProcessor {
     };
 
     // 2. Processa comando específico
-    switch (command.toLowerCase()) {
-      case 'report':
-        return this.generateReport(userMessage, context);
+    switch (command.toUpperCase()) {
+      case 'REPORT':
+        return `/REPORT ${userMessage}`;
 
-      case 'projeto':
+      case 'PROJECT':
         return this.analyzeProject(userMessage, context);
 
       default:
@@ -33,13 +33,7 @@ export class CommandProcessor {
     message: string,
     context: CommandContext
   ): string {
-    return `
-      # HISTÓRICO DA CONVERSA
-      ${context.conversationHistory.join('\n')}
-
-      # SOLICITAÇÃO
-      Gere um relatório sobre: ${message}
-    `;
+    return `/REPORT ${message}`;
   }
 
   private static analyzeProject(
