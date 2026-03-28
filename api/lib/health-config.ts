@@ -60,7 +60,7 @@ const CONFIG_KEY = 'health:config';
 
 export async function getHealthConfig(): Promise<Record<string, ServiceConfig>> {
   try {
-    const config = await kv.get<Record<string, ServiceConfig>>(CONFIG_KEY);
+    const config = await kv.get(CONFIG_KEY) as Record<string, ServiceConfig>;
     if (config && Object.keys(config).length > 0) {
       // Merge with default config to ensure new keys exist if schema changes
       return { ...DEFAULT_HEALTH_CONFIG, ...config };

@@ -10,4 +10,4 @@ if (!url || !token) {
 export const kv = createClient({
   url: url || '',
   token: token || '',
-});
+}) as any;

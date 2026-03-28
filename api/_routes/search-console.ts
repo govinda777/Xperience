@@ -49,7 +49,7 @@ export default async function handler(
     const searchconsole = google.searchconsole({
       version: 'v1',
       auth,
-    });
+    } as any);
 
     // Fetch sitemaps to estimate indexed pages
     let indexedPages = 0;
@@ -61,9 +61,9 @@ export default async function handler(
       });
 
       if (sitemapsRes.data.sitemap) {
-        sitemapsRes.data.sitemap.forEach((sitemap) => {
+        sitemapsRes.data.sitemap.forEach((sitemap: any) => {
           if (sitemap.contents) {
-            sitemap.contents.forEach((content) => {
+            sitemap.contents.forEach((content: any) => {
                // content.type is usually 'web', 'video', 'image', etc.
                if (content.type === 'web') {
                  totalPages += parseInt(content.submitted || '0', 10);
