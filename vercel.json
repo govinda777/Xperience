@@ -5,8 +5,8 @@
   "github": {
     "enabled": false
   },
-  "buildCommand": "yarn build",
-  "installCommand": "yarn install",
+  "buildCommand": "pnpm run build",
+  "installCommand": "pnpm install",
   "outputDirectory": "dist",
   "framework": "vite",
 

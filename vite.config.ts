@@ -47,10 +47,6 @@ export default defineConfig({
             "@tonconnect/ui-react",
           ],
           ui: ["styled-components", "lucide-react"],
-          tensorflow: [
-            "@tensorflow/tfjs",
-            "@tensorflow-models/universal-sentence-encoder",
-          ],
         },
       },
       onwarn(warning, warn) {
@@ -92,7 +88,6 @@ export default defineConfig({
         __dirname,
         "node_modules/process/browser.js",
       ),
-      // Removendo aliases problemáticos para valtio
     },
   },
   optimizeDeps: {
@@ -113,5 +108,11 @@ export default defineConfig({
   define: {
     global: "globalThis",
     "process.env": {},
+  },
+  test: {
+    globals: true,
+    environment: "jsdom",
+    setupFiles: ["./src/setupTests.ts"],
+    include: ["src/**/*.{test,spec}.{ts,tsx}"],
   },
 });

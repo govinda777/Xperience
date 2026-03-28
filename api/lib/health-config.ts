@@ -19,26 +19,12 @@ const DEFAULT_HEALTH_CONFIG: Record<string, ServiceConfig> = {
     timeout: 5000,
     thresholds: { healthy: 100, degraded: 500 },
   },
-  redis: {
-    name: 'Redis (Vercel KV)',
-    enabled: true,
-    critical: true,
-    timeout: 3000,
-    thresholds: { healthy: 50, degraded: 200 },
-  },
   openai: {
     name: 'OpenAI API',
     enabled: true,
     critical: false,
     timeout: 3000,
     thresholds: { healthy: 1000, degraded: 2000 },
-  },
-  mercadopago: {
-    name: 'MercadoPago',
-    enabled: true,
-    critical: false,
-    timeout: 3000,
-    thresholds: { healthy: 500, degraded: 1000 },
   },
   auth0: {
     name: 'Auth0',
