@@ -36,9 +36,7 @@ export default async function handler(
   // Execute checks in parallel
   const checks: HealthCheck[] = await Promise.all([
     checkPostgres(config.postgres),
-    checkRedis(config.redis),
     checkOpenAI(config.openai),
-    checkMercadoPago(config.mercadopago),
     checkAuth0(config.auth0),
     checkPrivy(config.privy),
     checkGoogleAPIs(config.google_apis),
@@ -117,49 +115,6 @@ async function checkPostgres(config: ServiceConfig): Promise<HealthCheck> {
   }
 }
 
-// Redis Check (Vercel KV)
-async function checkRedis(config: ServiceConfig): Promise<HealthCheck> {
-  if (!config) return createMissingConfigCheck('Redis');
-  if (!config.enabled) return createDisabledCheck(config);
-
-  const start = Date.now();
-  try {
-    const kvUrl = process.env.KV_REST_API_URL;
-    const kvToken = process.env.KV_REST_API_TOKEN;
-
-    if (!kvUrl || !kvToken) {
-        throw new Error('KV_REST_API_URL or KV_REST_API_TOKEN not set');
-    }
-
-    const kv = createKVClient({
-      url: kvUrl,
-      token: kvToken,
-    });
-
-    // Use a unique key for health check to avoid collisions
-    const key = `health_check_${Date.now()}`;
-    await kv.set(key, 'ok', { ex: 10 });
-    await kv.get(key);
-
-    const latency = Date.now() - start;
-    return {
-      name: config.name,
-      status: latency < config.thresholds.healthy ? 'healthy' : latency < config.thresholds.degraded ? 'degraded' : 'unhealthy',
-      latency_ms: latency,
-      message: `Operacional - ${latency}ms`,
-      critical: config.critical,
-    };
-  } catch (error: any) {
-    return {
-      name: config.name,
-      status: 'unhealthy',
-      latency_ms: Date.now() - start,
-      message: error.message || 'Redis failed',
-      critical: config.critical,
-    };
-  }
-}
-
 // OpenAI Check
 async function checkOpenAI(config: ServiceConfig): Promise<HealthCheck> {
   if (!config) return createMissingConfigCheck('OpenAI');
@@ -192,42 +147,6 @@ async function checkOpenAI(config: ServiceConfig): Promise<HealthCheck> {
       status: 'unhealthy',
       latency_ms: Date.now() - start,
       message: error.message || 'OpenAI check failed',
-      critical: config.critical,
-    };
-  }
-}
-
-// MercadoPago Check
-async function checkMercadoPago(config: ServiceConfig): Promise<HealthCheck> {
-  if (!config) return createMissingConfigCheck('MercadoPago');
-  if (!config.enabled) return createDisabledCheck(config);
-
-  const start = Date.now();
-  try {
-    if (!process.env.MERCADOPAGO_ACCESS_TOKEN) {
-         throw new Error('MERCADOPAGO_ACCESS_TOKEN not configured');
-    }
-
-    const response = await fetchWithTimeout('https://api.mercadopago.com/v1/payment_methods', {
-      headers: {
-        'Authorization': `Bearer ${process.env.MERCADOPAGO_ACCESS_TOKEN}`,
-      },
-    }, config.timeout);
-
-    const latency = Date.now() - start;
-    return {
-      name: config.name,
-      status: response.ok && latency < config.thresholds.healthy ? 'healthy' : latency < config.thresholds.degraded ? 'degraded' : 'unhealthy',
-      latency_ms: latency,
-      message: `Status ${response.status}`,
-      critical: config.critical,
-    };
-  } catch (error: any) {
-    return {
-      name: config.name,
-      status: 'unhealthy',
-      latency_ms: Date.now() - start,
-      message: error.message || 'MercadoPago check failed',
       critical: config.critical,
     };
   }
