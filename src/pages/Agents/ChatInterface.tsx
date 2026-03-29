@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
+import { useChat } from '@ai-sdk/react';
 import { AgentInspectorPanel } from '../../components/agent/AgentInspectorPanel';
 import { Button, Input } from '../../components/styled/styled';
-import { Agent, Message } from './types';
-import { Send, Bot, User, Cpu, Circle, ArrowLeft, BookOpen, Save } from 'lucide-react';
-import { ReportSessionService } from '../../services/reportSessionService';
+import { Agent } from './types';
+import { Send, Bot, User, Cpu, Circle, ArrowLeft, BookOpen, Save, Loader2 } from 'lucide-react';
 
 const PageContainer = styled.div`
   display: grid;
@@ -18,7 +18,7 @@ const PageContainer = styled.div`
   }
 
   @media (max-width: 1024px) {
-    grid-template-columns: 1fr 300px; // Hide files sidebar
+    grid-template-columns: 1fr 300px;
   }
 
   @media (max-width: 768px) {
@@ -38,7 +38,7 @@ const SidebarContainer = styled.div`
   overflow-y: auto;
 
   @media (max-width: 1024px) {
-    display: none; // Hidden on smaller screens for now
+    display: none;
   }
 `;
 
@@ -48,8 +48,7 @@ const SidebarHeader = styled.div`
   font-weight: 600;
   color: #495057;
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  align-items: center; gap: 0.5rem;
 `;
 
 const ChatArea = styled.div`
@@ -168,20 +167,24 @@ const ChannelSelect = styled.select`
 
 interface Props {
   agent: Agent;
-  messages: Message[];
-  onAddMessage: (message: Omit<Message, 'timestamp'>) => void;
   onUpdateAgent: (updates: Partial<Agent>) => void;
   onBack: () => void;
 }
 
-const AgentChat: React.FC<Props> = ({ agent, messages, onAddMessage, onUpdateAgent, onBack }) => {
-  const [input, setInput] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [agentState, setAgentState] = useState<any>(null);
+const AgentChat: React.FC<Props> = ({ agent, onUpdateAgent, onBack }) => {
   const [channel, setChannel] = useState('web');
-  const [context, setContext] = useState(agent.context || '');
+  const [context, setContext] = useState((agent && agent.context) || '');
   const [isSavingContext, setIsSavingContext] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat({
+    api: '/api/chat',
+    body: {
+      sessionId: (agent && agent.id) || 'default',
+      instructions: (agent && agent.systemPrompt) || 'You are a helpful assistant.',
+      context: context
+    }
+  });
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -191,98 +194,13 @@ const AgentChat: React.FC<Props> = ({ agent, messages, onAddMessage, onUpdateAge
     scrollToBottom();
   }, [messages, isLoading]);
 
-  const sendMessage = async (content: string, isCommand: boolean = false) => {
-    if (!content.trim() || isLoading) return;
-
-    setIsLoading(true);
-
-    // Optimistically add user message
-    onAddMessage({ role: 'user', content: content });
-
-    try {
-      // 1. Prepare instructions with context if available
-      let augmentedInstructions = agent.systemPrompt || "You are a helpful assistant.";
-
-      if (context) {
-        augmentedInstructions += `\n\n<context>\n${context}\n</context>`;
-      }
-
-      // Check if it's a REPORT command
-      if (content.startsWith('/REPORT')) {
-        const response = await fetch('/api/report', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-              instruction: content.replace('/REPORT', '').trim(),
-              agentId: agent.id,
-              agentName: agent.name,
-              context: context,
-              history: messages.map(m => ({ role: m.role, content: m.content }))
-          }),
-        });
-
-        if (!response.ok) throw new Error('Failed to generate report');
-        const data = await response.json();
-
-        // Save report to session storage
-        ReportSessionService.addReport({
-          id: data.id,
-          agentId: agent.id,
-          agentName: agent.name,
-          title: data.title,
-          content: data.content,
-          timestamp: Date.now()
-        });
-
-        onAddMessage({
-            role: 'assistant',
-            content: `✅ Relatório "${data.title}" gerado com sucesso! Você pode visualizá-lo no seu Dashboard.`
-        });
-      } else {
-        // 2. Call Regular Agent API
-        const response = await fetch('/api/agent', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-              message: content,
-              sessionId: agentState?.sessionId,
-              instructions: augmentedInstructions,
-              history: messages.map(m => ({ role: m.role, content: m.content }))
-          }),
-        });
-
-        if (!response.ok) throw new Error('Failed to fetch response');
-
-        const data = await response.json();
-
-        // 3. Add assistant message
-        onAddMessage({
-            role: 'assistant',
-            content: data.message
-        });
-
-        setAgentState(data.state); // Update inspector
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      onAddMessage({ role: 'assistant', content: 'Sorry, I encountered an error. Please try again.' });
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleSubmit = async () => {
-    if (!input.trim()) return;
-    const userMessageContent = input;
-    setInput('');
-    await sendMessage(userMessageContent);
-  };
-
   const handleSaveContext = () => {
     setIsSavingContext(true);
     onUpdateAgent({ context });
     setTimeout(() => setIsSavingContext(false), 500);
   };
+
+  if (!agent) return <div style={{ padding: '2rem' }}>Carregando agente...</div>;
 
   return (
     <div style={{
@@ -304,9 +222,9 @@ const AgentChat: React.FC<Props> = ({ agent, messages, onAddMessage, onUpdateAge
             </Button>
             <Cpu size={24} color="#007bff" />
             <div style={{ display: 'flex', flexDirection: 'column' }}>
-                <Title>{agent.name}</Title>
+                <Title>{agent.name || 'Agente'}</Title>
                 <div style={{ fontSize: '0.75rem', color: '#868e96', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <span>{agent.role}</span>
+                    <span>{agent.role || 'Assistente'}</span>
                     <span style={{ color: '#dee2e6' }}>|</span>
                     <StatusBadge status={isLoading ? 'processing' : 'idle'}>
                         <Circle size={8} fill="currentColor" />
@@ -354,9 +272,9 @@ const AgentChat: React.FC<Props> = ({ agent, messages, onAddMessage, onUpdateAge
                   bottom: '8px',
                   right: '8px',
                   fontSize: '0.7rem',
-                  color: context.length >= 250 ? '#dc3545' : '#868e96'
+                  color: (context || '').length >= 250 ? '#dc3545' : '#868e96'
                 }}>
-                  {250 - context.length}
+                  {250 - (context || '').length}
                 </div>
               </div>
               <Button
@@ -374,9 +292,6 @@ const AgentChat: React.FC<Props> = ({ agent, messages, onAddMessage, onUpdateAge
                 <Save size={14} />
                 {isSavingContext ? 'Salvando...' : 'Salvar Contexto'}
               </Button>
-              <p style={{ fontSize: '0.75rem', color: '#6c757d', marginTop: '0.5rem', lineHeight: '1.4' }}>
-                Este texto define o comportamento e o conhecimento base do agente para a conversa atual.
-              </p>
             </div>
         </SidebarContainer>
 
@@ -386,49 +301,60 @@ const AgentChat: React.FC<Props> = ({ agent, messages, onAddMessage, onUpdateAge
             {messages.length === 0 && (
                 <div style={{ textAlign: 'center', padding: '2rem', color: '#adb5bd' }}>
                     <Bot size={48} style={{ marginBottom: '1rem', opacity: 0.5 }} />
-                    <p>Inicie a conversa com {agent.name}</p>
+                    <p>Inicie a conversa com {agent.name || 'Agente'}</p>
                 </div>
             )}
-            {messages.map((msg, idx) => (
-              <MessageBubble key={idx} $isUser={msg.role === 'user'}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem', opacity: 0.8, fontSize: '0.75rem' }}>
-                  {msg.role === 'user' ? <User size={12} /> : <Bot size={12} />}
-                  <span>{msg.role === 'user' ? 'Você' : agent.name}</span>
-                </div>
-                <div style={{ whiteSpace: 'pre-wrap' }}>{msg.content}</div>
-              </MessageBubble>
+            {messages.map((msg) => (
+              <React.Fragment key={msg.id}>
+                <MessageBubble $isUser={msg.role === 'user'}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem', opacity: 0.8, fontSize: '0.75rem' }}>
+                    {msg.role === 'user' ? <User size={12} /> : <Bot size={12} />}
+                    <span>{msg.role === 'user' ? 'Você' : (agent.name || 'Agente')}</span>
+                    </div>
+                    <div style={{ whiteSpace: 'pre-wrap' }}>{msg.content}</div>
+                </MessageBubble>
+
+                {msg.toolInvocations?.map((toolInvocation) => {
+                    const { toolName, toolCallId, state } = toolInvocation;
+                    if (state === 'result') {
+                        return (
+                            <div key={toolCallId} style={{ alignSelf: 'center', fontSize: '0.75rem', background: '#e9ecef', padding: '4px 12px', borderRadius: '16px', color: '#495057', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                <Cpu size={12} /> Executado: {toolName}
+                            </div>
+                        );
+                    } else {
+                        return (
+                            <div key={toolCallId} style={{ alignSelf: 'center', fontSize: '0.75rem', background: '#fff3bf', padding: '4px 12px', borderRadius: '16px', color: '#f08c00', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                <Loader2 size={12} className="animate-spin" /> Chamando: {toolName}...
+                            </div>
+                        );
+                    }
+                })}
+              </React.Fragment>
             ))}
-            {isLoading && (
-               <MessageBubble $isUser={false}>
-                  <div style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
-                    <span className="dot" style={{ animation: 'pulse 1s infinite' }}>●</span>
-                    <span className="dot" style={{ animation: 'pulse 1s infinite', animationDelay: '0.2s' }}>●</span>
-                    <span className="dot" style={{ animation: 'pulse 1s infinite', animationDelay: '0.4s' }}>●</span>
-                  </div>
-               </MessageBubble>
-            )}
             <div ref={messagesEndRef} />
           </MessagesContainer>
 
-          <InputContainer>
-            <StyledInput
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && handleSubmit()}
-              placeholder="Digite sua mensagem..."
-              disabled={isLoading}
-            />
-            <Button onClick={handleSubmit} disabled={isLoading || !input.trim()} aria-label="Enviar mensagem">
-              <Send size={18} />
-            </Button>
-          </InputContainer>
+          <form onSubmit={handleSubmit}>
+            <InputContainer>
+                <StyledInput
+                value={input}
+                onChange={handleInputChange}
+                placeholder="Digite sua mensagem..."
+                disabled={isLoading}
+                />
+                <Button type="submit" disabled={isLoading || !input.trim()} aria-label="Enviar mensagem">
+                <Send size={18} />
+                </Button>
+            </InputContainer>
+          </form>
         </ChatArea>
 
         {/* Inspector Panel */}
         <AgentInspectorPanel
-            state={agentState}
+            state={{ messages, isLoading }}
             isLoading={isLoading}
-            onSendMessage={(msg) => sendMessage(msg, true)}
+            onSendMessage={() => {}}
         />
       </PageContainer>
     </div>

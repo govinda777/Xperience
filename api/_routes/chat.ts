@@ -1,82 +1,110 @@
-// api/chat.ts
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { OpenAI } from 'openai';
+import { streamText } from 'ai';
+import { openai } from '@ai-sdk/openai';
+import { allTools } from '../_lib/tools/index.js';
+import { kv } from '@vercel/kv';
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
-});
-
-export default async function handler(
-  req: VercelRequest,
-  res: VercelResponse
-) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
+    return res.status(405).json({ error: 'Method Not Allowed' });
   }
 
-  const { messages, ragMetadata } = req.body;
+  const { messages, sessionId, instructions, context } = req.body;
+
+  if (!messages || !Array.isArray(messages)) {
+    return res.status(400).json({ error: 'Messages are required and must be an array' });
+  }
+
+  if (!process.env.OPENAI_API_KEY) {
+    console.error('CRITICAL: OPENAI_API_KEY is missing.');
+    return res.status(500).json({ error: 'Service Misconfigured: Missing API Key' });
+  }
+
+  const lastUserMessage = messages[messages.length - 1];
+
+  // Restoring /REPORT command logic
+  if (lastUserMessage?.role === 'user' && lastUserMessage.content && typeof lastUserMessage.content === 'string' && lastUserMessage.content.trim().toUpperCase() === '/REPORT') {
+      try {
+          console.log(`[Chat API] /REPORT command detected. Redirecting to internal report generator.`);
+          const reportResponse = await fetch(`${new URL(req.url!, `http://${req.headers.host}`).origin}/api/report`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                  instruction: 'Gere um dossiê analítico completo desta sessão.',
+                  agentId: sessionId,
+                  history: messages
+              })
+          });
+
+          const reportData: any = await reportResponse.json();
+          return res.status(200).json({
+              role: 'assistant',
+              content: `### 📊 Relatório Gerado: ${reportData.title}\n\n${reportData.content}`,
+              isReport: true
+          });
+      } catch (error: any) {
+          console.error('[Chat API] Failed to generate report:', error);
+          return res.status(500).json({ error: 'Falha ao gerar o relatório.' });
+      }
+  }
 
   try {
-    console.log('\n🔵 ═══ REQUISIÇÃO DA API ═══');
-    console.log('📊 RAG Metadata:', ragMetadata);
-    console.log('💬 Total de mensagens:', messages?.length);
+    console.log(`[Chat API] Streaming request. Session: ${sessionId || 'new'}`);
 
-    if (!process.env.OPENAI_API_KEY) {
-        console.error("CRITICAL: OPENAI_API_KEY is missing from environment variables.");
-        return res.status(500).json({ error: "Service Misconfigured: Missing API Key" });
+    // Save user message to KV (Redis) immediately
+    if (sessionId && lastUserMessage?.role === 'user') {
+        const sessionKey = `chat_session:${sessionId}`;
+        await (kv as any).lpush(sessionKey, JSON.stringify(lastUserMessage));
+        await (kv as any).ltrim(sessionKey, 0, 49);
     }
 
-    const startTime = Date.now();
+    let systemPrompt = instructions || 'You are a helpful assistant.';
+    if (context) {
+        systemPrompt += `\n\n<context>\n${context}\n</context>`;
+    }
 
-    // ═══════════════════════════════════════════════════════
-    // ENVIA PARA O LLM
-    // O contexto RAG já está embutido no system message
-    // ═══════════════════════════════════════════════════════
-    const completion = await openai.chat.completions.create({
-      model: 'gpt-4o', // Using gpt-4o as it is generally available and performant
-      messages: messages,
-      temperature: 0.7,
-      max_tokens: 1000
+    const result = await (streamText as any)({
+      model: openai('gpt-4o-mini'),
+      messages: [
+        { role: 'system', content: systemPrompt },
+        ...messages
+      ],
+      tools: allTools,
+      maxSteps: 10,
+      onFinish: async ({ text, usage, finishReason }: any) => {
+        console.log('[Chat API] Request finished.', { usage, finishReason });
+        if (sessionId) {
+            try {
+                const sessionKey = `chat_session:${sessionId}`;
+                await (kv as any).lpush(sessionKey, JSON.stringify({ role: 'assistant', content: text }));
+                await (kv as any).ltrim(sessionKey, 0, 49);
+            } catch (kvError) {
+                console.warn('[Chat API] KV update failed:', kvError);
+            }
+        }
+      },
     });
 
-    const processingTime = Date.now() - startTime;
-    const response = completion.choices[0].message.content;
+    const response = (result as any).toDataStreamResponse();
 
-    console.log('✅ Resposta gerada em', processingTime, 'ms');
-    console.log('🔵 ═══ FIM DA REQUISIÇÃO ═══\n');
-
-    // Retorna resposta
-    res.status(200).json({
-      response,
-      processingTime,
-      ragMetadata,
-      usage: completion.usage
+    res.status(response.status);
+    response.headers.forEach((value: string, key: string) => {
+      res.setHeader(key, value);
     });
 
+    const reader = response.body.getReader();
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      res.write(value);
+    }
+    res.end();
   } catch (error: any) {
-    // Sanitize error message to avoid logging API keys while preserving stack trace
-    if (error && typeof error === 'object' && error.message) {
-      try {
-        error.message = error.message.replace(/sk-[a-zA-Z0-9]{20,}/g, 'sk-***');
-      } catch (e) {
-        // Fallback if message is read-only
-      }
+    console.error('[Chat API] Error:', error);
+    if (!res.headersSent) {
+        return res.status(500).json({
+          error: error.message || 'Internal Server Error',
+        });
     }
-
-    console.error('❌ Erro na API:', error);
-
-    // Check for specific OpenAI errors
-    if (error.status === 401) {
-        console.error("❌ OpenAI Authentication Error (401). Check API Key.");
-    }
-    if (error.status === 429) {
-         console.error("❌ OpenAI Rate limit exceeded.");
-    }
-
-    res.status(500).json({
-      error: 'Failed to generate response',
-      details: process.env.NODE_ENV === 'development' ? error.message : 'Internal Server Error',
-      code: error.code || 'UNKNOWN_ERROR'
-    });
   }
 }
