@@ -31,7 +31,7 @@ export default async function handler(
     ]);
 
     // Parse JSON strings. Handle potential parsing errors safely.
-    const submissions = rawSubs.map((s) => {
+    const submissions = rawSubs.map((s: any) => {
       if (typeof s === 'string') {
         try {
           return JSON.parse(s);

@@ -91,7 +91,7 @@ async function checkPostgres(config: ServiceConfig): Promise<HealthCheck> {
        throw new Error('POSTGRES_URL not configured');
     }
 
-    const client = createClient();
+    const client = createClient() as any;
     await client.connect();
     await client.sql`SELECT 1 as healthy`;
     await client.end(); // Close connection
@@ -136,9 +136,9 @@ async function checkOpenAI(config: ServiceConfig): Promise<HealthCheck> {
     const latency = Date.now() - start;
     return {
       name: config.name,
-      status: response.ok && latency < config.thresholds.healthy ? 'healthy' : latency < config.thresholds.degraded ? 'degraded' : 'unhealthy',
+      status: (response as any).ok && latency < config.thresholds.healthy ? 'healthy' : latency < config.thresholds.degraded ? 'degraded' : 'unhealthy',
       latency_ms: latency,
-      message: `Status ${response.status} - ${latency}ms`,
+      message: `Status ${(response as any).status} - ${latency}ms`,
       critical: config.critical,
     };
   } catch (error: any) {
@@ -170,7 +170,7 @@ async function checkAuth0(config: ServiceConfig): Promise<HealthCheck> {
     const latency = Date.now() - start;
     return {
       name: config.name,
-      status: response.ok ? 'healthy' : 'degraded',
+      status: (response as any).ok ? 'healthy' : 'degraded',
       latency_ms: latency,
       message: `JWKS acessível`,
       critical: config.critical,
@@ -198,9 +198,9 @@ async function checkPrivy(config: ServiceConfig): Promise<HealthCheck> {
     const latency = Date.now() - start;
     return {
       name: config.name,
-      status: response.ok ? 'healthy' : 'degraded',
+      status: (response as any).ok ? 'healthy' : 'degraded',
       latency_ms: latency,
-      message: `Status ${response.status}`,
+      message: `Status ${(response as any).status}`,
       critical: config.critical,
     };
   } catch (error: any) {
@@ -226,7 +226,7 @@ async function checkGoogleAPIs(config: ServiceConfig): Promise<HealthCheck> {
     const latency = Date.now() - start;
     return {
       name: config.name,
-      status: response.ok ? 'healthy' : 'degraded',
+      status: (response as any).ok ? 'healthy' : 'degraded',
       latency_ms: latency,
       message: `Discovery API OK`,
       critical: config.critical,
