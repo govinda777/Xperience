@@ -30,6 +30,9 @@ overrides:
   asn1.js>bn.js: 4.12.3
   ethjs-unit>bn.js: 4.12.3
   '@metamask/sdk': ^0.33.1
+  ws: ^8.19.0
+  smol-toml: ^1.6.1
+  '@tanstack/form-core': ^1.28.6
 
 importers:
 
@@ -90,8 +93,8 @@ importers:
         specifier: ^9.1.0
         version: 9.1.0(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
       '@tanstack/react-form':
-        specifier: ^1.19.3
-        version: 1.28.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^1.28.6
+        version: 1.28.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@tanstack/react-query':
         specifier: ^5.59.15
         version: 5.95.2(react@18.3.1)
@@ -213,7 +216,7 @@ importers:
         specifier: ^0.22.0
         version: 0.22.0(rollup@4.60.0)(vite@7.3.1(@types/node@22.19.15)(jiti@1.21.7)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3))
       ws:
-        specifier: ^8.18.3
+        specifier: ^8.19.0
         version: 8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)
       zod:
         specifier: ^3.23.8
@@ -3204,14 +3207,8 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  '@tanstack/form-core@0.19.5':
-    resolution: {integrity: sha512-2ocFAnWTY3sxXemJvKArllnPNMmo9LkviSX88iUXcaClKutvJLfAc+a/lM00zhDKY9G3abXuZCp1OvGmeagszA==}
-
-  '@tanstack/form-core@0.42.1':
-    resolution: {integrity: sha512-jTU0jyHqFceujdtPNv3jPVej1dTqBwa8TYdIyWB5BCwRVUBZEp1PiYEBkC9r92xu5fMpBiKc+JKud3eeVjuMiA==}
-
-  '@tanstack/form-core@1.28.5':
-    resolution: {integrity: sha512-8lYnduHHfP6uaXF9+2OLnh3Fo27tH4TdtekWLG2b/Bp26ynbrWG6L4qhBgEb7VcvTpJw/RjvJF/JyFhZkG3pfQ==}
+  '@tanstack/form-core@1.28.6':
+    resolution: {integrity: sha512-4zroxL6VDj5O+w7l3dYZnUeL/h30KtNSV7UWzKAL7cl+8clMFdISPDlDlluS37As7oqvPVKo8B83VlIBvgmRog==}
 
   '@tanstack/pacer-lite@0.1.1':
     resolution: {integrity: sha512-y/xtNPNt/YeyoVxE/JCx+T7yjEzpezmbb+toK8DDD1P4m7Kzs5YR956+7OKexG3f8aXgC3rLZl7b1V+yNUSy5w==}
@@ -3225,8 +3222,8 @@ packages:
     peerDependencies:
       react: ^17.0.0 || ^18.0.0
 
-  '@tanstack/react-form@1.28.5':
-    resolution: {integrity: sha512-CL8IeWkeXnEEDsHt5wBuIOZvSYrKiLRtsC9ca0LzfJJ22SYCma9cBmh1UX1EBX0o3gH2U21PmUf+y5f9OJNoEQ==}
+  '@tanstack/react-form@1.28.6':
+    resolution: {integrity: sha512-dRxwKeNW3uuJvf0sXsIQ2compFMnIJNk9B436Lx0fqkqK+CBvA1tNmEdX+faoCpuQ5Wua3c8ahVibJ65cpkijA==}
     peerDependencies:
       '@tanstack/react-start': '*'
       react: ^17.0.0 || ^18.0.0 || ^19.0.0
@@ -3259,9 +3256,6 @@ packages:
 
   '@tanstack/store@0.3.1':
     resolution: {integrity: sha512-A49KN8SpLMWaNmZGPa9K982RQ81W+m7W6iStcQVeKeVS70JZRqkF0fDwKByREPq6qz9/kS0aQFOPQ0W6wIeU5g==}
-
-  '@tanstack/store@0.7.7':
-    resolution: {integrity: sha512-xa6pTan1bcaqYDS9BDpSiS63qa6EoDkPN9RsRaxHuDdVDNntzq3xNwR5YKTU/V3SkSyC9T4YVOPh2zRQN0nhIQ==}
 
   '@tanstack/store@0.9.3':
     resolution: {integrity: sha512-8reSzl/qGWGGVKhBoxXPMWzATSbZLZFWhwBAFO9NAyp0TxzfBP0mIrGb8CP8KrQTmvzXlR/vFPPUrHTLBGyFyw==}
@@ -4155,9 +4149,6 @@ packages:
   async-function@1.0.0:
     resolution: {integrity: sha512-hsU18Ae8CDTR6Kgu9DYf0EbCr/a5iGL0rytQDobUcdpYOKokk8LEjVphnXkDkgpi0wYVsqrXuP0bZxJaTqdgoA==}
     engines: {node: '>= 0.4'}
-
-  async-limiter@1.0.1:
-    resolution: {integrity: sha512-csOlWGAcRFJaI6m+F2WKdnMKr4HhdhFVBk0H/QbJFMCr+uO2kwohwXQPxw/9OCxp05r5ghVBFSyioixx3gfkNQ==}
 
   async-listen@3.0.0:
     resolution: {integrity: sha512-V+SsTpDqkrWTimiotsyl33ePSjA5/KrithwupuvJ6ztsqPvGv6ge4OredFhPffVXiLN/QUWvE0XcqJaYgt6fOg==}
@@ -5909,22 +5900,22 @@ packages:
   isomorphic-ws@4.0.1:
     resolution: {integrity: sha512-BhBvN2MBpWTaSHdWRb/bwdZJ1WaehQ2L1KngkCkfLUGF0mAWAT1sQUQacEmQ0jXkFw/czDXPNQSL5u2/Krsz1w==}
     peerDependencies:
-      ws: '*'
+      ws: ^8.19.0
 
   isows@1.0.3:
     resolution: {integrity: sha512-2cKei4vlmg2cxEjm3wVSqn8pcoRF/LX/wpifuuNquFO4SQmPwarClT+SUCA2lt+l581tTeZIPIZuIDo2jWN1fg==}
     peerDependencies:
-      ws: '*'
+      ws: ^8.19.0
 
   isows@1.0.6:
     resolution: {integrity: sha512-lPHCayd40oW98/I0uvgaHKWCSvkzY27LjWLbtzOm64yQ+G3Q5npjjbdppU65iZXkK1Zt+kH9pfegli0AYfwYYw==}
     peerDependencies:
-      ws: '*'
+      ws: ^8.19.0
 
   isows@1.0.7:
     resolution: {integrity: sha512-I1fSfDCZL5P0v33sVqeTDSpcstAg/N+wF5HS033mogOVIp4B+oHC7oOCsA3axAbBSGTJ8QubbNmnIRN/h8U7hg==}
     peerDependencies:
-      ws: '*'
+      ws: ^8.19.0
 
   iterator.prototype@1.1.5:
     resolution: {integrity: sha512-H0dkQoCa3b2VEeKQBOxFph+JAbcrQdE7KC0UkqwpLmv2EC4P41QXP+rqo9wYodACiG5/WM5s9oDApTU8utwj9g==}
@@ -6115,7 +6106,7 @@ packages:
       '@opentelemetry/exporter-trace-otlp-proto': '*'
       '@opentelemetry/sdk-trace-base': '*'
       openai: '*'
-      ws: '>=7'
+      ws: ^8.19.0
     peerDependenciesMeta:
       '@opentelemetry/api':
         optional: true
@@ -6694,7 +6685,7 @@ packages:
     resolution: {integrity: sha512-xAYN1W3YsDXJWA5F277135YfkEk6H7D3D6vWwRhJ3OEkzRgcyK8z/P5P9Gyi/wB4N8kK9kM5ZjprfvyHagKmpw==}
     hasBin: true
     peerDependencies:
-      ws: ^8.18.0
+      ws: ^8.19.0
       zod: ^3.25 || ^4.0
     peerDependenciesMeta:
       ws:
@@ -7708,8 +7699,8 @@ packages:
   slow-redact@0.3.2:
     resolution: {integrity: sha512-MseHyi2+E/hBRqdOi5COy6wZ7j7DxXRz9NkseavNYSvvWC06D8a5cidVZX3tcG5eCW3NIyVU4zT63hw0Q486jw==}
 
-  smol-toml@1.5.2:
-    resolution: {integrity: sha512-QlaZEqcAH3/RtNyet1IPIYPsEWAaYyXXv1Krsi+1L/QHppjX4Ifm8MQsBISz9vE8cHicIq3clogsheili5vhaQ==}
+  smol-toml@1.6.1:
+    resolution: {integrity: sha512-dWUG8F5sIIARXih1DTaQAX4SsiTXhInKf1buxdY9DIg4ZYPZK5nGM1VRIYmEbDbsHt7USo99xSLFu5Q1IqTmsg==}
     engines: {node: '>= 18'}
 
   socket.io-client@4.8.3:
@@ -8674,77 +8665,6 @@ packages:
 
   write-file-atomic@2.4.3:
     resolution: {integrity: sha512-GaETH5wwsX+GcnzhPgKcKjJ6M2Cq3/iZp1WyY/X1CSqrW+jVNM9Y7D8EC2sM4ZG/V8wZlSniJnCKWPmBYAucRQ==}
-
-  ws@6.2.3:
-    resolution: {integrity: sha512-jmTjYU0j60B+vHey6TfR3Z7RD61z/hmxBS3VMSGIrroOWXQEneK1zNuotOUrGyBHQj0yrpsLHPWtigEFd13ndA==}
-    peerDependencies:
-      bufferutil: ^4.0.1
-      utf-8-validate: ^5.0.2
-    peerDependenciesMeta:
-      bufferutil:
-        optional: true
-      utf-8-validate:
-        optional: true
-
-  ws@7.5.10:
-    resolution: {integrity: sha512-+dbF1tHwZpXcbOJdVOkzLDxZP1ailvSxM6ZweXTegylPny803bFhA+vqBYw4s31NSAk4S2Qz+AKXK9a4wkdjcQ==}
-    engines: {node: '>=8.3.0'}
-    peerDependencies:
-      bufferutil: ^4.0.1
-      utf-8-validate: ^5.0.2
-    peerDependenciesMeta:
-      bufferutil:
-        optional: true
-      utf-8-validate:
-        optional: true
-
-  ws@8.13.0:
-    resolution: {integrity: sha512-x9vcZYTrFPC7aSIbj7sRCYo7L/Xb8Iy+pW0ng0wt2vCJv7M9HOMy0UoN3rr+IFC7hb7vXoqS+P9ktyLLLhO+LA==}
-    engines: {node: '>=10.0.0'}
-    peerDependencies:
-      bufferutil: ^4.0.1
-      utf-8-validate: '>=5.0.2'
-    peerDependenciesMeta:
-      bufferutil:
-        optional: true
-      utf-8-validate:
-        optional: true
-
-  ws@8.18.0:
-    resolution: {integrity: sha512-8VbfWfHLbbwu3+N6OKsOMpBdT4kXPDDB9cJk2bJ6mh9ucxdlnNvH1e+roYkKmN9Nxw2yjz7VzeO9oOz2zJ04Pw==}
-    engines: {node: '>=10.0.0'}
-    peerDependencies:
-      bufferutil: ^4.0.1
-      utf-8-validate: '>=5.0.2'
-    peerDependenciesMeta:
-      bufferutil:
-        optional: true
-      utf-8-validate:
-        optional: true
-
-  ws@8.18.2:
-    resolution: {integrity: sha512-DMricUmwGZUVr++AEAe2uiVM7UoO9MAVZMDu05UQOaUII0lp+zOzLLU4Xqh/JvTqklB1T4uELaaPBKyjE1r4fQ==}
-    engines: {node: '>=10.0.0'}
-    peerDependencies:
-      bufferutil: ^4.0.1
-      utf-8-validate: '>=5.0.2'
-    peerDependenciesMeta:
-      bufferutil:
-        optional: true
-      utf-8-validate:
-        optional: true
-
-  ws@8.18.3:
-    resolution: {integrity: sha512-PEIGCY5tSlUt50cqyMXfCzX+oOPqN0vuGqWzbcJ2xvnkzkq46oOpz7dQaTDBdfICb4N14+GARUDw2XV2N4tvzg==}
-    engines: {node: '>=10.0.0'}
-    peerDependencies:
-      bufferutil: ^4.0.1
-      utf-8-validate: '>=5.0.2'
-    peerDependenciesMeta:
-      bufferutil:
-        optional: true
-      utf-8-validate:
-        optional: true
 
   ws@8.20.0:
     resolution: {integrity: sha512-sAt8BhgNbzCtgGbt2OxmpuryO63ZoDk/sqaB/znQm94T4fCEsy/yV+7CdC1kJhOU9lboAEU7R3kquuycDoibVA==}
@@ -10501,7 +10421,7 @@ snapshots:
       '@ethersproject/transactions': 5.8.0
       '@ethersproject/web': 5.8.0
       bech32: 1.1.4
-      ws: 8.18.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+      ws: 8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -11536,7 +11456,7 @@ snapshots:
       nocache: 3.0.4
       pretty-format: 26.6.2
       serve-static: 1.16.3
-      ws: 7.5.10(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+      ws: 8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)
     transitivePeerDependencies:
       - bufferutil
       - encoding
@@ -11697,7 +11617,7 @@ snapshots:
       selfsigned: 2.4.1
       serve-static: 1.16.3
       temp-dir: 2.0.0
-      ws: 6.2.3(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+      ws: 8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)
     transitivePeerDependencies:
       - bufferutil
       - encoding
@@ -13412,15 +13332,7 @@ snapshots:
 
   '@tanstack/devtools-event-client@0.4.3': {}
 
-  '@tanstack/form-core@0.19.5':
-    dependencies:
-      '@tanstack/store': 0.3.1
-
-  '@tanstack/form-core@0.42.1':
-    dependencies:
-      '@tanstack/store': 0.7.7
-
-  '@tanstack/form-core@1.28.5':
+  '@tanstack/form-core@1.28.6':
     dependencies:
       '@tanstack/devtools-event-client': 0.4.3
       '@tanstack/pacer-lite': 0.1.1
@@ -13432,7 +13344,7 @@ snapshots:
 
   '@tanstack/react-form@0.19.5(@types/react@18.3.28)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@tanstack/form-core': 0.19.5
+      '@tanstack/form-core': 1.28.6
       '@tanstack/react-store': 0.3.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       decode-formdata: 0.4.0
       react: 18.3.1
@@ -13441,9 +13353,9 @@ snapshots:
       - '@types/react'
       - react-dom
 
-  '@tanstack/react-form@1.28.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@tanstack/react-form@1.28.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@tanstack/form-core': 1.28.5
+      '@tanstack/form-core': 1.28.6
       '@tanstack/react-store': 0.9.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react: 18.3.1
     transitivePeerDependencies:
@@ -13476,20 +13388,18 @@ snapshots:
 
   '@tanstack/store@0.3.1': {}
 
-  '@tanstack/store@0.7.7': {}
-
   '@tanstack/store@0.9.3': {}
 
   '@tanstack/virtual-core@3.13.23': {}
 
   '@tanstack/zod-form-adapter@0.19.5(zod@3.25.76)':
     dependencies:
-      '@tanstack/form-core': 0.19.5
+      '@tanstack/form-core': 1.28.6
       zod: 3.25.76
 
   '@tanstack/zod-form-adapter@0.42.1(zod@3.25.76)':
     dependencies:
-      '@tanstack/form-core': 0.42.1
+      '@tanstack/form-core': 1.28.6
       zod: 3.25.76
 
   '@testing-library/dom@10.4.1':
@@ -14022,7 +13932,7 @@ snapshots:
       fs-extra: 11.1.1
       js-yaml: 4.1.1
       minimatch: 9.0.9
-      smol-toml: 1.5.2
+      smol-toml: 1.6.1
       zod: 3.22.4
 
   '@vercel/static-config@3.2.0':
@@ -14774,7 +14684,7 @@ snapshots:
       '@walletconnect/jsonrpc-utils': 1.0.8
       '@walletconnect/safe-json': 1.0.2
       events: 3.3.0
-      ws: 7.5.10(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+      ws: 8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -14784,7 +14694,7 @@ snapshots:
       '@walletconnect/jsonrpc-utils': 1.0.8
       '@walletconnect/safe-json': 1.0.2
       events: 3.3.0
-      ws: 7.5.10(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+      ws: 8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -16176,8 +16086,6 @@ snapshots:
 
   async-function@1.0.0: {}
 
-  async-limiter@1.0.1: {}
-
   async-listen@3.0.0: {}
 
   async-listen@3.0.1: {}
@@ -16979,7 +16887,7 @@ snapshots:
       '@socket.io/component-emitter': 3.1.2
       debug: 4.4.3
       engine.io-parser: 5.2.3
-      ws: 8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+      ws: 8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)
       xmlhttprequest-ssl: 2.1.2
     transitivePeerDependencies:
       - bufferutil
@@ -18174,25 +18082,21 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  isomorphic-ws@4.0.1(ws@7.5.10(bufferutil@4.1.0)(utf-8-validate@6.0.6)):
+  isomorphic-ws@4.0.1(ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)):
     dependencies:
-      ws: 7.5.10(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+      ws: 8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)
 
-  isows@1.0.3(ws@8.13.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)):
+  isows@1.0.3(ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)):
     dependencies:
-      ws: 8.13.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+      ws: 8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)
 
-  isows@1.0.6(ws@8.18.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)):
+  isows@1.0.6(ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)):
     dependencies:
-      ws: 8.18.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+      ws: 8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)
 
-  isows@1.0.7(ws@8.18.2(bufferutil@4.1.0)(utf-8-validate@6.0.6)):
+  isows@1.0.7(ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)):
     dependencies:
-      ws: 8.18.2(bufferutil@4.1.0)(utf-8-validate@6.0.6)
-
-  isows@1.0.7(ws@8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6)):
-    dependencies:
-      ws: 8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+      ws: 8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)
 
   iterator.prototype@1.1.5:
     dependencies:
@@ -18218,11 +18122,11 @@ snapshots:
       delay: 5.0.0
       es6-promisify: 5.0.0
       eyes: 0.1.8
-      isomorphic-ws: 4.0.1(ws@7.5.10(bufferutil@4.1.0)(utf-8-validate@6.0.6))
+      isomorphic-ws: 4.0.1(ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))
       json-stringify-safe: 5.0.1
       stream-json: 1.9.1
       uuid: 8.3.2
-      ws: 7.5.10(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+      ws: 8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -18819,7 +18723,7 @@ snapshots:
       source-map: 0.5.7
       strip-ansi: 6.0.1
       throat: 5.0.0
-      ws: 7.5.10(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+      ws: 8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)
       yargs: 17.7.2
     transitivePeerDependencies:
       - bufferutil
@@ -19770,7 +19674,7 @@ snapshots:
   react-devtools-core@5.3.2(bufferutil@4.1.0)(utf-8-validate@6.0.6):
     dependencies:
       shell-quote: 1.8.3
-      ws: 7.5.10(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+      ws: 8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -19847,7 +19751,7 @@ snapshots:
       scheduler: 0.24.0-canary-efb381bbf-20230505
       stacktrace-parser: 0.1.11
       whatwg-fetch: 3.6.20
-      ws: 6.2.3(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+      ws: 8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)
       yargs: 17.7.2
     optionalDependencies:
       '@types/react': 18.3.28
@@ -20308,7 +20212,7 @@ snapshots:
 
   slow-redact@0.3.2: {}
 
-  smol-toml@1.5.2: {}
+  smol-toml@1.6.1: {}
 
   socket.io-client@4.8.3(bufferutil@4.1.0)(utf-8-validate@6.0.6):
     dependencies:
@@ -21048,8 +20952,8 @@ snapshots:
       '@scure/bip32': 1.3.2
       '@scure/bip39': 1.2.1
       abitype: 0.9.8(typescript@5.9.3)(zod@3.25.76)
-      isows: 1.0.3(ws@8.13.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))
-      ws: 8.13.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+      isows: 1.0.3(ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))
+      ws: 8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)
     optionalDependencies:
       typescript: 5.9.3
     transitivePeerDependencies:
@@ -21064,9 +20968,9 @@ snapshots:
       '@scure/bip32': 1.6.2
       '@scure/bip39': 1.5.4
       abitype: 1.0.8(typescript@5.9.3)(zod@3.25.76)
-      isows: 1.0.6(ws@8.18.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))
+      isows: 1.0.6(ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))
       ox: 0.6.7(typescript@5.9.3)(zod@3.25.76)
-      ws: 8.18.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+      ws: 8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)
     optionalDependencies:
       typescript: 5.9.3
     transitivePeerDependencies:
@@ -21081,9 +20985,9 @@ snapshots:
       '@scure/bip32': 1.7.0
       '@scure/bip39': 1.6.0
       abitype: 1.0.8(typescript@5.9.3)(zod@3.25.76)
-      isows: 1.0.7(ws@8.18.2(bufferutil@4.1.0)(utf-8-validate@6.0.6))
+      isows: 1.0.7(ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))
       ox: 0.7.1(typescript@5.9.3)(zod@3.25.76)
-      ws: 8.18.2(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+      ws: 8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)
     optionalDependencies:
       typescript: 5.9.3
     transitivePeerDependencies:
@@ -21098,9 +21002,9 @@ snapshots:
       '@scure/bip32': 1.7.0
       '@scure/bip39': 1.6.0
       abitype: 1.2.3(typescript@5.9.3)(zod@3.22.4)
-      isows: 1.0.7(ws@8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))
+      isows: 1.0.7(ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))
       ox: 0.14.7(typescript@5.9.3)(zod@3.22.4)
-      ws: 8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+      ws: 8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)
     optionalDependencies:
       typescript: 5.9.3
     transitivePeerDependencies:
@@ -21115,9 +21019,9 @@ snapshots:
       '@scure/bip32': 1.7.0
       '@scure/bip39': 1.6.0
       abitype: 1.2.3(typescript@5.9.3)(zod@3.25.76)
-      isows: 1.0.7(ws@8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))
+      isows: 1.0.7(ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))
       ox: 0.14.7(typescript@5.9.3)(zod@3.25.76)
-      ws: 8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+      ws: 8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)
     optionalDependencies:
       typescript: 5.9.3
     transitivePeerDependencies:
@@ -21397,38 +21301,6 @@ snapshots:
       graceful-fs: 4.2.11
       imurmurhash: 0.1.4
       signal-exit: 3.0.7
-
-  ws@6.2.3(bufferutil@4.1.0)(utf-8-validate@6.0.6):
-    dependencies:
-      async-limiter: 1.0.1
-    optionalDependencies:
-      bufferutil: 4.1.0
-      utf-8-validate: 6.0.6
-
-  ws@7.5.10(bufferutil@4.1.0)(utf-8-validate@6.0.6):
-    optionalDependencies:
-      bufferutil: 4.1.0
-      utf-8-validate: 6.0.6
-
-  ws@8.13.0(bufferutil@4.1.0)(utf-8-validate@6.0.6):
-    optionalDependencies:
-      bufferutil: 4.1.0
-      utf-8-validate: 6.0.6
-
-  ws@8.18.0(bufferutil@4.1.0)(utf-8-validate@6.0.6):
-    optionalDependencies:
-      bufferutil: 4.1.0
-      utf-8-validate: 6.0.6
-
-  ws@8.18.2(bufferutil@4.1.0)(utf-8-validate@6.0.6):
-    optionalDependencies:
-      bufferutil: 4.1.0
-      utf-8-validate: 6.0.6
-
-  ws@8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6):
-    optionalDependencies:
-      bufferutil: 4.1.0
-      utf-8-validate: 6.0.6
 
   ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6):
     optionalDependencies:
