@@ -146,34 +146,34 @@ export class CartService {
       };
     }
 
-    let subtotal = 0;
-    let totalDiscount = 0;
-    let itemCount = 0;
+    const summary = this.cart.items.reduce(
+      (acc, item) => {
+        const itemTotal = item.price * item.quantity;
 
-    for (let i = 0; i < this.cart.items.length; i++) {
-      const item = this.cart.items[i];
-      const itemTotal = item.price * item.quantity;
+        acc.subtotal += itemTotal;
+        acc.itemCount += item.quantity;
 
-      subtotal += itemTotal;
-      itemCount += item.quantity;
-
-      if (item.discount) {
-        if (item.discount.type === "percentage") {
-          totalDiscount += itemTotal * (item.discount.value / 100);
-        } else if (item.discount.type === "fixed") {
-          totalDiscount += item.discount.value;
+        if (item.discount) {
+          if (item.discount.type === "percentage") {
+            acc.discount += itemTotal * (item.discount.value / 100);
+          } else if (item.discount.type === "fixed") {
+            acc.discount += item.discount.value;
+          }
         }
-      }
-    }
 
-    const total = subtotal - totalDiscount;
+        return acc;
+      },
+      { subtotal: 0, discount: 0, itemCount: 0 },
+    );
+
+    const total = summary.subtotal - summary.discount;
 
     return {
-      subtotal,
-      discount: totalDiscount,
+      subtotal: summary.subtotal,
+      discount: summary.discount,
       tax: 0, // Tax calculation would go here
       total: Math.max(0, total), // Ensure total is never negative
-      itemCount,
+      itemCount: summary.itemCount,
       currency: this.cart.currency,
     };
   }
