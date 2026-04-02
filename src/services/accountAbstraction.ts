@@ -4,6 +4,7 @@ import {
   LocalAccountSigner,
   type SmartAccountSigner,
   type SmartContractAccount,
+  type BatchUserOperationCallData,
 } from "@alchemy/aa-core";
 import {
   createAlchemySmartAccountClient,
@@ -398,10 +399,10 @@ class AccountAbstractionService {
           : targets.map((_, i) => values[i] || BigInt(0));
 
       // Create batch transaction objects
-      const requests = targets.map((target, i) => ({
-        to: target as `0x${string}`,
+      const requests: BatchUserOperationCallData = targets.map((target, i) => ({
+        target: target as `0x${string}`,
         data: datas[i] as `0x${string}`,
-        value: toHex(paddedValues[i]),
+        value: paddedValues[i],
       }));
 
       // Fix: Use the correct typing for batch transactions
