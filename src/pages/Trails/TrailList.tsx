@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Trail } from '../../types/trails';
 import { useNavigate } from 'react-router-dom';
-import { Play, CheckCircle2, Clock, Map, ClipboardList, Zap } from 'lucide-react';
+import { Play, CheckCircle2, Clock, Map, ClipboardList, Zap, ChevronRight } from 'lucide-react';
 import { TrailStorageService } from '../../services/trailStorageService';
 
-const TrailList = () => {
+interface TrailListProps {
+  hideHeader?: boolean;
+}
+
+const TrailList: React.FC<TrailListProps> = ({ hideHeader = false }) => {
   const navigate = useNavigate();
   const [trails, setTrails] = useState<Trail[]>([]);
   const [loading, setLoading] = useState(true);
@@ -12,7 +16,6 @@ const TrailList = () => {
   useEffect(() => {
     const fetchTrails = async () => {
       try {
-        // Fetch trail list - for now we'll hardcode the list of files to fetch
         const trailFiles = ['onboarding.json', 'business-map.json'];
         const trailData = await Promise.all(
           trailFiles.map(async (file) => {
@@ -39,9 +42,15 @@ const TrailList = () => {
   };
 
   const getIcon = (trailId: string) => {
-    if (trailId.includes('onboarding')) return <Zap className="text-orange-500" />;
-    if (trailId.includes('business')) return <Map className="text-blue-500" />;
-    return <ClipboardList className="text-purple-500" />;
+    if (trailId.includes('onboarding')) return <Zap size={24} />;
+    if (trailId.includes('business')) return <Map size={24} />;
+    return <ClipboardList size={24} />;
+  };
+
+  const getColors = (trailId: string) => {
+    if (trailId.includes('onboarding')) return 'bg-orange-100 text-orange-600 group-hover:bg-orange-500';
+    if (trailId.includes('business')) return 'bg-blue-100 text-blue-600 group-hover:bg-blue-500';
+    return 'bg-purple-100 text-purple-600 group-hover:bg-purple-500';
   };
 
   if (loading) {
@@ -53,13 +62,15 @@ const TrailList = () => {
   }
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-8">
-      <div className="mb-12">
-        <h1 className="text-3xl font-bold text-gray-800 mb-2">Minha Jornada</h1>
-        <p className="text-gray-500">
-          Siga as trilhas para desenvolver seu negócio e dominar as ferramentas Xperience.
-        </p>
-      </div>
+    <div className={hideHeader ? '' : 'max-w-5xl mx-auto px-4 py-8'}>
+      {!hideHeader && (
+        <div className="mb-12">
+          <h1 className="text-4xl font-black text-gray-900 mb-2 tracking-tight">Minha Jornada</h1>
+          <p className="text-gray-500 text-lg">
+            Siga as trilhas para desenvolver seu negócio e dominar as ferramentas Xperience.
+          </p>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {trails.map((trail) => {
@@ -70,37 +81,37 @@ const TrailList = () => {
           return (
             <div
               key={trail.trailId}
-              className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition cursor-pointer flex flex-col group"
+              className="bg-white rounded-[32px] p-8 shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all cursor-pointer flex flex-col group"
               onClick={() => navigate(`/trails/${trail.trailId}`)}
             >
-              <div className="flex justify-between items-start mb-4">
-                <div className="p-3 bg-gray-50 rounded-xl group-hover:bg-orange-50 transition-colors">
+              <div className="flex justify-between items-start mb-6">
+                <div className={`p-4 rounded-2xl transition-all duration-300 group-hover:text-white ${getColors(trail.trailId)}`}>
                   {getIcon(trail.trailId)}
                 </div>
                 {status === 'completed' ? (
-                  <span className="flex items-center gap-1 text-xs font-bold bg-green-100 text-green-700 px-2 py-1 rounded-full">
-                    <CheckCircle2 size={12} /> Concluída
+                  <span className="flex items-center gap-1.5 text-xs font-black bg-green-100 text-green-700 px-3 py-1.5 rounded-full uppercase tracking-wider">
+                    <CheckCircle2 size={14} /> Concluída
                   </span>
                 ) : status === 'in_progress' ? (
-                  <span className="flex items-center gap-1 text-xs font-bold bg-orange-100 text-orange-700 px-2 py-1 rounded-full">
-                    <Clock size={12} /> {progress}%
+                  <span className="flex items-center gap-1.5 text-xs font-black bg-orange-100 text-orange-700 px-3 py-1.5 rounded-full uppercase tracking-wider">
+                    <Clock size={14} /> {progress}%
                   </span>
                 ) : null}
               </div>
 
-              <h3 className="text-xl font-bold text-gray-800 mb-2 group-hover:text-orange-500 transition-colors">
+              <h3 className="text-2xl font-black text-gray-900 mb-3 tracking-tight">
                 {trail.title}
               </h3>
-              <p className="text-gray-600 text-sm mb-6 flex-grow">
+              <p className="text-gray-500 text-sm mb-8 flex-grow leading-relaxed">
                 {trail.description}
               </p>
 
-              <div className="pt-4 border-t border-gray-50 flex items-center justify-between">
-                <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">
+              <div className="pt-6 border-t border-gray-50 flex items-center justify-between">
+                <span className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">
                   {trail.steps.length} PASSOS
                 </span>
-                <button className="flex items-center gap-2 text-sm font-bold text-orange-500 group-hover:translate-x-1 transition-transform">
-                  {status === 'not_started' ? 'Começar' : 'Continuar'} <Play size={14} fill="currentColor" />
+                <button className="flex items-center gap-2 text-sm font-black text-orange-500 group-hover:gap-3 transition-all">
+                  {status === 'not_started' ? 'Começar' : 'Continuar'} <ChevronRight size={18} />
                 </button>
               </div>
             </div>
