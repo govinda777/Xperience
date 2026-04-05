@@ -1,0 +1,72 @@
+{
+  "trailId": "business-map",
+  "title": "Mapa do seu Negócio",
+  "description": "Uma análise profunda da sua estrutura empresarial e visão estratégica.",
+  "steps": [
+    {
+      "id": "visao_estrategica",
+      "title": "Visão Estratégica",
+      "description": "Como você enxerga o futuro do seu negócio?",
+      "type": "form",
+      "fields": [
+        {
+          "id": "proposito",
+          "label": "Qual o propósito central do seu negócio?",
+          "type": "textarea",
+          "required": true,
+          "placeholder": "Ex: Transformar a educação no Brasil..."
+        },
+        {
+          "id": "proposta_valor",
+          "label": "Qual a sua principal proposta de valor?",
+          "type": "textarea",
+          "required": true,
+          "placeholder": "Ex: Software de gestão que economiza 20h por semana..."
+        }
+      ]
+    },
+    {
+      "id": "operacao_equipe",
+      "title": "Operação e Equipe",
+      "description": "Como as coisas funcionam no dia a dia?",
+      "type": "form",
+      "fields": [
+        {
+          "id": "tamanho_equipe",
+          "label": "Quantas pessoas compõem a sua equipe hoje?",
+          "type": "select",
+          "required": true,
+          "options": [
+            { "label": "Sou só eu", "value": "1" },
+            { "label": "2 a 5 pessoas", "value": "2_5" },
+            { "label": "6 a 20 pessoas", "value": "6_20" },
+            { "label": "Mais de 20 pessoas", "value": "acima_20" }
+          ]
+        },
+        {
+          "id": "principais_canais",
+          "label": "Quais seus principais canais de aquisição?",
+          "type": "checkbox",
+          "required": true,
+          "options": [
+            { "label": "Tráfego Pago", "value": "trafego_pago" },
+            { "label": "Orgânico / Redes Sociais", "value": "organico" },
+            { "label": "Indicação", "value": "indicacao" },
+            { "label": "Outros", "value": "outros" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "geracao_mapa",
+      "title": "Gerando o Mapa do seu Negócio",
+      "description": "Estamos analisando toda a sua estrutura...",
+      "type": "ai_step",
+      "action": "generate_business_map",
+      "prompt": "Consolide todos os dados coletados: Visão Estratégica ({{visao_estrategica}}) e Operação/Equipe ({{operacao_equipe}}). Crie um documento 'Dossiê: Mapa do Negócio' com uma análise SWOT baseada nessas informações, sugestões de melhoria para a operação atual e um roteiro de escala para os próximos 6 meses.",
+      "persist": true,
+      "display": true,
+      "loadingMessage": "O Gemini 1.5 Pro está gerando o dossiê estratégico do seu negócio..."
+    }
+  ]
+}

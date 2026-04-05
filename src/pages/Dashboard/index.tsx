@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { Bot, BarChart3, Folder, Settings, FileText, Trash2, Clock, AlertCircle, X } from "lucide-react";
+import { Bot, BarChart3, Folder, Settings, FileText, Trash2, Clock, AlertCircle, X, Map } from "lucide-react";
 import { ReportSessionService, Report } from "../../services/reportSessionService";
 
 const Dashboard = () => {
@@ -78,6 +78,20 @@ const Dashboard = () => {
                     <h2 className="text-2xl font-bold text-gray-800 mb-6">Visão Geral</h2>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {/* Minha Jornada - Link Ativo */}
+                        <div
+                            onClick={() => navigate('/trails')}
+                            className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition cursor-pointer border border-gray-100 group"
+                        >
+                            <div className="flex items-center gap-4 mb-4">
+                                <div className="p-3 bg-orange-100 text-orange-600 rounded-lg group-hover:bg-orange-600 group-hover:text-white transition-colors">
+                                    <Map size={24} />
+                                </div>
+                                <h3 className="text-xl font-bold text-gray-800">Minha Jornada</h3>
+                            </div>
+                            <p className="text-gray-600">Complete trilhas de onboarding e estratégicas para o seu negócio.</p>
+                        </div>
+
                         {/* Agentes - Link Ativo */}
                         <div
                             onClick={() => navigate('/agents')}
