@@ -103,9 +103,6 @@ const Dashboard = () => {
     <div className="min-h-screen bg-[#FDFCFB] flex flex-col md:flex-row">
       {/* Sidebar */}
       <aside className="w-full md:w-64 bg-white border-r border-gray-100 p-6 flex flex-col shrink-0">
-        <div className="mb-10 px-2">
-            <h2 className="text-xl font-black text-gray-900 tracking-tight uppercase italic">Xperience <span className="text-orange-500">Hub</span></h2>
-        </div>
 
         <nav className="space-y-2 flex-grow">
           {renderSidebarItem('overview', 'Dashboard', <LayoutDashboard size={20} />)}
