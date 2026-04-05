@@ -4,11 +4,11 @@ import { useChat } from '@ai-sdk/react';
 import { AgentInspectorPanel } from '../../components/agent/AgentInspectorPanel';
 import { Button, Input } from '../../components/styled/styled';
 import { Agent } from './types';
-import { Send, Bot, User, Cpu, Circle, ArrowLeft, BookOpen, Save, Loader2 } from 'lucide-react';
+import { Send, Bot, User, Cpu, Circle, ArrowLeft, BookOpen, Save, Loader2, Info } from 'lucide-react';
 
-const PageContainer = styled.div`
+const PageContainer = styled.div<{ $showInspector: boolean }>`
   display: grid;
-  grid-template-columns: 280px 1fr 350px;
+  grid-template-columns: 280px 1fr ${props => props.$showInspector ? '350px' : '0px'};
   height: calc(100vh - 70px);
   background-color: #f1f3f5;
   overflow: hidden;
@@ -175,6 +175,7 @@ const AgentChat: React.FC<Props> = ({ agent, onUpdateAgent, onBack }) => {
   const [channel, setChannel] = useState('web');
   const [context, setContext] = useState((agent && agent.context) || '');
   const [isSavingContext, setIsSavingContext] = useState(false);
+  const [showInspector, setShowInspector] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat({
@@ -240,10 +241,23 @@ const AgentChat: React.FC<Props> = ({ agent, onUpdateAgent, onBack }) => {
                 <option value="whatsapp">WhatsApp</option>
                 <option value="telegram">Telegram</option>
             </ChannelSelect>
+            <Button
+                onClick={() => setShowInspector(!showInspector)}
+                style={{
+                    padding: '6px',
+                    minWidth: 'auto',
+                    backgroundColor: showInspector ? '#007bff' : 'transparent',
+                    color: showInspector ? 'white' : '#495057',
+                    border: '1px solid #dee2e6'
+                }}
+                title={showInspector ? "Esconder Inspetor" : "Mostrar Inspetor"}
+            >
+                <Info size={18} />
+            </Button>
         </HeaderRight>
       </Header>
 
-      <PageContainer>
+      <PageContainer $showInspector={showInspector}>
         {/* Sidebar for Context */}
         <SidebarContainer>
             <SidebarHeader>
@@ -351,11 +365,13 @@ const AgentChat: React.FC<Props> = ({ agent, onUpdateAgent, onBack }) => {
         </ChatArea>
 
         {/* Inspector Panel */}
-        <AgentInspectorPanel
-            state={{ messages, isLoading }}
-            isLoading={isLoading}
-            onSendMessage={() => {}}
-        />
+        {showInspector && (
+            <AgentInspectorPanel
+                state={{ messages, isLoading }}
+                isLoading={isLoading}
+                onSendMessage={() => {}}
+            />
+        )}
       </PageContainer>
     </div>
   );

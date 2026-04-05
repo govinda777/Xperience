@@ -140,7 +140,7 @@ const Dashboard = () => {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 overflow-y-auto h-screen p-4 md:p-10">
+      <main className="flex-1 p-4 md:p-10">
         <div className="max-w-6xl mx-auto">
             {view === 'overview' && (
                 <div className="space-y-10">
