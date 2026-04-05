@@ -15,6 +15,8 @@ import LeadsManager from "./pages/LeadsManager";
 import Transparencia from "./pages/Transparencia";
 import HealthDashboard from "./pages/Health";
 import TestSessionPage from "./pages/TestSession";
+import TrailList from "./pages/Trails/TrailList";
+import TrailRunnerPage from "./pages/Trails/TrailRunnerPage";
 import DefaultLayout from "./layouts/DefaultLayout";
 import ProtectedRoute from "./components/ProtectedRoute";
 import "@twa-dev/sdk";
@@ -55,6 +57,22 @@ function App() {
             element={
               <ProtectedRoute>
                 <HealthDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/trails"
+            element={
+              <ProtectedRoute>
+                <TrailList />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/trails/:trailId"
+            element={
+              <ProtectedRoute>
+                <TrailRunnerPage />
               </ProtectedRoute>
             }
           />

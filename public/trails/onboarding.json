@@ -1,0 +1,72 @@
+{
+  "trailId": "onboarding",
+  "title": "Onboarding Xperience",
+  "description": "Bem-vindo! Vamos configurar seu perfil e entender como podemos te ajudar a escalar.",
+  "steps": [
+    {
+      "id": "boas_vindas",
+      "title": "Bem-vindo à Xperience",
+      "description": "Estamos felizes em ter você aqui. Vamos começar com o básico?",
+      "type": "form",
+      "fields": [
+        {
+          "id": "nome_completo",
+          "label": "Como gostaria de ser chamado?",
+          "type": "text",
+          "required": true,
+          "placeholder": "Ex: João Silva"
+        },
+        {
+          "id": "objetivo_principal",
+          "label": "Qual seu objetivo principal hoje?",
+          "type": "select",
+          "required": true,
+          "options": [
+            { "label": "Escalar meu negócio", "value": "escalar" },
+            { "label": "Criar um novo produto", "value": "criar_produto" },
+            { "label": "Automatizar processos", "value": "automatizar" },
+            { "label": "Apenas explorar", "value": "explorar" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "contexto_negocio",
+      "title": "Sobre seu Negócio",
+      "description": "Conte-nos um pouco sobre o que você faz.",
+      "type": "form",
+      "fields": [
+        {
+          "id": "nicho",
+          "label": "Qual o nicho do seu negócio?",
+          "type": "text",
+          "required": true,
+          "placeholder": "Ex: Educação, E-commerce, SaaS"
+        },
+        {
+          "id": "faturamento_atual",
+          "label": "Faturamento médio mensal",
+          "type": "radio",
+          "required": true,
+          "options": [
+            { "label": "Até R$ 10k", "value": "ate_10k" },
+            { "label": "R$ 10k - R$ 50k", "value": "10k_50k" },
+            { "label": "R$ 50k - R$ 200k", "value": "50k_200k" },
+            { "label": "Acima de R$ 200k", "value": "acima_200k" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gera_boas_vindas",
+      "title": "Gerando seu Roteiro",
+      "description": "Estamos preparando uma recepção personalizada para você.",
+      "type": "ai_step",
+      "action": "onboarding_welcome",
+      "prompt": "Com base nos dados de onboarding: {{boas_vindas}} e {{contexto_negocio}}, dê as boas vindas personalizadas ao usuário, valide o objetivo dele e sugira os primeiros 3 passos que ele deve tomar dentro da plataforma Xperience para alcançar o sucesso no nicho dele.",
+      "persist": true,
+      "display": true,
+      "loadingMessage": "Criando sua jornada personalizada..."
+    }
+  ]
+}
