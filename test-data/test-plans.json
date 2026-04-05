@@ -4,7 +4,11 @@
     "name": "Essencial",
     "price": 297,
     "currency": "BRL",
-    "features": ["Acesso básico", "Suporte por email", "30 dias de garantia"]
+    "features": [
+      "Acesso básico",
+      "Suporte por email",
+      "30 dias de garantia"
+    ]
   },
   {
     "id": "expert",
