@@ -65,3 +65,5 @@ Ao migrar para um modelo de assinatura focada em **conveniência** e **nutriçã
 - [Consultoria Empreendedora](./consultoria-empreendedora.md)
 - [Agência de Marketing](./agencia-marketing.md)
 - [Loja de Roupas](./loja-roupas.md)
+- [Startup B2B SaaS](./startup-saas.md)
+- [Food Truck e Comida de Rua](./food-truck.md)

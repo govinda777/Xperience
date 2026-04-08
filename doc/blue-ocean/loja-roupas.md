@@ -66,3 +66,5 @@ Ao adotar o posicionamento de **Clube de Curadoria de Imagem**, a loja foge da c
 - [Consultoria Empreendedora](./consultoria-empreendedora.md)
 - [Delivery de Comida Saudável](./delivery-saudavel.md)
 - [Agência de Marketing](./agencia-marketing.md)
+- [Startup B2B SaaS](./startup-saas.md)
+- [Food Truck e Comida de Rua](./food-truck.md)

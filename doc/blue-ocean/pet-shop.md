@@ -68,3 +68,5 @@ Ao focar no bem-estar e na transparência, o negócio sai da guerra de preços d
 - [Cafeteria](./cafeteria.md)
 - [Oficina Mecânica](./oficina-mecanica.md)
 - [Escola de Idiomas](./escola-idiomas.md)
+- [Startup B2B SaaS](./startup-saas.md)
+- [Food Truck e Comida de Rua](./food-truck.md)
