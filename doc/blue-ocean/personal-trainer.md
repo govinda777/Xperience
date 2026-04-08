@@ -70,3 +70,5 @@ Ao adotar o modelo híbrido, um personal que antes atendia no máximo 10 alunos 
 - [Cafeteria](./cafeteria.md)
 - [Oficina Mecânica](./oficina-mecanica.md)
 - [Escola de Idiomas](./escola-idiomas.md)
+- [Startup B2B SaaS](./startup-saas.md)
+- [Food Truck e Comida de Rua](./food-truck.md)

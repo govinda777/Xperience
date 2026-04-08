@@ -68,3 +68,5 @@ Ao focar na **comunidade** e no **estilo de vida**, a academia deixa de competir
 - [Cafeteria](./cafeteria.md)
 - [Oficina Mecânica](./oficina-mecanica.md)
 - [Escola de Idiomas](./escola-idiomas.md)
+- [Startup B2B SaaS](./startup-saas.md)
+- [Food Truck e Comida de Rua](./food-truck.md)

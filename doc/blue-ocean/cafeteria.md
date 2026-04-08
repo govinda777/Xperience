@@ -68,3 +68,5 @@ Ao convidar o cliente para ficar, em vez de apressá-lo para sair, a cafeteria s
 - [Pet Shop](./pet-shop.md)
 - [Oficina Mecânica](./oficina-mecanica.md)
 - [Escola de Idiomas](./escola-idiomas.md)
+- [Startup B2B SaaS](./startup-saas.md)
+- [Food Truck e Comida de Rua](./food-truck.md)

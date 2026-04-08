@@ -65,3 +65,5 @@ Ao adotar o posicionamento de **Parceiro de Crescimento**, a agência se desvenc
 - [Consultoria Empreendedora](./consultoria-empreendedora.md)
 - [Delivery de Comida Saudável](./delivery-saudavel.md)
 - [Loja de Roupas](./loja-roupas.md)
+- [Startup B2B SaaS](./startup-saas.md)
+- [Food Truck e Comida de Rua](./food-truck.md)

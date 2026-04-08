@@ -68,3 +68,5 @@ Ao aplicar o conceito de "Transparência Total" via ferramentas digitais simples
 - [Pet Shop](./pet-shop.md)
 - [Cafeteria](./cafeteria.md)
 - [Escola de Idiomas](./escola-idiomas.md)
+- [Startup B2B SaaS](./startup-saas.md)
+- [Food Truck e Comida de Rua](./food-truck.md)

@@ -68,3 +68,5 @@ Ao focar na **experiência masculina** e na **recorrência (assinatura)**, a bar
 - [Cafeteria](./cafeteria.md)
 - [Oficina Mecânica](./oficina-mecanica.md)
 - [Escola de Idiomas](./escola-idiomas.md)
+- [Startup B2B SaaS](./startup-saas.md)
+- [Food Truck e Comida de Rua](./food-truck.md)

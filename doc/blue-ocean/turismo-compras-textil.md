@@ -70,3 +70,5 @@ Ao migrar do modelo de transporte de massa para o modelo de consultoria e experi
 - [Cafeteria](./cafeteria.md)
 - [Oficina Mecânica](./oficina-mecanica.md)
 - [Escola de Idiomas](./escola-idiomas.md)
+- [Startup B2B SaaS](./startup-saas.md)
+- [Food Truck e Comida de Rua](./food-truck.md)
