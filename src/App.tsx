@@ -27,8 +27,8 @@ import "@twa-dev/sdk";
 function App() {
   return (
     <HelmetProvider>
-      <AnalyticsProvider>
-        <BrowserRouter>
+      <BrowserRouter>
+        <AnalyticsProvider>
           <Routes>
             {/* Public Routes with DefaultLayout */}
             <Route element={<DefaultLayout><Home /></DefaultLayout>} path="/" />
@@ -95,8 +95,8 @@ function App() {
               }
             />
           </Routes>
-        </BrowserRouter>
-      </AnalyticsProvider>
+        </AnalyticsProvider>
+      </BrowserRouter>
     </HelmetProvider>
   );
 }
