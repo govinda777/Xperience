@@ -104,7 +104,7 @@ const Dashboard = () => {
       {/* Sidebar */}
       <aside className="w-full md:w-64 bg-white border-r border-gray-100 p-6 flex flex-col shrink-0">
         <div className="mb-10 px-2">
-            <h2 className="text-xl font-black text-gray-900 tracking-tight uppercase italic">Xperience <span className="text-orange-500">Hub</span></h2>
+            <img src="/logo.svg" alt="Xperience Hub" className="h-10 w-auto" />
         </div>
 
         <nav className="space-y-2 flex-grow">
