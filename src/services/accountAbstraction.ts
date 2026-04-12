@@ -200,19 +200,23 @@ class AccountAbstractionService {
     data: string,
     value: bigint = BigInt(0),
   ): Promise<string> {
-    if (!this.alchemyClient || !this.alchemyClient.account) {
+    const client = this.alchemyClient;
+    const account = this.alchemyClient?.account;
+
+    if (!client || !account) {
       throw new Error("Alchemy Provider or Account not initialized");
     }
 
     try {
-      const hash = await this.alchemyClient.sendTransaction({
+      const hash = await client.sendTransaction({
         to: target as `0x${string}`,
         data: data as `0x${string}`,
         value,
-      } as any); // Use type assertion to bypass type checking
+        account,
+      });
 
       // Wait for the transaction to be included in a block
-      const txHash = await this.alchemyClient.waitForUserOperationTransaction({
+      const txHash = await client.waitForUserOperationTransaction({
         hash,
       });
 
@@ -387,7 +391,10 @@ class AccountAbstractionService {
     datas: string[],
     values: bigint[] = [],
   ): Promise<string> {
-    if (!this.alchemyClient || !this.alchemyClient.account) {
+    const client = this.alchemyClient;
+    const account = this.alchemyClient?.account;
+
+    if (!client || !account) {
       throw new Error("Alchemy Provider or Account not initialized");
     }
 
@@ -405,14 +412,14 @@ class AccountAbstractionService {
         value: paddedValues[i],
       }));
 
-      // Fix: Use the correct typing for batch transactions
-      const hash = await this.alchemyClient.sendTransactions({
+      // Use the correct typing for batch transactions
+      const hash = await client.sendTransactions({
         requests,
-        account: this.alchemyClient.account,
+        account,
       });
 
       // Wait for the transaction to be included in a block
-      const txHash = await this.alchemyClient.waitForUserOperationTransaction({
+      const txHash = await client.waitForUserOperationTransaction({
         hash,
       });
 
