@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Step, Trail } from '../../types/trails';
 import { Loader2, FileText, CheckCircle2, AlertCircle } from 'lucide-react';
+import { interpolatePrompt } from '../../utils/trailUtils';
 
 interface TrailAIStepProps {
   step: Step;
@@ -25,50 +26,13 @@ const TrailAIStep: React.FC<TrailAIStepProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<string | null>(null);
 
-  const interpolatePrompt = (prompt: string, data: Record<string, any>) => {
-    let interpolated = prompt;
-
-    // Find all {{stepId}} patterns
-    const matches = prompt.match(/{{(.*?)}}/g);
-
-    if (matches) {
-      matches.forEach(match => {
-        const stepId = match.replace(/{{|}}/g, '');
-        const stepValue = data[stepId];
-
-        let replacement = '';
-        if (stepValue) {
-          if (typeof stepValue === 'object') {
-            // Form data - format as "Question: Answer"
-            const stepConfig = trail.steps.find(s => s.id === stepId);
-            if (stepConfig && stepConfig.fields) {
-              replacement = stepConfig.fields.map(field => {
-                const val = stepValue[field.id];
-                const label = field.label;
-                return `${label}: ${Array.isArray(val) ? val.join(', ') : val}`;
-              }).join('\n');
-            } else {
-              replacement = JSON.stringify(stepValue);
-            }
-          } else {
-            replacement = String(stepValue);
-          }
-        }
-
-        interpolated = interpolated.replace(match, replacement);
-      });
-    }
-
-    return interpolated;
-  };
-
   useEffect(() => {
     const callAI = async () => {
       setLoading(true);
       setError(null);
 
       try {
-        const prompt = interpolatePrompt(step.prompt || '', allData);
+        const prompt = interpolatePrompt(step.prompt || '', allData, trail);
 
         const response = await fetch('/api/report', {
           method: 'POST',
