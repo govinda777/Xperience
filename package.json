@@ -165,7 +165,8 @@
       "smol-toml": "^1.6.1",
       "@tanstack/form-core": "^1.28.6",
       "defu": "^6.1.7",
-      "hono": "^4.12.12",
+      "hono": "^4.12.14",
+      "langsmith": "^0.5.21",
       "@stablelib/ed25519": "^2.1.0"
     }
   }
