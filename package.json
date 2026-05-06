@@ -64,7 +64,7 @@
     "@walletconnect/ethereum-provider": "^2.23.9",
     "@walletconnect/universal-provider": "^2.23.9",
     "ai": "^6.0.141",
-    "axios": "^1.13.2",
+    "axios": "^1.13.6",
     "browserify-sign": "^4.2.3",
     "buffer": "^6.0.3",
     "crypto-js": "^4.2.0",
@@ -136,7 +136,7 @@
   },
   "pnpm": {
     "overrides": {
-      "fast-xml-parser": "^5.5.7",
+      "fast-xml-parser": "^5.7.2",
       "flatted": "^3.4.2",
       "h3": "^1.15.9",
       "socket.io-parser": "^4.2.6",
@@ -165,8 +165,11 @@
       "smol-toml": "^1.6.1",
       "@tanstack/form-core": "^1.28.6",
       "defu": "^6.1.7",
-      "hono": "^4.12.12",
-      "@stablelib/ed25519": "^2.1.0"
+      "hono": "^4.12.15",
+      "@stablelib/ed25519": "^2.1.0",
+      "uuid": "^14.0.0",
+      "postcss": "^8.5.12",
+      "langsmith": "^0.5.26"
     }
   }
 }
