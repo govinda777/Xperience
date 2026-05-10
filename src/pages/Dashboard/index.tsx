@@ -23,6 +23,7 @@ import { ReportSessionService, Report } from "../../services/reportSessionServic
 import { TrailStorageService } from "../../services/trailStorageService";
 import { Trail } from "../../types/trails";
 import TrailList from "../Trails/TrailList";
+import { UserXPBadge } from "../../components/UserXPBadge";
 
 type DashboardView = 'overview' | 'trails' | 'reports' | 'agents';
 
@@ -121,6 +122,9 @@ const Dashboard = () => {
         </nav>
 
         <div className="pt-6 border-t border-gray-100 mt-6">
+            <div className="px-4 mb-4">
+                <UserXPBadge />
+            </div>
             <div className="flex items-center gap-3 px-4 py-3 mb-6 bg-gray-50 rounded-xl">
                 <div className="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center text-white font-bold text-sm">
                     {(user?.email?.address?.charAt(0) || "U").toUpperCase()}
@@ -144,9 +148,30 @@ const Dashboard = () => {
         <div className="max-w-6xl mx-auto">
             {view === 'overview' && (
                 <div className="space-y-10">
-                    <header>
-                        <h1 className="text-4xl font-black text-gray-900 mb-2 tracking-tight">Bem-vindo, {user?.email?.address?.split('@')[0] || 'Empreendedor'}!</h1>
-                        <p className="text-gray-500 text-lg">Aqui está o resumo da sua evolução na plataforma.</p>
+                    <header className="flex justify-between items-start">
+                        <div>
+                            <h1 className="text-4xl font-black text-gray-900 mb-2 tracking-tight">Bem-vindo, {user?.email?.address?.split('@')[0] || 'Empreendedor'}!</h1>
+                            <p className="text-gray-500 text-lg">Aqui está o resumo da sua evolução na plataforma.</p>
+                        </div>
+                        <button
+                            onClick={async () => {
+                                const token = window.localStorage.getItem('privy:token');
+                                await fetch('/api/xp', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'Authorization': `Bearer ${token}`
+                                    },
+                                    body: JSON.stringify({ amount: 10, reason: 'Teste Dashboard' })
+                                });
+                                window.dispatchEvent(new Event('storage')); // Trigger update
+                                window.location.reload(); // Simple way to refresh for now
+                            }}
+                            className="bg-amber-100 text-amber-700 px-4 py-2 rounded-xl font-bold text-sm hover:bg-amber-200 transition-all flex items-center gap-2"
+                        >
+                            <Zap size={16} fill="currentColor" />
+                            Ganhar +10 XP
+                        </button>
                     </header>
 
                     {/* Onboarding Highlight */}

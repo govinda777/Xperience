@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { kv } from '../lib/kv.js';
+import { setCorsHeaders } from '../_lib/middleware.js';
 
 const anonimizarNome = (str?: string) => str && str.length > 4 ? str.slice(0,4) + '...' : str || 'Anônimo';
 const anonimizarEmail = (email?: string) => email ? email.replace(/(.{1,3}).+@(.{1,3}).+/, '$1***@$2***') : '***@***';
@@ -8,14 +9,7 @@ export default async function handler(
   request: VercelRequest,
   response: VercelResponse
 ) {
-  // Enable CORS
-  response.setHeader('Access-Control-Allow-Credentials', 'true');
-  response.setHeader('Access-Control-Allow-Origin', '*');
-  response.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
-  response.setHeader(
-    'Access-Control-Allow-Headers',
-    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
-  );
+  setCorsHeaders(response);
 
   if (request.method === 'OPTIONS') {
     response.status(200).end();

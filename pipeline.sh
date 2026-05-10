@@ -64,6 +64,16 @@ log_info "Executando linting..."
 npm run lint
 check_result "Linting falhou" "Linting passou"
 
+# 3.1 Verificar código morto
+log_info "Verificando código morto..."
+pnpm run lint:unused
+check_result "Verificação de código morto falhou" "Nenhum código morto crítico encontrado"
+
+# 3.2 Verificar duplicação de código
+log_info "Verificando duplicação de código..."
+pnpm run lint:duplicate
+check_result "Detecção de duplicação falhou" "Duplicação de código sob controle"
+
 # 4. Executar testes unitários
 log_info "Executando testes unitários..."
 npm run test:unit

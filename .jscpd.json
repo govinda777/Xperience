@@ -1,0 +1,7 @@
+{
+  "threshold": 5,
+  "reporters": ["console", "json"],
+  "ignore": ["**/__tests__/**", "**/__mocks__/**", "node_modules/**", "dist/**", "reports/**"],
+  "absolute": true,
+  "format": ["typescript", "javascript", "tsx"]
+}
