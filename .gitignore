@@ -23,6 +23,10 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# monitoring tools
+.knip
+report/
+
 # Arquivos do sistema
 .DS_Store
 Thumbs.db

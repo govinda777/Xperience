@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Plan } from "../../types/payment";
+import { useCryptoPrice } from "../../hooks/useCryptoPrice";
 
 interface USDTPaymentComponentProps {
   plan: Plan;
@@ -16,42 +17,16 @@ export const USDTPaymentComponent: React.FC<USDTPaymentComponentProps> = ({
   isProcessing,
   disabled = false,
 }) => {
-  const [usdtPrice, setUsdtPrice] = useState<number>(0);
-  const [usdtAmount, setUsdtAmount] = useState<number>(0);
   const [showInstructions, setShowInstructions] = useState(false);
-  const [loadingPrice, setLoadingPrice] = useState(true);
   const [selectedNetwork, setSelectedNetwork] = useState<
     "ethereum" | "polygon"
   >("ethereum");
 
-  // Carregar cotação do USDT
-  useEffect(() => {
-    const fetchUSDTPrice = async () => {
-      try {
-        setLoadingPrice(true);
-        const response = await fetch(
-          "https://api.coingecko.com/api/v3/simple/price?ids=tether&vs_currencies=brl",
-        );
-        const data = await response.json();
-        const price = data.tether.brl;
-        setUsdtPrice(price);
-        setUsdtAmount(finalPrice / price);
-      } catch (error) {
-        console.error("Erro ao buscar cotação USDT:", error);
-        // Fallback com cotação aproximada (1 USDT ≈ R$ 5,50)
-        setUsdtPrice(5.5);
-        setUsdtAmount(finalPrice / 5.5);
-      } finally {
-        setLoadingPrice(false);
-      }
-    };
-
-    fetchUSDTPrice();
-
-    // Atualizar cotação a cada 30 segundos
-    const interval = setInterval(fetchUSDTPrice, 30000);
-    return () => clearInterval(interval);
-  }, [finalPrice]);
+  const {
+    price: usdtPrice,
+    amount: usdtAmount,
+    loading: loadingPrice,
+  } = useCryptoPrice("tether", finalPrice, 5.5);
 
   const networkInfo = {
     ethereum: {

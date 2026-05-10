@@ -1,0 +1,33 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "entry": ["src/main.tsx", "api/index.ts"],
+  "project": ["src/**/*.{ts,tsx}", "api/**/*.ts"],
+  "ignore": ["**/*.d.ts", "**/__tests__/**", "**/__mocks__/**", "dist/**", "report/**"],
+  "ignoreDependencies": [
+    "vite-plugin-node-polyfills",
+    "@babel/core",
+    "autoprefixer",
+    "postcss",
+    "tailwindcss",
+    "@walletconnect/ethereum-provider",
+    "@walletconnect/universal-provider",
+    "ethers",
+    "ton",
+    "ton-core",
+    "ton-crypto",
+    "@orbs-network/ton-access",
+    "@tonconnect/ui-react",
+    "viem",
+    "userop",
+    "@alchemy/aa-core",
+    "@alchemy/aa-alchemy",
+    "@alchemy/aa-accounts",
+    "@account-abstraction/contracts",
+    "@auth0/auth0-react",
+    "@safe-global/safe-apps-provider",
+    "@safe-global/safe-apps-sdk",
+    "@tanstack/react-form",
+    "@tanstack/zod-form-adapter"
+  ],
+  "ignoreBinaries": ["secretlint"]
+}

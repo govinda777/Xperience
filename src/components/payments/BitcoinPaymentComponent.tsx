@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Plan } from "../../types/payment";
+import { useCryptoPrice } from "../../hooks/useCryptoPrice";
 
 interface BitcoinPaymentComponentProps {
   plan: Plan;
@@ -12,39 +13,13 @@ interface BitcoinPaymentComponentProps {
 export const BitcoinPaymentComponent: React.FC<
   BitcoinPaymentComponentProps
 > = ({ plan, finalPrice, onProcess, isProcessing, disabled = false }) => {
-  const [btcPrice, setBtcPrice] = useState<number>(0);
-  const [btcAmount, setBtcAmount] = useState<number>(0);
   const [showInstructions, setShowInstructions] = useState(false);
-  const [loadingPrice, setLoadingPrice] = useState(true);
 
-  // Carregar cotação do Bitcoin
-  useEffect(() => {
-    const fetchBitcoinPrice = async () => {
-      try {
-        setLoadingPrice(true);
-        const response = await fetch(
-          "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=brl",
-        );
-        const data = await response.json();
-        const price = data.bitcoin.brl;
-        setBtcPrice(price);
-        setBtcAmount(finalPrice / price);
-      } catch (error) {
-        console.error("Erro ao buscar cotação Bitcoin:", error);
-        // Fallback com cotação aproximada
-        setBtcPrice(300000); // ~R$ 300k por BTC
-        setBtcAmount(finalPrice / 300000);
-      } finally {
-        setLoadingPrice(false);
-      }
-    };
-
-    fetchBitcoinPrice();
-
-    // Atualizar cotação a cada 30 segundos
-    const interval = setInterval(fetchBitcoinPrice, 30000);
-    return () => clearInterval(interval);
-  }, [finalPrice]);
+  const {
+    price: btcPrice,
+    amount: btcAmount,
+    loading: loadingPrice
+  } = useCryptoPrice("bitcoin", finalPrice, 300000);
 
   return (
     <div className="bitcoin-payment-component">

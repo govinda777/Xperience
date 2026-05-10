@@ -1,4 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { setCorsHeaders } from './_lib/middleware.js';
 import agentHandler from './_routes/agent.js';
 import reportHandler from './_routes/report.js';
 import chatHandler from './_routes/chat.js';
@@ -18,14 +19,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   console.log(`[Router] ${req.method} ${path}`);
 
-  // Basic CORS for all routes (consistent with existing handlers)
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
-  res.setHeader(
-    'Access-Control-Allow-Headers',
-    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization'
-  );
+  // Set global CORS headers
+  setCorsHeaders(res);
 
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
