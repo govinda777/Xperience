@@ -53,3 +53,7 @@ coverage/
 
 # Arquivos JavaScript gerados a partir de TypeScript
 src/**/*.js
+
+# Playwright
+playwright-report/
+test-results/
