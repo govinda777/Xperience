@@ -1,49 +1,68 @@
 import React, { useState, useEffect } from 'react';
 import { Trail, Step, TrailState } from '../../types/trails';
-import { TrailStorageService } from '../../services/trailStorageService';
 import TrailForm from './TrailForm';
 import TrailAIStep from './TrailAIStep';
 import TrailProgress from './TrailProgress';
-import { ChevronLeft, CheckCircle2, ArrowRight } from 'lucide-react';
+import { ChevronLeft, CheckCircle2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useStorage } from '../../hooks/useStorage';
 
 interface TrailRunnerProps {
   trail: Trail;
   onComplete?: (state: TrailState) => void;
 }
 
+const TRAILS_SESSION_KEY = 'xperience_trails_session';
+
 const TrailRunner: React.FC<TrailRunnerProps> = ({ trail, onComplete }) => {
   const navigate = useNavigate();
-  const [state, setState] = useState<TrailState>(TrailStorageService.getTrailState(trail.trailId));
+  const [trailsSession, setTrailsSession] = useStorage<Record<string, TrailState>>(
+    TRAILS_SESSION_KEY,
+    {},
+    'session'
+  );
+
+  const defaultState: TrailState = {
+    currentStepIndex: 0,
+    data: {},
+    completed: false
+  };
+
+  const state = trailsSession[trail.trailId] || defaultState;
   const currentStep = trail.steps[state.currentStepIndex];
 
-  useEffect(() => {
-    // Keep internal state in sync with external storage
-    TrailStorageService.saveTrailState(trail.trailId, state);
-  }, [state, trail.trailId]);
+  const updateState = (newState: TrailState) => {
+    setTrailsSession(prev => ({
+      ...prev,
+      [trail.trailId]: newState
+    }));
+  };
 
   const handleNextStep = (stepData?: any) => {
     const newState = { ...state };
 
     // Save data from current step if provided
     if (stepData !== undefined) {
-      newState.data[currentStep.id] = stepData;
+      newState.data = {
+        ...newState.data,
+        [currentStep.id]: stepData
+      };
     }
 
     // Check if it's the last step
     if (state.currentStepIndex === trail.steps.length - 1) {
       newState.completed = true;
-      setState(newState);
+      updateState(newState);
       if (onComplete) onComplete(newState);
     } else {
       newState.currentStepIndex += 1;
-      setState(newState);
+      updateState(newState);
     }
   };
 
   const handleBackStep = () => {
     if (state.currentStepIndex > 0) {
-      setState({
+      updateState({
         ...state,
         currentStepIndex: state.currentStepIndex - 1
       });
@@ -54,7 +73,7 @@ const TrailRunner: React.FC<TrailRunnerProps> = ({ trail, onComplete }) => {
     const currentStepData = state.data[currentStep.id] || {};
     const updatedStepData = { ...currentStepData, [fieldId]: value };
 
-    setState({
+    updateState({
       ...state,
       data: {
         ...state.data,
@@ -84,8 +103,11 @@ const TrailRunner: React.FC<TrailRunnerProps> = ({ trail, onComplete }) => {
           </button>
           <button
             onClick={() => {
-              TrailStorageService.clearTrail(trail.trailId);
-              setState({ currentStepIndex: 0, data: {}, completed: false });
+              setTrailsSession(prev => {
+                const newSession = { ...prev };
+                delete newSession[trail.trailId];
+                return newSession;
+              });
             }}
             className="px-8 py-3 bg-orange-500 text-white rounded-lg font-bold hover:bg-orange-600 transition shadow-md flex items-center justify-center gap-2"
           >
