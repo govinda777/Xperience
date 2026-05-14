@@ -1,38 +1,36 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Trail } from '../../types/trails';
 import { useNavigate } from 'react-router-dom';
-import { Play, CheckCircle2, Clock, Map, ClipboardList, Zap, ChevronRight } from 'lucide-react';
+import { CheckCircle2, Clock, Map, ClipboardList, Zap, ChevronRight } from 'lucide-react';
 import { TrailStorageService } from '../../services/trailStorageService';
+import { useQuery } from '@tanstack/react-query';
 
 interface TrailListProps {
   hideHeader?: boolean;
 }
 
+const TRAIL_FILES = ['onboarding.json', 'business-map.json'];
+
+const fetchTrails = async (): Promise<Trail[]> => {
+  const trailData = await Promise.all(
+    TRAIL_FILES.map(async (file) => {
+      const res = await fetch(`/trails/${file}`);
+      if (!res.ok) throw new Error(`Failed to load trail: ${file}`);
+      return res.json();
+    })
+  );
+  return trailData;
+};
+
 const TrailList: React.FC<TrailListProps> = ({ hideHeader = false }) => {
   const navigate = useNavigate();
-  const [trails, setTrails] = useState<Trail[]>([]);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchTrails = async () => {
-      try {
-        const trailFiles = ['onboarding.json', 'business-map.json'];
-        const trailData = await Promise.all(
-          trailFiles.map(async (file) => {
-            const res = await fetch(`/trails/${file}`);
-            return res.json();
-          })
-        );
-        setTrails(trailData);
-      } catch (e) {
-        console.error('Failed to load trails', e);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchTrails();
-  }, []);
+  const { data: trails = [], isLoading: loading } = useQuery<Trail[]>({
+    queryKey: ['trails'],
+    queryFn: fetchTrails,
+    staleTime: 1000 * 60 * 30, // 30 minutes
+    gcTime: 1000 * 60 * 60, // 1 hour
+  });
 
   const getStatus = (trailId: string) => {
     const state = TrailStorageService.getTrailState(trailId);
