@@ -14,7 +14,7 @@ interface TrailRunnerProps {
 
 const TRAILS_SESSION_KEY = 'xperience_trails_session';
 
-const TrailRunner: React.FC<TrailRunnerProps> = ({ trail, onComplete }) => {
+const TrailRunner: React.FC<TrailRunnerProps> = ({ trail: initialTrail, onComplete }) => {
   const navigate = useNavigate();
   const [trailsSession, setTrailsSession] = useStorage<Record<string, TrailState>>(
     TRAILS_SESSION_KEY,
@@ -25,24 +25,39 @@ const TrailRunner: React.FC<TrailRunnerProps> = ({ trail, onComplete }) => {
   const defaultState: TrailState = {
     currentStepIndex: 0,
     data: {},
-    completed: false
+    completed: false,
+    dynamicSteps: []
   };
 
-  const state = trailsSession[trail.trailId] || defaultState;
-  const currentStep = trail.steps[state.currentStepIndex];
+  const state = trailsSession[initialTrail.trailId] || defaultState;
+
+  // A trail atual é a original + qualquer step dinâmico gerado pelo agente salvos no estado
+  const activeSteps = [...initialTrail.steps, ...(state.dynamicSteps || [])];
+  const currentStep = activeSteps[state.currentStepIndex];
 
   const updateState = (newState: TrailState) => {
     setTrailsSession(prev => ({
       ...prev,
-      [trail.trailId]: newState
+      [initialTrail.trailId]: newState
     }));
   };
 
   const handleNextStep = (stepData?: any) => {
     const newState = { ...state };
+    let totalSteps = activeSteps.length;
 
-    // Save data from current step if provided
-    if (stepData !== undefined) {
+    // Se o stepData conter 'newSteps' (vindo do AI Step - expand), nós injetamos na jornada (no estado persistido)
+    if (stepData && typeof stepData === 'object' && stepData.newSteps && Array.isArray(stepData.newSteps)) {
+      newState.dynamicSteps = [...(newState.dynamicSteps || []), ...stepData.newSteps];
+      totalSteps += stepData.newSteps.length;
+
+      // O dado salvo desse step não precisa ser os 'newSteps', guardamos que a expansão foi solicitada
+      newState.data = {
+        ...newState.data,
+        [currentStep.id]: { expanded: true, timestamp: Date.now() }
+      };
+    } else if (stepData !== undefined) {
+      // Save data from current step if provided
       newState.data = {
         ...newState.data,
         [currentStep.id]: stepData
@@ -50,7 +65,7 @@ const TrailRunner: React.FC<TrailRunnerProps> = ({ trail, onComplete }) => {
     }
 
     // Check if it's the last step
-    if (state.currentStepIndex === trail.steps.length - 1) {
+    if (state.currentStepIndex === totalSteps - 1) {
       newState.completed = true;
       updateState(newState);
       if (onComplete) onComplete(newState);
@@ -91,7 +106,7 @@ const TrailRunner: React.FC<TrailRunnerProps> = ({ trail, onComplete }) => {
         <div className="space-y-4">
           <h2 className="text-3xl font-bold text-gray-800">Parabéns!</h2>
           <p className="text-xl text-gray-600">
-            Você completou a jornada <strong>{trail.title}</strong> com sucesso.
+            Você completou a jornada <strong>{initialTrail.title}</strong> com sucesso.
           </p>
         </div>
         <div className="flex flex-col sm:flex-row gap-4 pt-8">
@@ -130,9 +145,9 @@ const TrailRunner: React.FC<TrailRunnerProps> = ({ trail, onComplete }) => {
             >
                 <ChevronLeft size={24} />
             </button>
-            <h1 className="text-2xl font-bold text-gray-800">{trail.title}</h1>
+            <h1 className="text-2xl font-bold text-gray-800">{initialTrail.title}</h1>
         </div>
-        <p className="text-gray-500 ml-10">{trail.description}</p>
+        <p className="text-gray-500">{initialTrail.description}</p>
       </div>
 
       <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
@@ -140,7 +155,7 @@ const TrailRunner: React.FC<TrailRunnerProps> = ({ trail, onComplete }) => {
         <div className="px-8 pt-8">
             <TrailProgress
                 currentStep={state.currentStepIndex + 1}
-                totalSteps={trail.steps.length}
+          totalSteps={activeSteps.length}
             />
         </div>
 
@@ -161,17 +176,17 @@ const TrailRunner: React.FC<TrailRunnerProps> = ({ trail, onComplete }) => {
                     onSubmit={handleNextStep}
                     onBack={handleBackStep}
                     isFirst={state.currentStepIndex === 0}
-                    isLast={state.currentStepIndex === trail.steps.length - 1}
+                    isLast={state.currentStepIndex === activeSteps.length - 1}
                 />
             ) : (
                 <TrailAIStep
                     step={currentStep}
-                    trail={trail}
+                    trail={initialTrail}
                     allData={state.data}
                     onComplete={handleNextStep}
                     onBack={handleBackStep}
                     isFirst={state.currentStepIndex === 0}
-                    isLast={state.currentStepIndex === trail.steps.length - 1}
+                    isLast={state.currentStepIndex === activeSteps.length - 1}
                 />
             )}
         </div>

@@ -38,12 +38,22 @@ test.describe('Trilha Onboarding Xperience', () => {
 
     await page.getByRole('button', { name: 'Próximo' }).click();
 
-    // Step 3: Gerando seu Roteiro (AI Step)
-    await expect(page.getByRole('heading', { name: 'Gerando seu Roteiro' })).toBeVisible();
+    // Wait for the new AI Step selection screen
+    await expect(page.getByRole('heading', { name: 'Jules processou seus dados!' })).toBeVisible({ timeout: 15000 });
 
-    await expect(page.getByRole('heading', { name: 'Seu Resultado' })).toBeVisible({ timeout: 15000 });
+    // Mock API Before advancing to the AI step (using new API route)
+    await page.route('**/api/trail-agent', async route => {
+      const json = { result: 'Mock AI Response' };
+      await route.fulfill({ json });
+    });
 
-    await page.getByRole('button', { name: 'Finalizar' }).click();
+    // Select to generate dossier
+    await page.getByRole('button', { name: 'Gerar Dossiê' }).click();
+
+    // Wait for the AI result to load
+    await expect(page.getByRole('heading', { name: 'Seu Dossiê' })).toBeVisible({ timeout: 15000 });
+
+    await page.getByRole('button', { name: 'Finalizar Jornada' }).click();
 
     await expect(page.getByRole('heading', { name: 'Parabéns!' })).toBeVisible();
     await expect(page.getByText('Você completou a jornada Onboarding Xperience com sucesso.')).toBeVisible();
