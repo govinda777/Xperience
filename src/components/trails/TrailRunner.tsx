@@ -106,7 +106,7 @@ const TrailRunner: React.FC<TrailRunnerProps> = ({ trail: initialTrail, onComple
         <div className="space-y-4">
           <h2 className="text-3xl font-bold text-gray-800">Parabéns!</h2>
           <p className="text-xl text-gray-600">
-            Você completou a jornada <strong>{trail.title}</strong> com sucesso.
+            Você completou a jornada <strong>{initialTrail.title}</strong> com sucesso.
           </p>
         </div>
         <div className="flex flex-col sm:flex-row gap-4 pt-8">
@@ -145,9 +145,9 @@ const TrailRunner: React.FC<TrailRunnerProps> = ({ trail: initialTrail, onComple
             >
                 <ChevronLeft size={24} />
             </button>
-            <h1 className="text-2xl font-bold text-gray-800">{trail.title}</h1>
+            <h1 className="text-2xl font-bold text-gray-800">{initialTrail.title}</h1>
         </div>
-        <p className="text-gray-500 ml-10">{trail.description}</p>
+        <p className="text-gray-500">{initialTrail.description}</p>
       </div>
 
       <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">

@@ -47,15 +47,23 @@ test.describe('Trilha Mapa do Negócio', () => {
     // Click 'Continuar'
     await page.getByRole('button', { name: 'Próximo' }).click();
 
-    // Verify AI Step
-    await expect(page.getByRole('heading', { name: 'Gerando o Mapa do seu Negócio' })).toBeVisible();
+    // Wait for the new AI Step selection screen
+    await expect(page.getByRole('heading', { name: 'Jules processou seus dados!' })).toBeVisible({ timeout: 15000 });
 
-    // Wait for the AI result to load (it mocks out via simple fetch or we just wait for text to appear)
-    // Looking for the file text icon or "Seu Resultado"
-    await expect(page.getByRole('heading', { name: 'Seu Resultado' })).toBeVisible({ timeout: 15000 });
+    // Mock API Before advancing to the AI step (using new API route)
+    await page.route('**/api/trail-agent', async route => {
+      const json = { result: 'Mock AI Response' };
+      await route.fulfill({ json });
+    });
+
+    // Select to generate dossier
+    await page.getByRole('button', { name: 'Gerar Dossiê' }).click();
+
+    // Wait for the AI result to load
+    await expect(page.getByRole('heading', { name: 'Seu Dossiê' })).toBeVisible({ timeout: 15000 });
 
     // Click 'Finalizar Jornada'
-    await page.getByRole('button', { name: 'Finalizar' }).click();
+    await page.getByRole('button', { name: 'Finalizar Jornada' }).click();
 
     // Verify final success screen
     await expect(page.getByRole('heading', { name: 'Parabéns!' })).toBeVisible();
