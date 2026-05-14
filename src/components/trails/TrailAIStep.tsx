@@ -42,7 +42,7 @@ const TrailAIStep: React.FC<TrailAIStepProps> = ({
           return acc;
       }, {} as any);
 
-      const response = await fetch('/api/trail-agent', {
+      const response = await fetch('/api/agent/orchestrator', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

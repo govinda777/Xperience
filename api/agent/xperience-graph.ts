@@ -10,6 +10,8 @@ export interface AgentState {
   analysis?: string;
   finalOutput?: any; // String (markdown) or object (for new trail steps)
   messages: any[];
+  needsClarification: boolean;
+  clarificationCount: number;
 }
 
 const llm = new ChatOpenAI({
@@ -27,15 +29,19 @@ const jsonLlm = new ChatOpenAI({
 async function analystNode(state: AgentState): Promise<Partial<AgentState>> {
   console.log("-> Running Analyst (Strategist)");
 
-  const prompt = `Você é um Analista Estratégico Especialista em Negócios e Produtos Enxutos.
+  let prompt = `Você é um Analista Estratégico Especialista em Negócios e Produtos Enxutos (Lean Experiences), focado em otimizar a experiência do usuário, melhorar os "Unit Economics" e aumentar o "Valor Percebido".
 Sua função é analisar as respostas brutas de um empreendedor fornecidas no questionário "${state.trailTitle}".
-Extraia a "Alma do Negócio", identifique gargalos e problemas na operação atual.
+Extraia a "Alma do Negócio", identifique gargalos na operação atual e oportunidades para reduzir fricção e custos.
 
 Dados do Empreendedor:
 ${JSON.stringify(state.userInput, null, 2)}
 
-Produza uma análise executiva focada em "experiências enxutas" (lean experiences) - reduzindo fricção e custos, otimizando o valor percebido.
-Sua análise deve ser profunda, direta e servir de insumo para o próximo agente (The Builder).`;
+Produza uma análise executiva profunda e direta.`;
+
+  if (state.needsClarification && state.messages.length > 0) {
+      const lastMessage = state.messages[state.messages.length - 1];
+      prompt += `\n\nATENÇÃO: O Agente Construtor pediu um refinamento da sua análise anterior com o seguinte comentário:\n"${lastMessage.content}"\nPor favor, forneça uma análise melhorada focando nesses pontos.`;
+  }
 
   const response = await llm.invoke([
     new SystemMessage(prompt)
@@ -43,6 +49,7 @@ Sua análise deve ser profunda, direta e servir de insumo para o próximo agente
 
   return {
     analysis: response.content as string,
+    needsClarification: false,
     messages: [...state.messages, new AIMessage(`Análise Estratégica Concluída: ${response.content}`)]
   };
 }
@@ -53,6 +60,28 @@ async function builderNode(state: AgentState): Promise<Partial<AgentState>> {
 
   if (!state.analysis) {
     throw new Error("Analysis is missing for the builder.");
+  }
+
+  // Verifica se a análise precisa de refinamento (só permite até 1 refinamento para evitar loops)
+  if (state.clarificationCount < 1) {
+      const evaluationPrompt = `Você é um avaliador rigoroso. Leia a seguinte análise estratégica:
+<analise>
+${state.analysis}
+</analise>
+Esta análise tem profundidade suficiente para gerar um artefato do tipo "${state.intent}" com foco em "experiências enxutas", "unit economics" e "valor percebido"?
+Responda APENAS "SIM" se for suficiente, ou "NÃO: [motivo]" se estiver vaga ou carecer de foco nesses pilares.`;
+
+      const evalResponse = await llm.invoke([new SystemMessage(evaluationPrompt)]);
+      const evalText = evalResponse.content as string;
+
+      if (evalText.toUpperCase().startsWith("NÃO")) {
+          console.log("-> Builder requesting clarification from Analyst.");
+          return {
+              needsClarification: true,
+              clarificationCount: state.clarificationCount + 1,
+              messages: [...state.messages, new AIMessage(`Clarification requested: ${evalText}`)]
+          };
+      }
   }
 
   let prompt = "";
@@ -69,8 +98,8 @@ Crie um "Dossiê Executivo" (Relatório) estruturado em Markdown.
 O relatório deve ter:
 1. Título chamativo.
 2. Sumário Executivo.
-3. Gargalos Identificados.
-4. Plano de Ação para criar uma operação mais enxuta e focar na melhor "experiência" para o cliente.`;
+3. Gargalos Identificados (com foco em unit economics e fricção).
+4. Plano de Ação para criar uma operação mais enxuta e focar na melhor "experiência" para o cliente, otimizando o valor percebido.`;
   } else if (state.intent === 'checklist') {
     prompt = `Você é um Agente Produtor focado em otimização de experiências de negócios e serviços.
 Com base na análise estratégica a seguir:
@@ -82,7 +111,7 @@ Crie um Checklist acionável e direto ao ponto estruturado em Markdown.
 Formato esperado (exemplo):
 - [ ] Tarefa 1: ...
 - [ ] Tarefa 2: ...
-Foque em itens imediatos para tornar o negócio mais enxuto e melhorar a experiência.`;
+Foque estritamente em itens imediatos para tornar o negócio mais enxuto, melhorar os "unit economics" e otimizar a experiência do cliente reduzindo fricções.`;
   } else if (state.intent === 'expand') {
     modelToUse = jsonLlm;
     prompt = `Você é um Agente Criador de Jornadas de Produto focado em otimização de experiências de negócios e serviços.
@@ -108,7 +137,7 @@ RETORNE UM JSON VÁLIDO no seguinte formato:
 
 Regras para os campos (fields):
 - 'type' pode ser 'text', 'textarea', ou 'radio' (se for radio, incluir array de 'options' com { label, value }).
-- Crie de 1 a 3 steps curtos para focar em "Unit Economics", "Valor Percebido" ou o principal gargalo.`;
+- Crie de 1 a 3 steps curtos e focados para investigar a fundo os "Unit Economics", "Valor Percebido" ou o principal gargalo de experiência.`;
   }
 
   const response = await modelToUse.invoke([
@@ -126,9 +155,18 @@ Regras para os campos (fields):
 
   return {
     finalOutput,
+    needsClarification: false,
     messages: [...state.messages, new AIMessage(`Artefato Criado (${state.intent}): ${JSON.stringify(finalOutput).substring(0, 50)}...`)]
   };
 }
+
+// Define conditional edge logic
+const shouldContinue = (state: AgentState) => {
+    if (state.needsClarification && state.clarificationCount <= 1) {
+        return "analyst";
+    }
+    return END;
+};
 
 // Define Graph
 import { StateGraphArgs } from "@langchain/langgraph";
@@ -139,7 +177,9 @@ const graphChannels: StateGraphArgs<AgentState>["channels"] = {
   intent: { value: (a, b) => b || a },
   analysis: { value: (a, b) => b || a },
   finalOutput: { value: (a, b) => b || a },
-  messages: { value: (x, y) => x.concat(y), default: () => [] }
+  messages: { value: (x, y) => x.concat(y), default: () => [] },
+  needsClarification: { value: (a, b) => b !== undefined ? b : a, default: () => false },
+  clarificationCount: { value: (a, b) => b !== undefined ? b : a, default: () => 0 }
 };
 
 const workflow = new StateGraph<AgentState>({ channels: graphChannels })
@@ -147,6 +187,6 @@ const workflow = new StateGraph<AgentState>({ channels: graphChannels })
   .addNode("builder", builderNode)
   .addEdge(START, "analyst")
   .addEdge("analyst", "builder")
-  .addEdge("builder", END);
+  .addConditionalEdges("builder", shouldContinue);
 
 export const xperienceGraph = workflow.compile();
