@@ -42,6 +42,7 @@ export interface TrailState {
   currentStepIndex: number;
   data: Record<string, any>;
   completed: boolean;
+  dynamicSteps?: Step[];
 }
 
 export interface TrailSession {
