@@ -27,9 +27,9 @@ test.describe('Trilha Onboarding Xperience', () => {
     const nichoValue = await page.locator('input[id="nicho"]').inputValue();
     expect(nichoValue).toBe('SaaS para Clínicas Médicas');
 
-    // Mock API
-    await page.route('**/api/report', async route => {
-      const json = { content: 'Mock AI Response' };
+    // Mock API for /REPORT legacy / dossier intent if triggered inside steps
+    await page.route('**/api/agent/orchestrator', async route => {
+      const json = { result: 'Mock AI Response' };
       await route.fulfill({ json });
     });
 
@@ -40,12 +40,6 @@ test.describe('Trilha Onboarding Xperience', () => {
 
     // Wait for the new AI Step selection screen
     await expect(page.getByRole('heading', { name: 'Jules processou seus dados!' })).toBeVisible({ timeout: 15000 });
-
-    // Mock API Before advancing to the AI step (using new API route)
-    await page.route('**/api/trail-agent', async route => {
-      const json = { result: 'Mock AI Response' };
-      await route.fulfill({ json });
-    });
 
     // Select to generate dossier
     await page.getByRole('button', { name: 'Gerar Dossiê' }).click();

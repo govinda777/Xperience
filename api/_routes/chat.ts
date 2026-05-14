@@ -22,28 +22,28 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const lastUserMessage = messages[messages.length - 1];
 
-  // Restoring /REPORT command logic
+  // Restoring /REPORT command logic using the Orchestrator
   if (lastUserMessage?.role === 'user' && lastUserMessage.content && typeof lastUserMessage.content === 'string' && lastUserMessage.content.trim().toUpperCase() === '/REPORT') {
       try {
-          console.log(`[Chat API] /REPORT command detected. Redirecting to internal report generator.`);
-          const reportResponse = await fetch(`${new URL(req.url!, `http://${req.headers.host}`).origin}/api/report`, {
+          console.log(`[Chat API] /REPORT command detected. Redirecting to internal orchestrator.`);
+          const reportResponse = await fetch(`${new URL(req.url!, `http://${req.headers.host}`).origin}/api/agent/orchestrator`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
-                  instruction: 'Gere um dossiê analítico completo desta sessão.',
-                  agentId: sessionId,
-                  history: messages
+                  trailTitle: 'Sessão de Chat Xperience',
+                  userInput: { history: messages },
+                  intent: 'dossier'
               })
           });
 
           const reportData: any = await reportResponse.json();
           return res.status(200).json({
               role: 'assistant',
-              content: `### 📊 Relatório Gerado: ${reportData.title}\n\n${reportData.content}`,
+              content: `### 📊 Relatório Gerado pela Inteligência Xperience\n\n${reportData.result}`,
               isReport: true
           });
       } catch (error: any) {
-          console.error('[Chat API] Failed to generate report:', error);
+          console.error('[Chat API] Failed to generate report via orchestrator:', error);
           return res.status(500).json({ error: 'Falha ao gerar o relatório.' });
       }
   }

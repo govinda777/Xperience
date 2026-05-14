@@ -36,8 +36,8 @@ test.describe('Trilha Mapa do Negócio', () => {
     expect(checkboxChecked).toBeTruthy();
 
     // Mock API Before advancing to the AI step
-    await page.route('**/api/report', async route => {
-      const json = { content: 'Mock AI Response' };
+    await page.route('**/api/agent/orchestrator', async route => {
+      const json = { result: 'Mock AI Response' };
       await route.fulfill({ json });
     });
 
@@ -49,12 +49,6 @@ test.describe('Trilha Mapa do Negócio', () => {
 
     // Wait for the new AI Step selection screen
     await expect(page.getByRole('heading', { name: 'Jules processou seus dados!' })).toBeVisible({ timeout: 15000 });
-
-    // Mock API Before advancing to the AI step (using new API route)
-    await page.route('**/api/trail-agent', async route => {
-      const json = { result: 'Mock AI Response' };
-      await route.fulfill({ json });
-    });
 
     // Select to generate dossier
     await page.getByRole('button', { name: 'Gerar Dossiê' }).click();
