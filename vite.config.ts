@@ -39,13 +39,6 @@ export default defineConfig({
             "@walletconnect/ethereum-provider",
             "@walletconnect/universal-provider",
           ],
-          ton: [
-            "ton",
-            "ton-core",
-            "ton-crypto",
-            "@orbs-network/ton-access",
-            "@tonconnect/ui-react",
-          ],
           ui: ["styled-components", "lucide-react"],
         },
       },
