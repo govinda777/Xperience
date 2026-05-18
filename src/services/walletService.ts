@@ -80,11 +80,13 @@ export class WalletService {
 
   /**
    * Send a transaction using the user's smart account
+   * @param signer The authenticated signer (e.g., from Privy)
    * @param userWallet The user's wallet information
    * @param transaction The transaction to send
    * @returns Transaction hash
    */
   async sendTransaction(
+    signer: ethers.Signer,
     userWallet: UserWallet,
     transaction: TransactionRequest,
   ): Promise<string> {
@@ -96,13 +98,7 @@ export class WalletService {
         }
       }
 
-      // Recover the signer - in a real implementation, this would use a securely stored private key
-      // For demo purposes only - in production you would use a proper key management system
-      const signer = new ethers.Wallet(userWallet.address).connect(
-        this.provider,
-      );
-
-      // Create the SimpleAccount instance
+      // Create the SimpleAccount instance using the provided signer
       const simpleAccount = await Presets.Builder.SimpleAccount.init(
         signer,
         RPC_URL,

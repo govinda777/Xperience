@@ -14,26 +14,25 @@
 
 ## Smart Contracts
 
-- [ ] Desenvolver Factory Contract para criação de carteiras ERC-4337
-- [ ] Implementar Smart Account Contract
+- [x] Desenvolver Factory Contract para criação de carteiras ERC-4337
+- [x] Implementar Smart Account Contract
 - [ ] Criar testes para contratos
 
 ## Autenticação e Usuário
 
-- [ ] Modificar fluxo de autenticação Auth0 para incluir vinculação de carteira
-- [ ] Criar hook personalizado para usar carteira vinculada (`src/hooks/useUserWallet.ts`)
-- [ ] Implementar storage seguro para chaves privadas ou solução de MPC
+- [ ] Modificar fluxo de autenticação Privy para incluir vinculação de carteira
+- [x] Criar hook personalizado para usar carteira vinculada (`src/hooks/useUserWallet.ts`)
 
 ## Componentes de UI
 
-- [ ] Criar componente de informações da carteira (`src/components/WalletInfo.tsx`)
-- [ ] Implementar componente para transações (`src/components/Transaction.tsx`)
-- [ ] Desenvolver tela de gestão da carteira (`src/pages/WalletManagement.tsx`)
+- [x] Criar componente de informações da carteira (`src/components/WalletInfo.tsx`)
+- [x] Implementar componente para transações (`src/components/Transaction.tsx`)
+- [x] Desenvolver tela de gestão da carteira (`src/pages/WalletManagement.tsx`)
 
 ## Integração com Backend
 
-- [ ] Criar endpoints de API para vinculação usuário-carteira
-- [ ] Implementar armazenamento seguro de dados da carteira
+- [x] Criar endpoints de API para vinculação usuário-carteira
+- [x] Implementar armazenamento seguro de dados da carteira
 - [ ] Desenvolver sistema de recovery para carteiras
 
 ## Operações da Carteira

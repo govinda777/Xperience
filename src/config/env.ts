@@ -1,5 +1,5 @@
 // Environment variables with fallbacks for testing
-const isDev = process.env.NODE_ENV === 'development' || true;
+const isDev = (typeof process !== 'undefined' && process.env?.NODE_ENV === 'development') || true;
 
 const getEnvVar = (key: string, defaultValue: string) => {
   // Try import.meta.env first (Vite)

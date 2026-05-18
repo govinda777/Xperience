@@ -17,6 +17,18 @@ O gráfico acima mostra como a Netflix (oceano azul) se diferenciou da Blockbust
 - Reduzir preço com modelo de assinatura
 - Criar um novo fator: conteúdo original
 
+## 🚀 Xperience Strategy Canvas
+
+O **Xperience** aplica estes princípios para se diferenciar das mentorias e cursos tradicionais de negócios ("Oceano Vermelho").
+
+![Xperience Strategy Canvas](https://quickchart.io/chart?c=%7B%22type%22%3A%22radar%22%2C%22data%22%3A%7B%22labels%22%3A%5B%22Pre%C3%A7o%22%2C%22Personaliza%C3%A7%C3%A3o%20via%20IA%22%2C%22Acessibilidade%20%28TWA%29%22%2C%22Integra%C3%A7%C3%A3o%20Web3%22%2C%22Teoria%20Acad%C3%AAmica%22%2C%22Suporte%2024%2F7%22%2C%22Comunidade%20Exclusiva%22%5D%2C%22datasets%22%3A%5B%7B%22label%22%3A%22Xperience%22%2C%22data%22%3A%5B6%2C10%2C9%2C10%2C4%2C10%2C8%5D%2C%22backgroundColor%22%3A%22rgba%28253%2C%20149%2C%2038%2C%200.2%29%22%2C%22borderColor%22%3A%22rgba%28253%2C%20149%2C%2038%2C%201%29%22%7D%2C%7B%22label%22%3A%22Mentorias%20Tradicionais%22%2C%22data%22%3A%5B9%2C2%2C3%2C1%2C8%2C4%2C6%5D%2C%22backgroundColor%22%3A%22rgba%28100%2C%20100%2C%20100%2C%200.2%29%22%2C%22borderColor%22%3A%22rgba%28100%2C%20100%2C%20100%2C%201%29%22%7D%5D%7D%2C%22options%22%3A%7B%22title%22%3A%7B%22display%22%3Atrue%2C%22text%22%3A%22Xperience%20vs.%20Mentorias%20Tradicionais%22%7D%7D%7D)
+
+### Nossa Curva de Valor:
+- **Aumentar**: Personalização via IA e Suporte 24/7.
+- **Reduzir**: Preço (comparado a mentorias individuais) e Teoria Acadêmica pura.
+- **Criar**: Acessibilidade total via Telegram (TWA) e Identidade Web3 vinculada (ERC-4337).
+- **Substituir**: O login tradicional por Smart Accounts (Account Abstraction).
+
 ## 🔄 Framework das Quatro Ações
 
 O Framework das Quatro Ações é uma ferramenta para criar uma nova curva de valor:

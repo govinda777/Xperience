@@ -1,6 +1,6 @@
 import { WalletService } from "./walletService";
-import CryptoJS from "crypto-js"; // Add crypto library for encryption
-import * as testConfig from "../../test-data/test-config.json";
+import { ENV } from "../config/env";
+import CryptoJS from "crypto-js";
 
 // Interface for user wallet data storage
 interface StoredWallet {
@@ -15,126 +15,114 @@ interface StoredWallet {
  */
 export class UserWalletService {
   private walletService: WalletService;
-  private localStorageKey = process.env.NODE_ENV === 'test' ? testConfig.testKeys.wallet : "user_wallet_data";
+  private apiUrl = ENV.VITE_API_URL;
   private recoveryKeyPrefix = "recovery_";
 
   constructor() {
     this.walletService = new WalletService();
   }
 
+  private async getAuthToken(): Promise<string | null> {
+    // This is typically handled by the AuthContext, but for service calls
+    // we might need to get it from memory or a global state if not passed.
+    // Ideally, the token should be passed to the service methods.
+    return localStorage.getItem('privy_token'); // Common fallback if not using a better state manager
+  }
+
   /**
    * Get a user's wallet or create one if it doesn't exist
    * @param userId The user's unique ID from OAuth
+   * @param token The user's auth token
    * @returns The user's wallet information
    */
-  async getOrCreateUserWallet(userId: string): Promise<StoredWallet> {
-    // Check if the user already has a wallet
-    const existingWallet = await this.getUserWallet(userId);
-
-    if (existingWallet) {
-      return existingWallet;
+  async getOrCreateUserWallet(userId: string, token?: string): Promise<StoredWallet> {
+    const authToken = token || await this.getAuthToken();
+    
+    // Check if the user already has a wallet in the backend
+    try {
+      const response = await fetch(`${this.apiUrl}/user/wallet`, {
+        headers: {
+          'Authorization': `Bearer ${authToken}`
+        }
+      });
+      
+      if (response.ok) {
+        return await response.json();
+      }
+    } catch (error) {
+      console.warn("Failed to fetch existing wallet from API, will try to create one");
     }
 
-    // Create a new wallet for the user
+    // Create a new wallet for the user locally (EOA + Smart Account derivation)
     const newWallet = await this.walletService.createWalletForUser(userId);
 
-    // Store the wallet information
+    // Store the wallet information in the backend
     const storedWallet: StoredWallet = {
       userId: newWallet.userId,
       address: newWallet.address,
       smartAccountAddress: newWallet.smartAccountAddress,
     };
 
-    await this.storeUserWallet(storedWallet);
+    await this.storeUserWallet(storedWallet, authToken);
 
     return storedWallet;
   }
 
   /**
-   * Get a user's wallet from storage
-   * @param userId The user's unique ID
-   * @returns The user's wallet information or null if not found
+   * Get a user's wallet from backend
    */
-  async getUserWallet(userId: string): Promise<StoredWallet | null> {
+  async getUserWallet(userId: string, token?: string): Promise<StoredWallet | null> {
+    const authToken = token || await this.getAuthToken();
     try {
-      // In a real implementation, this would likely be a database call
-      // For this example, we're using localStorage
-      const wallets = this.getStoredWallets();
-      return wallets.find((wallet) => wallet.userId === userId) || null;
+      const response = await fetch(`${this.apiUrl}/user/wallet`, {
+        headers: {
+          'Authorization': `Bearer ${authToken}`
+        }
+      });
+      
+      if (response.ok) {
+        return await response.json();
+      }
+      return null;
     } catch (error) {
-      console.error("Failed to get user wallet:", error);
+      console.error("Failed to get user wallet from API:", error);
       return null;
     }
   }
 
   /**
-   * Store a user's wallet information
-   * @param wallet The wallet information to store
+   * Store a user's wallet information in backend
    */
-  async storeUserWallet(wallet: StoredWallet): Promise<void> {
+  async storeUserWallet(wallet: StoredWallet, token?: string | null): Promise<void> {
+    const authToken = token || await this.getAuthToken();
     try {
-      // In a real implementation, this would likely be a database call
-      // For this example, we're using localStorage
-      const wallets = this.getStoredWallets();
+      const response = await fetch(`${this.apiUrl}/user/wallet`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`
+        },
+        body: JSON.stringify({
+          eoaAddress: wallet.address,
+          smartAccountAddress: wallet.smartAccountAddress,
+          network: 'sepolia'
+        })
+      });
 
-      // Remove any existing wallet for this user
-      const filteredWallets = wallets.filter((w) => w.userId !== wallet.userId);
-
-      // Add the new wallet
-      filteredWallets.push(wallet);
-
-      // Save the updated wallets
-      localStorage.setItem(
-        this.localStorageKey,
-        JSON.stringify(filteredWallets),
-      );
+      if (!response.ok) {
+        throw new Error(`API error: ${response.statusText}`);
+      }
     } catch (error) {
-      console.error("Failed to store user wallet:", error);
+      console.error("Failed to store user wallet in API:", error);
       throw new Error("Failed to store user wallet");
     }
   }
 
   /**
-   * Get all stored wallets
-   * @returns Array of stored wallets
-   */
-  private getStoredWallets(): StoredWallet[] {
-    try {
-      const storedData = localStorage.getItem(this.localStorageKey);
-      return storedData ? JSON.parse(storedData) : [];
-    } catch (error) {
-      console.error("Failed to get stored wallets:", error);
-      return [];
-    }
-  }
-
-  /**
-   * Delete a user's wallet
-   * @param userId The user's unique ID
-   */
-  async deleteUserWallet(userId: string): Promise<void> {
-    try {
-      const wallets = this.getStoredWallets();
-      const filteredWallets = wallets.filter(
-        (wallet) => wallet.userId !== userId,
-      );
-      localStorage.setItem(
-        this.localStorageKey,
-        JSON.stringify(filteredWallets),
-      );
-    } catch (error) {
-      console.error("Failed to delete user wallet:", error);
-      throw new Error("Failed to delete user wallet");
-    }
-  }
-
-  /**
    * Get a user's wallet balance
-   * @param userId The user's unique ID
-   * @returns The user's wallet balance in ETH
    */
-  async getUserBalance(userId: string): Promise<string> {
-    const wallet = await this.getUserWallet(userId);
+  async getUserBalance(userId: string, token?: string): Promise<string> {
+    const wallet = await this.getUserWallet(userId, token);
 
     if (!wallet) {
       throw new Error("User wallet not found");

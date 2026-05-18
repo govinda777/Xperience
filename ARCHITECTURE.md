@@ -24,7 +24,16 @@ Xperience is a Mentorship and Education Platform. The architecture is primarily 
   - `api/leads.ts`: Lead capture and processing.
   - `api/webhooks/{provider}/route.ts`: Inbound message handlers (WhatsApp, Telegram, etc.)
 
-### 3. Agent Layer (AI & Logic)
+### 3. Blockchain & Web3 Layer (Account Abstraction)
+- **Standard**: ERC-4337 (Account Abstraction)
+- **Providers**: Alchemy (Bundler & Paymaster), Privy (Embedded Wallets)
+- **Services**:
+  - `src/services/accountAbstraction.ts`: Core logic for User Operations and gasless transactions.
+  - `src/services/walletService.ts`: Management of embedded and external wallets.
+  - `src/services/userWalletService.ts`: Linkage between OAuth identities and Smart Accounts.
+- **Key Features**: Social login to Web3, gas sponsorship, and simplified transaction signing.
+
+### 4. Agent Layer (AI & Logic)
 - **Framework**: LangChain + LangGraph (TypeScript)
 - **Location**: `api/agent/` and `lib/agent.ts`
 - **Architecture**: State Machine (Graph) with 7 phases:
