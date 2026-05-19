@@ -20,7 +20,7 @@
       // e.g. https://www.foo.tld/one/two?a=b&c=d#qwe, becomes
       // https://www.foo.tld/?/one/two&a=b~and~c=d#qwe
 
-      var pathSegmentsToKeep = 1;
+      var pathSegmentsToKeep = window.location.hostname.indexOf('github.io') !== -1 && window.location.pathname.startsWith('/Xperience') ? 1 : 0;
 
       var l = window.location;
       l.replace(
