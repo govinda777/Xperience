@@ -14,6 +14,7 @@ import Checkout from "./pages/Checkout";
 import TestSessionPage from "./pages/TestSession";
 import TrailList from "./pages/Trails/TrailList";
 import TrailRunnerPage from "./pages/Trails/TrailRunnerPage";
+import RewardsCenter from "./pages/RewardsCenter";
 import DefaultLayout from "./layouts/DefaultLayout";
 import AppLayout from "./layouts/AppLayout";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -76,6 +77,16 @@ function App() {
                 <ProtectedRoute>
                   <AppLayout>
                     <TrailRunnerPage />
+                  </AppLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/rewards"
+              element={
+                <ProtectedRoute>
+                  <AppLayout>
+                    <RewardsCenter />
                   </AppLayout>
                 </ProtectedRoute>
               }

@@ -1,0 +1,46 @@
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model UserXp {
+  userId        String   @id @map("user_id")
+  walletAddress String?  @unique @map("wallet_address")
+  totalXp       Int      @default(0) @map("total_xp")
+  level         Int      @default(1)
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  history       XpTransaction[]
+
+  @@index([walletAddress])
+}
+
+model XpTransaction {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  amount    Int
+  reason    String
+  nonce     String   @unique
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user      UserXp   @relation(fields: [userId], references: [userId], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model MissionCooldown {
+  id          String    @id @default(uuid())
+  userId      String    @map("user_id")
+  missionKey  String    @map("mission_key")
+  expiresAt   DateTime  @map("expires_at")
+  lastClaimed DateTime  @default(now()) @map("last_claimed")
+
+  @@unique([userId, missionKey])
+  @@index([userId])
+}
