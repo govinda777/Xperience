@@ -30,9 +30,18 @@ declare module "@privy-io/react-auth" {
     login: () => Promise<void>;
     logout: () => Promise<void>;
     connectWallet: () => Promise<void>;
+    getAccessToken: () => Promise<string | null>;
+    [key: string]: any;
+  }
+
+  export interface ConnectedWallet {
+    address: string;
+    walletClientType: string;
+    getEthereumProvider(): Promise<any>;
     [key: string]: any;
   }
 
   export function usePrivy(): PrivyContext;
+  export function useWallets(): { wallets: ConnectedWallet[] };
   export function PrivyProvider(props: PrivyProviderProps): JSX.Element;
 }

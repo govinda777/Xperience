@@ -1,8 +1,8 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { streamText } from 'ai';
 import { openai } from '@ai-sdk/openai';
+import { createGoogleGenerativeAI } from '@ai-sdk/google';
 import { allTools } from '../_lib/tools/index.js';
-import { kv } from '@vercel/kv';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') {
@@ -15,9 +15,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(400).json({ error: 'Messages are required and must be an array' });
   }
 
-  if (!process.env.OPENAI_API_KEY) {
-    console.error('CRITICAL: OPENAI_API_KEY is missing.');
-    return res.status(500).json({ error: 'Service Misconfigured: Missing API Key' });
+  const geminiApiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_GENERATIVE_AI_API_KEY;
+  const openaiApiKey = process.env.OPENAI_API_KEY;
+
+  if (!geminiApiKey && !openaiApiKey) {
+    console.error('CRITICAL: Both GEMINI_API_KEY and OPENAI_API_KEY are missing.');
+    return res.status(500).json({ error: 'Service Misconfigured: Missing API Key (Gemini or OpenAI)' });
   }
 
   const lastUserMessage = messages[messages.length - 1];
@@ -61,20 +64,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     console.log(`[Chat API] Streaming request. Session: ${sessionId || 'new'}`);
 
-    // Save user message to KV (Redis) immediately
-    if (sessionId && lastUserMessage?.role === 'user') {
-        const sessionKey = `chat_session:${sessionId}`;
-        await (kv as any).lpush(sessionKey, JSON.stringify(lastUserMessage));
-        await (kv as any).ltrim(sessionKey, 0, 49);
-    }
-
     let systemPrompt = instructions || 'You are a helpful assistant.';
     if (context) {
         systemPrompt += `\n\n<context>\n${context}\n</context>`;
     }
 
+    const model = geminiApiKey
+      ? createGoogleGenerativeAI({ apiKey: geminiApiKey })('gemini-2.5-flash')
+      : openai('gpt-4o-mini');
+
+    console.log(`[Chat API] Instantiated model: ${geminiApiKey ? 'Gemini (gemini-2.5-flash)' : 'OpenAI (gpt-4o-mini)'}`);
+
     const result = await (streamText as any)({
-      model: openai('gpt-4o-mini'),
+      model,
       messages: [
         { role: 'system', content: systemPrompt },
         ...messages
@@ -83,15 +85,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       maxSteps: 10,
       onFinish: async ({ text, usage, finishReason }: any) => {
         console.log('[Chat API] Request finished.', { usage, finishReason });
-        if (sessionId) {
-            try {
-                const sessionKey = `chat_session:${sessionId}`;
-                await (kv as any).lpush(sessionKey, JSON.stringify({ role: 'assistant', content: text }));
-                await (kv as any).ltrim(sessionKey, 0, 49);
-            } catch (kvError) {
-                console.warn('[Chat API] KV update failed:', kvError);
-            }
-        }
       },
     });
 
@@ -112,8 +105,25 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   } catch (error: any) {
     console.error('[Chat API] Error:', error);
     if (!res.headersSent) {
+        let errorMessage = error.message || 'Internal Server Error';
+        const isAuthError = error.status === 401 || 
+                            error.status === 403 ||
+                            errorMessage.includes('401') || 
+                            errorMessage.includes('403') ||
+                            errorMessage.toLowerCase().includes('unauthorized') || 
+                            errorMessage.toLowerCase().includes('api key') ||
+                            errorMessage.toLowerCase().includes('apikey') ||
+                            errorMessage.toLowerCase().includes('forbidden') ||
+                            errorMessage.toLowerCase().includes('invalid_argument');
+        
+        if (isAuthError) {
+          errorMessage = geminiApiKey 
+            ? 'Erro de Autenticação no Gemini: A chave de API fornecida (GEMINI_API_KEY) é inválida ou foi revogada. Por favor, configure uma chave de API ativa em suas variáveis de ambiente.'
+            : 'Erro de Autenticação na OpenAI: A chave de API fornecida (OPENAI_API_KEY) é inválida ou foi revogada. Por favor, configure uma chave de API ativa em suas variáveis de ambiente.';
+        }
+
         return res.status(500).json({
-          error: error.message || 'Internal Server Error',
+          error: errorMessage,
         });
     }
   }

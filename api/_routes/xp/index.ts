@@ -1,7 +1,10 @@
 import type { VercelResponse } from '@vercel/node';
 import { withAuth, AuthenticatedRequest } from '../../lib/auth-middleware.js';
-import { kv } from '../../lib/kv.js';
 import { setCorsHeaders } from '../../_lib/middleware.js';
+
+// In-memory storage to persist user XP during local server development
+const userXpStore = new Map<string, number>();
+const xpHistoryStore = new Map<string, any[]>();
 
 async function handler(req: AuthenticatedRequest, res: VercelResponse) {
   setCorsHeaders(res);
@@ -15,8 +18,8 @@ async function handler(req: AuthenticatedRequest, res: VercelResponse) {
 
   if (req.method === 'GET') {
     try {
-      const xp = await kv.get(xpKey) || 0;
-      return res.status(200).json({ userId, xp: Number(xp) });
+      const xp = userXpStore.get(xpKey) || 0;
+      return res.status(200).json({ userId, xp });
     } catch (error) {
       console.error('[XP API] Error fetching XP:', error);
       return res.status(500).json({ error: 'Failed to fetch XP' });
@@ -31,9 +34,9 @@ async function handler(req: AuthenticatedRequest, res: VercelResponse) {
     }
 
     try {
-      // In a real scenario, you might want to verify if the user has permission to grant XP
-      // or if this is called from a trusted internal service.
-      const newXp = await kv.incrby(xpKey, amount);
+      const currentXp = userXpStore.get(xpKey) || 0;
+      const newXp = currentXp + amount;
+      userXpStore.set(xpKey, newXp);
 
       // Log the transaction
       const logEntry = {
@@ -42,8 +45,11 @@ async function handler(req: AuthenticatedRequest, res: VercelResponse) {
         reason: reason || 'Não especificado',
         total: newXp
       };
-      await kv.lpush(`user:${userId}:xp_history`, JSON.stringify(logEntry));
-      await kv.ltrim(`user:${userId}:xp_history`, 0, 99);
+      
+      let history = xpHistoryStore.get(userId) || [];
+      history.unshift(logEntry);
+      history = history.slice(0, 100); // Keep max 100 entries
+      xpHistoryStore.set(userId, history);
 
       return res.status(200).json({ userId, xp: newXp, added: amount });
     } catch (error) {

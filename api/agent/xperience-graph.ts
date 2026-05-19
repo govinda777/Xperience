@@ -14,16 +14,56 @@ export interface AgentState {
   clarificationCount: number;
 }
 
-const llm = new ChatOpenAI({
-  modelName: "gpt-4o", // We use gpt-4o for complex reasoning and structured output
-  temperature: 0.2,
-});
+const geminiApiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_GENERATIVE_AI_API_KEY;
+const openaiApiKey = process.env.OPENAI_API_KEY;
 
-const jsonLlm = new ChatOpenAI({
-  modelName: "gpt-4o",
-  temperature: 0.2,
-  modelKwargs: { response_format: { type: "json_object" } }
-});
+const isGemini = !!geminiApiKey;
+
+if (isGemini) {
+  console.log("[xperience-graph] Using Gemini (via OpenAI compatibility layer) for LangGraph orchestration");
+} else {
+  console.log("[xperience-graph] Using OpenAI for LangGraph orchestration");
+}
+
+const llm = new ChatOpenAI(
+  isGemini
+    ? {
+        apiKey: geminiApiKey,
+        openAIApiKey: geminiApiKey,
+        configuration: {
+          baseURL: "https://generativelanguage.googleapis.com/v1beta/openai/",
+        },
+        modelName: "gemini-2.5-flash",
+        temperature: 0.2,
+      }
+    : {
+        apiKey: openaiApiKey,
+        openAIApiKey: openaiApiKey,
+        modelName: "gpt-4o",
+        temperature: 0.2,
+      }
+);
+
+const jsonLlm = new ChatOpenAI(
+  isGemini
+    ? {
+        apiKey: geminiApiKey,
+        openAIApiKey: geminiApiKey,
+        configuration: {
+          baseURL: "https://generativelanguage.googleapis.com/v1beta/openai/",
+        },
+        modelName: "gemini-2.5-flash",
+        temperature: 0.2,
+        modelKwargs: { response_format: { type: "json_object" } }
+      }
+    : {
+        apiKey: openaiApiKey,
+        openAIApiKey: openaiApiKey,
+        modelName: "gpt-4o",
+        temperature: 0.2,
+        modelKwargs: { response_format: { type: "json_object" } }
+      }
+);
 
 // NODE: The Strategist (Analista)
 async function analystNode(state: AgentState): Promise<Partial<AgentState>> {
@@ -44,7 +84,8 @@ Produza uma análise executiva profunda e direta.`;
   }
 
   const response = await llm.invoke([
-    new SystemMessage(prompt)
+    new SystemMessage(prompt),
+    new HumanMessage("Analise as respostas brutas fornecidas e gere a análise estratégica.")
   ]);
 
   return {
@@ -71,7 +112,10 @@ ${state.analysis}
 Esta análise tem profundidade suficiente para gerar um artefato do tipo "${state.intent}" com foco em "experiências enxutas", "unit economics" e "valor percebido"?
 Responda APENAS "SIM" se for suficiente, ou "NÃO: [motivo]" se estiver vaga ou carecer de foco nesses pilares.`;
 
-      const evalResponse = await llm.invoke([new SystemMessage(evaluationPrompt)]);
+      const evalResponse = await llm.invoke([
+        new SystemMessage(evaluationPrompt),
+        new HumanMessage("Avalie se a análise possui profundidade suficiente para o artefato desejado.")
+      ]);
       const evalText = evalResponse.content as string;
 
       if (evalText.toUpperCase().startsWith("NÃO")) {
@@ -141,7 +185,8 @@ Regras para os campos (fields):
   }
 
   const response = await modelToUse.invoke([
-    new SystemMessage(prompt)
+    new SystemMessage(prompt),
+    new HumanMessage("Por favor, crie o artefato solicitado.")
   ]);
 
   let finalOutput = response.content;

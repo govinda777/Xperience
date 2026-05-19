@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { UserWalletService } from "../services/userWalletService";
-import { usePrivy } from "@privy-io/react-auth";
+import { usePrivy, useWallets } from "@privy-io/react-auth";
 import { WalletService } from "../services/walletService";
 import { ethers } from "ethers";
 
@@ -23,7 +23,8 @@ interface WalletData {
  * Hook to interact with user's ERC-4337 wallet
  */
 export const useUserWallet = () => {
-  const { user, authenticated, wallets } = usePrivy();
+  const { user, authenticated } = usePrivy();
+  const { wallets } = useWallets();
   const [walletData, setWalletData] = useState<WalletData | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -32,7 +33,7 @@ export const useUserWallet = () => {
   const walletService = useMemo(() => new WalletService(), []);
 
   // Get the embedded wallet from Privy
-  const embeddedWallet = (wallets as any[]).find((w) => w.walletClientType === 'privy');
+  const embeddedWallet = wallets.find((w) => w.walletClientType === 'privy');
 
   /**
    * Initialize the user's wallet
@@ -95,8 +96,9 @@ export const useUserWallet = () => {
     try {
       const token = localStorage.getItem('privy_token') || "";
 
-      // Get the signer from Privy's embedded wallet
-      const privyProvider = await embeddedWallet.getEthersProvider();
+      // Get the signer from Privy's embedded wallet by wrapping EIP-1193 with Ethers Web3Provider
+      const provider = await embeddedWallet.getEthereumProvider();
+      const privyProvider = new ethers.providers.Web3Provider(provider);
       const signer = privyProvider.getSigner();
 
       // Get the user's wallet mapping

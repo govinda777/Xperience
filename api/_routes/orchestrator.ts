@@ -15,8 +15,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     console.log(`[TrailAgent API] Running workflow for intent: ${intent}`);
 
-    if (!process.env.OPENAI_API_KEY) {
-        throw new Error("Missing OPENAI_API_KEY environment variable");
+    const geminiApiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_GENERATIVE_AI_API_KEY;
+    const openaiApiKey = process.env.OPENAI_API_KEY;
+
+    if (!geminiApiKey && !openaiApiKey) {
+        throw new Error("Missing API Key: either GEMINI_API_KEY (or GOOGLE_GENERATIVE_AI_API_KEY) or OPENAI_API_KEY must be set.");
     }
 
     const initialState = {

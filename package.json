@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "@account-abstraction/contracts": "^0.8.0",
+    "@ai-sdk/google": "^3.0.75",
     "@ai-sdk/openai": "^3.0.48",
     "@ai-sdk/react": "^3.0.143",
     "@alchemy/aa-accounts": "^3.19.0",
@@ -47,6 +48,7 @@
     "@langchain/core": "^1.1.19",
     "@langchain/langgraph": "^1.1.3",
     "@langchain/openai": "^1.2.5",
+    "@privy-io/node": "^0.18.0",
     "@privy-io/react-auth": "^2.24.0",
     "@safe-global/safe-apps-provider": "^0.18.6",
     "@safe-global/safe-apps-sdk": "^9.1.0",

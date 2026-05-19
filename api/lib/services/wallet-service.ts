@@ -1,5 +1,3 @@
-import { kv } from '@vercel/kv';
-
 export interface UserWalletData {
   userId: string;
   eoaAddress: string;
@@ -8,17 +6,18 @@ export interface UserWalletData {
   createdAt: number;
 }
 
-export class WalletPersistenceService {
-  private static readonly KEY_PREFIX = 'user_wallet:';
+// In-memory persistence fallback to replace Redis/KV dependency
+const walletStore = new Map<string, UserWalletData>();
 
+export class WalletPersistenceService {
   /**
    * Get wallet data for a user
    */
   static async getWallet(userId: string): Promise<UserWalletData | null> {
     try {
-      return await kv.get<UserWalletData>(`${this.KEY_PREFIX}${userId}`);
+      return walletStore.get(userId) || null;
     } catch (error) {
-      console.error('Failed to get wallet from KV:', error);
+      console.error('Failed to get wallet:', error);
       return null;
     }
   }
@@ -28,9 +27,9 @@ export class WalletPersistenceService {
    */
   static async storeWallet(data: UserWalletData): Promise<void> {
     try {
-      await kv.set(`${this.KEY_PREFIX}${data.userId}`, data);
+      walletStore.set(data.userId, data);
     } catch (error) {
-      console.error('Failed to store wallet in KV:', error);
+      console.error('Failed to store wallet:', error);
       throw new Error('Persistence failed');
     }
   }
