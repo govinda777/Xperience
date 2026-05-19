@@ -11,7 +11,6 @@ import Dashboard from "./pages/Dashboard";
 import Agents from "./pages/Agents";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
-import HealthDashboard from "./pages/Health";
 import TestSessionPage from "./pages/TestSession";
 import TrailList from "./pages/Trails/TrailList";
 import TrailRunnerPage from "./pages/Trails/TrailRunnerPage";
@@ -60,16 +59,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route
-              path="/health"
-              element={
-                <ProtectedRoute>
-                  <AppLayout>
-                    <HealthDashboard />
-                  </AppLayout>
-                </ProtectedRoute>
-              }
-            />
+
             <Route
               path="/trails"
               element={
