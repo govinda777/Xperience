@@ -11,8 +11,6 @@ import Dashboard from "./pages/Dashboard";
 import Agents from "./pages/Agents";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
-import LeadsManager from "./pages/LeadsManager";
-import Transparencia from "./pages/Transparencia";
 import HealthDashboard from "./pages/Health";
 import TestSessionPage from "./pages/TestSession";
 import TrailList from "./pages/Trails/TrailList";
@@ -39,8 +37,6 @@ function App() {
             <Route element={<DefaultLayout><Community /></DefaultLayout>} path="/community" />
             <Route element={<DefaultLayout><Cart /></DefaultLayout>} path="/cart" />
             <Route element={<DefaultLayout><Checkout /></DefaultLayout>} path="/checkout" />
-            <Route element={<DefaultLayout><LeadsManager /></DefaultLayout>} path="/leads" />
-            <Route element={<DefaultLayout><Transparencia /></DefaultLayout>} path="/transparencia" />
             <Route element={<DefaultLayout><TestSessionPage /></DefaultLayout>} path="/test-session" />
 
             {/* App Routes with AppLayout and ProtectedRoute */}

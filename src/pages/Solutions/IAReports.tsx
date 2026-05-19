@@ -37,7 +37,7 @@ const IAReports: React.FC = () => {
       <IAReport
         imageLeft={true}
         title="Relatório Xperience"
-        description="Análise que utiliza o método Blue Ocean (Oceano azul) e é gerado pela nossa IA do Empreendedor para que você:"
+        description="Análise estratégica utilizando o método Blue Ocean (Oceano Azul) e a expertise da Xperience para que você:"
         bullets={[
           "Identifique novas possibilidades e criar mercados inexplorados.",
           "Receba orientações direcionadas para o seu negócio.",

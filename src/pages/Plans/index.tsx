@@ -7,7 +7,6 @@ import Bols1 from "../../../assets/svg/bols1.svg";
 import Bols2 from "../../../assets/svg/bols2.svg";
 import Warranty from "../../../assets/svg/warranty.svg";
 import ContactForm from "../../components/ContactForm";
-import EnjoyTools from "./EnjoyTools";
 import Emoji from "../../../assets/svg/emoji.svg";
 import PlansTable from "../../components/Plans/PlansTable";
 import SEOHead from "../../components/SEOHead";
@@ -225,8 +224,7 @@ const Plans: React.FC = () => {
           Escolha o plano certo e veja seu negócio crescer
         </h1>
         <h2 className="text-lg w-[360px] md:w-auto md:text-xl md:mt-0 mt-12 mx-auto">
-          Além da nossa ferramenta <span className="font-bold">gratuita</span>,
-          oferecemos consultoria personalizada para levar o seu negócio ao
+          Oferecemos consultoria personalizada e acompanhamento estratégico para levar o seu negócio ao
           próximo nível.
         </h2>
       </header>
@@ -302,9 +300,6 @@ const Plans: React.FC = () => {
           </div>
         )}
       </section>
-
-      {/* Seção de ferramentas */}
-      <EnjoyTools link="#" />
 
       {/* Seção de garantia */}
       <section className="py-16 px-4 bg-white">

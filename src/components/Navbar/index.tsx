@@ -30,14 +30,7 @@ const Navbar = () => {
     { name: "Quem somos", path: "/about" },
     { name: "Contato", path: "/contact" },
     { name: "Comunidade", path: "/community" },
-    { name: "Blog", path: "/blog" },
     { name: "Planos", path: "/plans" },
-    { name: "Transparência", path: "/transparencia" },
-    {
-      name: "IA do Empreendedor",
-      path: "https://ai-entrepreneur-connect.replit.app",
-      external: true,
-    },
   ];
 
   if (authenticated) {
