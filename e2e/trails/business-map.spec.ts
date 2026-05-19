@@ -54,7 +54,7 @@ test.describe('Trilha Mapa do Negócio', () => {
     await page.getByRole('button', { name: 'Gerar Dossiê' }).click();
 
     // Wait for the AI result to load
-    await expect(page.getByRole('heading', { name: 'Seu Dossiê' })).toBeVisible({ timeout: 15000 });
+    await expect(page.getByText('Mock AI Response')).toBeVisible({ timeout: 15000 });
 
     // Click 'Finalizar Jornada'
     await page.getByRole('button', { name: 'Finalizar Jornada' }).click();
