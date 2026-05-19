@@ -29,11 +29,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     // 2. Prepare EIP-712 Signature
+    // Process verifyingContract dynamically from environment, fallback to zero address to avoid crashing if not set
+    const verifyingContract = process.env.XP_VERIFYING_CONTRACT || "0x0000000000000000000000000000000000000000";
+
     const domain = {
       name: "XperienceGamification",
       version: "1",
       chainId: 11155111, // Sepolia Testnet
-      verifyingContract: "0x0000000000000000000000000000000000000000" // Placeholder
+      verifyingContract
     };
 
     const types = {
