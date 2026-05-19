@@ -120,7 +120,7 @@ const TrailRunner: React.FC<TrailRunnerProps> = ({ trail: initialTrail, onComple
             onClick={() => {
               setTrailsSession(prev => {
                 const newSession = { ...prev };
-                delete newSession[trail.trailId];
+                delete newSession[initialTrail.trailId];
                 return newSession;
               });
             }}

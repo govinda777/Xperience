@@ -25,7 +25,7 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const navItems = [
+  const navItems: { name: string; path: string; external?: boolean }[] = [
     { name: "Soluções", path: "/solutions" },
     { name: "Quem somos", path: "/about" },
     { name: "Contato", path: "/contact" },

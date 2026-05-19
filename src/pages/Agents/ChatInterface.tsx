@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { useChat } from '@ai-sdk/react';
+import { DefaultChatTransport } from 'ai';
 import { AgentInspectorPanel } from '../../components/agent/AgentInspectorPanel';
 import { Button, Input } from '../../components/styled/styled';
 import { Agent } from './types';
@@ -169,6 +170,8 @@ interface Props {
   agent: Agent;
   onUpdateAgent: (updates: Partial<Agent>) => void;
   onBack: () => void;
+  messages?: any;
+  onAddMessage?: (msg: any) => void;
 }
 
 const AgentChat: React.FC<Props> = ({ agent, onUpdateAgent, onBack }) => {
@@ -178,14 +181,58 @@ const AgentChat: React.FC<Props> = ({ agent, onUpdateAgent, onBack }) => {
   const [showInspector, setShowInspector] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat({
-    api: '/api/chat',
-    body: {
-      sessionId: (agent && agent.id) || 'default',
-      instructions: (agent && agent.systemPrompt) || 'You are a helpful assistant.',
-      context: context
-    }
+  const [inputValue, setInputValue] = useState('');
+
+  const { messages, sendMessage, status } = useChat({
+    transport: new DefaultChatTransport({
+      api: '/api/chat',
+      body: {
+        sessionId: (agent && agent.id) || 'default',
+        instructions: (agent && agent.systemPrompt) || 'You are a helpful assistant.',
+        context: context
+      }
+    })
   });
+
+  const isLoading = status === 'submitted' || status === 'streaming';
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!inputValue.trim()) return;
+    sendMessage({ text: inputValue });
+    setInputValue('');
+  };
+
+  const getMessageContent = (msg: any) => {
+    if (msg.content) return msg.content;
+    if (msg.parts && Array.isArray(msg.parts)) {
+      return msg.parts
+        .map((part: any) => {
+          if (part.type === 'text') return part.text;
+          if (part.type === 'reasoning') return part.text;
+          return '';
+        })
+        .join('');
+    }
+    return '';
+  };
+
+  const getToolInvocations = (msg: any) => {
+    if (msg.toolInvocations) return msg.toolInvocations;
+    if (msg.parts && Array.isArray(msg.parts)) {
+      return msg.parts
+        .filter((part: any) => part.type.startsWith('tool-') || part.type === 'dynamic-tool')
+        .map((part: any) => {
+          const toolName = part.toolName || part.type.replace('tool-', '');
+          return {
+            toolName,
+            toolCallId: part.toolCallId || part.id || part.approval?.id || String(Math.random()),
+            state: part.state === 'output-available' || part.state === 'output-error' ? 'result' : 'calling'
+          };
+        });
+    }
+    return [];
+  };
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -325,10 +372,10 @@ const AgentChat: React.FC<Props> = ({ agent, onUpdateAgent, onBack }) => {
                     {msg.role === 'user' ? <User size={12} /> : <Bot size={12} />}
                     <span>{msg.role === 'user' ? 'Você' : (agent.name || 'Agente')}</span>
                     </div>
-                    <div style={{ whiteSpace: 'pre-wrap' }}>{msg.content}</div>
+                    <div style={{ whiteSpace: 'pre-wrap' }}>{getMessageContent(msg)}</div>
                 </MessageBubble>
 
-                {msg.toolInvocations?.map((toolInvocation) => {
+                {getToolInvocations(msg).map((toolInvocation: any) => {
                     const { toolName, toolCallId, state } = toolInvocation;
                     if (state === 'result') {
                         return (
@@ -352,12 +399,12 @@ const AgentChat: React.FC<Props> = ({ agent, onUpdateAgent, onBack }) => {
           <form onSubmit={handleSubmit}>
             <InputContainer>
                 <StyledInput
-                value={input}
-                onChange={handleInputChange}
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
                 placeholder="Digite sua mensagem..."
                 disabled={isLoading}
                 />
-                <Button type="submit" disabled={isLoading || !input.trim()} aria-label="Enviar mensagem">
+                <Button type="submit" disabled={isLoading || !inputValue.trim()} aria-label="Enviar mensagem">
                 <Send size={18} />
                 </Button>
             </InputContainer>
