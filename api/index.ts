@@ -7,6 +7,7 @@ import leadsHandler from './_routes/leads.js';
 import searchConsoleHandler from './_routes/search-console.js';
 import sessionHandler from './_routes/user/session.js';
 import xpHandler from './_routes/xp/index.js';
+import xpVerifyHandler from './_routes/xp/verify.js';
 import walletHandler from './_routes/user/wallet.js';
 import roleHandler from './_routes/admin/user/[userId]/role.js';
 import telegramWebhookHandler from './_routes/webhooks/telegram/route.js';
@@ -34,6 +35,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (path === '/api/search-console') return await searchConsoleHandler(req, res);
     if (path === '/api/user/session') return await sessionHandler(req, res);
     if (path === '/api/xp') return await xpHandler(req, res);
+    if (path.startsWith('/api/xp/verify/')) {
+      const address = path.split('/api/xp/verify/')[1];
+      req.query = { ...req.query, address };
+      return await xpVerifyHandler(req, res);
+    }
     if (path === '/api/user/wallet') return await walletHandler(req, res);
     if (path === '/api/webhooks/telegram') return await telegramWebhookHandler(req, res);
     if (path === '/api/webhooks/whatsapp') return await whatsappWebhookHandler(req, res);

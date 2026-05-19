@@ -17,7 +17,8 @@ import {
   ChevronRight,
   Zap,
   CheckCircle2,
-  Play
+  Play,
+  Gift
 } from "lucide-react";
 import { ReportSessionService, Report } from "../../services/reportSessionService";
 import { TrailStorageService } from "../../services/trailStorageService";
@@ -111,6 +112,15 @@ const Dashboard = () => {
         <nav className="space-y-2 flex-grow">
           {renderSidebarItem('overview', 'Dashboard', <LayoutDashboard size={20} />)}
           {renderSidebarItem('trails', 'Minha Jornada', <Map size={20} />)}
+          <button
+            onClick={() => navigate('/rewards')}
+            className={`w-full flex items-center justify-between p-3 mb-2 rounded-xl text-left transition-all font-medium text-gray-500 hover:bg-gray-50`}
+          >
+            <div className="flex items-center gap-3">
+              <Gift size={20} />
+              Recompensas
+            </div>
+          </button>
           <button
             onClick={() => navigate('/agents')}
             className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-orange-50 hover:text-orange-600 transition-all duration-200"
