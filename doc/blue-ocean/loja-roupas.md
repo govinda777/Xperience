@@ -68,3 +68,6 @@ Ao adotar o posicionamento de **Clube de Curadoria de Imagem**, a loja foge da c
 - [Agência de Marketing](./agencia-marketing.md)
 - [Startup B2B SaaS](./startup-saas.md)
 - [Food Truck e Comida de Rua](./food-truck.md)
+- [Estúdio de Yoga](./estudio-yoga.md)
+- [Coworking de Nicho](./coworking.md)
+- [Imobiliária Consultiva](./imobiliaria.md)

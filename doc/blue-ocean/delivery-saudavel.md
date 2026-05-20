@@ -67,3 +67,6 @@ Ao migrar para um modelo de assinatura focada em **conveniência** e **nutriçã
 - [Loja de Roupas](./loja-roupas.md)
 - [Startup B2B SaaS](./startup-saas.md)
 - [Food Truck e Comida de Rua](./food-truck.md)
+- [Estúdio de Yoga](./estudio-yoga.md)
+- [Coworking de Nicho](./coworking.md)
+- [Imobiliária Consultiva](./imobiliaria.md)

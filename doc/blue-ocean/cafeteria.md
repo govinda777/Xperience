@@ -70,3 +70,6 @@ Ao convidar o cliente para ficar, em vez de apressá-lo para sair, a cafeteria s
 - [Escola de Idiomas](./escola-idiomas.md)
 - [Startup B2B SaaS](./startup-saas.md)
 - [Food Truck e Comida de Rua](./food-truck.md)
+- [Estúdio de Yoga](./estudio-yoga.md)
+- [Coworking de Nicho](./coworking.md)
+- [Imobiliária Consultiva](./imobiliaria.md)

@@ -70,3 +70,6 @@ Transformar a academia de escalada em um "Terceiro Lugar" (entre a casa e o trab
 - [Food Truck e Comida de Rua](./food-truck.md)
 - [Delivery de Comida Saudável](./delivery-saudavel.md)
 - [Loja de Roupas](./loja-roupas.md)
+- [Estúdio de Yoga](./estudio-yoga.md)
+- [Coworking de Nicho](./coworking.md)
+- [Imobiliária Consultiva](./imobiliaria.md)

@@ -67,3 +67,6 @@ Ao adotar o posicionamento de **Parceiro de Crescimento**, a agência se desvenc
 - [Loja de Roupas](./loja-roupas.md)
 - [Startup B2B SaaS](./startup-saas.md)
 - [Food Truck e Comida de Rua](./food-truck.md)
+- [Estúdio de Yoga](./estudio-yoga.md)
+- [Coworking de Nicho](./coworking.md)
+- [Imobiliária Consultiva](./imobiliaria.md)
