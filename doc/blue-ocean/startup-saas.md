@@ -73,3 +73,6 @@ Ao escolher um nicho específico, a startup deixa de competir no "Oceano Vermelh
 - [Oficina Mecânica](./oficina-mecanica.md)
 - [Escola de Idiomas](./escola-idiomas.md)
 - [Food Truck e Comida de Rua](./food-truck.md)
+- [Estúdio de Yoga](./estudio-yoga.md)
+- [Coworking de Nicho](./coworking.md)
+- [Imobiliária Consultiva](./imobiliaria.md)

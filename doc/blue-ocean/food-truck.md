@@ -73,3 +73,6 @@ Ao transformar a comida de rua em um **evento de lazer**, o food truck se descol
 - [Oficina Mecânica](./oficina-mecanica.md)
 - [Escola de Idiomas](./escola-idiomas.md)
 - [Startup B2B SaaS](./startup-saas.md)
+- [Estúdio de Yoga](./estudio-yoga.md)
+- [Coworking de Nicho](./coworking.md)
+- [Imobiliária Consultiva](./imobiliaria.md)

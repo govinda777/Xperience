@@ -70,3 +70,6 @@ Ao focar na **experiência masculina** e na **recorrência (assinatura)**, a bar
 - [Escola de Idiomas](./escola-idiomas.md)
 - [Startup B2B SaaS](./startup-saas.md)
 - [Food Truck e Comida de Rua](./food-truck.md)
+- [Estúdio de Yoga](./estudio-yoga.md)
+- [Coworking de Nicho](./coworking.md)
+- [Imobiliária Consultiva](./imobiliaria.md)

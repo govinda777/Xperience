@@ -71,3 +71,6 @@ Ao migrar do modelo "médico-paciente" para o modelo "membro-clube", a clínica 
 - [Escola de Idiomas](./escola-idiomas.md)
 - [Startup B2B SaaS](./startup-saas.md)
 - [Food Truck e Comida de Rua](./food-truck.md)
+- [Estúdio de Yoga](./estudio-yoga.md)
+- [Coworking de Nicho](./coworking.md)
+- [Imobiliária Consultiva](./imobiliaria.md)

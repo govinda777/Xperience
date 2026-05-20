@@ -71,3 +71,6 @@ Fugir da guerra de preços das plataformas de reserva tradicionais. Ao eliminar 
 - [Food Truck e Comida de Rua](./food-truck.md)
 - [Delivery de Comida Saudável](./delivery-saudavel.md)
 - [Loja de Roupas](./loja-roupas.md)
+- [Estúdio de Yoga](./estudio-yoga.md)
+- [Coworking de Nicho](./coworking.md)
+- [Imobiliária Consultiva](./imobiliaria.md)

@@ -70,3 +70,6 @@ Ao focar no profissional que já tentou vários métodos e continua travado ("et
 - [Oficina Mecânica](./oficina-mecanica.md)
 - [Startup B2B SaaS](./startup-saas.md)
 - [Food Truck e Comida de Rua](./food-truck.md)
+- [Estúdio de Yoga](./estudio-yoga.md)
+- [Coworking de Nicho](./coworking.md)
+- [Imobiliária Consultiva](./imobiliaria.md)

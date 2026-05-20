@@ -70,3 +70,6 @@ Ao aplicar o conceito de "Transparência Total" via ferramentas digitais simples
 - [Escola de Idiomas](./escola-idiomas.md)
 - [Startup B2B SaaS](./startup-saas.md)
 - [Food Truck e Comida de Rua](./food-truck.md)
+- [Estúdio de Yoga](./estudio-yoga.md)
+- [Coworking de Nicho](./coworking.md)
+- [Imobiliária Consultiva](./imobiliaria.md)

@@ -70,3 +70,6 @@ Parar de vender a presença física e passar a vender a transformação e o aces
 - [Food Truck e Comida de Rua](./food-truck.md)
 - [Delivery de Comida Saudável](./delivery-saudavel.md)
 - [Loja de Roupas](./loja-roupas.md)
+- [Estúdio de Yoga](./estudio-yoga.md)
+- [Coworking de Nicho](./coworking.md)
+- [Imobiliária Consultiva](./imobiliaria.md)
