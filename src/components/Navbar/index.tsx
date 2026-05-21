@@ -6,7 +6,7 @@ import AuthButton from "../AuthButton";
 import CartIcon from "../cart/CartIcon";
 import CartSidebar from "../cart/CartSidebar";
 
-const logo = new URL("/public/logo.svg", import.meta.url).href;
+const logo = "/logo.svg";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
