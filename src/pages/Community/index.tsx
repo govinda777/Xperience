@@ -1,6 +1,6 @@
 import React from "react";
 import PeoplesCommunity from "../../../assets/peoplesCommunity.png";
-import Logo from "../../../assets/logo.svg";
+const Logo = "/logo.svg";
 import { ArrowRight } from "lucide-react";
 import ChevronsRight2 from "../../../assets/svg/chevronsRight2.svg";
 import Rabisco2 from "../../../assets/svg/rabisco2.svg";
