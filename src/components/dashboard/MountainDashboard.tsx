@@ -56,15 +56,17 @@ interface CompanyData {
   id: string;
   name: string;
   status: string;
+  businessMapStatus: string;
   totalProgress: number;
   departments: Department[];
   bootcampAllowed: boolean;
 }
 
 export const MountainDashboard: React.FC = () => {
-  const { user, authenticated } = usePrivy();
+  const { user, authenticated, getAccessToken } = usePrivy();
   const [companyData, setCompanyData] = useState<CompanyData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchCompanyData = async () => {
@@ -73,34 +75,43 @@ export const MountainDashboard: React.FC = () => {
         return;
       }
 
-      // In a real implementation, you would fetch from your backend API
-      // passing the privyId or walletNumber to identify the user and their company.
-      // e.g., const res = await fetch(`/api/company?walletNumber=${user.wallet?.address}`);
-      // const data = await res.json();
+      try {
+        const token = await getAccessToken();
+        if (!token) {
+           setError('No access token available');
+           setLoading(false);
+           return;
+        }
 
-      // Mocking the backend response for demonstration
-      setTimeout(() => {
-        setCompanyData({
-          id: 'comp_1',
-          name: 'Acme Corp',
-          status: 'Em subida',
-          totalProgress: 75,
-          bootcampAllowed: false,
-          departments: [
-            { id: 'dept_1', departmentName: 'Engineering', progress: 40 },
-            { id: 'dept_2', departmentName: 'Marketing', progress: 20 },
-            { id: 'dept_3', departmentName: 'Sales', progress: 15 },
-          ]
+        const res = await fetch('/api/mountain/status', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
         });
+
+        if (!res.ok) {
+           const errData = await res.json();
+           throw new Error(errData.error || 'Failed to fetch mountain status');
+        }
+
+        const data = await res.json();
+        setCompanyData(data.companyData);
+      } catch (err: any) {
+        console.error('Error fetching mountain status:', err);
+        setError(err.message);
+      } finally {
         setLoading(false);
-      }, 1000);
+      }
     };
 
     fetchCompanyData();
-  }, [user, authenticated]);
+  }, [user, authenticated, getAccessToken]);
 
   if (loading) return <div>Carregando a Montanha...</div>;
   if (!authenticated) return <div>Por favor, conecte sua carteira para ver a montanha.</div>;
+  if (error) return <div>Erro: {error}</div>;
   if (!companyData) return <div>Dados da empresa não encontrados.</div>;
 
   return (
@@ -111,6 +122,7 @@ export const MountainDashboard: React.FC = () => {
         </CardHeader>
         <CardContent>
           <p>Status: <strong>{companyData.status}</strong></p>
+          <p>Mapa do Negócio: <strong>{companyData.businessMapStatus}</strong></p>
           <p>Acesso ao Bootcamp: <strong>{companyData.bootcampAllowed ? 'Liberado' : 'Bloqueado'}</strong></p>
 
           <MountainVisual progress={companyData.totalProgress}>

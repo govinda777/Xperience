@@ -67,12 +67,13 @@ model User {
 }
 
 model Company {
-  id           String   @id @default(uuid())
-  name         String
-  rootUserId   String?  @unique @map("root_user_id")
-  status       String   @default("Em subida") // Em subida / No cume
-  createdAt    DateTime @default(now()) @map("created_at")
-  updatedAt    DateTime @updatedAt @map("updated_at")
+  id                String   @id @default(uuid())
+  name              String
+  rootUserId        String?  @unique @map("root_user_id")
+  status            String   @default("Em subida") // Em subida / No cume
+  businessMapStatus String   @default("Pendente") @map("business_map_status")
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
 
   rootUser     User?    @relation("RootUser", fields: [rootUserId], references: [id])
   users        User[]
