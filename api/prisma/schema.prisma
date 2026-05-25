@@ -44,3 +44,55 @@ model MissionCooldown {
   @@unique([userId, missionKey])
   @@index([userId])
 }
+
+model User {
+  id           String   @id @default(uuid())
+  walletNumber String   @unique @map("wallet_number")
+  privyId      String   @unique @map("privy_id")
+  companyId    String?  @map("company_id")
+  parentId     String?  @map("parent_id")
+  departmentId String?  @map("department_id")
+  role         String?
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  company         Company?         @relation(fields: [companyId], references: [id])
+  parent          User?            @relation("UserToParent", fields: [parentId], references: [id])
+  children        User[]           @relation("UserToParent")
+  department      DepartmentTrack? @relation(fields: [departmentId], references: [id])
+  companyAsRoot   Company?         @relation("RootUser")
+
+  @@index([walletNumber])
+  @@index([privyId])
+}
+
+model Company {
+  id           String   @id @default(uuid())
+  name         String
+  rootUserId   String?  @unique @map("root_user_id")
+  status       String   @default("Em subida") // Em subida / No cume
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  rootUser     User?    @relation("RootUser", fields: [rootUserId], references: [id])
+  users        User[]
+  departments  DepartmentTrack[]
+
+  @@index([rootUserId])
+}
+
+model DepartmentTrack {
+  id             String   @id @default(uuid())
+  companyId      String   @map("company_id")
+  departmentName String   @map("department_name")
+  status         String   @default("active")
+  kpis           Json     @default("{}")
+  progress       Float    @default(0.0)
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  company        Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  users          User[]
+
+  @@index([companyId])
+}
