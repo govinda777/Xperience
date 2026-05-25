@@ -25,8 +25,11 @@ import { TrailStorageService } from "../../services/trailStorageService";
 import { Trail } from "../../types/trails";
 import TrailList from "../Trails/TrailList";
 import { UserXPBadge } from "../../components/UserXPBadge";
+import { MountainDashboard } from "../../components/dashboard/MountainDashboard";
+import { InviteWidget } from "../../components/dashboard/InviteWidget";
+import { ExpeditionView } from "../../components/dashboard/ExpeditionView";
 
-type DashboardView = 'overview' | 'trails' | 'reports' | 'agents';
+type DashboardView = 'overview' | 'trails' | 'reports' | 'agents' | 'team';
 
 const Dashboard = () => {
   const { user, logout, ready } = useAuth();
@@ -111,6 +114,7 @@ const Dashboard = () => {
 
         <nav className="space-y-2 flex-grow">
           {renderSidebarItem('overview', 'Dashboard', <LayoutDashboard size={20} />)}
+          {renderSidebarItem('team', 'Meu Time', <Map size={20} />)}
           {renderSidebarItem('trails', 'Minha Jornada', <Map size={20} />)}
           <button
             onClick={() => navigate('/rewards')}
@@ -184,6 +188,17 @@ const Dashboard = () => {
                         </button>
                     </header>
 
+
+                    {/* Mountain and Invite Section */}
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div className="lg:col-span-2">
+                            <MountainDashboard />
+                        </div>
+                        <div>
+                            <InviteWidget />
+                        </div>
+                    </div>
+
                     {/* Onboarding Highlight */}
                     {getOnboardingStatus() !== 'completed' && (
                         <div className="bg-gradient-to-r from-orange-500 to-amber-600 rounded-3xl p-8 text-white shadow-xl shadow-orange-200 relative overflow-hidden group">
@@ -254,6 +269,22 @@ const Dashboard = () => {
                             <span className="text-green-600 font-bold text-sm flex items-center gap-1 group-hover:gap-2 transition-all">Ver relatórios <ChevronRight size={16}/></span>
                         </div>
                     </div>
+                </div>
+            )}
+
+
+            {view === 'team' && (
+                <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+                    <header className="mb-10 flex justify-between items-end">
+                        <div>
+                            <button onClick={() => setView('overview')} className="text-orange-600 font-bold text-sm mb-2 flex items-center gap-1 hover:gap-2 transition-all">
+                                <ChevronRight size={16} className="rotate-180" /> Voltar ao Dashboard
+                            </button>
+                            <h1 className="text-4xl font-black text-gray-900 tracking-tight">Expedição: Visão do Time</h1>
+                            <p className="text-gray-500 mt-2">Acompanhe quem está escalando a montanha com você.</p>
+                        </div>
+                    </header>
+                    <ExpeditionView />
                 </div>
             )}
 

@@ -14,6 +14,7 @@ import telegramWebhookHandler from './_routes/webhooks/telegram/route.js';
 import whatsappWebhookHandler from './_routes/webhooks/whatsapp/route.js';
 import mountainJoinHandler from './_routes/mountain/join.js';
 import mountainStatusHandler from './_routes/mountain/status.js';
+import mountainExpeditionHandler from './_routes/mountain/expedition.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const url = new URL(req.url || '/', `http://${req.headers.host}`);
@@ -47,6 +48,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (path === '/api/webhooks/whatsapp') return await whatsappWebhookHandler(req, res);
     if (path === '/api/mountain/join') return await mountainJoinHandler(req, res);
     if (path === '/api/mountain/status') return await mountainStatusHandler(req, res);
+    if (path === '/api/mountain/expedition') return await mountainExpeditionHandler(req, res);
 
     // Dynamic Route: /api/admin/user/:userId/role
     const roleMatch = path.match(/^\/api\/admin\/user\/([^/]+)\/role$/);
