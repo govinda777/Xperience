@@ -38,6 +38,7 @@ overrides:
   postcss: ^8.5.14
   langsmith: ^0.7.1
   ajv: ^8.18.0
+  '@hpke/common': 1.10.0
   fast-uri: 3.1.2
 
 importers:
@@ -78,8 +79,8 @@ importers:
         specifier: ^1.8.0
         version: 1.8.0
       '@hpke/common':
-        specifier: ^1.10.1
-        version: 1.10.1
+        specifier: 1.10.0
+        version: 1.10.0
       '@hpke/core':
         specifier: ^1.9.0
         version: 1.9.0
@@ -1697,8 +1698,8 @@ packages:
     resolution: {integrity: sha512-FcBfAQ+Y99vMNJP2yrZ9wpL8V0GOwp1+zMyzvc6alasrBygfFjFm1yeUtyADJCu/27C3Lm5mJzx6u7pwg+cX5w==}
     engines: {node: '>=16.0.0'}
 
-  '@hpke/common@1.10.1':
-    resolution: {integrity: sha512-moJwhmtLtuxiUzzNp1jpfBfx8yefKoO9D/RCR9dmwrnc7qjJqId1rEtQz+lSlU5cabX8daToMSx/7HayXOiaFw==}
+  '@hpke/common@1.10.0':
+    resolution: {integrity: sha512-uVq9pTNERQ1GcFlHZzQx+a0ZMC81wQzkbNzJPEyR/l3AWM7fASd/qYN2Cnq6uL1NPEfwcD4lgOmfjjZfx2k2XA==}
     engines: {node: '>=16.0.0'}
 
   '@hpke/core@1.9.0':
@@ -10234,21 +10235,21 @@ snapshots:
 
   '@hpke/chacha20poly1305@1.8.0':
     dependencies:
-      '@hpke/common': 1.10.1
+      '@hpke/common': 1.10.0
 
-  '@hpke/common@1.10.1': {}
+  '@hpke/common@1.10.0': {}
 
   '@hpke/core@1.9.0':
     dependencies:
-      '@hpke/common': 1.10.1
+      '@hpke/common': 1.10.0
 
   '@hpke/dhkem-x25519@1.8.0':
     dependencies:
-      '@hpke/common': 1.10.1
+      '@hpke/common': 1.10.0
 
   '@hpke/dhkem-x448@1.8.0':
     dependencies:
-      '@hpke/common': 1.10.1
+      '@hpke/common': 1.10.0
 
   '@humanfs/core@0.19.1': {}
 
@@ -17156,7 +17157,7 @@ snapshots:
   hpke-js@1.8.0:
     dependencies:
       '@hpke/chacha20poly1305': 1.8.0
-      '@hpke/common': 1.10.1
+      '@hpke/common': 1.10.0
       '@hpke/core': 1.9.0
       '@hpke/dhkem-x25519': 1.8.0
       '@hpke/dhkem-x448': 1.8.0
