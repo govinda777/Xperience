@@ -48,3 +48,37 @@ export function withAuth(handler: Handler) {
     }
   };
 }
+
+export type AuthenticatedMountainHandler = (
+  req: AuthenticatedRequest,
+  res: VercelResponse,
+  claims: any
+) => Promise<void | VercelResponse>;
+
+export const withMountainAuth = (handler: AuthenticatedMountainHandler) => {
+  return async (req: VercelRequest, res: VercelResponse) => {
+    if (req.method === 'OPTIONS') {
+      return res.status(200).end();
+    }
+
+    const authHeader = req.headers.authorization;
+    if (!authHeader?.startsWith('Bearer ')) {
+      return res.status(401).json({ error: 'Missing or invalid authorization header' });
+    }
+
+    try {
+      const token = authHeader.split(' ')[1];
+      const verifiedClaims = await verifyPrivyToken(token);
+
+      if (!verifiedClaims) return res.status(401).json({ error: 'Invalid token' });
+
+      const authenticatedReq = req as AuthenticatedRequest;
+      authenticatedReq.userId = verifiedClaims.user_id;
+
+      return await handler(authenticatedReq, res, verifiedClaims);
+    } catch (error) {
+      console.error('[AuthWrapper] Error:', error);
+      return res.status(401).json({ error: 'Authentication failed' });
+    }
+  };
+};
