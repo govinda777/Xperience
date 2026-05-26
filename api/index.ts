@@ -16,6 +16,7 @@ import mountainJoinHandler from './_routes/mountain/join.js';
 import mountainStatusHandler from './_routes/mountain/status.js';
 import mountainExpeditionHandler from './_routes/mountain/expedition.js';
 import mountainMapHandler from './_routes/mountain/map.js';
+import mountainAdminRemoveCompanyHandler from './_routes/mountain/admin/remove-company.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const url = new URL(req.url || '/', `http://${req.headers.host}`);
@@ -51,6 +52,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (path === '/api/mountain/status') return await mountainStatusHandler(req, res);
     if (path === '/api/mountain/expedition') return await mountainExpeditionHandler(req, res);
     if (path === '/api/mountain/map') return await mountainMapHandler(req, res);
+    if (path === '/api/mountain/admin/remove-company') return await mountainAdminRemoveCompanyHandler(req, res);
 
     // Dynamic Route: /api/admin/user/:userId/role
     const roleMatch = path.match(/^\/api\/admin\/user\/([^/]+)\/role$/);

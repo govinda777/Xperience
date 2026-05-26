@@ -1,33 +1,13 @@
-import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { prisma } from '../../lib/db.js';
-import { verifyPrivyToken } from '../../../lib/privy-server.js';
+import { withMountainAuth } from '../../lib/auth-middleware.js';
 import { calculateCompanyProgress, allowAccessToBootcamp } from '../../lib/mountain.js';
 
-export default async function statusHandler(req: VercelRequest, res: VercelResponse) {
+export default withMountainAuth(async (req, res, claims) => {
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  // Expecting a bearer token from Privy
-  const authHeader = req.headers.authorization;
-  if (!authHeader?.startsWith('Bearer ')) {
-    return res.status(401).json({ error: 'Missing or invalid authorization header' });
-  }
-
-  const token = authHeader.split(' ')[1];
-
-  let verifiedClaims;
-  try {
-    verifiedClaims = await verifyPrivyToken(token);
-    if (!verifiedClaims) {
-        return res.status(401).json({ error: 'Invalid token' });
-    }
-  } catch (error) {
-    console.error('[StatusHandler] Privy token verification failed:', error);
-    return res.status(401).json({ error: 'Invalid token' });
-  }
-
-  const privyId = verifiedClaims.user_id || verifiedClaims.user_id;
+  const privyId = claims.user_id;
 
   try {
     // Find the user to get their companyId
@@ -75,4 +55,4 @@ export default async function statusHandler(req: VercelRequest, res: VercelRespo
     console.error('[StatusHandler] Error fetching mountain status:', error);
     return res.status(500).json({ error: 'Internal Server Error', details: error.message });
   }
-}
+});
