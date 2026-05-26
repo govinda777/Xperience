@@ -28,6 +28,7 @@ import { UserXPBadge } from "../../components/UserXPBadge";
 import { MountainDashboard } from "../../components/dashboard/MountainDashboard";
 import { InviteWidget } from "../../components/dashboard/InviteWidget";
 import { ExpeditionView } from "../../components/dashboard/ExpeditionView";
+import { BusinessMapForm } from "../../components/dashboard/BusinessMapForm";
 
 type DashboardView = 'overview' | 'trails' | 'reports' | 'agents' | 'team';
 
@@ -38,6 +39,7 @@ const Dashboard = () => {
   const [selectedReport, setSelectedReport] = useState<Report | null>(null);
   const [view, setView] = useState<DashboardView>('overview');
   const [trails, setTrails] = useState<Trail[]>([]);
+  const [showBusinessMapForm, setShowBusinessMapForm] = useState(false);
 
   useEffect(() => {
     const loadReports = () => {
@@ -189,15 +191,33 @@ const Dashboard = () => {
                     </header>
 
 
-                    {/* Mountain and Invite Section */}
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        <div className="lg:col-span-2">
-                            <MountainDashboard />
+
+                    {/* Map Form or Mountain Section */}
+                    {showBusinessMapForm ? (
+                        <BusinessMapForm onComplete={() => {
+                            setShowBusinessMapForm(false);
+                            window.dispatchEvent(new Event('storage')); // trigger refresh if needed
+                        }} />
+                    ) : (
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                            <div className="lg:col-span-2 relative">
+                                {/* Optional overlay to enforce map completion before viewing mountain */}
+                                <MountainDashboard />
+                                <div className="absolute top-4 right-4 z-10">
+                                   <button
+                                      onClick={() => setShowBusinessMapForm(true)}
+                                      className="bg-white/80 backdrop-blur-sm text-gray-700 px-3 py-1 rounded-md text-xs font-bold border border-gray-200 hover:bg-white transition-all shadow-sm"
+                                   >
+                                     Editar Mapa do Negócio
+                                   </button>
+                                </div>
+                            </div>
+                            <div>
+                                <InviteWidget />
+                            </div>
                         </div>
-                        <div>
-                            <InviteWidget />
-                        </div>
-                    </div>
+                    )}
+
 
                     {/* Onboarding Highlight */}
                     {getOnboardingStatus() !== 'completed' && (

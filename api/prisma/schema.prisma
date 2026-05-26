@@ -72,6 +72,7 @@ model Company {
   rootUserId        String?  @unique @map("root_user_id")
   status            String   @default("Em subida") // Em subida / No cume
   businessMapStatus String   @default("Pendente") @map("business_map_status")
+  businessMapData   Json     @default("{}") @map("business_map_data")
   createdAt         DateTime @default(now()) @map("created_at")
   updatedAt         DateTime @updatedAt @map("updated_at")
 
