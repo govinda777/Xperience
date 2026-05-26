@@ -76,7 +76,7 @@ async function handler(req: AuthenticatedRequest, res: VercelResponse) {
       }
 
       // Execute transaction
-      const result = await prisma.$transaction(async (tx) => {
+      const result = await prisma.$transaction(async (tx: any) => {
         // 1. Update or create UserXp
         const userXp = await tx.userXp.upsert({
           where: { userId },

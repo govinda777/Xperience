@@ -8,6 +8,7 @@
   "scripts": {
     "precommit": "./pipeline.sh",
     "prepare": "husky install",
+    "postinstall": "prisma generate",
     "fast-install": "./scripts/fast-install.sh",
     "dev": "vite",
     "build": "vite build",
