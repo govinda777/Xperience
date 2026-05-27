@@ -145,7 +145,8 @@
       "langsmith": "^0.7.1",
       "ajv": "^8.18.0",
       "@hpke/common": "1.10.0",
-      "fast-uri": "3.1.2"
+      "fast-uri": "3.1.2",
+      "esbuild": "0.27.4"
     }
   },
   "prisma": {
