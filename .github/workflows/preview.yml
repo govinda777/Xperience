@@ -45,6 +45,21 @@ jobs:
       - name: 📦 Install Dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: 🚀 Create Neon Database Branch (PR only)
+        id: create-neon-branch
+        if: github.event_name == 'pull_request' && secrets.NEON_API_KEY != ''
+        uses: neondatabase/create-branch-action@v5
+        with:
+          project_id: ${{ secrets.NEON_PROJECT_ID }}
+          parent: main
+          branch_name: preview/pr-${{ github.event.number }}
+          api_key: ${{ secrets.NEON_API_KEY }}
+
+      - name: 🗄️ Sync Database Schema (Prisma DB Push)
+        run: pnpm prisma db push --accept-data-loss
+        env:
+          DATABASE_URL: ${{ steps.create-neon-branch.outputs.db_url || secrets.DATABASE_URL }}
+
       - name: 🚀 Install Vercel CLI
         run: npm install --global vercel@latest
 
@@ -53,12 +68,16 @@ jobs:
 
       - name: 🏗️ Build Project
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          DATABASE_URL: ${{ steps.create-neon-branch.outputs.db_url || secrets.DATABASE_URL }}
 
       - name: 🚢 Deploy to Vercel (Preview)
         id: deploy
         run: |
-          URL=$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})
+          URL=$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} --env DATABASE_URL="$DATABASE_URL" --env DIRECT_DATABASE_URL="$DATABASE_URL")
           echo "url=$URL" >> $GITHUB_OUTPUT
+        env:
+          DATABASE_URL: ${{ steps.create-neon-branch.outputs.db_url || secrets.DATABASE_URL }}
 
       - name: 💬 Comment PR with Preview URL
         uses: actions/github-script@v7
