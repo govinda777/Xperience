@@ -20,7 +20,8 @@ overrides:
   path-to-regexp: ^6.3.0
   react-router: ^7.13.1
   undici: ^7.25.0
-  qs: ^6.14.2
+  qs: ^6.15.2
+  js-cookie: ^3.0.7
   js-yaml: ^4.1.1
   load-nyc-config>js-yaml: ^3.14.2
   bn.js: ^5.2.3
@@ -34,7 +35,7 @@ overrides:
   defu: ^6.1.7
   hono: ^4.12.15
   '@stablelib/ed25519': ^2.1.0
-  uuid: ^10.0.0
+  uuid: ^11.1.1
   postcss: ^8.5.14
   langsmith: ^0.7.1
   ajv: ^8.18.0
@@ -246,8 +247,8 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
       uuid:
-        specifier: ^10.0.0
-        version: 10.0.0
+        specifier: ^11.1.1
+        version: 11.1.1
       vite:
         specifier: ^7.3.2
         version: 7.3.3(@types/node@22.19.19)(jiti@1.21.7)(terser@5.48.0)(tsx@4.21.0)(yaml@2.9.0)
@@ -7750,9 +7751,8 @@ packages:
     resolution: {integrity: sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==}
     engines: {node: '>= 0.4.0'}
 
-  uuid@10.0.0:
-    resolution: {integrity: sha512-8XkAphELsDnEGrDxUOHB3RGvXz6TeuYSGEZBOjtTtPm2lwhGBjLgOzLHB63IUWfBpNucQjND6d3AOudO+H3RWQ==}
-    deprecated: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
+  uuid@11.1.1:
+    resolution: {integrity: sha512-vIYxrBCC/N/K+Js3qSN88go7kIfNPssr/hHCesKCQNAjmgvYS2oqr69kIufEG+O4+PfezOH4EbIeHCfFov8ZgQ==}
     hasBin: true
 
   valtio@1.11.2:
@@ -10038,7 +10038,7 @@ snapshots:
       '@types/json-schema': 7.0.15
       p-queue: 9.3.0
       p-retry: 7.1.1
-      uuid: 10.0.0
+      uuid: 11.1.1
     optionalDependencies:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
@@ -10050,7 +10050,7 @@ snapshots:
       '@langchain/langgraph-sdk': 1.9.8(@langchain/core@1.1.48(@opentelemetry/api@1.9.1)(openai@6.39.0(ws@8.21.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@3.25.76))(ws@8.21.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@langchain/protocol': 0.0.15
       '@standard-schema/spec': 1.1.0
-      uuid: 10.0.0
+      uuid: 11.1.1
       zod: 3.25.76
     transitivePeerDependencies:
       - react
@@ -10214,7 +10214,7 @@ snapshots:
       readable-stream: 3.6.2
       socket.io-client: 4.8.3(bufferutil@4.1.0)(utf-8-validate@6.0.6)
       utf-8-validate: 5.0.10
-      uuid: 10.0.0
+      uuid: 11.1.1
     transitivePeerDependencies:
       - supports-color
 
@@ -10243,7 +10243,7 @@ snapshots:
       socket.io-client: 4.8.3(bufferutil@4.1.0)(utf-8-validate@6.0.6)
       tslib: 2.8.1
       util: 0.12.5
-      uuid: 10.0.0
+      uuid: 11.1.1
     transitivePeerDependencies:
       - bufferutil
       - encoding
@@ -10633,7 +10633,7 @@ snapshots:
       js-cookie: 3.0.7
       libphonenumber-js: 1.13.3
       set-cookie-parser: 2.7.2
-      uuid: 10.0.0
+      uuid: 11.1.1
     optionalDependencies:
       viem: 2.51.2(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
     transitivePeerDependencies:
@@ -19385,7 +19385,7 @@ snapshots:
 
   utils-merge@1.0.1: {}
 
-  uuid@10.0.0: {}
+  uuid@11.1.1: {}
 
   valtio@1.11.2(@types/react@18.3.29)(react@18.3.1):
     dependencies:
