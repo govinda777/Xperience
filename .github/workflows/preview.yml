@@ -24,27 +24,8 @@ jobs:
       - name: 📥 Checkout Code
         uses: actions/checkout@v4
 
-      - name: 🏗️ Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: 🏗️ Setup PNPM
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10
-
-      - name: 📦 Cache node_modules
-        uses: actions/cache@v4
-        with:
-          path: |
-            node_modules
-          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-
-
-      - name: 📦 Install Dependencies
-        run: pnpm install --frozen-lockfile
+      - name: 🏗️ Setup Node & PNPM
+        uses: ./.github/actions/setup-node-pnpm
 
       - name: 🚀 Create Neon Database Branch (PR only)
         id: create-neon-branch
