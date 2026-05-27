@@ -8,6 +8,8 @@ jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    env:
+      NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
@@ -27,13 +29,13 @@ jobs:
 
     - name: Create Neon Database Branch (PR only)
       id: create-neon-branch
-      if: github.event_name == 'pull_request' && secrets.NEON_API_KEY != ''
+      if: github.event_name == 'pull_request' && env.NEON_API_KEY != ''
       uses: neondatabase/create-branch-action@v5
       with:
         project_id: ${{ secrets.NEON_PROJECT_ID }}
         parent: main
         branch_name: preview/pr-${{ github.event.number }}
-        api_key: ${{ secrets.NEON_API_KEY }}
+        api_key: ${{ env.NEON_API_KEY }}
 
     - name: Sync Database Schema (Prisma DB Push)
       run: pnpm prisma db push --accept-data-loss

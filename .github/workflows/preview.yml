@@ -18,6 +18,7 @@ jobs:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
 
     steps:
       - name: 📥 Checkout Code
@@ -47,13 +48,13 @@ jobs:
 
       - name: 🚀 Create Neon Database Branch (PR only)
         id: create-neon-branch
-        if: github.event_name == 'pull_request' && secrets.NEON_API_KEY != ''
+        if: github.event_name == 'pull_request' && env.NEON_API_KEY != ''
         uses: neondatabase/create-branch-action@v5
         with:
           project_id: ${{ secrets.NEON_PROJECT_ID }}
           parent: main
           branch_name: preview/pr-${{ github.event.number }}
-          api_key: ${{ secrets.NEON_API_KEY }}
+          api_key: ${{ env.NEON_API_KEY }}
 
       - name: 🗄️ Sync Database Schema (Prisma DB Push)
         run: pnpm prisma db push --accept-data-loss
