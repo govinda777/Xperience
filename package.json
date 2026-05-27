@@ -25,6 +25,7 @@
     "test:e2e:ui": "playwright test --ui",
     "test:all": "pnpm run test:setup && pnpm run test",
     "test:setup": "node scripts/test-setup.js",
+    "test:api": "vitest -c api/vitest.config.ts",
     "test:clean": "rimraf reports coverage test-data",
     "lint": "eslint .",
     "lint:unused": "knip",
