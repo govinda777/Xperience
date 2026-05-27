@@ -9,7 +9,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: Production
+    environment: Preview
     permissions:
       pull-requests: write
       issues: write
@@ -60,6 +60,7 @@ jobs:
         run: pnpm prisma db push --accept-data-loss
         env:
           DATABASE_URL: ${{ steps.create-neon-branch.outputs.db_url || secrets.DATABASE_URL }}
+          DIRECT_DATABASE_URL: ${{ steps.create-neon-branch.outputs.db_url || secrets.DATABASE_URL }}
 
       - name: 🚀 Install Vercel CLI
         run: npm install --global vercel@latest
