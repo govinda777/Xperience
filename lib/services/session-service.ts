@@ -1,6 +1,6 @@
-import { getPrivyUser } from '../privy-server';
-import { UserSession, WalletInfo, UserRole } from '../../src/types/session';
-import { RoleService } from './role-service';
+import { getPrivyUser } from '../privy-server.js';
+import { UserSession, WalletInfo, UserRole } from '../../src/types/session.js';
+import { RoleService } from './role-service.js';
 
 export class SessionService {
   static async createSession(

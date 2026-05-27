@@ -1,6 +1,7 @@
 {
   "name": "ton-starter-twa-vite",
   "private": true,
+  "type": "module",
   "version": "0.0.0",
   "engines": {
     "node": ">=20"
@@ -13,10 +14,10 @@
     "dev": "vite",
     "build": "vite build",
     "build:clean": "./scripts/build.sh",
-    "build:report": "node scripts/build-report.js",
+    "build:report": "node scripts/build-report.cjs",
     "clean:js": "./scripts/clean-js-duplicates.sh",
     "preview": "vite preview",
-    "configbot": "node configure.js",
+    "configbot": "node configure.cjs",
     "test": "vitest",
     "test:watch": "vitest --watch",
     "test:coverage": "vitest --coverage",

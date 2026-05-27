@@ -1,5 +1,5 @@
-import { getPrivyUser, updatePrivyUserMetadata } from '../privy-server';
-import { UserRole } from '../../src/types/session';
+import { getPrivyUser, updatePrivyUserMetadata } from '../privy-server.js';
+import { UserRole } from '../../src/types/session.js';
 
 interface StoredMetadata {
   role: string;
