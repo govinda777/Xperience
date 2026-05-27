@@ -17,7 +17,6 @@ import mountainStatusHandler from './_routes/mountain/status.js';
 import mountainExpeditionHandler from './_routes/mountain/expedition.js';
 import mountainMapHandler from './_routes/mountain/map.js';
 import mountainAdminRemoveCompanyHandler from './_routes/mountain/admin/remove-company.js';
-import debugEnvHandler from './_routes/debug-env.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const url = new URL(req.url || '/', `http://${req.headers.host}`);
@@ -34,7 +33,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   try {
     // Simple Router
-    if (path === '/api/debug-env') return await debugEnvHandler(req, res);
     if (path === '/api/agent') return await agentHandler(req, res);
     if (path === '/api/agent/orchestrator') return await trailAgentHandler(req, res);
     if (path === '/api/chat') return await chatHandler(req, res);
