@@ -8,6 +8,21 @@ jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: xperience_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
@@ -27,25 +42,23 @@ jobs:
 
     - name: Create Neon Database Branch (PR only)
       id: create-neon-branch
-      if: github.event_name == 'pull_request' && env.HAS_NEON_API_KEY == 'true'
+      if: github.event_name == 'pull_request' && secrets.NEON_API_KEY != ''
       uses: neondatabase/create-branch-action@v5
       with:
         project_id: ${{ secrets.NEON_PROJECT_ID }}
         parent: main
         branch_name: preview/pr-${{ github.event.number }}
         api_key: ${{ secrets.NEON_API_KEY }}
-      env:
-        HAS_NEON_API_KEY: ${{ secrets.NEON_API_KEY != '' }}
 
     - name: Sync Database Schema (Prisma DB Push)
       run: pnpm prisma db push --accept-data-loss
       env:
-        DATABASE_URL: ${{ steps.create-neon-branch.outputs.db_url || secrets.DATABASE_URL }}
+        DATABASE_URL: ${{ steps.create-neon-branch.outputs.db_url || secrets.DATABASE_URL || 'postgresql://postgres:postgres@localhost:5432/xperience_test' }}
 
     - name: Run Playwright tests
       run: pnpm run test:e2e
       env:
-        DATABASE_URL: ${{ steps.create-neon-branch.outputs.db_url || secrets.DATABASE_URL }}
+        DATABASE_URL: ${{ steps.create-neon-branch.outputs.db_url || secrets.DATABASE_URL || 'postgresql://postgres:postgres@localhost:5432/xperience_test' }}
 
     - uses: actions/upload-artifact@v4
       if: always()
