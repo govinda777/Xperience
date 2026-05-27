@@ -60,20 +60,7 @@ jobs:
         run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: 🏗️ Build Project
-        run: |
-          vercel build --token=${{ secrets.VERCEL_TOKEN }} \
-          --build-env GOOGLE_CLIENT_EMAIL="$GOOGLE_CLIENT_EMAIL" \
-          --build-env GOOGLE_PRIVATE_KEY="$GOOGLE_PRIVATE_KEY" \
-          --build-env GOOGLE_PRIVATE_KEY_PASSPHRASE="$GOOGLE_PRIVATE_KEY_PASSPHRASE" \
-          --build-env OPENAI_API_KEY="$OPENAI_API_KEY" \
-          --build-env PRIVY_APP_SECRET="$PRIVY_APP_SECRET" \
-          --build-env GEMINI_API_KEY="$GEMINI_API_KEY" \
-          --build-env NEON_API_KEY="$NEON_API_KEY" \
-          --build-env VITE_API_URL="$VITE_API_URL" \
-          --build-env VITE_PAGESPEED_API_KEY="$VITE_PAGESPEED_API_KEY" \
-          --build-env VITE_PRIVY_APP_ID="$VITE_PRIVY_APP_ID" \
-          --build-env VITE_SITE_URL="$VITE_SITE_URL" \
-          --build-env VITE_WEBHOOK_URL="$VITE_WEBHOOK_URL"
+        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
         env:
           DATABASE_URL: ${{ steps.create-neon-branch.outputs.db_url || secrets.DATABASE_URL }}
 
