@@ -9,7 +9,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: Production
+    environment: Preview
     permissions:
       pull-requests: write
       issues: write
@@ -18,6 +18,7 @@ jobs:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
 
     steps:
       - name: 📥 Checkout Code
@@ -45,6 +46,21 @@ jobs:
       - name: 📦 Install Dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: 🚀 Create Neon Database Branch (PR only)
+        id: create-neon-branch
+        if: github.event_name == 'pull_request' && env.NEON_API_KEY != ''
+        uses: neondatabase/create-branch-action@v5
+        with:
+          project_id: ${{ secrets.NEON_PROJECT_ID }}
+          branch_name: preview/pr-${{ github.event.number }}
+          api_key: ${{ env.NEON_API_KEY }}
+
+      - name: 🗄️ Sync Database Schema (Prisma DB Push)
+        run: pnpm prisma db push --accept-data-loss
+        env:
+          DATABASE_URL: ${{ steps.create-neon-branch.outputs.db_url || secrets.DATABASE_URL }}
+          DIRECT_DATABASE_URL: ${{ steps.create-neon-branch.outputs.db_url || secrets.DATABASE_URL }}
+
       - name: 🚀 Install Vercel CLI
         run: npm install --global vercel@latest
 
@@ -53,12 +69,16 @@ jobs:
 
       - name: 🏗️ Build Project
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          DATABASE_URL: ${{ steps.create-neon-branch.outputs.db_url || secrets.DATABASE_URL }}
 
       - name: 🚢 Deploy to Vercel (Preview)
         id: deploy
         run: |
-          URL=$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})
+          URL=$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} --env DATABASE_URL="$DATABASE_URL" --env DIRECT_DATABASE_URL="$DATABASE_URL")
           echo "url=$URL" >> $GITHUB_OUTPUT
+        env:
+          DATABASE_URL: ${{ steps.create-neon-branch.outputs.db_url || secrets.DATABASE_URL }}
 
       - name: 💬 Comment PR with Preview URL
         uses: actions/github-script@v7

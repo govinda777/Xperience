@@ -8,6 +8,9 @@ jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    environment: Preview
+    env:
+      NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
@@ -25,8 +28,26 @@ jobs:
     - name: Install Playwright Browsers
       run: pnpm exec playwright install --with-deps chromium
 
+    - name: Create Neon Database Branch (PR only)
+      id: create-neon-branch
+      if: github.event_name == 'pull_request' && env.NEON_API_KEY != ''
+      uses: neondatabase/create-branch-action@v5
+      with:
+        project_id: ${{ secrets.NEON_PROJECT_ID }}
+        branch_name: preview/pr-${{ github.event.number }}
+        api_key: ${{ env.NEON_API_KEY }}
+
+    - name: Sync Database Schema (Prisma DB Push)
+      run: pnpm prisma db push --accept-data-loss
+      env:
+        DATABASE_URL: ${{ steps.create-neon-branch.outputs.db_url || secrets.DATABASE_URL }}
+        DIRECT_DATABASE_URL: ${{ steps.create-neon-branch.outputs.db_url || secrets.DATABASE_URL }}
+
     - name: Run Playwright tests
       run: pnpm run test:e2e
+      env:
+        DATABASE_URL: ${{ steps.create-neon-branch.outputs.db_url || secrets.DATABASE_URL }}
+        DIRECT_DATABASE_URL: ${{ steps.create-neon-branch.outputs.db_url || secrets.DATABASE_URL }}
 
     - uses: actions/upload-artifact@v4
       if: always()
