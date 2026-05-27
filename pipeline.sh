@@ -59,69 +59,24 @@ log_info "Verificando tipos TypeScript..."
 npm run tsc --noEmit
 check_result "Verificação de tipos TypeScript falhou" "Verificação de tipos TypeScript passou"
 
-# 3. Executar linting
-log_info "Executando linting..."
+# 3. Executar linting básico
+log_info "Executando linting básico..."
 npm run lint
 check_result "Linting falhou" "Linting passou"
 
-# 3.1 Verificar código morto
-log_info "Verificando código morto..."
-pnpm run lint:unused
-check_result "Verificação de código morto falhou" "Nenhum código morto crítico encontrado"
-
-# 3.2 Verificar duplicação de código
-log_info "Verificando duplicação de código..."
-pnpm run lint:duplicate
-check_result "Detecção de duplicação falhou" "Duplicação de código sob controle"
-
-# 4. Executar testes unitários
-log_info "Executando testes unitários..."
-npm run test:unit
+# 4. Executar testes unitários rápidos (sem coverage)
+log_info "Executando testes unitários rápidos..."
+# Utilizando vitest no modo normal para rodar os testes apenas (sem coverage/watch)
+npm run test -- --run
 check_result "Testes unitários falharam" "Testes unitários passaram"
 
-# 5. Verificar cobertura de testes
-log_info "Verificando cobertura de testes..."
-npm run test:coverage
-check_result "Verificação de cobertura falhou" "Verificação de cobertura passou"
-
-# 6. Executar testes E2E
-log_info "Executando testes E2E..."
-npm run test:cypress
-check_result "Testes E2E falharam" "Testes E2E passaram"
-
-# 7. Fazer build do projeto
-log_info "Realizando build do projeto..."
-npm run build
-check_result "Build falhou" "Build concluído com sucesso"
-
-# 8. Executar preview do build
-log_info "Verificando build..."
-timeout 30 npm run preview &
-PREVIEW_PID=$!
-sleep 5
-
-if kill -0 $PREVIEW_PID 2>/dev/null; then
-    kill $PREVIEW_PID
-    log_success "Preview do build verificado com sucesso"
-else
-    log_error "Falha ao iniciar preview do build"
-    exit 1
-fi
-
-log_success "🎉 Pipeline concluído com sucesso!"
+log_success "🎉 Pipeline local concluído com sucesso!"
 echo ""
-echo "📊 Resumo das verificações:"
+echo "📊 Resumo das verificações (Local):"
 echo "  ✅ Estrutura do projeto"
 echo "  ✅ Verificação de tipos TypeScript"
-echo "  ✅ Linting"
-echo "  ✅ Testes unitários"
-echo "  ✅ Cobertura de testes"
-echo "  ✅ Testes E2E"
-echo "  ✅ Build"
-echo "  ✅ Preview do build"
+echo "  ✅ Linting Básico"
+echo "  ✅ Testes unitários (Rápidos)"
 echo ""
-echo "💡 Todas as verificações são obrigatórias para o commit ser aceito."
-echo "   Para mais detalhes, verifique os relatórios em:"
-echo "   - coverage/ para relatório de cobertura"
-echo "   - reports/ para relatórios de testes"
+echo "💡 Verificações pesadas (E2E, Knip, Jscpd, Cobertura e Build) foram delegadas para o CI/CD (GitHub Actions)."
 echo ""

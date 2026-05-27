@@ -34,7 +34,8 @@
     "security:audit": "npm audit --audit-level=high",
     "tsc": "tsc --noEmit",
     "check:api": "tsc -p api/tsconfig.json --noEmit",
-    "db:push": "prisma db push"
+    "db:push": "prisma db push",
+    "db:sync": "bash ./scripts/sync-db.sh"
   },
   "dependencies": {
     "@account-abstraction/contracts": "^0.8.0",
