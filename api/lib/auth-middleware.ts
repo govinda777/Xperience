@@ -18,7 +18,7 @@ export function withAuth(handler: Handler) {
     }
 
     const authHeader = req.headers.authorization;
-    const token = authHeader?.replace('Bearer ', '');
+    const token = authHeader?.replace('Bearer ', '').replace(/^"|"$/g, '');
 
     if (!token) {
       return res.status(401).json({ error: 'No token provided' });
@@ -67,7 +67,7 @@ export const withMountainAuth = (handler: AuthenticatedMountainHandler) => {
     }
 
     try {
-      const token = authHeader.split(' ')[1];
+      const token = authHeader.split(' ')[1].replace(/^"|"$/g, '');
       const verifiedClaims = await verifyPrivyToken(token);
 
       if (!verifiedClaims) return res.status(401).json({ error: 'Invalid token' });
