@@ -12,7 +12,6 @@ scripts
 
 # API build artifacts/configs we don't want Vercel to use
 api/tsconfig.check.json
-api/package.json.disabled
 
 # Tests and docs
 docs/

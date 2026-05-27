@@ -1,7 +1,7 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
-import { verifyPrivyToken } from '../../lib/privy-server';
-import { SessionService } from '../../lib/services/session-service';
-import { UserSession } from '../../src/types/session';
+import { verifyPrivyToken } from '../../lib/privy-server.js';
+import { SessionService } from '../../lib/services/session-service.js';
+import { UserSession } from '../../src/types/session.js';
 
 export interface AuthenticatedRequest extends VercelRequest {
   session?: UserSession;

@@ -1,6 +1,6 @@
 import { VercelResponse } from '@vercel/node';
-import { withAuth, AuthenticatedRequest } from '../../lib/auth-middleware';
-import { WalletPersistenceService } from '../../lib/services/wallet-service';
+import { withAuth, AuthenticatedRequest } from '../../lib/auth-middleware.js';
+import { WalletPersistenceService } from '../../lib/services/wallet-service.js';
 
 /**
  * GET /api/user/wallet - Get vinculated wallet
