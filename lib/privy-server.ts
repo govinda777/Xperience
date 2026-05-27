@@ -12,13 +12,13 @@ console.log('[Privy Server] Environment variables read:', {
 });
 
 if (!isMock && (!appId || !appSecret)) {
-  throw new Error('Missing Privy environment variables: PRIVY_APP_ID (or VITE_PRIVY_APP_ID) and PRIVY_APP_SECRET must be set.');
+  console.warn('[Privy Server] WARNING: Missing Privy environment variables: PRIVY_APP_ID (or VITE_PRIVY_APP_ID) and PRIVY_APP_SECRET must be set.');
 }
 
-export const privyServer = !isMock
+export const privyServer = !isMock && appId && appSecret
   ? new PrivyClient({
-      appId: appId!,
-      appSecret: appSecret!,
+      appId: appId,
+      appSecret: appSecret,
     })
   : null;
 
@@ -58,7 +58,10 @@ export async function verifyPrivyToken(token: string) {
   }
 
   try {
-    const claims = await privyServer!.utils().auth().verifyAccessToken(token);
+    if (!privyServer) {
+      throw new Error('Privy Server Client is not initialized. Ensure PRIVY_APP_ID and PRIVY_APP_SECRET are set.');
+    }
+    const claims = await privyServer.utils().auth().verifyAccessToken(token);
     return claims;
   } catch (error) {
     console.error('Token verification failed:', error);
@@ -72,8 +75,12 @@ export async function getPrivyUser(userId: string): Promise<User> {
     return getOrCreateMockUser(userId) as any as User;
   }
 
+  if (!privyServer) {
+    throw new Error('Privy Server Client is not initialized. Ensure PRIVY_APP_ID and PRIVY_APP_SECRET are set.');
+  }
+
   // Use _get as per SDK implementation for this version
-  return await privyServer!.users()._get(userId);
+  return await privyServer.users()._get(userId);
 }
 
 export async function updatePrivyUserMetadata(userId: string, metadata: Record<string, any>) {
@@ -87,7 +94,11 @@ export async function updatePrivyUserMetadata(userId: string, metadata: Record<s
     return user;
   }
 
-  return await privyServer!.users().setCustomMetadata(userId, {
+  if (!privyServer) {
+    throw new Error('Privy Server Client is not initialized. Ensure PRIVY_APP_ID and PRIVY_APP_SECRET are set.');
+  }
+
+  return await privyServer.users().setCustomMetadata(userId, {
     custom_metadata: metadata
   });
 }
