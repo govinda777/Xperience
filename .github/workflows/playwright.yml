@@ -25,8 +25,27 @@ jobs:
     - name: Install Playwright Browsers
       run: pnpm exec playwright install --with-deps chromium
 
+    - name: Create Neon Database Branch (PR only)
+      id: create-neon-branch
+      if: github.event_name == 'pull_request' && env.HAS_NEON_API_KEY == 'true'
+      uses: neondatabase/create-branch-action@v5
+      with:
+        project_id: ${{ secrets.NEON_PROJECT_ID }}
+        parent: main
+        branch_name: preview/pr-${{ github.event.number }}
+        api_key: ${{ secrets.NEON_API_KEY }}
+      env:
+        HAS_NEON_API_KEY: ${{ secrets.NEON_API_KEY != '' }}
+
+    - name: Sync Database Schema (Prisma DB Push)
+      run: pnpm prisma db push --accept-data-loss
+      env:
+        DATABASE_URL: ${{ steps.create-neon-branch.outputs.db_url || secrets.DATABASE_URL }}
+
     - name: Run Playwright tests
       run: pnpm run test:e2e
+      env:
+        DATABASE_URL: ${{ steps.create-neon-branch.outputs.db_url || secrets.DATABASE_URL }}
 
     - uses: actions/upload-artifact@v4
       if: always()
