@@ -15,6 +15,18 @@ jobs:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      GOOGLE_CLIENT_EMAIL: ${{ secrets.GOOGLE_CLIENT_EMAIL }}
+      GOOGLE_PRIVATE_KEY: ${{ secrets.GOOGLE_PRIVATE_KEY }}
+      GOOGLE_PRIVATE_KEY_PASSPHRASE: ${{ secrets.GOOGLE_PRIVATE_KEY_PASSPHRASE }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      PRIVY_APP_SECRET: ${{ secrets.PRIVY_APP_SECRET }}
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
+      VITE_API_URL: ${{ vars.VITE_API_URL }}
+      VITE_PAGESPEED_API_KEY: ${{ vars.VITE_PAGESPEED_API_KEY }}
+      VITE_PRIVY_APP_ID: ${{ vars.VITE_PRIVY_APP_ID }}
+      VITE_SITE_URL: ${{ vars.VITE_SITE_URL }}
+      VITE_WEBHOOK_URL: ${{ vars.VITE_WEBHOOK_URL }}
 
     steps:
       - name: 📥 Checkout Code
@@ -36,7 +48,33 @@ jobs:
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: 🏗️ Build Project
-        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+        run: |
+          vercel build --prod --token=${{ secrets.VERCEL_TOKEN }} \
+          --build-env GOOGLE_CLIENT_EMAIL="$GOOGLE_CLIENT_EMAIL" \
+          --build-env GOOGLE_PRIVATE_KEY="$GOOGLE_PRIVATE_KEY" \
+          --build-env GOOGLE_PRIVATE_KEY_PASSPHRASE="$GOOGLE_PRIVATE_KEY_PASSPHRASE" \
+          --build-env OPENAI_API_KEY="$OPENAI_API_KEY" \
+          --build-env PRIVY_APP_SECRET="$PRIVY_APP_SECRET" \
+          --build-env GEMINI_API_KEY="$GEMINI_API_KEY" \
+          --build-env NEON_API_KEY="$NEON_API_KEY" \
+          --build-env VITE_API_URL="$VITE_API_URL" \
+          --build-env VITE_PAGESPEED_API_KEY="$VITE_PAGESPEED_API_KEY" \
+          --build-env VITE_PRIVY_APP_ID="$VITE_PRIVY_APP_ID" \
+          --build-env VITE_SITE_URL="$VITE_SITE_URL" \
+          --build-env VITE_WEBHOOK_URL="$VITE_WEBHOOK_URL"
 
       - name: 🚢 Deploy to Vercel (Production)
-        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+        run: |
+          vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }} \
+          --env GOOGLE_CLIENT_EMAIL="$GOOGLE_CLIENT_EMAIL" \
+          --env GOOGLE_PRIVATE_KEY="$GOOGLE_PRIVATE_KEY" \
+          --env GOOGLE_PRIVATE_KEY_PASSPHRASE="$GOOGLE_PRIVATE_KEY_PASSPHRASE" \
+          --env OPENAI_API_KEY="$OPENAI_API_KEY" \
+          --env PRIVY_APP_SECRET="$PRIVY_APP_SECRET" \
+          --env GEMINI_API_KEY="$GEMINI_API_KEY" \
+          --env NEON_API_KEY="$NEON_API_KEY" \
+          --env VITE_API_URL="$VITE_API_URL" \
+          --env VITE_PAGESPEED_API_KEY="$VITE_PAGESPEED_API_KEY" \
+          --env VITE_PRIVY_APP_ID="$VITE_PRIVY_APP_ID" \
+          --env VITE_SITE_URL="$VITE_SITE_URL" \
+          --env VITE_WEBHOOK_URL="$VITE_WEBHOOK_URL"
