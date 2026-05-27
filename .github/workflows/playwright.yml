@@ -34,7 +34,6 @@ jobs:
       uses: neondatabase/create-branch-action@v5
       with:
         project_id: ${{ secrets.NEON_PROJECT_ID }}
-        parent: main
         branch_name: preview/pr-${{ github.event.number }}
         api_key: ${{ env.NEON_API_KEY }}
 
