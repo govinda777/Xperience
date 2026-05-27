@@ -15,6 +15,8 @@ jobs:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      DIRECT_DATABASE_URL: ${{ secrets.DATABASE_URL }}
       GOOGLE_CLIENT_EMAIL: ${{ secrets.GOOGLE_CLIENT_EMAIL }}
       GOOGLE_PRIVATE_KEY: ${{ secrets.GOOGLE_PRIVATE_KEY }}
       GOOGLE_PRIVATE_KEY_PASSPHRASE: ${{ secrets.GOOGLE_PRIVATE_KEY_PASSPHRASE }}
@@ -37,9 +39,6 @@ jobs:
 
       - name: 🗄️ Sync Database Schema (Prisma DB Push)
         run: pnpm prisma db push --accept-data-loss
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          DIRECT_DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - name: 🚀 Install Vercel CLI
         run: npm install --global vercel@latest
@@ -53,6 +52,8 @@ jobs:
       - name: 🚢 Deploy to Vercel (Production)
         run: |
           vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }} \
+          --env DATABASE_URL="$DATABASE_URL" \
+          --env DIRECT_DATABASE_URL="$DATABASE_URL" \
           --env GOOGLE_CLIENT_EMAIL="$GOOGLE_CLIENT_EMAIL" \
           --env GOOGLE_PRIVATE_KEY="$GOOGLE_PRIVATE_KEY" \
           --env GOOGLE_PRIVATE_KEY_PASSPHRASE="$GOOGLE_PRIVATE_KEY_PASSPHRASE" \

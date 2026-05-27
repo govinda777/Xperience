@@ -24,6 +24,23 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   console.log(`[Router] ${req.method} ${path}`);
 
+  // --- SEÇÃO DE DEBUG DE SECRETS ---
+  // Mostra apenas os 3 primeiros caracteres por segurança para validar no log da Vercel
+  const debugSecret = (name: string, value: string | undefined) => {
+    if (!value) {
+      console.log(`[Debug Env] ❌ ${name} NÃO está preenchida (undefined/vazia)`);
+    } else {
+      const prefix = value.length > 3 ? value.slice(0, 3) : value;
+      console.log(`[Debug Env] ✅ ${name} está preenchida! Tamanho: ${value.length}. Começa com: ${prefix}***`);
+    }
+  };
+
+  debugSecret('DATABASE_URL', process.env.DATABASE_URL);
+  debugSecret('PRIVY_APP_SECRET', process.env.PRIVY_APP_SECRET);
+  debugSecret('PRIVY_APP_ID', process.env.PRIVY_APP_ID);
+  debugSecret('VITE_PRIVY_APP_ID', process.env.VITE_PRIVY_APP_ID);
+  // ---------------------------------
+
   // Set global CORS headers
   setCorsHeaders(res);
 
