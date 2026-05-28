@@ -43,6 +43,9 @@ jobs:
         DATABASE_URL: ${{ steps.create-neon-branch.outputs.db_url || secrets.DATABASE_URL }}
         DIRECT_DATABASE_URL: ${{ steps.create-neon-branch.outputs.db_url || secrets.DATABASE_URL }}
 
+    - name: Build frontend application
+      run: npx cross-env VITE_MOCK_AUTH=true pnpm run build
+
     - name: Run Playwright tests
       run: pnpm run test:e2e
       env:
