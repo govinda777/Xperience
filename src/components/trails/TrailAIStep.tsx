@@ -261,7 +261,6 @@ const TrailAIStep: React.FC<TrailAIStepProps> = ({
                 {typeof currentResult === 'string' ? (
                   <ReactMarkdown
                     remarkPlugins={[remarkGfm]}
-                    className="prose prose-orange max-w-none"
                     components={{
                       h1: ({node, ...props}) => <h1 {...props} className={"text-3xl font-extrabold text-gray-900 border-b border-orange-100 pb-2 mb-4 mt-6 " + (props.className || '')} />,
                       h2: ({node, ...props}) => (
