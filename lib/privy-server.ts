@@ -22,6 +22,12 @@ export const privyServer = !isMock && appId && appSecret
     })
   : null;
 
+if (privyServer) {
+  console.log('[Privy Server] ✅ PrivyClient initialized successfully with App ID:', appId);
+} else if (!isMock) {
+  console.log('[Privy Server] ❌ PrivyClient failed to initialize! Missing App ID or Secret.');
+}
+
 // In-memory store for mock users to support integrated testing flows
 const mockUsers = new Map<string, any>();
 
