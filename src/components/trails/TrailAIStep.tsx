@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Step, Trail } from '../../types/trails';
 import { Loader2, FileText, CheckCircle2, AlertCircle, ListChecks, PlusCircle } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 interface TrailAIStepProps {
   step: Step;
@@ -89,97 +91,6 @@ const TrailAIStep: React.FC<TrailAIStepProps> = ({
     setError(null);
   };
 
-  const parseInline = (text: string) => {
-    const parts = text.split(/\*\*([^\*]+)\*\*/g);
-    return parts.map((part, idx) => {
-      if (idx % 2 === 1) {
-        return <strong key={idx} className="font-semibold text-orange-950 bg-orange-100/50 px-1.5 py-0.5 rounded">{part}</strong>;
-      }
-      
-      const codeParts = part.split(/`([^`]+)`/g);
-      return codeParts.map((subpart, subidx) => {
-        if (subidx % 2 === 1) {
-          return <code key={subidx} className="bg-gray-100 text-red-600 px-1.5 py-0.5 rounded text-sm font-mono">{subpart}</code>;
-        }
-        return subpart;
-      });
-    });
-  };
-
-  const renderMarkdown = (text: string) => {
-    if (!text) return null;
-    const blocks = text.split(/\n\n+/);
-    return blocks.map((block, blockIdx) => {
-      block = block.trim();
-      if (!block) return null;
-
-      if (block === '---' || block === '***') {
-        return <hr key={blockIdx} className="my-6 border-orange-200" />;
-      }
-
-      if (block.startsWith('# ')) {
-        return (
-          <h1 key={blockIdx} className="text-3xl font-extrabold text-gray-900 border-b border-orange-100 pb-2 mb-4 mt-6">
-            {parseInline(block.substring(2))}
-          </h1>
-        );
-      }
-      if (block.startsWith('## ')) {
-        return (
-          <h2 key={blockIdx} className="text-2xl font-bold text-gray-800 mb-3 mt-5 flex items-center gap-2">
-            <span className="w-1.5 h-6 bg-orange-500 rounded-full inline-block"></span>
-            {parseInline(block.substring(3))}
-          </h2>
-        );
-      }
-      if (block.startsWith('### ')) {
-        return (
-          <h3 key={blockIdx} className="text-xl font-bold text-orange-700 mb-2 mt-4">
-            {parseInline(block.substring(4))}
-          </h3>
-        );
-      }
-
-      if (block.startsWith('* ') || block.startsWith('- ')) {
-        const lines = block.split('\n');
-        return (
-          <ul key={blockIdx} className="list-none space-y-2 mb-4 pl-1">
-            {lines.map((line, lineIdx) => {
-              const cleanLine = line.replace(/^[\*\-]\s+/, '');
-              const isCheckbox = cleanLine.startsWith('[ ]') || cleanLine.startsWith('[-]') || cleanLine.startsWith('[x]') || cleanLine.startsWith('[X]');
-              if (isCheckbox) {
-                const isChecked = cleanLine.startsWith('[x]') || cleanLine.startsWith('[X]');
-                const taskText = cleanLine.substring(3).trim();
-                return (
-                  <li key={lineIdx} className="flex items-start gap-3 text-gray-700">
-                    <input 
-                      type="checkbox" 
-                      checked={isChecked} 
-                      readOnly 
-                      className="mt-1 rounded border-orange-300 text-orange-600 focus:ring-orange-500 w-4 h-4" 
-                    />
-                    <span>{parseInline(taskText)}</span>
-                  </li>
-                );
-              }
-              return (
-                <li key={lineIdx} className="flex items-start gap-2.5 text-gray-700">
-                  <span className="text-orange-500 mt-1.5 text-xs">◆</span>
-                  <span>{parseInline(cleanLine)}</span>
-                </li>
-              );
-            })}
-          </ul>
-        );
-      }
-
-      return (
-        <p key={blockIdx} className="text-gray-700 leading-relaxed mb-4 text-base font-sans">
-          {parseInline(block)}
-        </p>
-      );
-    });
-  };
 
   const hasAnyResult = !!(results.dossier || results.checklist || results.expand);
   const currentResult = results[activeTab];
@@ -346,8 +257,54 @@ const TrailAIStep: React.FC<TrailAIStepProps> = ({
               </div>
             ) : (
               /* Sleek rendered Markdown for Dossier or Checklist */
-              <div className="whitespace-pre-wrap text-gray-800 leading-relaxed font-sans bg-white p-6 md:p-8 rounded-xl border border-orange-100 shadow-sm">
-                {typeof currentResult === 'string' ? renderMarkdown(currentResult) : JSON.stringify(currentResult, null, 2)}
+              <div className="text-gray-800 font-sans bg-white p-6 md:p-8 rounded-xl border border-orange-100 shadow-sm">
+                {typeof currentResult === 'string' ? (
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    className="prose prose-orange max-w-none"
+                    components={{
+                      h1: ({node, ...props}) => <h1 {...props} className={"text-3xl font-extrabold text-gray-900 border-b border-orange-100 pb-2 mb-4 mt-6 " + (props.className || '')} />,
+                      h2: ({node, ...props}) => (
+                        <h2 {...props} className={"text-2xl font-bold text-gray-800 mb-3 mt-5 flex items-center gap-2 " + (props.className || '')}>
+                          <span className="w-1.5 h-6 bg-orange-500 rounded-full inline-block"></span>
+                          {props.children}
+                        </h2>
+                      ),
+                      h3: ({node, ...props}) => <h3 {...props} className={"text-xl font-bold text-orange-700 mb-2 mt-4 " + (props.className || '')} />,
+                      p: ({node, ...props}) => <p {...props} className={"text-gray-700 leading-relaxed mb-4 text-base font-sans " + (props.className || '')} />,
+                      hr: ({node, ...props}) => <hr {...props} className={"my-6 border-orange-200 " + (props.className || '')} />,
+                      ul: ({node, ...props}) => <ul {...props} className={"list-none space-y-2 mb-4 pl-1 " + (props.className || '')} />,
+                      li: ({node, ...props}) => {
+                        const hasCheckbox = props.className?.includes('task-list-item');
+                        if (hasCheckbox) {
+                          return <li {...props} className={"flex items-start gap-3 text-gray-700 " + (props.className || '')} />;
+                        }
+                        return (
+                          <li {...props} className={"flex items-start gap-2.5 text-gray-700 " + (props.className || '')}>
+                            <span className="text-orange-500 mt-1.5 text-xs">◆</span>
+                            <span>{props.children}</span>
+                          </li>
+                        );
+                      },
+                      strong: ({node, ...props}) => <strong {...props} className={"font-semibold text-orange-950 bg-orange-100/50 px-1.5 py-0.5 rounded " + (props.className || '')} />,
+                      code: ({node, className, children, ...props}: any) => {
+                        const match = /language-(\w+)/.exec(className || '');
+                        if (!match && !className) {
+                          return <code {...props} className={"bg-gray-100 text-red-600 px-1.5 py-0.5 rounded text-sm font-mono " + (className || '')}>{children}</code>;
+                        }
+                        return <code {...props} className={"bg-gray-100 text-red-600 p-2 rounded text-sm font-mono block overflow-x-auto " + (className || '')}>{children}</code>;
+                      },
+                      input: ({node, ...props}) => {
+                        if (props.type === 'checkbox') {
+                          return <input {...props} className={"mt-1 rounded border-orange-300 text-orange-600 focus:ring-orange-500 w-4 h-4 " + (props.className || '')} />;
+                        }
+                        return <input {...props} />;
+                      }
+                    }}
+                  >
+                    {currentResult}
+                  </ReactMarkdown>
+                ) : JSON.stringify(currentResult, null, 2)}
               </div>
             )}
           </div>
