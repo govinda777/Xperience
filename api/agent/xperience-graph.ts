@@ -73,10 +73,15 @@ async function analystNode(state: AgentState): Promise<Partial<AgentState>> {
 Sua função é analisar as respostas brutas de um empreendedor fornecidas no questionário "${state.trailTitle}".
 Extraia a "Alma do Negócio", identifique gargalos na operação atual e oportunidades para reduzir fricção e custos.
 
+Regras de Estilo e Foco:
+- SEJA EXTREMAMENTE OBJETIVO. Sem "lero lero", sem introduções genéricas ou jargões de negócios vazios.
+- Use frases curtas e diretas.
+- Baseie sua análise ESTRITAMENTE nos dados fornecidos pelo usuário. Não invente conselhos genéricos se não houver dados que os sustentem.
+
 Dados do Empreendedor:
 ${JSON.stringify(state.userInput, null, 2)}
 
-Produza uma análise executiva profunda e direta.`;
+Produza uma análise executiva profunda, direta e baseada em fatos.`;
 
   if (state.needsClarification && state.messages.length > 0) {
       const lastMessage = state.messages[state.messages.length - 1];
@@ -139,11 +144,18 @@ ${state.analysis}
 </analise>
 
 Crie um "Dossiê Executivo" (Relatório) estruturado em Markdown.
-O relatório deve ter:
-1. Título chamativo.
-2. Sumário Executivo.
-3. Gargalos Identificados (com foco em unit economics e fricção).
-4. Plano de Ação para criar uma operação mais enxuta e focar na melhor "experiência" para o cliente, otimizando o valor percebido.`;
+
+Regras de Estilo e Formatação:
+- SEJA EXTREMAMENTE OBJETIVO e prático. Proibido usar "lero lero" (fluff), jargões corporativos genéricos ou textos longos.
+- Limite o Sumário Executivo a no máximo 1 ou 2 parágrafos curtos.
+- Use bullet points (tópicos) obrigatórios para detalhar os Gargalos e o Plano de Ação.
+- O Plano de Ação deve conter passos práticos, mensuráveis e aplicáveis imediatamente, sem teoria vazia.
+
+O relatório deve ter exatamente:
+1. Título objetivo.
+2. Sumário Executivo (Curto e direto).
+3. Gargalos Identificados (Em bullet points, com foco prático em unit economics e fricção).
+4. Plano de Ação (Em bullet points, ações mensuráveis para criar uma operação mais enxuta e melhorar a experiência e valor percebido).`;
   } else if (state.intent === 'checklist') {
     prompt = `Você é um Agente Produtor focado em otimização de experiências de negócios e serviços.
 Com base na análise estratégica a seguir:
@@ -152,10 +164,15 @@ ${state.analysis}
 </analise>
 
 Crie um Checklist acionável e direto ao ponto estruturado em Markdown.
+
+Regras de Estilo:
+- Proibido usar "lero lero" ou teoria. Apenas ações práticas.
+- Seja extremamente conciso.
+
 Formato esperado (exemplo):
 - [ ] Tarefa 1: ...
 - [ ] Tarefa 2: ...
-Foque estritamente em itens imediatos para tornar o negócio mais enxuto, melhorar os "unit economics" e otimizar a experiência do cliente reduzindo fricções.`;
+Foque estritamente em ações imediatas, práticas e mensuráveis para tornar o negócio mais enxuto, melhorar os "unit economics" e otimizar a experiência do cliente reduzindo fricções.`;
   } else if (state.intent === 'expand') {
     modelToUse = jsonLlm;
     prompt = `Você é um Agente Criador de Jornadas de Produto focado em otimização de experiências de negócios e serviços.
