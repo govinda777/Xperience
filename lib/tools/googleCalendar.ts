@@ -1,7 +1,6 @@
 import * as z from "zod";
-// import { google } from "googleapis"; // Uncomment when real integration is ready
-import { createAuditedTool } from "./baseTool";
-import { getGoogleAuthForUser } from "../integrations/googleCalendarClient";
+import { createAuditedTool } from "./baseTool.js";
+import { calendarClient } from "../integrations/googleCalendarClient.js";
 
 const schema = z.object({
   userId: z.string(), // maps to the user's Google account
@@ -18,18 +17,15 @@ export const scheduleMeetingTool = createAuditedTool({
     "Creates an event on the user's Google Calendar with title, time, and guests.",
   schema,
   handler: async (input) => {
-    // In production:
-    // const auth = await getGoogleAuthForUser(input.userId);
-    // const calendar = google.calendar({ version: "v3", auth });
-    // ... insert event ...
-
-    // Mock implementation
-    await getGoogleAuthForUser(input.userId);
-    console.log("Mock: Scheduled meeting", input);
-
-    return {
-      eventId: `evt_${Date.now()}`,
-      htmlLink: `https://calendar.google.com/event?id=mock`,
-    };
+    // The calendarClient uses the Strategy pattern. 
+    // It will dynamically use the real integration in production or the mock in development.
+    return await calendarClient.scheduleMeeting({
+      userId: input.userId,
+      title: input.title,
+      description: input.description,
+      startIso: input.startIso,
+      endIso: input.endIso,
+      attendees: input.attendees,
+    });
   },
 });

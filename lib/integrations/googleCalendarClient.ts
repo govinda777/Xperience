@@ -1,8 +1,11 @@
-// Mock implementation for Google Calendar Client
+import { IGoogleCalendarClient } from './IGoogleCalendarClient.js';
+import { MockGoogleCalendarClient } from './MockGoogleCalendarClient.js';
+import { ProdGoogleCalendarClient } from './ProdGoogleCalendarClient.js';
 
-export async function getGoogleAuthForUser(userId: string) {
-    // In production, this would fetch the stored OAuth tokens for the user from DB
-    // and return an OAuth2Client
-    console.log(`Mock: Fetching Google Auth for user ${userId}`);
-    return "MOCK_AUTH_TOKEN";
-}
+const isMock = process.env.VITE_MOCK_AUTH === 'true';
+
+export const calendarClient: IGoogleCalendarClient = isMock 
+  ? new MockGoogleCalendarClient() 
+  : new ProdGoogleCalendarClient();
+
+export * from './IGoogleCalendarClient.js';

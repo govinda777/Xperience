@@ -1,6 +1,6 @@
 import { VercelResponse } from '@vercel/node';
 import { withAuth, AuthenticatedRequest } from '../../../../lib/auth-middleware.js';
-import { RoleService } from '../../../../../lib/services/role-service.js';
+import { authClient } from '../../../../../lib/auth/index.js';
 import { UserRole } from '../../../../../src/types/session.js';
 
 async function handler(req: AuthenticatedRequest, res: VercelResponse) {
@@ -13,7 +13,8 @@ async function handler(req: AuthenticatedRequest, res: VercelResponse) {
 
   if (req.method === 'GET') {
     try {
-      const role = await RoleService.getUserRole(userId as string);
+      const user = await authClient.getUser(userId as string);
+      const role = (user.custom_metadata as any)?.role || 'user';
       return res.status(200).json({ role });
     } catch (error) {
       return res.status(500).json({ error: 'Failed to fetch role' });
@@ -28,7 +29,7 @@ async function handler(req: AuthenticatedRequest, res: VercelResponse) {
     }
 
     try {
-      await RoleService.setUserRole(userId as string, role);
+      await authClient.updateUserMetadata(userId as string, { role });
       return res.status(200).json({ success: true, role });
     } catch (error) {
       console.error(error);

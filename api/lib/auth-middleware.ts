@@ -1,5 +1,5 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
-import { verifyPrivyToken } from '../../lib/privy-server.js';
+import { authClient } from '../../lib/auth/index.js';
 import { SessionService } from '../../lib/services/session-service.js';
 import { UserSession } from '../../src/types/session.js';
 
@@ -25,7 +25,7 @@ export function withAuth(handler: Handler) {
     }
 
     try {
-      const claims = await verifyPrivyToken(token);
+      const claims = await authClient.verifyToken(token);
 
       if (!claims) {
         return res.status(401).json({ error: 'Invalid token' });
@@ -68,7 +68,7 @@ export const withMountainAuth = (handler: AuthenticatedMountainHandler) => {
 
     try {
       const token = authHeader.split(' ')[1].replace(/^"|"$/g, '');
-      const verifiedClaims = await verifyPrivyToken(token);
+      const verifiedClaims = await authClient.verifyToken(token);
 
       if (!verifiedClaims) return res.status(401).json({ error: 'Invalid token' });
 

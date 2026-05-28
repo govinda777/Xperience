@@ -2,6 +2,53 @@ import { describe, it, expect } from 'vitest';
 import { interpolatePrompt } from './trailUtils';
 import { Trail, Step } from '../types/trails';
 
+describe('interpolatePrompt', () => {
+  const mockTrail: Trail = {
+    trailId: 'test-trail',
+    title: 'Test Trail',
+    steps: [
+      {
+        id: 'step1',
+        title: 'Step 1',
+        type: 'form',
+        fields: [
+          { id: 'name', label: 'Nome', type: 'text' },
+          { id: 'age', label: 'Idade', type: 'number' }
+        ]
+      },
+      {
+        id: 'step2',
+        title: 'Step 2',
+        type: 'text',
+        fields: []
+      }
+    ]
+  };
+
+  it('interpolates simple text values correctly', () => {
+    const prompt = 'Olá {{step2}}, bem-vindo!';
+    const data = { step2: 'Fulano' };
+    const result = interpolatePrompt(prompt, data, mockTrail);
+    expect(result).toBe('Olá Fulano, bem-vindo!');
+  });
+
+  it('interpolates form data fields correctly into Label: Value structure', () => {
+    const prompt = 'Dados do formulário:\n{{step1}}';
+    const data = {
+      step1: { name: 'Alice', age: '30' }
+    };
+    const result = interpolatePrompt(prompt, data, mockTrail);
+    expect(result).toBe('Dados do formulário:\nNome: Alice\nIdade: 30');
+  });
+
+  it('leaves placeholders empty if no data is provided', () => {
+    const prompt = 'Olá {{step2}}!';
+    const data = {};
+    const result = interpolatePrompt(prompt, data, mockTrail);
+    expect(result).toBe('Olá !');
+  });
+});
+
 describe('interpolatePrompt benchmark', () => {
   it('measures performance of interpolatePrompt with large dataset', () => {
     const stepCount = 1000;

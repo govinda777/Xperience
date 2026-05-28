@@ -1,6 +1,7 @@
 import React, { createContext, useContext } from "react";
 import { PrivyProvider, usePrivy } from "@privy-io/react-auth";
 import { privyConfig } from "../config/privy";
+import { MockAuthProvider } from "./MockAuthProvider";
 
 // 1. Define Generic User Interface
 export interface User {
@@ -20,7 +21,7 @@ export interface AuthContextValue {
   logout: () => Promise<void>;
 }
 
-const AuthContext = createContext<AuthContextValue | null>(null);
+export const AuthContext = createContext<AuthContextValue | null>(null);
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
@@ -59,30 +60,11 @@ const PrivyAuthBridge: React.FC<{ children: React.ReactNode }> = ({
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
-const MockPrivyProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
-  const mockValue: AuthContextValue = {
-    user: {
-      id: "mock-user-id",
-      email: { address: "mock@example.com" },
-      wallet: { address: "0xMockAddress..." },
-    },
-    authenticated: true,
-    ready: true,
-    login: () => console.log("Mock login"),
-    logout: async () => console.log("Mock logout"),
-  };
-  return (
-    <AuthContext.Provider value={mockValue}>{children}</AuthContext.Provider>
-  );
-};
-
 export const AppAuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   if (import.meta.env.VITE_MOCK_AUTH === "true") {
-    return <MockPrivyProvider>{children}</MockPrivyProvider>;
+    return <MockAuthProvider>{children}</MockAuthProvider>;
   }
 
   return (

@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { createMockRequest, createMockResponse } from '../../../__tests__/test-utils.js';
 import xpHandler from '../index.js';
 import { prisma } from '../../../lib/db.js';
-import { verifyPrivyToken } from '../../../../lib/privy-server.js';
+import { authClient } from '../../../../lib/auth/index.js';
 import { SessionService } from '../../../../lib/services/session-service.js';
 
 // Mock dependencies
@@ -18,8 +18,10 @@ vi.mock('../../../lib/db.js', () => ({
   }
 }));
 
-vi.mock('../../../../lib/privy-server.js', () => ({
-  verifyPrivyToken: vi.fn()
+vi.mock('../../../../lib/auth/index.js', () => ({
+  authClient: {
+    verifyToken: vi.fn(),
+  }
 }));
 
 vi.mock('../../../../lib/services/session-service.js', () => ({
@@ -51,13 +53,13 @@ describe('XP Endpoint (/api/xp)', () => {
       });
       const res = createMockResponse();
 
-      vi.mocked(verifyPrivyToken).mockResolvedValue({ user_id: 'user-1' } as any);
+      vi.mocked(authClient.verifyToken).mockResolvedValue({ user_id: 'user-1' } as any);
       vi.mocked(SessionService.createSession).mockResolvedValue({} as any);
       vi.mocked(prisma.userXp.findUnique).mockResolvedValue(null);
 
       await xpHandler(req, res);
 
-      expect(verifyPrivyToken).toHaveBeenCalledWith('quoted-token');
+      expect(authClient.verifyToken).toHaveBeenCalledWith('quoted-token');
       expect(res.status).toHaveBeenCalledWith(200);
     });
   });
@@ -70,7 +72,7 @@ describe('XP Endpoint (/api/xp)', () => {
       });
       const res = createMockResponse();
 
-      vi.mocked(verifyPrivyToken).mockResolvedValue({ user_id: 'user-1' } as any);
+      vi.mocked(authClient.verifyToken).mockResolvedValue({ user_id: 'user-1' } as any);
       vi.mocked(SessionService.createSession).mockResolvedValue({} as any);
       
       vi.mocked(prisma.userXp.findUnique).mockResolvedValue({
@@ -101,7 +103,7 @@ describe('XP Endpoint (/api/xp)', () => {
       });
       const res = createMockResponse();
 
-      vi.mocked(verifyPrivyToken).mockResolvedValue({ user_id: 'user-1' } as any);
+      vi.mocked(authClient.verifyToken).mockResolvedValue({ user_id: 'user-1' } as any);
       vi.mocked(SessionService.createSession).mockResolvedValue({} as any);
       
       vi.mocked(prisma.userXp.findUnique).mockRejectedValue(new Error('DB Error'));
@@ -122,7 +124,7 @@ describe('XP Endpoint (/api/xp)', () => {
       });
       const res = createMockResponse();
 
-      vi.mocked(verifyPrivyToken).mockResolvedValue({ user_id: 'user-1' } as any);
+      vi.mocked(authClient.verifyToken).mockResolvedValue({ user_id: 'user-1' } as any);
       vi.mocked(SessionService.createSession).mockResolvedValue({} as any);
 
       await xpHandler(req, res);
@@ -139,7 +141,7 @@ describe('XP Endpoint (/api/xp)', () => {
       });
       const res = createMockResponse();
 
-      vi.mocked(verifyPrivyToken).mockResolvedValue({ user_id: 'user-1' } as any);
+      vi.mocked(authClient.verifyToken).mockResolvedValue({ user_id: 'user-1' } as any);
       vi.mocked(SessionService.createSession).mockResolvedValue({} as any);
       
       const futureDate = new Date();
@@ -163,7 +165,7 @@ describe('XP Endpoint (/api/xp)', () => {
       });
       const res = createMockResponse();
 
-      vi.mocked(verifyPrivyToken).mockResolvedValue({ user_id: 'user-1' } as any);
+      vi.mocked(authClient.verifyToken).mockResolvedValue({ user_id: 'user-1' } as any);
       vi.mocked(SessionService.createSession).mockResolvedValue({} as any);
       
       vi.mocked(prisma.missionCooldown.findUnique).mockResolvedValue(null);

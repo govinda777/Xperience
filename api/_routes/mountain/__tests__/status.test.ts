@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { createMockRequest, createMockResponse } from '../../../__tests__/test-utils.js';
 import statusHandler from '../status.js';
 import { prisma } from '../../../lib/db.js';
-import { verifyPrivyToken } from '../../../../lib/privy-server.js';
+import { authClient } from '../../../../lib/auth/index.js';
 import { calculateCompanyProgress, allowAccessToBootcamp } from '../../../lib/mountain.js';
 
 // Mock dependencies
@@ -14,8 +14,10 @@ vi.mock('../../../lib/db.js', () => ({
   }
 }));
 
-vi.mock('../../../../lib/privy-server.js', () => ({
-  verifyPrivyToken: vi.fn()
+vi.mock('../../../../lib/auth/index.js', () => ({
+  authClient: {
+    verifyToken: vi.fn(),
+  }
 }));
 
 vi.mock('../../../lib/mountain.js', () => ({
@@ -44,11 +46,11 @@ describe('GET /api/mountain/status', () => {
     });
     const res = createMockResponse();
     
-    vi.mocked(verifyPrivyToken).mockResolvedValue(null);
+    vi.mocked(authClient.verifyToken).mockResolvedValue(null);
 
     await statusHandler(req, res);
 
-    expect(verifyPrivyToken).toHaveBeenCalledWith('invalid-token');
+    expect(authClient.verifyToken).toHaveBeenCalledWith('invalid-token');
     expect(res.status).toHaveBeenCalledWith(401);
     expect(res.json).toHaveBeenCalledWith({ error: 'Invalid token' });
   });
@@ -59,7 +61,7 @@ describe('GET /api/mountain/status', () => {
     });
     const res = createMockResponse();
     
-    vi.mocked(verifyPrivyToken).mockResolvedValue({ user_id: 'privy-123', session_id: 'sess-123' } as any);
+    vi.mocked(authClient.verifyToken).mockResolvedValue({ user_id: 'privy-123', session_id: 'sess-123' } as any);
     vi.mocked(prisma.user.findUnique).mockResolvedValue(null);
 
     await statusHandler(req, res);
@@ -78,7 +80,7 @@ describe('GET /api/mountain/status', () => {
     });
     const res = createMockResponse();
     
-    vi.mocked(verifyPrivyToken).mockResolvedValue({ user_id: 'privy-123', session_id: 'sess-123' } as any);
+    vi.mocked(authClient.verifyToken).mockResolvedValue({ user_id: 'privy-123', session_id: 'sess-123' } as any);
     vi.mocked(prisma.user.findUnique).mockRejectedValue(new Error('Prisma Client Initialization Error'));
 
     await statusHandler(req, res);
@@ -93,7 +95,7 @@ describe('GET /api/mountain/status', () => {
     });
     const res = createMockResponse();
     
-    vi.mocked(verifyPrivyToken).mockResolvedValue({ user_id: 'privy-123', session_id: 'sess-123' } as any);
+    vi.mocked(authClient.verifyToken).mockResolvedValue({ user_id: 'privy-123', session_id: 'sess-123' } as any);
     
     const mockUser = {
       id: 'user-1',

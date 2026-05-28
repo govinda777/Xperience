@@ -1,0 +1,13 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo "⏳ Executando testes integrados e E2E no pre-push..."
+
+echo "📦 Executando testes integrados da API..."
+pnpm run test:api
+
+echo "🚀 Compilando aplicação para ambiente de testes..."
+npx cross-env VITE_MOCK_AUTH=true pnpm run build
+
+echo "🎭 Executando testes ponta-a-ponta (E2E) com Playwright..."
+pnpm run test:e2e

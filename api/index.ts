@@ -3,7 +3,7 @@ import { setCorsHeaders } from './_lib/middleware.js';
 import agentHandler from './_routes/agent.js';
 import trailAgentHandler from './_routes/orchestrator.js';
 import chatHandler from './_routes/chat.js';
-import leadsHandler from './_routes/leads.js';
+
 import searchConsoleHandler from './_routes/search-console.js';
 import sessionHandler from './_routes/user/session.js';
 import xpHandler from './_routes/xp/index.js';
@@ -53,7 +53,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (path === '/api/agent') return await agentHandler(req, res);
     if (path === '/api/agent/orchestrator') return await trailAgentHandler(req, res);
     if (path === '/api/chat') return await chatHandler(req, res);
-    if (path === '/api/leads') return await leadsHandler(req, res);
+
     if (path === '/api/search-console') return await searchConsoleHandler(req, res);
     if (path === '/api/user/session') return await sessionHandler(req, res);
     if (path === '/api/xp') return await xpHandler(req, res);
