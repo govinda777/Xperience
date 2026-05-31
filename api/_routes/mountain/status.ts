@@ -2,7 +2,7 @@ import { prisma } from '../../lib/db.js';
 import { withMountainAuth } from '../../lib/auth-middleware.js';
 import { makeGetMountainStatusUseCase } from '../../lib/factories/makeMountainUseCases.js';
 
-export default withMountainAuth(async (req, res, claims) => {
+export const routeHandler = withMountainAuth(async (req, res, claims) => {
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' });
   }

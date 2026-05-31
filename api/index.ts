@@ -1,22 +1,22 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { setCorsHeaders } from './_lib/middleware.js';
-import agentHandler from './_routes/agent.js';
-import trailAgentHandler from './_routes/orchestrator.js';
-import chatHandler from './_routes/chat.js';
+import { handler as agentHandler } from './_routes/agent.js';
+import { handler as trailAgentHandler } from './_routes/orchestrator.js';
+import { handler as chatHandler } from './_routes/chat.js';
 
-import searchConsoleHandler from './_routes/search-console.js';
-import sessionHandler from './_routes/user/session.js';
-import xpHandler from './_routes/xp/index.js';
-import xpVerifyHandler from './_routes/xp/verify.js';
-import walletHandler from './_routes/user/wallet.js';
-import roleHandler from './_routes/admin/user/[userId]/role.js';
-import telegramWebhookHandler from './_routes/webhooks/telegram/route.js';
-import whatsappWebhookHandler from './_routes/webhooks/whatsapp/route.js';
-import mountainJoinHandler from './_routes/mountain/join.js';
-import mountainStatusHandler from './_routes/mountain/status.js';
-import mountainExpeditionHandler from './_routes/mountain/expedition.js';
-import mountainMapHandler from './_routes/mountain/map.js';
-import mountainAdminRemoveCompanyHandler from './_routes/mountain/admin/remove-company.js';
+import { handler as searchConsoleHandler } from './_routes/search-console.js';
+import { routeHandler as sessionHandler } from './_routes/user/session.js';
+import { routeHandler as xpHandler } from './_routes/xp/index.js';
+import { handler as xpVerifyHandler } from './_routes/xp/verify.js';
+import { routeHandler as walletHandler } from './_routes/user/wallet.js';
+import { routeHandler as roleHandler } from './_routes/admin/user/[userId]/role.js';
+import { handler as telegramWebhookHandler } from './_routes/webhooks/telegram/route.js';
+import { handler as whatsappWebhookHandler } from './_routes/webhooks/whatsapp/route.js';
+import { routeHandler as mountainJoinHandler } from './_routes/mountain/join.js';
+import { routeHandler as mountainStatusHandler } from './_routes/mountain/status.js';
+import { routeHandler as mountainExpeditionHandler } from './_routes/mountain/expedition.js';
+import { routeHandler as mountainMapHandler } from './_routes/mountain/map.js';
+import { routeHandler as mountainAdminRemoveCompanyHandler } from './_routes/mountain/admin/remove-company.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const url = new URL(req.url || '/', `http://${req.headers.host}`);

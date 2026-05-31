@@ -1,7 +1,7 @@
 import { prisma } from '../../lib/db.js';
 import { withMountainAuth } from '../../lib/auth-middleware.js';
 
-export default withMountainAuth(async (req, res, claims) => {
+export const routeHandler = withMountainAuth(async (req, res, claims) => {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   const { inviterWalletNumber, userWalletNumber } = req.body;

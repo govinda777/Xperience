@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { createMockRequest, createMockResponse } from '../../../__tests__/test-utils.js';
-import xpHandler from '../index.js';
+import { routeHandler as xpHandler } from '../index.js';
 import { prisma } from '../../../lib/db.js';
 import { authClient } from '../../../../lib/auth/index.js';
 import { SessionService } from '../../../../lib/services/session-service.js';

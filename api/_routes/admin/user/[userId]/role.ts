@@ -40,4 +40,4 @@ async function handler(req: AuthenticatedRequest, res: VercelResponse) {
   return res.status(405).json({ error: 'Method not allowed' });
 }
 
-export default withAuth(handler);
+export const routeHandler = withAuth(handler);

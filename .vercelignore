@@ -24,3 +24,8 @@ verification/
 .yarn/
 .yarnrc
 package.json.backup
+api/_routes/**
+api/_lib/**
+api/agent/**
+api/lib/**
+api/prisma/**

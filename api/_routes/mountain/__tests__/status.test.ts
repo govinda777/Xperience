@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { createMockRequest, createMockResponse } from '../../../__tests__/test-utils.js';
-import statusHandler from '../status.js';
+import { routeHandler as statusHandler } from '../status.js';
 import { prisma } from '../../../lib/db.js';
 import { authClient } from '../../../../lib/auth/index.js';
 import { makeGetMountainStatusUseCase } from '../../../lib/factories/makeMountainUseCases.js';

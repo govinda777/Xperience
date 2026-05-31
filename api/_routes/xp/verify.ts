@@ -4,7 +4,7 @@ import { prisma } from '../../lib/db.js';
 import { ethers } from 'ethers';
 import crypto from 'crypto';
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export const handler = async function(req: VercelRequest, res: VercelResponse) {
   setCorsHeaders(res);
 
   if (req.method !== 'GET') {

@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { xperienceGraph } from '../agent/xperience-graph.js';
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export const handler = async function(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
