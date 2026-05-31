@@ -1,6 +1,6 @@
 import { VercelResponse } from '@vercel/node';
 import { withAuth, AuthenticatedRequest } from '../../lib/auth-middleware.js';
-import { WalletPersistenceService } from '../../lib/services/wallet-service.js';
+import { makeGetWalletUseCase, makeLinkWalletUseCase } from '../../lib/factories/makeWalletUseCases.js';
 
 /**
  * GET /api/user/wallet - Get vinculated wallet
@@ -15,7 +15,8 @@ async function handler(req: AuthenticatedRequest, res: VercelResponse) {
 
   if (req.method === 'GET') {
     try {
-      const wallet = await WalletPersistenceService.getWallet(userId);
+      const getWalletUseCase = makeGetWalletUseCase();
+      const wallet = await getWalletUseCase.execute(userId);
       if (!wallet) {
         return res.status(404).json({ error: 'No wallet linked to this user' });
       }
@@ -33,12 +34,13 @@ async function handler(req: AuthenticatedRequest, res: VercelResponse) {
     }
 
     try {
-      const wallet = await WalletPersistenceService.linkWallet(
+      const linkWalletUseCase = makeLinkWalletUseCase();
+      const wallet = await linkWalletUseCase.execute({
         userId,
         eoaAddress,
         smartAccountAddress,
         network
-      );
+      });
       return res.status(201).json(wallet);
     } catch (error) {
       return res.status(500).json({ error: 'Failed to link wallet' });

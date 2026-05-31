@@ -1,19 +1,10 @@
-export interface UserWalletData {
-  userId: string;
-  eoaAddress: string;
-  smartAccountAddress: string;
-  network?: string;
-  createdAt: number;
-}
+import { IWalletRepository, UserWalletData } from '../../core/repositories/IWalletRepository.js';
 
-// In-memory persistence fallback to replace Redis/KV dependency
+// In-memory persistence fallback
 const walletStore = new Map<string, UserWalletData>();
 
-export class WalletPersistenceService {
-  /**
-   * Get wallet data for a user
-   */
-  static async getWallet(userId: string): Promise<UserWalletData | null> {
+export class InMemoryWalletRepository implements IWalletRepository {
+  async getWallet(userId: string): Promise<UserWalletData | null> {
     try {
       return walletStore.get(userId) || null;
     } catch (error) {
@@ -22,10 +13,7 @@ export class WalletPersistenceService {
     }
   }
 
-  /**
-   * Store wallet data for a user
-   */
-  static async storeWallet(data: UserWalletData): Promise<void> {
+  async storeWallet(data: UserWalletData): Promise<void> {
     try {
       walletStore.set(data.userId, data);
     } catch (error) {
@@ -34,12 +22,9 @@ export class WalletPersistenceService {
     }
   }
 
-  /**
-   * Link an EOA address to a smart account for a user
-   */
-  static async linkWallet(
-    userId: string, 
-    eoaAddress: string, 
+  async linkWallet(
+    userId: string,
+    eoaAddress: string,
     smartAccountAddress: string,
     network: string = 'sepolia'
   ): Promise<UserWalletData> {
