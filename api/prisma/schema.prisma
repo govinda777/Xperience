@@ -99,3 +99,13 @@ model DepartmentTrack {
 
   @@index([companyId])
 }
+
+model UserWallet {
+  userId              String   @id @map("user_id")
+  eoaAddress          String   @map("eoa_address")
+  smartAccountAddress String   @map("smart_account_address")
+  network             String   @default("sepolia")
+  createdAt           DateTime @default(now()) @map("created_at")
+
+  @@index([userId])
+}
