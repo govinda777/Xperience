@@ -38,7 +38,7 @@ jobs:
         api_key: ${{ env.NEON_API_KEY }}
 
     - name: Sync Database Schema (Prisma DB Push)
-      run: pnpm prisma db push --accept-data-loss
+      run: pnpm prisma migrate deploy || pnpm prisma db push --accept-data-loss
       env:
         DATABASE_URL: ${{ steps.create-neon-branch.outputs.db_url || secrets.DATABASE_URL }}
         DIRECT_DATABASE_URL: ${{ steps.create-neon-branch.outputs.db_url || secrets.DATABASE_URL }}

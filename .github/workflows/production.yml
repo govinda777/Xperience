@@ -38,7 +38,7 @@ jobs:
         uses: ./.github/actions/setup-node-pnpm
 
       - name: 🗄️ Sync Database Schema (Prisma DB Push)
-        run: pnpm prisma db push --accept-data-loss || echo "Prisma push failed or relations exist. Ignoring."
+        run: pnpm prisma migrate deploy || pnpm prisma db push --accept-data-loss
 
       - name: 🚀 Install Vercel CLI
         run: npm install --global vercel@latest
