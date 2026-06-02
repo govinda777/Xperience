@@ -36,7 +36,7 @@
     "security:audit": "npm audit --audit-level=high",
     "tsc": "tsc --noEmit",
     "check:api": "tsc -p api/tsconfig.json --noEmit",
-    "db:push": "prisma db push",
+    "db:push": "prisma db push --accept-data-loss",
     "db:sync": "bash ./scripts/sync-db.sh"
   },
   "dependencies": {
