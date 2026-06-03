@@ -1,0 +1,42 @@
+{
+  "name": "ton-starter-twa-vite",
+  "private": true,
+  "type": "module",
+  "version": "0.0.0",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "precommit": "./pipeline.sh",
+    "prepare": "husky install",
+    "postinstall": "prisma generate",
+    "fast-install": "./scripts/fast-install.sh",
+    "dev": "vite",
+    "build": "vite build",
+    "build:clean": "./scripts/build.sh",
+    "build:report": "node scripts/build-report.cjs",
+    "clean:js": "./scripts/clean-js-duplicates.sh",
+    "preview": "vite preview",
+    "configbot": "node configure.cjs",
+    "test": "vitest",
+    "test:watch": "vitest --watch",
+    "test:coverage": "vitest --coverage",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:all": "pnpm run test:setup && pnpm run test",
+    "test:setup": "node scripts/test-setup.js",
+    "test:api": "vitest -c api/vitest.config.ts",
+    "test:clean": "rimraf reports coverage test-data",
+    "lint": "eslint .",
+    "lint:unused": "knip",
+    "lint:duplicate": "jscpd src api",
+    "reports": "pnpm run test:setup && mkdir -p reports && pnpm run test:coverage",
+    "test:ci": "pnpm run test:setup && pnpm run test --run",
+    "security:check": "node scripts/security-check.js",
+    "security:audit": "npm audit --audit-level=high",
+    "tsc": "tsc --noEmit",
+    "check:api": "tsc -p api/tsconfig.json --noEmit",
+    "db:push": "prisma db push --accept-data-loss",
+    "db:sync": "bash ./scripts/sync-db.sh"
+  }
+}

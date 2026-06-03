@@ -1,9 +1,9 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { createMockRequest, createMockResponse } from '../../../__tests__/test-utils.js';
-import statusHandler from '../status.js';
+import { routeHandler as statusHandler } from '../status.js';
 import { prisma } from '../../../lib/db.js';
 import { authClient } from '../../../../lib/auth/index.js';
-import { calculateCompanyProgress, allowAccessToBootcamp } from '../../../lib/mountain.js';
+import { makeGetMountainStatusUseCase } from '../../../lib/factories/makeMountainUseCases.js';
 
 // Mock dependencies
 vi.mock('../../../lib/db.js', () => ({
@@ -20,9 +20,8 @@ vi.mock('../../../../lib/auth/index.js', () => ({
   }
 }));
 
-vi.mock('../../../lib/mountain.js', () => ({
-  calculateCompanyProgress: vi.fn(),
-  allowAccessToBootcamp: vi.fn()
+vi.mock('../../../lib/factories/makeMountainUseCases.js', () => ({
+  makeGetMountainStatusUseCase: vi.fn()
 }));
 
 describe('GET /api/mountain/status', () => {
@@ -102,25 +101,11 @@ describe('GET /api/mountain/status', () => {
       privyId: 'privy-123',
       companyId: 'company-1',
       company: {
-        id: 'company-1',
-        name: 'Test Company',
-        status: 'Em subida',
-        businessMapStatus: 'Aprovado',
-        departments: [
-          { id: 'dep-1', departmentName: 'Engineering', progress: 50 }
-        ]
+        id: 'company-1'
       }
     };
-    
-    vi.mocked(prisma.user.findUnique).mockResolvedValue(mockUser as any);
-    vi.mocked(calculateCompanyProgress).mockResolvedValue(75);
-    vi.mocked(allowAccessToBootcamp).mockResolvedValue({ allowed: true });
 
-    await statusHandler(req, res);
-
-    expect(res.status).toHaveBeenCalledWith(200);
-    expect(res.json).toHaveBeenCalledWith({
-      companyData: {
+    const mockMountainStatus = {
         id: 'company-1',
         name: 'Test Company',
         status: 'Em subida',
@@ -130,7 +115,18 @@ describe('GET /api/mountain/status', () => {
         departments: [
           { id: 'dep-1', departmentName: 'Engineering', progress: 50 }
         ]
-      }
+    };
+
+    vi.mocked(prisma.user.findUnique).mockResolvedValue(mockUser as any);
+
+    const executeMock = vi.fn().mockResolvedValue(mockMountainStatus);
+    vi.mocked(makeGetMountainStatusUseCase).mockReturnValue({ execute: executeMock } as any);
+
+    await statusHandler(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({
+      companyData: mockMountainStatus
     });
   });
 });

@@ -1,8 +1,8 @@
 import { prisma } from '../../lib/db.js';
 import { withMountainAuth } from '../../lib/auth-middleware.js';
-import { calculateCompanyProgress, allowAccessToBootcamp } from '../../lib/mountain.js';
+import { makeGetMountainStatusUseCase } from '../../lib/factories/makeMountainUseCases.js';
 
-export default withMountainAuth(async (req, res, claims) => {
+export const routeHandler = withMountainAuth(async (req, res, claims) => {
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
@@ -10,15 +10,11 @@ export default withMountainAuth(async (req, res, claims) => {
   const privyId = claims.user_id;
 
   try {
-    // Find the user to get their companyId
+    // Find the user to get their companyId. Keep this minimal user resolution logic in the controller.
     const user = await prisma.user.findUnique({
       where: { privyId },
       include: {
-        company: {
-          include: {
-            departments: true,
-          }
-        }
+        company: true
       }
     });
 
@@ -32,24 +28,12 @@ export default withMountainAuth(async (req, res, claims) => {
 
     const companyId = user.companyId;
 
-    // Calculate progress and bootcamp access
-    const totalProgress = await calculateCompanyProgress(companyId);
-    const bootcampStatus = await allowAccessToBootcamp(companyId);
+    // Use the UseCase to get the complete Mountain status for the company
+    const getMountainStatusUseCase = makeGetMountainStatusUseCase();
+    const mountainStatus = await getMountainStatusUseCase.execute(companyId);
 
     return res.status(200).json({
-      companyData: {
-        id: user.company.id,
-        name: user.company.name,
-        status: user.company.status,
-        businessMapStatus: user.company.businessMapStatus,
-        totalProgress,
-        bootcampAllowed: bootcampStatus.allowed,
-        departments: user.company.departments.map(d => ({
-          id: d.id,
-          departmentName: d.departmentName,
-          progress: d.progress,
-        })),
-      }
+      companyData: mountainStatus
     });
   } catch (error: any) {
     console.error('[StatusHandler] Error fetching mountain status:', error);

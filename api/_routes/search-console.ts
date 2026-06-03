@@ -2,7 +2,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { google } from 'googleapis';
 import { setCorsHeaders } from '../_lib/middleware.js';
 
-export default async function handler(
+export const handler = async function(
   request: VercelRequest,
   response: VercelResponse
 ) {

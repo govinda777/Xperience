@@ -30,8 +30,8 @@ export class PrivyAuthClient implements IAuthClient {
       const claims = await client.utils().auth().verifyAccessToken(token);
       return {
         ...claims,
-        user_id: claims.userId,
-        session_id: claims.sessionId,
+        user_id: (claims as any).userId as string,
+        session_id: (claims as any).sessionId as string,
       };
     } catch (error) {
       console.error('Token verification failed:', error);
@@ -68,7 +68,7 @@ export class PrivyAuthClient implements IAuthClient {
 
     for (const account of linkedAccounts) {
       if (account.type === 'wallet') {
-        const address = account.address;
+        const address = (account as any).address;
         if (account.connector_type === 'embedded' || account.wallet_client === 'privy') {
           embedded.push(address);
         } else {
