@@ -98,21 +98,64 @@ const TrailRunner: React.FC<TrailRunnerProps> = ({ trail: initialTrail, onComple
   };
 
   if (state.completed) {
+    const summaryData: { question: string; answer: string }[] = [];
+
+    activeSteps.forEach(step => {
+      if (step.type === 'form' && step.fields) {
+        const stepData = state.data[step.id];
+        if (stepData) {
+          step.fields.forEach(field => {
+            const rawValue = stepData[field.id];
+            if (rawValue !== undefined && rawValue !== '') {
+              let answer = rawValue;
+              if (field.options) {
+                if (Array.isArray(rawValue)) {
+                  answer = rawValue
+                    .map(val => field.options?.find(o => o.value === val)?.label || val)
+                    .join(', ');
+                } else {
+                  answer = field.options.find(o => o.value === rawValue)?.label || rawValue;
+                }
+              }
+              summaryData.push({ question: field.label, answer: String(answer) });
+            }
+          });
+        }
+      }
+    });
+
     return (
-      <div className="flex flex-col items-center justify-center py-16 space-y-8 max-w-2xl mx-auto text-center">
-        <div className="w-24 h-24 bg-green-100 text-green-600 rounded-full flex items-center justify-center animate-bounce">
-          <CheckCircle2 size={48} />
-        </div>
-        <div className="space-y-4">
+      <div className="flex flex-col items-center justify-center py-12 space-y-8 max-w-3xl mx-auto w-full">
+        <div className="text-center space-y-4">
+          <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
+            <CheckCircle2 size={40} />
+          </div>
           <h2 className="text-3xl font-bold text-gray-800">Parabéns!</h2>
           <p className="text-xl text-gray-600">
             Você completou a jornada <strong>{initialTrail.title}</strong> com sucesso.
           </p>
         </div>
-        <div className="flex flex-col sm:flex-row gap-4 pt-8">
+
+        {summaryData.length > 0 && (
+          <div className="w-full bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mt-8 text-left">
+            <div className="px-6 py-4 border-b border-gray-100 bg-gray-50">
+              <h3 className="text-lg font-bold text-gray-800">Resumo dos seus dados</h3>
+            </div>
+            <div className="p-6 space-y-6">
+              {summaryData.map((item, idx) => (
+                <div key={idx} className="space-y-1">
+                  <p className="text-sm font-semibold text-gray-500 uppercase tracking-wider">{item.question}</p>
+                  <p className="text-lg text-gray-900 font-medium">{item.answer}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div className="flex flex-col sm:flex-row gap-4 pt-4 w-full sm:w-auto">
           <button
             onClick={() => navigate('/dashboard')}
-            className="px-8 py-3 bg-white border border-gray-300 rounded-lg font-bold text-gray-700 hover:bg-gray-50 transition"
+            className="flex-1 sm:flex-none px-8 py-3 bg-white border border-gray-300 rounded-lg font-bold text-gray-700 hover:bg-gray-50 transition"
           >
             Voltar ao Dashboard
           </button>
@@ -124,7 +167,7 @@ const TrailRunner: React.FC<TrailRunnerProps> = ({ trail: initialTrail, onComple
                 return newSession;
               });
             }}
-            className="px-8 py-3 bg-orange-500 text-white rounded-lg font-bold hover:bg-orange-600 transition shadow-md flex items-center justify-center gap-2"
+            className="flex-1 sm:flex-none px-8 py-3 bg-orange-500 text-white rounded-lg font-bold hover:bg-orange-600 transition shadow-md flex items-center justify-center gap-2"
           >
             Refazer Jornada
           </button>

@@ -30,8 +30,8 @@ export class PrivyAuthClient implements IAuthClient {
       const claims = await client.utils().auth().verifyAccessToken(token);
       return {
         ...claims,
-        user_id: claims.userId,
-        session_id: claims.sessionId,
+        user_id: (claims as any).userId,
+        session_id: (claims as any).sessionId,
       };
     } catch (error) {
       console.error('Token verification failed:', error);

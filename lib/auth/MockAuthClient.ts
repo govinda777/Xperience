@@ -57,7 +57,7 @@ export class MockAuthClient implements IAuthClient {
   extractWallets(user: User): WalletInfo {
     // For mock, just return the mock address
     const linkedAccounts = user.linked_accounts || [];
-    const mockAddress = linkedAccounts.find((a: any) => a.type === 'wallet')?.address || '0xMockAddress1234567890abcdef';
+    const mockAddress = (linkedAccounts.find((a: any) => a.type === 'wallet') as any)?.address || '0xMockAddress1234567890abcdef';
     
     return {
       embedded: [mockAddress],
