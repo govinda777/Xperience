@@ -37,6 +37,9 @@ xychart-beta
 
 ## Veja Também
 
+- [Salão de Beleza](./salao-de-beleza.md)
+- [Pet Shop](./pet-shop.md)
+- [Escola de Idiomas](./escola-de-idiomas.md)
 - [Turismo de Compras Têxtil](./turismo-compras-textil.md)
 - [Academia de Escalada](./academia-de-escalada.md)
 - [Personal Trainer](./personal-trainer.md)
