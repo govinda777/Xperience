@@ -41,3 +41,6 @@ xychart-beta
 - [Pousadas e Campings](./pousadas-e-campings.md)
 - [Academia de Escalada](./academia-de-escalada.md)
 - [Personal Trainer](./personal-trainer.md)
+- [Barbearia](./barbearia.md)
+- [Clínica Odontológica](./clinica-odontologica.md)
+- [Pet Shop](./pet-shop.md)
