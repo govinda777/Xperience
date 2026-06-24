@@ -41,3 +41,6 @@ xychart-beta
 - [Academia de Escalada](./academia-de-escalada.md)
 - [Personal Trainer](./personal-trainer.md)
 - [Consultoria Empreendedora](./consultoria-empreendedora.md)
+- [Hamburgueria Artesanal](./hamburgueria-artesanal.md)
+- [Estética e Beleza](./estetica-e-beleza.md)
+- [Pet Shop](./pet-shop.md)
