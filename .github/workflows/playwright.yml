@@ -30,6 +30,7 @@ jobs:
 
     - name: Create Neon Database Branch (PR only)
       id: create-neon-branch
+      continue-on-error: true
       if: github.event_name == 'pull_request' && env.NEON_API_KEY != ''
       uses: neondatabase/create-branch-action@v5
       with:
