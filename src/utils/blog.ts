@@ -5,8 +5,9 @@ export interface BlogPost {
   excerpt: string;
 }
 
+// Using relative path for better compatibility with build tools/Vercel
 // @ts-ignore
-const modules = import.meta.glob('/docs/blue-ocean/*.md', { as: 'raw', eager: true });
+const modules = import.meta.glob('../../docs/blue-ocean/*.md', { query: '?raw', import: 'default', eager: true });
 
 export const getPosts = (): BlogPost[] => {
   return Object.entries(modules).map(([path, content]) => {
