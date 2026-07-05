@@ -59,8 +59,8 @@ Ao migrar para um modelo de assinatura focada em **conveniência** e **nutriçã
 ### 6. Veja Também (Outros Estudos de Caso)
 
 - [Turismo de Compras Têxtil](./turismo-compras-textil.md)
-- [Pousadas e Campings](./pousadas-campings.md)
-- [Academia de Escalada](./academia-escalada.md)
+- [Pousadas e Campings](./pousadas-e-campings.md)
+- [Academia de Escalada](./academia-de-escalada.md)
 - [Personal Trainer](./personal-trainer.md)
 - [Consultoria Empreendedora](./consultoria-empreendedora.md)
 - [Agência de Marketing](./agencia-marketing.md)
