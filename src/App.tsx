@@ -15,6 +15,8 @@ import TestSessionPage from "./pages/TestSession";
 import TrailList from "./pages/Trails/TrailList";
 import TrailRunnerPage from "./pages/Trails/TrailRunnerPage";
 import RewardsCenter from "./pages/RewardsCenter";
+import Blog from "./pages/Blog";
+import BlogPost from "./pages/Blog/Post";
 import DefaultLayout from "./layouts/DefaultLayout";
 import AppLayout from "./layouts/AppLayout";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -38,6 +40,8 @@ function App() {
             <Route element={<DefaultLayout><Cart /></DefaultLayout>} path="/cart" />
             <Route element={<DefaultLayout><Checkout /></DefaultLayout>} path="/checkout" />
             <Route element={<DefaultLayout><TestSessionPage /></DefaultLayout>} path="/test-session" />
+            <Route element={<DefaultLayout><Blog /></DefaultLayout>} path="/blog" />
+            <Route element={<DefaultLayout><BlogPost /></DefaultLayout>} path="/blog/:slug" />
 
             {/* App Routes with AppLayout and ProtectedRoute */}
             <Route

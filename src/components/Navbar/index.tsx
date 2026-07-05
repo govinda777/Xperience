@@ -31,6 +31,7 @@ const Navbar = () => {
     { name: "Contato", path: "/contact" },
     { name: "Comunidade", path: "/community" },
     { name: "Planos", path: "/plans" },
+    { name: "Blog", path: "/blog" },
   ];
 
   return (
