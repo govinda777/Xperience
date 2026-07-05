@@ -59,8 +59,8 @@ Ao adotar o posicionamento de **Parceiro de Crescimento**, a agência se desvenc
 ### 6. Veja Também (Outros Estudos de Caso)
 
 - [Turismo de Compras Têxtil](./turismo-compras-textil.md)
-- [Pousadas e Campings](./pousadas-campings.md)
-- [Academia de Escalada](./academia-escalada.md)
+- [Pousadas e Campings](./pousadas-e-campings.md)
+- [Academia de Escalada](./academia-de-escalada.md)
 - [Personal Trainer](./personal-trainer.md)
 - [Consultoria Empreendedora](./consultoria-empreendedora.md)
 - [Delivery de Comida Saudável](./delivery-saudavel.md)
