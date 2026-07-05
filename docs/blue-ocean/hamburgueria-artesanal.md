@@ -42,5 +42,5 @@ xychart-beta
 - [Academia de Escalada](./academia-de-escalada.md)
 - [Personal Trainer](./personal-trainer.md)
 - [Consultoria Empreendedora](./consultoria-empreendedora.md)
-- [Estética e Beleza](./estetica-e-beleza.md)
+- [Estética e Beleza](./clinica-de-estetica.md)
 - [Pet Shop](./pet-shop.md)
