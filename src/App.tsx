@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Home from "./pages/Home";
+import ClimbPage from "./pages/Climb";
 import Solutions from "./pages/Solutions";
 import Plans from "./pages/Plans";
 import Contact from "./pages/Contact";
@@ -30,6 +31,7 @@ function App() {
           <Routes>
             {/* Public Routes with DefaultLayout */}
             <Route element={<DefaultLayout><Home /></DefaultLayout>} path="/" />
+            <Route element={<DefaultLayout><ClimbPage /></DefaultLayout>} path="/climb" />
             <Route element={<DefaultLayout><Solutions /></DefaultLayout>} path="/solutions" />
             <Route element={<DefaultLayout><Plans /></DefaultLayout>} path="/plans" />
             <Route element={<DefaultLayout><Contact /></DefaultLayout>} path="/contact" />
