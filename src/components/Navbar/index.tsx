@@ -30,7 +30,9 @@ const Navbar = () => {
     { name: "Quem somos", path: "/about" },
     { name: "Contato", path: "/contact" },
     { name: "Comunidade", path: "/community" },
+    { name: "Blog", path: "https://xperiencehubs.com/blog", external: true },
     { name: "Planos", path: "/plans" },
+    { name: "IA do Empreendedor", path: "/solutions" },
   ];
 
   return (
