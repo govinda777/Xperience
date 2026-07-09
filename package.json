@@ -41,9 +41,9 @@
   },
   "dependencies": {
     "@account-abstraction/contracts": "^0.8.0",
-    "@ai-sdk/google": "^3.0.75",
-    "@ai-sdk/openai": "^3.0.48",
-    "@ai-sdk/react": "^3.0.143",
+    "@ai-sdk/google": "3.0.75",
+    "@ai-sdk/openai": "3.0.65",
+    "@ai-sdk/react": "3.0.193",
     "@alchemy/aa-accounts": "^3.19.0",
     "@alchemy/aa-alchemy": "^3.19.0",
     "@alchemy/aa-core": "^3.19.0",
@@ -69,7 +69,7 @@
     "@vercel/kv": "^3.0.0",
     "@walletconnect/ethereum-provider": "^2.23.10",
     "@walletconnect/universal-provider": "^2.23.10",
-    "ai": "^6.0.141",
+    "ai": "6.0.191",
     "axios": "1.18.1",
     "crypto-js": "^4.2.0",
     "ethers": "^5.8.0",
@@ -86,9 +86,9 @@
     "remark-gfm": "4.0.1",
     "styled-components": "^6.4.3",
     "userop": "^0.3.8",
-    "viem": "2.54.1",
+    "viem": "2.54.6",
     "vite-plugin-node-polyfills": "^0.22.0",
-    "zod": "^3.23.8"
+    "zod": "3.25.76"
   },
   "devDependencies": {
     "@playwright/test": "^1.61.1",
@@ -116,7 +116,13 @@
   },
   "pnpm": {
     "overrides": {
-      "fast-xml-parser": "^5.7.2",
+      "fast-xml-parser": "^5.9.3",
+      "nanoid": "3.3.12",
+      "cross-spawn": "7.0.6",
+      "tough-cookie": "^6.0.2",
+      "micromatch": "^4.0.8",
+      "braces": "^3.0.3",
+      "js-cookie": "^3.0.8",
       "flatted": "^3.4.2",
       "h3": "^1.15.9",
       "socket.io-parser": "^4.2.6",
