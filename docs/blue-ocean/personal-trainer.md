@@ -55,6 +55,9 @@ Parar de vender a presença física e passar a vender a transformação e o aces
 
 ### 6. Veja Também (Outros Estudos de Caso)
 
+- [Fisioterapia de Longevidade e Performance](./fisioterapia-e-longevidade.md)
+- [Mentoria Premium e Educação de Elite](./mentoria-premium-e-educacao.md)
+- [BPO Financeiro e Contabilidade Consultiva](./bpo-financeiro-e-contabilidade.md)
 - [Turismo de Compras Têxtil](./turismo-compras-textil.md)
 - [Pousadas e Campings](./pousadas-e-campings.md)
 - [Academia de Escalada](./academia-de-escalada.md)

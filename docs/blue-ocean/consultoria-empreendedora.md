@@ -55,6 +55,9 @@ Produtizar a consultoria e focar na execução tecnológica. O cliente não quer
 
 ### 6. Veja Também (Outros Estudos de Caso)
 
+- [BPO Financeiro e Contabilidade Consultiva](./bpo-financeiro-e-contabilidade.md)
+- [Mentoria Premium e Educação de Elite](./mentoria-premium-e-educacao.md)
+- [Fisioterapia de Longevidade e Performance](./fisioterapia-e-longevidade.md)
 - [Turismo de Compras Têxtil](./turismo-compras-textil.md)
 - [Pousadas e Campings](./pousadas-e-campings.md)
 - [Academia de Escalada](./academia-de-escalada.md)
