@@ -116,7 +116,7 @@
   },
   "pnpm": {
     "overrides": {
-      "fast-xml-parser": "^5.10.0",
+      "fast-xml-parser": "^5.10.1",
       "nanoid": "3.3.12",
       "cross-spawn": "7.0.6",
       "tough-cookie": "^6.0.2",
@@ -156,10 +156,12 @@
       "langsmith": "^0.7.1",
       "ajv": "^8.18.0",
       "@hpke/common": "1.10.1",
-      "fast-uri": "3.1.2",
+      "fast-uri": "3.1.4",
       "esbuild": "0.28.1",
       "form-data": "^4.0.6",
-      "joi": "^17.13.4"
+      "joi": "^17.13.4",
+      "shell-quote": "^1.9.0",
+      "axios": "1.18.1"
     }
   },
   "prisma": {
