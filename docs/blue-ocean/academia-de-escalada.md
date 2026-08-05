@@ -56,6 +56,8 @@ Transformar a escalada em um ecossistema social de convivência urbana. Ao remov
 
 ### 6. Veja Também (Outros Estudos de Caso)
 
+- [Estúdio de Pilates de Nicho](./estudio-de-pilates-de-nicho.md)
+- [Psicologia e Saúde Mental](./psicologia-e-saude-mental.md)
 - [Turismo de Compras Têxtil](./turismo-compras-textil.md)
 - [Pousadas e Campings](./pousadas-e-campings.md)
 - [Personal Trainer](./personal-trainer.md)
