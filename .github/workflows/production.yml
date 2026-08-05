@@ -49,6 +49,11 @@ jobs:
       - name: 🏗️ Build Project
         run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
 
+      - name: 📂 Copy @hpke to prebuilt node_modules
+        run: |
+          mkdir -p .vercel/output/node_modules
+          cp -r node_modules/@hpke .vercel/output/node_modules/
+
       - name: 🚢 Deploy to Vercel (Production)
         run: |
           vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }} \
