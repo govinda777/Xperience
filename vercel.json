@@ -6,7 +6,7 @@
     "enabled": false
   },
   "buildCommand": "pnpm run build",
-  "installCommand": "pnpm install",
+  "installCommand": "echo 'Skip install'",
   "outputDirectory": "dist",
   "framework": "vite",
 
