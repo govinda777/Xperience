@@ -14,7 +14,7 @@ overrides:
   js-cookie: ^3.0.8
   flatted: ^3.4.2
   h3: ^1.15.9
-  socket.io-parser: ^4.2.6
+  socket.io-parser: ^4.2.7
   devalue: ^5.6.3
   diff: ^4.0.4
   '@tootallnate/once': ^3.0.1
@@ -22,11 +22,11 @@ overrides:
   rollup: ^4.59.0
   preact: ^10.28.4
   tar: ^7.5.21
-  brace-expansion: ^5.0.8
+  brace-expansion: ^5.0.9
   underscore: ^1.13.8
   path-to-regexp: ^6.3.0
   react-router: ^7.18.2
-  undici: ^7.28.0
+  undici: ^7.29.0
   qs: ^6.14.2
   js-yaml: ^4.2.0
   load-nyc-config>js-yaml: ^3.14.2
@@ -39,14 +39,14 @@ overrides:
   smol-toml: ^1.6.1
   '@tanstack/form-core': ^1.28.6
   defu: ^6.1.7
-  hono: ^4.12.25
+  hono: ^4.12.34
   '@stablelib/ed25519': ^2.1.0
   uuid: 14.0.1
-  postcss: ^8.5.19
+  postcss: ^8.5.25
   langsmith: ^0.7.1
   ajv: ^8.18.0
   '@hpke/common': 1.10.1
-  fast-uri: 3.1.4
+  fast-uri: 3.1.5
   esbuild: 0.28.1
   form-data: ^4.0.6
   joi: ^17.13.4
@@ -228,7 +228,7 @@ importers:
         version: 4.7.0(vite@7.3.6(@types/node@22.20.1)(jiti@1.21.7)(lightningcss@1.32.0)(terser@5.48.0)(tsx@4.21.0)(yaml@2.9.0))
       autoprefixer:
         specifier: ^10.5.3
-        version: 10.5.3(postcss@8.5.19)
+        version: 10.5.3(postcss@8.5.25)
       eslint:
         specifier: ^9.39.4
         version: 9.39.5(jiti@1.21.7)
@@ -248,8 +248,8 @@ importers:
         specifier: ^6.23.0
         version: 6.26.0
       postcss:
-        specifier: ^8.5.19
-        version: 8.5.19
+        specifier: ^8.5.25
+        version: 8.5.25
       prettier:
         specifier: ^3.9.5
         version: 3.9.5
@@ -4102,7 +4102,7 @@ packages:
     engines: {node: ^10 || ^12 || >=14}
     hasBin: true
     peerDependencies:
-      postcss: ^8.5.19
+      postcss: ^8.5.25
 
   available-typed-arrays@1.0.7:
     resolution: {integrity: sha512-wvUjBtSGN7+7SjNpq/9M2Tg350UZD3q62IFZLbRAR1bSMlCo1ZaeW+BJ+D090e4hIIZLBcTDWe4Mh4jvUDajzQ==}
@@ -4222,8 +4222,8 @@ packages:
   bowser@2.14.1:
     resolution: {integrity: sha512-tzPjzCxygAKWFOJP011oxFHs57HzIhOEracIgAePE4pqB3LikALKnSzUyU4MGs9/iCEUuHlAJTjTc5M+u7YEGg==}
 
-  brace-expansion@5.0.8:
-    resolution: {integrity: sha512-JZyDyq3D4AUifKTPOB7DELf6XsB3WdPuNxCtob1vFXPsSXhdAiHBWJ/tJ8HAc9aH84BK+5JFZLNkJKx3G9kzQg==}
+  brace-expansion@5.0.9:
+    resolution: {integrity: sha512-ScQ4IuvIEF1TMlP7Zt+vjJ//9zlPb2SDcxWxM3bk8s6t6GGdJ7KO1dCcTidOPJKePW30LE/2cT7wCyPho9/Wxg==}
     engines: {node: 20 || >=22}
 
   braces@3.0.3:
@@ -5123,8 +5123,8 @@ packages:
   fast-stable-stringify@1.0.0:
     resolution: {integrity: sha512-wpYMUmFu5f00Sm0cj2pfivpmawLZ0NKdviQ4w9zJeR8JVtOpOxHmLaJuj0vxvGqMJQWyP/COUkF75/57OKyRag==}
 
-  fast-uri@3.1.4:
-    resolution: {integrity: sha512-8JnbkQ4juDyvYs4mgFGQqg4yCYtFDtUtmp2QIQq11ZZe5CFQ5wcqm1rqDgAh/QdMySuBnPzMUiJUNZG5N/AiQw==}
+  fast-uri@3.1.5:
+    resolution: {integrity: sha512-gHwA1O9LDIcKunMKhObS/HimwtehO1nPUECKAu5TpKgaO19fcWEl4bliWe1jWxVFvIXztJjjQ4L8XQ1EU9f7Jw==}
 
   fast-xml-builder@1.2.0:
     resolution: {integrity: sha512-00aAWieqff+ZJhsXA4g1g7M8k+7AYoMUUHF+/zFb5U6Uv/P0Vl4QZo84/IcufzYalLuEj9928bXN9PbbFzMF0Q==}
@@ -5443,8 +5443,8 @@ packages:
   hmac-drbg@1.0.1:
     resolution: {integrity: sha512-Tti3gMqLdZfhOQY1Mzf/AanLiqh1WTiJgEj26ZuYQ9fbkLomzGchCws4FyrSd4VkpBfiNhaE1On+lOz894jvXg==}
 
-  hono@4.12.30:
-    resolution: {integrity: sha512-emn+JoJjrN9YTpRDS5it/UI2SO9BAE37T6I3d963RxcZ81G9A4pr2SZTEiiaiKbzx+NKRg5BZ89fCL7gCJCUog==}
+  hono@4.13.0:
+    resolution: {integrity: sha512-jhunvfHWxd7J5EFfSgH4xsYJzSe/lfqbUCxiyyeaQasUsXeEHXtzVid+7EOGByc5JnFa23SSFL3Y2RV/z1T+eQ==}
     engines: {node: '>=16.9.0'}
 
   hpke-js@1.8.0:
@@ -6973,20 +6973,20 @@ packages:
     resolution: {integrity: sha512-hpr+J05B2FVYUAXHeK1YyI267J/dDDhMU6B6civm8hSY1jYJnBXxzKDKDswzJmtLHryrjhnDjqqp/49t8FALew==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
-      postcss: ^8.5.19
+      postcss: ^8.5.25
 
   postcss-js@4.1.0:
     resolution: {integrity: sha512-oIAOTqgIo7q2EOwbhb8UalYePMvYoIeRY2YKntdpFQXNosSu3vLrniGgmH9OKs/qAkfoj5oB3le/7mINW1LCfw==}
     engines: {node: ^12 || ^14 || >= 16}
     peerDependencies:
-      postcss: ^8.5.19
+      postcss: ^8.5.25
 
   postcss-load-config@6.0.1:
     resolution: {integrity: sha512-oPtTM4oerL+UXmx+93ytZVN82RrlY/wPUV8IeDxFrzIjXOLF1pN+EmKPLbubvKHT2HC20xXsCAH2Z+CKV6Oz/g==}
     engines: {node: '>= 18'}
     peerDependencies:
       jiti: '>=1.21.0'
-      postcss: ^8.5.19
+      postcss: ^8.5.25
       tsx: ^4.8.1
       yaml: ^2.4.2
     peerDependenciesMeta:
@@ -7003,7 +7003,7 @@ packages:
     resolution: {integrity: sha512-HQbt28KulC5AJzG+cZtj9kvKB93CFCdLvog1WFLf1D+xmMvPGlBstkpTEZfK5+AN9hfJocyBFCNiqyS48bpgzQ==}
     engines: {node: '>=12.0'}
     peerDependencies:
-      postcss: ^8.5.19
+      postcss: ^8.5.25
 
   postcss-selector-parser@6.1.2:
     resolution: {integrity: sha512-Q8qQfPiZ+THO/3ZrOrO0cJJKfpYCagtMUkXbnEfmgUjwXg6z/WBeOyS9APBBPCTSiDV+s4SwQGu8yFsiMRIudg==}
@@ -7012,8 +7012,8 @@ packages:
   postcss-value-parser@4.2.0:
     resolution: {integrity: sha512-1NNCs6uurfkVbeXG4S8JFT9t19m45ICnif8zWLd5oPSZ50QnwMfK+H3jv408d4jw/7Bttv5axS5IiHoLaVNHeQ==}
 
-  postcss@8.5.19:
-    resolution: {integrity: sha512-Mz8SaolMd8nB+G13WkORcxQKHZ/NE4xXevtkJHVuG+guo9/wYKlIMTKAqGdEmYOXR2ijPjTYNHssizdaVSUNdQ==}
+  postcss@8.5.25:
+    resolution: {integrity: sha512-DTPx3RWSSnWyzLxQnlH0rJP+EW5ekl16ZU4/psbIhA0e53kJfdgaN5vKM+xP7yJtXVu+nfdVFmlgFDEKAe4Pyw==}
     engines: {node: ^10 || ^12 || >=14}
 
   preact@10.29.7:
@@ -7625,8 +7625,8 @@ packages:
     resolution: {integrity: sha512-uP0bpjWrjQmUt5DTHq9RuoCBdFJF10cdX9X+a368j/Ft0wmaVgxlrjvK3kjvgCODOMMOz9lcaRzxmso0bTWZ/g==}
     engines: {node: '>=10.0.0'}
 
-  socket.io-parser@4.2.6:
-    resolution: {integrity: sha512-asJqbVBDsBCJx0pTqw3WfesSY0iRX+2xzWEWzrpcH7L6fLzrhyF8WPI8UaeM4YCuDfpwA/cgsdugMsmtz8EJeg==}
+  socket.io-parser@4.2.7:
+    resolution: {integrity: sha512-IH/iSeO9T6gz1KkFleGDWkG9N3dl4jXVYUtMhIqH10Md0ttMer8nUNWiP1DKuNrybD2xBrixLJdCC9J6ECoYkg==}
     engines: {node: '>=10.0.0'}
 
   sonic-boom@2.8.0:
@@ -8050,8 +8050,8 @@ packages:
   undici-types@7.28.0:
     resolution: {integrity: sha512-LJAfY+2w6HGeT8d8J1wNQsUGUEGio6NWWpwdwurQe4f6oojzCFuGLizl1KSve4irsTxyLly1QhEeE6iapdaIvQ==}
 
-  undici@7.28.0:
-    resolution: {integrity: sha512-cRZYrTDwWznlnRiPjggAGxZXanty6M8RV1ff8Wm4LWXBp7/IG8v5DnOm74DtUBp9OONpK75YlPnIjQqX0dBDtA==}
+  undici@7.29.0:
+    resolution: {integrity: sha512-IDxfleLmmbSskfWSUATiN1nfn2rDuvnMOqb5CWR92iIfojA0Ud+ulOAAEQ57LPr9rWmsreUyf5lwyao+7GNNVw==}
     engines: {node: '>=20.18.1'}
 
   unfetch@4.2.0:
@@ -10829,7 +10829,7 @@ snapshots:
       '@noble/hashes': 1.8.0
       '@scure/base': 1.2.6
       '@types/debug': 4.1.13
-      debug: 4.3.4
+      debug: 4.4.3
       pony-cause: 2.1.11
       semver: 7.8.5
       uuid: 14.0.1
@@ -13732,7 +13732,7 @@ snapshots:
       ts-morph: 12.0.0
       tsx: 4.21.0
       typescript: 5.9.3
-      undici: 7.28.0
+      undici: 7.29.0
     transitivePeerDependencies:
       - encoding
       - rollup
@@ -15500,7 +15500,7 @@ snapshots:
   ajv@8.20.0:
     dependencies:
       fast-deep-equal: 3.1.3
-      fast-uri: 3.1.4
+      fast-uri: 3.1.5
       json-schema-traverse: 1.0.0
       require-from-string: 2.0.2
 
@@ -15617,13 +15617,13 @@ snapshots:
 
   atomic-sleep@1.0.0: {}
 
-  autoprefixer@10.5.3(postcss@8.5.19):
+  autoprefixer@10.5.3(postcss@8.5.25):
     dependencies:
       browserslist: 4.28.6
       caniuse-lite: 1.0.30001805
       fraction.js: 5.3.4
       picocolors: 1.1.1
-      postcss: 8.5.19
+      postcss: 8.5.25
       postcss-value-parser: 4.2.0
 
   available-typed-arrays@1.0.7:
@@ -15754,7 +15754,7 @@ snapshots:
 
   bowser@2.14.1: {}
 
-  brace-expansion@5.0.8:
+  brace-expansion@5.0.9:
     dependencies:
       balanced-match: 4.0.4
 
@@ -16767,7 +16767,7 @@ snapshots:
 
   fast-stable-stringify@1.0.0: {}
 
-  fast-uri@3.1.4: {}
+  fast-uri@3.1.5: {}
 
   fast-xml-builder@1.2.0:
     dependencies:
@@ -17174,7 +17174,7 @@ snapshots:
       minimalistic-assert: 1.0.1
       minimalistic-crypto-utils: 1.0.1
 
-  hono@4.12.30: {}
+  hono@4.13.0: {}
 
   hpke-js@1.8.0:
     dependencies:
@@ -17590,7 +17590,7 @@ snapshots:
       saxes: 6.0.0
       symbol-tree: 3.2.4
       tough-cookie: 6.0.2
-      undici: 7.28.0
+      undici: 7.29.0
       w3c-xmlserializer: 5.0.0
       webidl-conversions: 8.0.1
       whatwg-mimetype: 5.0.0
@@ -18458,7 +18458,7 @@ snapshots:
 
   minimatch@9.0.9:
     dependencies:
-      brace-expansion: 5.0.8
+      brace-expansion: 5.0.9
 
   minimist@1.2.8: {}
 
@@ -19095,7 +19095,7 @@ snapshots:
   porto@0.2.35(4f7e382140891db4b9ca888a3c69b63e):
     dependencies:
       '@wagmi/core': 2.22.1(@tanstack/query-core@5.101.2)(@types/react@18.3.18)(react@18.3.1)(typescript@5.9.3)(use-sync-external-store@1.4.0(react@18.3.1))(viem@2.55.2(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76))
-      hono: 4.12.30
+      hono: 4.13.0
       idb-keyval: 6.3.0
       mipd: 0.0.7(typescript@5.9.3)
       ox: 0.9.17(typescript@5.9.3)(zod@4.4.3)
@@ -19115,30 +19115,30 @@ snapshots:
 
   possible-typed-array-names@1.1.0: {}
 
-  postcss-import@15.1.0(postcss@8.5.19):
+  postcss-import@15.1.0(postcss@8.5.25):
     dependencies:
-      postcss: 8.5.19
+      postcss: 8.5.25
       postcss-value-parser: 4.2.0
       read-cache: 1.0.0
       resolve: 1.22.12
 
-  postcss-js@4.1.0(postcss@8.5.19):
+  postcss-js@4.1.0(postcss@8.5.25):
     dependencies:
       camelcase-css: 2.0.1
-      postcss: 8.5.19
+      postcss: 8.5.25
 
-  postcss-load-config@6.0.1(jiti@1.21.7)(postcss@8.5.19)(tsx@4.21.0)(yaml@2.9.0):
+  postcss-load-config@6.0.1(jiti@1.21.7)(postcss@8.5.25)(tsx@4.21.0)(yaml@2.9.0):
     dependencies:
       lilconfig: 3.1.3
     optionalDependencies:
       jiti: 1.21.7
-      postcss: 8.5.19
+      postcss: 8.5.25
       tsx: 4.21.0
       yaml: 2.9.0
 
-  postcss-nested@6.2.0(postcss@8.5.19):
+  postcss-nested@6.2.0(postcss@8.5.25):
     dependencies:
-      postcss: 8.5.19
+      postcss: 8.5.25
       postcss-selector-parser: 6.1.2
 
   postcss-selector-parser@6.1.2:
@@ -19148,7 +19148,7 @@ snapshots:
 
   postcss-value-parser@4.2.0: {}
 
-  postcss@8.5.19:
+  postcss@8.5.25:
     dependencies:
       nanoid: 3.3.12
       picocolors: 1.1.1
@@ -19902,13 +19902,13 @@ snapshots:
       '@socket.io/component-emitter': 3.1.2
       debug: 4.4.3
       engine.io-client: 6.6.5(bufferutil@4.1.0)(utf-8-validate@6.0.6)
-      socket.io-parser: 4.2.6
+      socket.io-parser: 4.2.7
     transitivePeerDependencies:
       - bufferutil
       - supports-color
       - utf-8-validate
 
-  socket.io-parser@4.2.6:
+  socket.io-parser@4.2.7:
     dependencies:
       '@socket.io/component-emitter': 3.1.2
       debug: 4.4.3
@@ -20129,11 +20129,11 @@ snapshots:
       normalize-path: 3.0.0
       object-hash: 3.0.0
       picocolors: 1.1.1
-      postcss: 8.5.19
-      postcss-import: 15.1.0(postcss@8.5.19)
-      postcss-js: 4.1.0(postcss@8.5.19)
-      postcss-load-config: 6.0.1(jiti@1.21.7)(postcss@8.5.19)(tsx@4.21.0)(yaml@2.9.0)
-      postcss-nested: 6.2.0(postcss@8.5.19)
+      postcss: 8.5.25
+      postcss-import: 15.1.0(postcss@8.5.25)
+      postcss-js: 4.1.0(postcss@8.5.25)
+      postcss-load-config: 6.0.1(jiti@1.21.7)(postcss@8.5.25)(tsx@4.21.0)(yaml@2.9.0)
+      postcss-nested: 6.2.0(postcss@8.5.25)
       postcss-selector-parser: 6.1.2
       resolve: 1.22.12
       sucrase: 3.35.1
@@ -20320,7 +20320,7 @@ snapshots:
 
   undici-types@7.28.0: {}
 
-  undici@7.28.0: {}
+  undici@7.29.0: {}
 
   unfetch@4.2.0: {}
 
@@ -20580,7 +20580,7 @@ snapshots:
       esbuild: 0.28.1
       fdir: 6.5.0(picomatch@4.0.5)
       picomatch: 4.0.5
-      postcss: 8.5.19
+      postcss: 8.5.25
       rollup: 4.62.2
       tinyglobby: 0.2.17
     optionalDependencies:
