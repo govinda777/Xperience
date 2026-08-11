@@ -37,7 +37,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   debugSecret('DATABASE_URL', process.env.DATABASE_URL);
   debugSecret('PRIVY_APP_SECRET', process.env.PRIVY_APP_SECRET);
-  debugSecret('PRIVY_APP_ID', process.env.PRIVY_APP_ID);
   debugSecret('VITE_PRIVY_APP_ID', process.env.VITE_PRIVY_APP_ID);
   // ---------------------------------
 
