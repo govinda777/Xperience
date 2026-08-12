@@ -55,6 +55,8 @@ Desvincular o negócio da guerra de preços das grandes plataformas de reserva e
 
 ### 6. Veja Também (Outros Estudos de Caso)
 
+- [Clínica de Psicologia](./clinica-de-psicologia.md)
+- [Estética Automotiva](./estetica-automotiva.md)
 - [Turismo de Compras Têxtil](./turismo-compras-textil.md)
 - [Academia de Escalada](./academia-de-escalada.md)
 - [Personal Trainer](./personal-trainer.md)

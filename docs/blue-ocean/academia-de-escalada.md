@@ -56,6 +56,8 @@ Transformar a escalada em um ecossistema social de convivência urbana. Ao remov
 
 ### 6. Veja Também (Outros Estudos de Caso)
 
+- [Clínica de Psicologia](./clinica-de-psicologia.md)
+- [Estética Automotiva](./estetica-automotiva.md)
 - [Turismo de Compras Têxtil](./turismo-compras-textil.md)
 - [Pousadas e Campings](./pousadas-e-campings.md)
 - [Personal Trainer](./personal-trainer.md)

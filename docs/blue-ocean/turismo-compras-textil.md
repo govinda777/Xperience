@@ -56,6 +56,8 @@ Migrar do transporte físico de massa comoditizado para uma consultoria de compr
 
 ### 6. Veja Também (Outros Estudos de Caso)
 
+- [Clínica de Psicologia](./clinica-de-psicologia.md)
+- [Estética Automotiva](./estetica-automotiva.md)
 - [Pousadas e Campings](./pousadas-e-campings.md)
 - [Academia de Escalada](./academia-de-escalada.md)
 - [Personal Trainer](./personal-trainer.md)

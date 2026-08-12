@@ -56,6 +56,8 @@ Produtizar o serviço de assessoria e entregar soluções integradas que rodam n
 
 ### 6. Veja Também (Outros Estudos de Caso)
 
+- [Clínica de Psicologia](./clinica-de-psicologia.md)
+- [Estética Automotiva](./estetica-automotiva.md)
 - [BPO Financeiro e Contabilidade Consultiva](./bpo-financeiro-e-contabilidade.md)
 - [Mentoria Premium e Educação de Elite](./mentoria-premium-e-educacao.md)
 - [Fisioterapia de Longevidade e Performance](./fisioterapia-e-longevidade.md)
