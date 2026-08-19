@@ -12,8 +12,7 @@
 
   "functions": {
     "api/index.ts": {
-      "maxDuration": 60,
-      "includeFiles": "node_modules/@hpke/*/script/**/*.js"
+      "maxDuration": 60
     }
   },
 
