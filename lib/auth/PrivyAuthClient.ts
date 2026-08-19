@@ -6,11 +6,11 @@ export class PrivyAuthClient implements IAuthClient {
   private client: PrivyClient | null = null;
 
   constructor() {
-    const appId = process.env.PRIVY_APP_ID || process.env.VITE_PRIVY_APP_ID;
+    const appId = process.env.VITE_PRIVY_APP_ID;
     const appSecret = process.env.PRIVY_APP_SECRET;
 
     if (!appId || !appSecret) {
-      console.warn('[Privy Server] WARNING: Missing Privy environment variables: PRIVY_APP_ID (or VITE_PRIVY_APP_ID) and PRIVY_APP_SECRET must be set.');
+      console.warn('[Privy Server] WARNING: Missing Privy environment variables: VITE_PRIVY_APP_ID and PRIVY_APP_SECRET must be set.');
     } else {
       this.client = new PrivyClient({ appId, appSecret });
       console.log('[Privy Server] ✅ PrivyClient initialized successfully with App ID:', appId);
@@ -19,7 +19,7 @@ export class PrivyAuthClient implements IAuthClient {
 
   private getClient(): PrivyClient {
     if (!this.client) {
-      throw new Error('Privy Server Client is not initialized. Ensure PRIVY_APP_ID and PRIVY_APP_SECRET are set.');
+      throw new Error('Privy Server Client is not initialized. Ensure VITE_PRIVY_APP_ID and PRIVY_APP_SECRET are set.');
     }
     return this.client;
   }
