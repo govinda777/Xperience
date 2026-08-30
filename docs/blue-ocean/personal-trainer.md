@@ -56,6 +56,8 @@ Romper a barreira do faturamento limitado pelo tempo físico. Ao se posicionar c
 
 ### 6. Veja Também (Outros Estudos de Caso)
 
+- [Estúdio de Pilates de Nicho](./estudio-de-pilates-de-nicho.md)
+- [Psicologia e Saúde Mental](./psicologia-e-saude-mental.md)
 - [Fisioterapia de Longevidade e Performance](./fisioterapia-e-longevidade.md)
 - [Mentoria Premium e Educação de Elite](./mentoria-premium-e-educacao.md)
 - [BPO Financeiro e Contabilidade Consultiva](./bpo-financeiro-e-contabilidade.md)
