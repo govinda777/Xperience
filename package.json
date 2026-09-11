@@ -112,7 +112,7 @@
     "typescript": "^5.9.3",
     "uuid": "14.0.2",
     "vite": "^7.3.6",
-    "vitest": "4.1.10"
+    "vitest": "5.0.0"
   },
   "pnpm": {
     "overrides": {
