@@ -112,7 +112,7 @@
     "typescript": "^5.9.3",
     "uuid": "14.0.2",
     "vite": "^7.3.6",
-    "vitest": "4.1.10"
+    "vitest": "^4.1.11"
   },
   "pnpm": {
     "overrides": {
@@ -137,9 +137,9 @@
       "underscore": "^1.13.8",
       "path-to-regexp": "^6.3.0",
       "react-router": "^7.18.2",
-      "undici": "^7.29.0",
-      "qs": "^6.15.3",
-      "js-yaml": "^4.3.0",
+      "undici": "^7.29.1",
+      "qs": "^6.16.0",
+      "js-yaml": "^4.3.2",
       "load-nyc-config>js-yaml": "^3.14.2",
       "bn.js": "^5.2.3",
       "elliptic>bn.js": "4.12.3",
@@ -147,22 +147,28 @@
       "ethjs-unit>bn.js": "4.12.3",
       "@metamask/sdk": "^0.33.1",
       "ws": "^8.21.1",
-      "smol-toml": "^1.7.0",
+      "smol-toml": "^1.9.0",
       "@tanstack/form-core": "^1.33.2",
       "defu": "^6.1.7",
-      "hono": "^4.13.5",
+      "hono": "^4.13.7",
       "@stablelib/ed25519": "^2.1.0",
       "uuid": "14.0.2",
       "postcss": "^8.5.28",
       "langsmith": "^0.7.17",
       "ajv": "^8.20.0",
       "@hpke/common": "1.10.1",
-      "fast-uri": "3.1.5",
+      "fast-uri": "^3.1.7",
       "esbuild": "0.28.1",
       "form-data": "^4.0.6",
-      "joi": "^17.13.4",
-      "shell-quote": "^1.10.0",
-      "axios": "1.18.1"
+      "joi": "^17.13.7",
+      "shell-quote": "^1.11.0",
+      "axios": "1.18.1",
+      "pbkdf2": "^3.1.7",
+      "stream-json": "^3.6.0",
+      "image-size": "^2.0.3",
+      "source-map-js": "^1.2.2",
+      "postcss-selector-parser": "^7.1.6",
+      "vitest": "^4.1.11"
     }
   },
   "prisma": {
