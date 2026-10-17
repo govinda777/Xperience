@@ -74,6 +74,7 @@
     "crypto-js": "^4.2.0",
     "ethers": "^5.8.0",
     "googleapis": "^172.0.0",
+    "html2pdf.js": "^0.14.0",
     "lucide-react": "0.461.0",
     "openai": "6.47.0",
     "qrcode.react": "^4.2.0",

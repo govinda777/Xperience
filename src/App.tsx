@@ -12,6 +12,7 @@ import Agents from "./pages/Agents";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import TestSessionPage from "./pages/TestSession";
+import ProposalPreview from "./pages/Proposal";
 import TrailList from "./pages/Trails/TrailList";
 import TrailRunnerPage from "./pages/Trails/TrailRunnerPage";
 import RewardsCenter from "./pages/RewardsCenter";
@@ -40,6 +41,7 @@ function App() {
             <Route element={<DefaultLayout><Cart /></DefaultLayout>} path="/cart" />
             <Route element={<DefaultLayout><Checkout /></DefaultLayout>} path="/checkout" />
             <Route element={<DefaultLayout><TestSessionPage /></DefaultLayout>} path="/test-session" />
+            <Route element={<DefaultLayout><ProposalPreview /></DefaultLayout>} path="/proposal" />
             <Route element={<DefaultLayout><Blog /></DefaultLayout>} path="/blog" />
             <Route element={<DefaultLayout><BlogPost /></DefaultLayout>} path="/blog/:slug" />
 
