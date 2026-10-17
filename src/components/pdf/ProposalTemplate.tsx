@@ -1,11 +1,16 @@
 import React, { forwardRef } from 'react';
 
-export interface BudgetItem {
+export interface CapexItem {
   id: string;
   item: string;
   description: string;
-  quantity: string;
-  unitPrice: number;
+  subtotal: number;
+}
+
+export interface OpexItem {
+  id: string;
+  item: string;
+  description: string;
   subtotal: number;
 }
 
@@ -30,8 +35,10 @@ export interface ProposalData {
   provider: ProviderDetails;
   client: ClientDetails;
   scopeIntro: string;
-  items: BudgetItem[];
-  totalInvestment: number;
+  capexItems: CapexItem[];
+  capexTotal: number;
+  opexItems: OpexItem[];
+  opexTotal: number;
   paymentConditions: string;
   taxNotes: string;
 }
@@ -54,35 +61,32 @@ const mockData: ProposalData = {
   },
   scopeIntro:
     'Este documento detalha a proposta de prestação de serviços de consultoria estratégica, focada no mapeamento de negócio e trilhas de capacitação para alavancar os resultados de sua empresa. O escopo a seguir foi desenhado para atender perfeitamente aos objetivos alinhados em nossas reuniões prévias.',
-  items: [
+  capexItems: [
     {
       id: '1',
-      item: 'Mapeamento de Negócio',
-      description: 'Análise detalhada do cenário atual, levantamento de requisitos e definição de OKRs.',
-      quantity: '1 Módulo',
-      unitPrice: 5000,
-      subtotal: 5000,
+      item: 'Setup / Estruturação',
+      description: 'Engloba os 4 pilares: Tecnologia, Acabamentos, Paisagismo e Gestão Financeira/Logística.',
+      subtotal: 10000,
+    },
+  ],
+  capexTotal: 10000,
+  opexItems: [
+    {
+      id: '1',
+      item: 'Mensalidade Base',
+      description: 'Direito a 3 projetos simultâneos.',
+      subtotal: 150,
     },
     {
       id: '2',
-      item: 'Trilhas de Capacitação',
-      description: 'Acesso a plataforma com conteúdos sobre gestão e inovação.',
-      quantity: '3 Meses',
-      unitPrice: 1500,
-      subtotal: 4500,
-    },
-    {
-      id: '3',
-      item: 'Consultoria Estratégica',
-      description: 'Sessões de mentoria quinzenais.',
-      quantity: '6 Horas',
-      unitPrice: 800,
-      subtotal: 4800,
+      item: 'Projetos Adicionais',
+      description: 'Valor adicional por projeto ativo (se aplicável).',
+      subtotal: 30,
     },
   ],
-  totalInvestment: 14300,
-  paymentConditions: '30% no aceite e 70% na entrega final. Opções: PIX, Boleto ou Cripto (USDT/USDC via Web3).',
-  taxNotes: 'Modalidade OPEX. Todos os impostos estão inclusos neste valor.',
+  opexTotal: 150,
+  paymentConditions: '30% no aceite e 70% na entrega final. Opções: PIX, Boleto ou ',
+  taxNotes: 'Todos os impostos estão inclusos neste valor.',
 };
 
 const formatCurrency = (value: number) => {
@@ -101,18 +105,19 @@ export const ProposalTemplate = forwardRef<HTMLDivElement, ProposalTemplateProps
         <style dangerouslySetInnerHTML={{ __html: `
           @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
           .font-inter { font-family: 'Inter', sans-serif; }
+          .print-avoid-break { page-break-inside: avoid; }
         `}} />
 
         <div className="font-inter">
           {/* Header */}
           <div className="flex justify-between items-start mb-10 border-b-2 border-gray-100 pb-6">
             <div className="flex flex-col">
-              <h1 className="text-4xl font-extrabold text-[#111827] tracking-tight">XPERIENCE</h1>
-              <span className="text-[#F97316] font-semibold text-sm uppercase tracking-widest mt-1">Viva o Extraordinário</span>
+              <h1 className="text-4xl font-[800] text-[#1E293B] tracking-tight border-b-[3px] border-[#F97316] inline-block pb-1">XPERIENCE</h1>
+              <span className="text-[#1E293B] font-semibold text-sm uppercase tracking-widest mt-2">Viva o Extraordinário</span>
             </div>
             <div className="text-right flex flex-col items-end">
               <h2 className="text-[#1E293B] font-bold text-xl uppercase mb-2">Orçamento de Serviços</h2>
-              <div className="bg-[#DCFCE7] text-[#166534] px-3 py-1 rounded-full text-xs font-bold mb-1">
+              <div className="bg-[#F3F4F6] text-[#111827] px-3 py-1 rounded-full text-xs font-bold mb-1 border border-gray-200">
                 {data.proposalNumber}
               </div>
               <div className="text-xs text-gray-500 mt-1">
@@ -123,8 +128,8 @@ export const ProposalTemplate = forwardRef<HTMLDivElement, ProposalTemplateProps
           </div>
 
           {/* Parties */}
-          <div className="grid grid-cols-2 gap-8 mb-10">
-            <div className="bg-gray-50 p-5 rounded-2xl border border-gray-200">
+          <div className="grid grid-cols-2 gap-8 mb-10 print-avoid-break">
+            <div className="bg-gray-50 p-5 rounded-[16px] border border-gray-200">
               <h3 className="uppercase font-extrabold text-[#1E293B] text-sm mb-3 border-b-2 border-[#F97316] pb-1 inline-block">
                 Dados do Prestador
               </h3>
@@ -135,7 +140,7 @@ export const ProposalTemplate = forwardRef<HTMLDivElement, ProposalTemplateProps
                 <p>{data.provider.email}</p>
               </div>
             </div>
-            <div className="bg-gray-50 p-5 rounded-2xl border border-gray-200">
+            <div className="bg-gray-50 p-5 rounded-[16px] border border-gray-200">
               <h3 className="uppercase font-extrabold text-[#1E293B] text-sm mb-3 border-b-2 border-[#F97316] pb-1 inline-block">
                 Dados do Cliente
               </h3>
@@ -149,7 +154,7 @@ export const ProposalTemplate = forwardRef<HTMLDivElement, ProposalTemplateProps
           </div>
 
           {/* Scope */}
-          <div className="mb-10">
+          <div className="mb-10 print-avoid-break">
             <h3 className="uppercase font-extrabold text-[#1E293B] text-lg mb-3 border-b-2 border-[#F97316] pb-1 inline-block">
               Escopo & Alinhamento Estratégico
             </h3>
@@ -158,65 +163,93 @@ export const ProposalTemplate = forwardRef<HTMLDivElement, ProposalTemplateProps
             </p>
           </div>
 
-          {/* Services Table */}
-          <div className="mb-10 rounded-xl overflow-hidden border border-gray-200">
+          {/* CAPEX Table */}
+          <div className="mb-8 rounded-[12px] overflow-hidden border border-gray-200 print-avoid-break">
+             <div className="bg-[#1E293B] px-4 py-2">
+                <h4 className="uppercase font-bold text-white text-xs tracking-wider">Investimento Inicial (Setup / CAPEX)</h4>
+             </div>
             <table className="w-full text-sm text-left">
               <thead className="bg-[#F9FAFB] text-gray-500 uppercase text-xs font-bold">
                 <tr>
-                  <th className="px-4 py-3 border-b border-gray-200">Item</th>
-                  <th className="px-4 py-3 border-b border-gray-200">Descrição / Módulos</th>
-                  <th className="px-4 py-3 border-b border-gray-200 text-center">Qtd</th>
-                  <th className="px-4 py-3 border-b border-gray-200 text-right">Valor Unit.</th>
-                  <th className="px-4 py-3 border-b border-gray-200 text-right">Subtotal</th>
+                  <th className="px-4 py-3 border-b border-gray-200 w-1/3">Item</th>
+                  <th className="px-4 py-3 border-b border-gray-200 w-1/2">Descrição</th>
+                  <th className="px-4 py-3 border-b border-gray-200 text-right w-1/6">Subtotal</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
-                {data.items.map((item, index) => (
+                {data.capexItems.map((item, index) => (
                   <tr key={item.id} className={index % 2 === 0 ? 'bg-white' : 'bg-[#F9FAFB]/50'}>
                     <td className="px-4 py-4 font-semibold text-[#111827]">{item.item}</td>
                     <td className="px-4 py-4 text-gray-600">{item.description}</td>
-                    <td className="px-4 py-4 text-center text-gray-700 whitespace-nowrap">{item.quantity}</td>
-                    <td className="px-4 py-4 text-right text-gray-700 whitespace-nowrap">{formatCurrency(item.unitPrice)}</td>
                     <td className="px-4 py-4 text-right font-semibold text-[#111827] whitespace-nowrap">{formatCurrency(item.subtotal)}</td>
+                  </tr>
+                ))}
+              </tbody>
+              <tfoot className="bg-[#F3F4F6] font-bold">
+                <tr>
+                  <td colSpan={2} className="px-4 py-3 text-right text-[#1E293B] uppercase text-xs">Total Setup (CAPEX)</td>
+                  <td className="px-4 py-3 text-right text-[#166534] text-base">{formatCurrency(data.capexTotal)}</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+
+          {/* OPEX Table */}
+          <div className="mb-10 rounded-[12px] overflow-hidden border border-gray-200 print-avoid-break">
+             <div className="bg-[#1E293B] px-4 py-2">
+                <h4 className="uppercase font-bold text-white text-xs tracking-wider">Mensalidade Recorrente (OPEX)</h4>
+             </div>
+            <table className="w-full text-sm text-left">
+              <thead className="bg-[#F9FAFB] text-gray-500 uppercase text-xs font-bold">
+                <tr>
+                  <th className="px-4 py-3 border-b border-gray-200 w-1/3">Item</th>
+                  <th className="px-4 py-3 border-b border-gray-200 w-1/2">Descrição</th>
+                  <th className="px-4 py-3 border-b border-gray-200 text-right w-1/6">Valor (R$)</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {data.opexItems.map((item, index) => (
+                  <tr key={item.id} className={index % 2 === 0 ? 'bg-white' : 'bg-[#F9FAFB]/50'}>
+                    <td className="px-4 py-4 font-semibold text-[#111827]">{item.item}</td>
+                    <td className="px-4 py-4 text-gray-600">{item.description}</td>
+                    <td className="px-4 py-4 text-right font-semibold text-[#111827] whitespace-nowrap">{formatCurrency(item.subtotal)}{item.id === '1' ? '/mês' : ''}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
 
-          {/* Financial Summary */}
-          <div className="flex justify-end mb-12">
-            <div className="bg-gray-50 p-6 rounded-2xl border border-gray-200 w-full max-w-md">
+          {/* Financial Summary & Payment */}
+          <div className="flex justify-end mb-12 print-avoid-break">
+            <div className="bg-gray-50 p-6 rounded-[16px] border border-gray-200 w-full max-w-xl">
               <h3 className="uppercase font-extrabold text-[#1E293B] text-sm mb-4 border-b-2 border-[#F97316] pb-1 inline-block">
-                Resumo Financeiro
+                Resumo Financeiro & Condições Gerais
               </h3>
 
-              <div className="flex justify-between items-center mb-4">
-                <span className="text-gray-600 font-medium">Investimento Total</span>
-                <span className="text-2xl font-extrabold text-[#166534]">
-                  {formatCurrency(data.totalInvestment)}
-                </span>
-              </div>
-
-              <div className="space-y-3 text-xs text-gray-600">
-                <p>
-                  <strong className="text-gray-800">Condições de Pagamento:</strong><br/>
-                  {data.paymentConditions}
-                </p>
-                <p>
-                  <strong className="text-gray-800">Tributos & Modalidade:</strong><br/>
-                  {data.taxNotes}
-                </p>
+              <div className="space-y-4 text-sm text-gray-700">
+                <div>
+                  <p className="font-bold text-[#111827] mb-1">Condições de Pagamento:</p>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span>{data.paymentConditions}</span>
+                    <span className="bg-[#DCFCE7] text-[#166534] px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap">
+                      Web3 / Cripto (USDT / TON)
+                    </span>
+                  </div>
+                </div>
+                <div>
+                  <p className="font-bold text-[#111827] mb-1">Tributos & Notas:</p>
+                  <p>{data.taxNotes}</p>
+                </div>
               </div>
             </div>
           </div>
 
           {/* Terms & Signatures */}
-          <div className="mt-16 pt-8 border-t-2 border-gray-100">
+          <div className="mt-16 pt-8 border-t-2 border-gray-100 print-avoid-break">
             <h3 className="uppercase font-extrabold text-[#1E293B] text-sm mb-3 border-b-2 border-[#F97316] pb-1 inline-block">
               Termos de Aceite
             </h3>
-            <p className="text-xs text-gray-500 mb-12">
+            <p className="text-xs text-gray-500 mb-16">
               Esta proposta possui validade até {data.validUntil}. As informações aqui contidas são confidenciais.
               O início dos serviços está condicionado ao aceite formal desta proposta e/ou assinatura do contrato correspondente.
             </p>
